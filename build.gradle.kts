@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.lotsofpixelsstudios"
-version = System.getenv("GITHUB_REF")   //use tag name as version
+version = System.getenv("GITHUB_REF").removePrefix("refs/tags/")   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
