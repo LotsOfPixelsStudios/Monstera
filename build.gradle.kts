@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.lotsofpixelsstudios"
-version = System.getenv("GITHUB_REF").removePrefix("refs/tags/")   //use tag name as version
+version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "local"   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -50,6 +50,7 @@ publishing {
             pom {
                 name = "monstera"
                 description = "A library and environment designed to streamline the development of Minecraft addons."
+                url = "https://github.com/LotsOfPixelsStudios/Monstera"
                 developers {
                     developer {
                         id = "12rcu"
@@ -67,7 +68,7 @@ publishing {
     }
     repositories {
         maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username = System.getenv("MAVEN_USER_NAME")
                 password = System.getenv("MAVEN_USER_PASSWORD")
