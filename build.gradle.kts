@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.lotsofpixelsstudios"
-version = System.getenv("CI_COMMIT_REF_NAME")   //use tag name as version
+version = System.getenv("GITHUB_REF")   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -48,7 +48,7 @@ publishing {
         register("release", MavenPublication::class) {
             from(components["java"])
             pom {
-                name = "Monstera"
+                name = "monstera"
                 description = "A library and environment designed to streamline the development of Minecraft addons."
                 developers {
                     developer {
