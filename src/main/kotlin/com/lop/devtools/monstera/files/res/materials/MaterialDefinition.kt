@@ -1,0 +1,37 @@
+package com.lop.devtools.monstera.files.res.materials
+
+data class MaterialDefinition(val data: String) {
+    companion object {
+        val LINE_STRIP = MaterialDefinition("LINE_STRIP")
+        val USE_OVERLAY = MaterialDefinition("USE_OVERLAY")
+        val ALPHA_TEST = MaterialDefinition("ALPHA_TEST")
+        val USE_COLOR_MASK = MaterialDefinition("USE_COLOR_MASK")
+        val COLOR_BASED = MaterialDefinition("COLOR_BASED")
+        val USE_EMISSIVE = MaterialDefinition("USE_EMISSIVE")
+        val BLENDING = MaterialDefinition("Blending")
+        val USE_MASK = MaterialDefinition("USE_MASK")
+        val NO_TEXTURE = MaterialDefinition("NO_TEXTURE")
+        val ITEM_IN_HAND = MaterialDefinition("ITEM_IN_HAND")
+        val MULTI_COLOR_TINT = MaterialDefinition("MULTI_COLOR_TINT")
+        val TINTED = MaterialDefinition("TINTED")
+        val USE_UV_ANIM = MaterialDefinition("USE_UV_ANIM")
+        val GLINT = MaterialDefinition("GLINT")
+        val USE_COLOR_BLEND = MaterialDefinition("USE_COLOR_BLEND")
+        val USE_MULTITEXTURE = MaterialDefinition("USE_MULTITEXTURE")
+        val COLOR_SECOND_TEXTURE = MaterialDefinition("COLOR_SECOND_TEXTURE")
+        val MULTIPLICATIVE_TINT = MaterialDefinition("MULTIPLICATIVE_TINT")
+        val MULTIPLICATIVE_TINT_COLOR = MaterialDefinition("MULTIPLICATIVE_TINT_COLOR")
+        val MASKED_MULTITEXTURE = MaterialDefinition("MASKED_MULTITEXTURE")
+        val LOW_PRECISION = MaterialDefinition("LOW_PRECISION")
+        val TEXEL_AA = MaterialDefinition("TEXEL_AA")
+        val ATLAS_TEXTURE = MaterialDefinition("ATLAS_TEXTURE")
+        val AS_ENTITY_RENDERER = MaterialDefinition("AS_ENTITY_RENDERER")
+        val SEASONS = MaterialDefinition("SEASONS")
+        val BLEND = MaterialDefinition("BLEND")
+        val TINTED_ALPHA_TEST = MaterialDefinition("TINTED_ALPHA_TEST")
+        val ENABLE_FOG = MaterialDefinition("ENABLE_FOG")
+        val ENABLE_LIGHT = MaterialDefinition("ENABLE_LIGHT")
+        val DISABLE_TINTING = MaterialDefinition("DISABLE_TINTING")
+        val USE_ONLY_EMISSIVE = MaterialDefinition("USE_ONLY_EMISSIVE")
+    }
+}
