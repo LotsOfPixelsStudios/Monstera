@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.20"
     `maven-publish`
+    signing
 }
 
 group = "com.lotsofpixelsstudios"
@@ -28,6 +29,14 @@ dependencies {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+signing {
+    gradle.taskGraph.whenReady {
+        isRequired = allTasks.any { it is PublishToMavenRepository }
+    }
+
+    sign(publishing.publications)
 }
 
 kotlin {
@@ -63,6 +72,11 @@ publishing {
                         url = "https://www.gnu.org/licenses/gpl-3.0.html"
                     }
                 }
+                scm {
+                    connection.set("scm:git:git://github.com:LotsOfPixelsStudios/Monstera.git")
+                    developerConnection.set("scm:git:ssh://github.com:LotsOfPixelsStudios/Monstera.git")
+                    url.set("https://github.com/LotsOfPixelsStudios/Monstera")
+                }
             }
         }
     }
@@ -72,9 +86,6 @@ publishing {
             credentials {
                 username = System.getenv("MAVEN_USER_NAME")
                 password = System.getenv("MAVEN_USER_PASSWORD")
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
             }
         }
     }
