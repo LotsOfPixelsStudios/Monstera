@@ -1,8 +1,9 @@
 package com.lop.devtools.monstera.files
 
-import com.lop.devtools.monstera.addon.molang.Math.Companion.abs
 import java.io.File
 import java.io.FileNotFoundException
+import java.nio.ByteBuffer
+import java.util.*
 
 /**
  * load a directory or a file from the resource directory
@@ -38,7 +39,15 @@ fun getValueForLangKey(lanFile: File, key: String): String? {
  * @return the file name with a unique hash, if the file is the same, the return value is the same
  */
 fun getUniqueFileName(file: File): String {
-    return abs(file.path.split("resource").last().hashCode()).toString() + "_" + file.name
+    val hash = file.path.split("resource").last().hashCode()
+    val buff = ByteBuffer.allocate(Int.SIZE_BYTES).putInt(hash).array()
+    val enc = Base64
+        .getEncoder()
+        .encodeToString(buff)
+        .replace("=", "")
+        .replace("+", "")
+        .replace("/", "")
+    return enc + "_" + file.name
 }
 
 fun File(vararg parents: String): File {

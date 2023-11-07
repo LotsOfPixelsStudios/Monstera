@@ -1,7 +1,6 @@
 package com.lop.devtools.monstera
 
 import com.lop.devtools.monstera.addon.addon
-import com.lop.devtools.monstera.files.getResource
 import java.awt.Color
 
 fun main() {

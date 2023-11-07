@@ -1,10 +1,13 @@
-# Monstera
+# Monstera 🌱
+
+![](https://img.shields.io/github/v/release/LotsOfPixelsStudios/Monstera)
+
 
 State: We are still migrating, although we mainly look of bugs. For smaller projects usable in production
 
 A library and environment designed to streamline the development of Minecraft addons.
 
-## Licence Notice
+## Licence Notice 🎫
 
 We have released this library under the GPL-3.0 licence, we are aware of the limitations of this licence, so we want to clarify
 what we want to achieve with this licence:
@@ -14,7 +17,7 @@ what we want to achieve with this licence:
   may mean that we have to change the licence to LGPL in the future.
 - We explicitly allow the creation of closed source projects with this library with the goal of creating a Minecraft addon.
 
-## Goal
+## Goal 🏆
 
 - design of an easy-to-use interface for a developer with kotlin to increase efficiency while coding.
 - low level functions to interact with plugins
@@ -24,7 +27,7 @@ what we want to achieve with this licence:
 Note to all contributors: We may want to change the licence as stated under licence, therefor we as the company Lots of
 Pixels Studios reserve our right to change the licence as we see fit without consulting you independently.
 
-### Files
+### Files 📁
 
 In this package we reconstruct minecraft files as they land in the addon with the help of a DSL.
 
