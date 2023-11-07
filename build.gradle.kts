@@ -36,6 +36,11 @@ signing {
         isRequired = allTasks.any { it is PublishToMavenRepository }
     }
 
+    useInMemoryPgpKeys(
+        System.getenv("ORG_GRADLE_PROJECT_signingKey"),
+        System.getenv("ORG_GRADLE_PROJECT_signingPassword")
+    )
+
     sign(publishing.publications)
 }
 
@@ -82,10 +87,11 @@ publishing {
     }
     repositories {
         maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/octocat/hello-world")
             credentials {
-                username = System.getenv("MAVEN_USER_NAME")
-                password = System.getenv("MAVEN_USER_PASSWORD")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
