@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/v/release/LotsOfPixelsStudios/Monstera)
 
 
-State: We are still migrating, although we mainly look of bugs. For smaller projects usable in production
+Status: We are still migrating, although we are mainly looking for bugs. For smaller projects, this project is usable in production.
 
 A library and environment designed to streamline the development of Minecraft addons.
 
@@ -24,8 +24,8 @@ what we want to achieve with this licence:
 
 ## Contributing
 
-Note to all contributors: We may want to change the licence as stated under licence, therefor we as the company Lots of
-Pixels Studios reserve our right to change the licence as we see fit without consulting you independently.
+Note to all contributors: We may wish to change the licence as stated in the Licence section, therefore we as Lots of
+Pixels Studios reserves the right to change the licence as we see fit without consulting you independently.
 
 ### Files 📁
 
@@ -52,7 +52,7 @@ In this package we define higher level functionality for addons in general.
 The following thought was in mind while creating the structure:
 
 - Use Interfaces for the documentation for the developer that should use the Interface
-- Use Abstract or Open class that implements the interface for the implementation so plugin developers can modify or 
+- Use an Abstract or Open class that implements the interface for the implementation so plugin developers can modify or 
 add code the execution when creating for examples an own implementation of the entity  
 
 
