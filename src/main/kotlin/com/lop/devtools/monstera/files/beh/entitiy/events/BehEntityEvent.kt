@@ -1,5 +1,6 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
+import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
@@ -122,10 +123,9 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      * @param property the property to modify
      * @param value the value of the property
      */
-    @Deprecated("Move to addon")    //TODO
-    fun setProperty(property: String, value: Any) {
-        //val key = if (property.startsWith(parent.props.namespace)) property else "${parent.props.namespace}:$property"
+    fun setProperty(property: String, value: Any, addon: Addon) {
+        val key = if (property.startsWith(addon.config.namespace)) property else "${addon.config.namespace}:$property"
         val propertyValue = if (value is Molang) value.toString() else value
-        unsafe.setProperties[property] = propertyValue
+        unsafe.setProperties[key] = propertyValue
     }
 }

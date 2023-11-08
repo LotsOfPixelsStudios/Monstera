@@ -9,14 +9,13 @@ import java.nio.file.Path
  * creates mc function files and overwrites tick.json
  */
 fun buildMcFunctions(functionPath: Path, functions: MutableList<McFunction>) {
-    val logger = LoggerFactory.getLogger("McFunction Builder")
     val tickFun = arrayListOf<String>()
     val funDir = functionPath.toFile()
     funDir.mkdir()
 
     functions.forEach {
         with(it.build()) {
-            name?.let { fileName ->
+            name.let { fileName ->
                 val target = File(funDir, fileName)
                 entries.forEach { entry ->
                     target.appendText(entry + "\n")
@@ -24,8 +23,6 @@ fun buildMcFunctions(functionPath: Path, functions: MutableList<McFunction>) {
                 if (execEveryTick)
                     tickFun.add(fileName.removeSuffix(".mcfunction"))
             }
-        } ?: run {
-            logger.warn("Found mc function with no name, can't build!")
         }
     }
 

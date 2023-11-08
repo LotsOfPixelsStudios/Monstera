@@ -1,5 +1,6 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
+import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 
@@ -61,7 +62,7 @@ class BehEntityEvents: MonsteraFile {
             remove { }
             sequence { }
             randomize { }
-            setProperty("myProp", true)
+            setProperty("myProp", true, Addon.active!!)
         }
     }
 

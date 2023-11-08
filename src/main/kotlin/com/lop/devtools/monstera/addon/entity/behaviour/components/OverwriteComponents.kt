@@ -5,6 +5,7 @@ import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentInventory
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentLoot
+import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 
 interface OverwriteComponents {
@@ -48,4 +49,6 @@ interface OverwriteComponents {
      * overwrites the name of the entity (not the item)
      */
     fun ComponentInventory.containerName(displayName: String)
+
+    fun BehEntityEvent.setProperty(property: String, value: Any)
 }
