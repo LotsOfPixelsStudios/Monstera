@@ -94,13 +94,13 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
-        //maven {
-        //    name = "central"
-        //    url = uri("https://repo1.maven.org/maven2/")
-        //    credentials {
-        //        username = System.getenv("MAVEN_USER_NAME")
-        //        password = System.getenv("MAVEN_USER_PASSWORD")
-        //    }
-        //}
+        maven {
+            name = "central"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("MAVEN_USER_NAME")
+                password = System.getenv("MAVEN_USER_PASSWORD")
+            }
+        }
     }
 }
