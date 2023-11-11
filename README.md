@@ -17,6 +17,22 @@ what we want to achieve with this licence:
   may mean that we have to change the licence to LGPL in the future.
 - We explicitly allow the creation of closed source projects with this library with the goal of creating a Minecraft addon.
 
+## Getting Started
+
+See the template project at [https://github.com/LotsOfPixelsStudios/MonsteraTemplate](https://github.com/LotsOfPixelsStudios/MonsteraTemplate)
+
+If you have already a kotlin project add the dependency
+
+````gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.lotsofpixelsstudios:monstera:0.2.0")
+}
+````
+
 ## Goal 🏆
 
 - design of an easy-to-use interface for a developer with kotlin to increase efficiency while coding.
