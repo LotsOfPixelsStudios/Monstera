@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <meta name="description" content="Monstera Wiki">
+    <title>Monstera Wiki</title>
+
+    <!-- Themes -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
+
+    <style>
+        :root {
+            --content-max-width                 : 65em;
+
+            --base-background-color: rgb(27, 28, 31);
+
+            /* sidebar */
+            --sidebar-background   : linear-gradient(to bottom right, #000000, #112111) fixed;
+            --sidebar-nav-link-color--active   : #33d382;
+            --sidebar-nav-link-border-color--active       : #33d382;
+
+            --code-theme-background: #222;
+            --selection-color      : rgba(50, 218, 133, 0.29);
+        }
+
+        .markdown-section {
+            background: linear-gradient(to bottom left, #000000, #181d2d) fixed;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+    // Docsify Configuration
+    window.$docsify = {
+        logo: '_media/banner.png',
+        name: 'Monstera',
+        loadSidebar: true,
+        subMaxLevel: 2,
+
+        themeColor: '#2ab077',
+    };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
+
+<!-- Required -->
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-kotlin.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+
+<!-- Recommended -->
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
+</body>
+</html>
