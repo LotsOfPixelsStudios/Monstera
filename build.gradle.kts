@@ -45,6 +45,18 @@ signing {
     sign(publishing.publications)
 }
 
+//set the version in the resource files to access it from projects
+gradle.taskGraph.whenReady {
+    layout
+        .projectDirectory
+        .asFile
+        .resolve("src")
+        .resolve("main")
+        .resolve("resources")
+        .resolve("monstera_version")
+        .writeText(version.toString())
+}
+
 kotlin {
     jvmToolchain(11)
 }
