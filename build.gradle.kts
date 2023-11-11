@@ -57,11 +57,6 @@ gradle.taskGraph.whenReady {
         .writeText(version.toString())
 }
 
-tasks.build.get().doFirst {
-    println(layout.projectDirectory.asFile.path)
-}
-
-
 kotlin {
     jvmToolchain(11)
 }
