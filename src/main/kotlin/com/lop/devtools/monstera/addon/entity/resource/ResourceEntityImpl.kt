@@ -9,14 +9,14 @@ import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.animcontroller.AnimController
 import com.lop.devtools.monstera.files.animcontroller.AnimStateComponent
 import com.lop.devtools.monstera.files.getUniqueFileName
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 
 abstract class ResourceEntityImpl(override val unsafeParent: Entity) : ResourceEntity {
     override var disableRender: Boolean = false
     val renderParts: ArrayList<BasicRenderPart> = ArrayList()
     override var hasDefaultTexture = false
-    private val logger = LoggerFactory.getLogger("Resource Entity")
+    private val logger = getMonsteraLogger("Resource")
 
 
     override fun textureLayer(texturePath: String, layerName: String) {

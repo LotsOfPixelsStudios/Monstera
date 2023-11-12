@@ -59,6 +59,28 @@ Math.abs(-2)
 This will also return a `Math` object which has again the Molang interface, so it can also
 be used on its own in a Molang input field.
 
+Basic math is also supported within a Molang context:
+
+````kotlin
+(Query.variant + 1) lt Math.abs(-2)
+````
+
+Possible operations are
+
+- "+", "-", "*", "/", "!"
+
+while the "!" is a negation for a bool like
+
+````kotlin
+!Query.isBaby
+````
+
+is equal to 
+
+````kotlin
+Query.isBaby eq false
+````
+
 ## Variables
 
 To define Variables, access the `Variable` object and call

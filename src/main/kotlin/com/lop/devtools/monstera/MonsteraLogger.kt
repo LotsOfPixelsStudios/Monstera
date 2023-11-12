@@ -8,7 +8,29 @@ import ch.qos.logback.core.encoder.EncoderBase
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-fun getMonsteraLogger(name: String): Logger = LoggerFactory.getLogger(name)
+object MonsteraLoggerContext {
+    private var context: String = ""
+
+    fun clear() {
+        context = ""
+    }
+
+    fun setEntity(name: String) {
+        context = "Entity $name"
+    }
+
+    fun setBlock(name: String) {
+        context = "Block $name"
+    }
+
+    fun setItem(name: String) {
+        context = "Item $name"
+    }
+
+    fun getFormatted(loggerName: String) = if (context.isEmpty()) loggerName else "[$context] $loggerName"
+}
+
+fun getMonsteraLogger(name: String): Logger = LoggerFactory.getLogger(MonsteraLoggerContext.getFormatted(name))
 
 class MonsteraEncoder : EncoderBase<ILoggingEvent>() {
     private val patternLayout = PatternLayout()

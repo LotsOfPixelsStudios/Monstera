@@ -1,11 +1,11 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 class ComponentEntitySensor {
     val general = mutableMapOf<String, Any>()
-    private val logger = LoggerFactory.getLogger("Component Entity Sensor")
+    private val logger = getMonsteraLogger("Component Entity Sensor")
 
     var sensorRange: Float? = null
     var relativeRange: Boolean? = null

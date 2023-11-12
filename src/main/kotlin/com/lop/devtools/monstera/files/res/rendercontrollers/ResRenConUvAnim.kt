@@ -3,11 +3,11 @@ package com.lop.devtools.monstera.files.res.rendercontrollers
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 class ResRenConUvAnim : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = LoggerFactory.getLogger("Uv Render")
+    private val logger = getMonsteraLogger("Uv Render")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, Any>()

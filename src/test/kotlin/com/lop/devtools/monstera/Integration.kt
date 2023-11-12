@@ -1,10 +1,6 @@
 package com.lop.devtools.monstera
 
 import com.lop.devtools.monstera.addon.addon
-import com.lop.devtools.monstera.addon.molang.Math
-import com.lop.devtools.monstera.addon.molang.Molang
-import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 import java.awt.Color
 
 fun main() {
@@ -17,37 +13,18 @@ fun main() {
                 components {
                     physics {  }
                     pushable {  }
-                    environmentSensor {
-                        trigger(event = "my_event") {
-                            allOf {
-                                hasProperty("==", Subject.SELF, "my_bool_property")
-                                intProperty("my_bool_property", ">", Subject.SELF, 2)
-                            }
-                        }
-                    }
-                }
-                events {
-                    event("my_event") {
-                        setProperty("my_bool_prop", true)
-                    }
                 }
                 properties {
-                    enum("my_prop") {
-
+                    enum("1rwong_start") {
+                        default("abc")
+                        values = mutableListOf("abc", "ab")
                     }
-                    bool("") {
-                        default(Query.isBaby)
-
+                    enum("missing_default") {
+                        values = mutableListOf("a")
                     }
-                    int("") {
-                        default(1)
-                        range = 1 to 10
-
+                    enum("missing_values") {
+                        default("ab")
                     }
-                    float("") {}
-                    Query.property("my_bool_property")
-                    Query.hasProperty("my_bool_property")
-                    Math
                 }
             }
             resource {
