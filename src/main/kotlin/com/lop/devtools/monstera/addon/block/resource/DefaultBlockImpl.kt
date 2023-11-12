@@ -54,7 +54,7 @@ open class DefaultBlockImpl(private val parentRef: Block, private val addonRef: 
         )
     }
 
-    override fun sound(data: Sound.() -> Unit): String = parentRef.sound(data)
+    override fun sound(identifier: String, data: Sound.() -> Unit): String = parentRef.sound(identifier, data)
 
     override fun sound(name: String) {
         parentRef.sound(name)

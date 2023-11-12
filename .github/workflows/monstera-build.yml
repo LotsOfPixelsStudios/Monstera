@@ -1,0 +1,20 @@
+name: Monstera Build and Test
+
+on:
+  [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: burrunan/gradle-cache-action@v1
+        name: Build PROJECT_NAME
+        with:
+          job-id: jdk11
+          arguments: |
+            build
+            --warning-mode all
+          gradle-version: wrapper

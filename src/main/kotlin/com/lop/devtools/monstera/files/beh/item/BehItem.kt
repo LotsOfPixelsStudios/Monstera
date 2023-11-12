@@ -71,7 +71,6 @@ class BehItem : MonsteraFile {
             stackedByData(true)
             foil(false)
             block("grass")
-            maxStackSize(1)
             useDuration(32)
             food {
                 //...

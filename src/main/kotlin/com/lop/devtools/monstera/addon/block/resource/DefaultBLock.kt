@@ -57,7 +57,7 @@ interface DefaultBLock {
      * @param data the sound data described in the sampe code
      * @return the identifier
      */
-    fun sound(data: Sound.() -> Unit): String
+    fun sound(identifier: String, data: Sound.() -> Unit): String
 
     /**
      * you may want to use this function to import existing sound sounds form sound.json like, note this will overwrite
