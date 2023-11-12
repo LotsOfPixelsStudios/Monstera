@@ -5,7 +5,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 /**
  * this is experimental as there should be only one entity.material file, use Material.modify()
@@ -23,7 +23,7 @@ interface MaterialExtensions {
 
 class Materials(val fileName: String) : MonsteraFile, MaterialExtensions {
     override val unsafe = Unsafe()
-    private val logger = LoggerFactory.getLogger("Material")
+    private val logger = getMonsteraLogger("Material")
 
     companion object {
         private val instances = mutableMapOf<Int, Materials>()

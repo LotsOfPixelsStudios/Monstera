@@ -163,15 +163,6 @@ class BehItemComponents : MonsteraFile {
     /**
      * 0..1
      */
-    fun maxStackSize(value: Int = 64) {
-        unsafe.general.apply {
-            put("minecraft:max_stack_size", value)
-        }
-    }
-
-    /**
-     * 0..1
-     */
     fun useDuration(value: Int = 32) {
         unsafe.general.apply {
             put("minecraft:use_duration", value)

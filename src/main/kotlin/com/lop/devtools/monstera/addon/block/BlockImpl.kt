@@ -64,8 +64,8 @@ open class BlockImpl(private val addon: Addon, override var name: String, overri
         DefaultBlockImpl(this, addon).apply(data)
     }
 
-    override fun sound(data: Sound.() -> Unit): String {
-        val soundData = SoundData(addon).apply(data)
+    override fun sound(identifier: String, data: Sound.() -> Unit): String {
+        val soundData = SoundData(addon).apply { this.identifier = identifier }.apply(data)
         unsafeSoundData.add(soundData)
         return soundData.identifier
     }

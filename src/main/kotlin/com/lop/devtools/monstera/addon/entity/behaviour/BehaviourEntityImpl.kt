@@ -13,12 +13,12 @@ import com.lop.devtools.monstera.files.beh.entitiy.description.RuntimeIdentifier
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvents
 import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.properties.EntityProperties
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 abstract class BehaviourEntityImpl(
     override val unsafeParent: Entity
 ) : BehaviourEntity, OverwriteComponentsImpl(unsafeParent) {
-    private val logger = LoggerFactory.getLogger("Behaviour Entity")
+    private val logger = getMonsteraLogger("Behaviour")
 
     override var runtimeIdentifier: RuntimeIdentifier? = null
         set(value) {

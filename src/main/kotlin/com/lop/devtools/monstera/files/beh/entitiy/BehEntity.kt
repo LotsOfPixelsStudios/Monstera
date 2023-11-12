@@ -5,6 +5,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvents
+import com.lop.devtools.monstera.getMonsteraLogger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
@@ -12,7 +13,7 @@ import java.nio.file.Path
  * Create an Entity with a description, componentGroups, components and events
  */
 class BehEntity: MonsteraFile {
-    private val logger = LoggerFactory.getLogger("BehEntity")
+    private val logger = getMonsteraLogger("BehEntity File")
     override val unsafe = Unsafe()
 
     inner class Unsafe: MonsteraUnsafeMap {
@@ -24,21 +25,25 @@ class BehEntity: MonsteraFile {
         var events = BehEntityEvents()
 
         override fun getData(): MutableMap<String, Any> {
-            if (description.unsafe.getData().isNotEmpty()) general["description"] = description.unsafe.getData()
-            if (components.unsafe.getData().isNotEmpty()) general["components"] = components.unsafe.getData()
-            if (componentGroups.unsafe.getData().isNotEmpty()) general["component_groups"] =
-                componentGroups.unsafe.getData()
-            if (events.unsafe.getData().isNotEmpty()) general["events"] = events.unsafe.getData()
+            val descriptionData = description.unsafe.getData()
+            val componentsData = components.unsafe.getData()
+            val groupsData = componentGroups.unsafe.getData()
+            val eventData = events.unsafe.getData()
+
+            if (descriptionData.isNotEmpty()) general["description"] = descriptionData
+            if (componentsData.isNotEmpty()) general["components"] = componentsData
+            if (groupsData.isNotEmpty()) general["component_groups"] = groupsData
+            if (eventData.isNotEmpty()) general["events"] = eventData
 
             //Debug
             //check if there are events with no matching group
             events.unsafe.debugAddedGroups.forEach {
-                if (!componentGroups.unsafe.getData().keys.contains(it)) {
+                if (!groupsData.keys.contains(it)) {
                     logger.warn("ComponentGroup '$it' was added in a event but does not exist")
                 }
             }
             //check if there are groups that were not added
-            componentGroups.unsafe.getData().keys.forEach {
+            groupsData.keys.forEach {
                 if (!events.unsafe.debugAddedGroups.contains(it)) {
                     logger.warn("ComponentGroup '$it' was never added with events")
                 }

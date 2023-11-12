@@ -3,11 +3,11 @@ package com.lop.devtools.monstera.files.beh.entitiy.components
 import com.lop.devtools.monstera.Config
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 class ComponentRideable : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = LoggerFactory.getLogger("Component Ride")
+    private val logger = getMonsteraLogger("Component Ride")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, Any>()

@@ -1,6 +1,6 @@
 # Entities
 
-## &#128204; Basic
+## :fa-solid fa-paperclip: Basic
 
 Entities can be defined in one place.
 In Minecraft you have different files like resource entity, behavior entity, animations, animation controllers,
@@ -24,7 +24,7 @@ entity(name = "my_entity", displayName = "§aMy Entity") {
 Note: To get a Spawn Egg within the Creative Inventory, a spawn egg must be defined. See more
 under further down.
 
-## &#128295; Behaviour
+## :fa-solid fa-code: Behaviour
 
 ### Components
 
@@ -106,7 +106,100 @@ events {
 }
 ````
 
-## &#127912; Resource
+### Properties
+
+You can save data on Entities with properties, see
+the [documentation](https://learn.microsoft.com/en-us/minecraft/creator/documents/introductiontoentityproperties)
+for more info.
+
+#### Create new Properties:
+
+````kotlin
+behaviour {
+    properties {
+        enum("prop_name_1") { }
+        bool("prop_name_2") { }
+        int("prop_name_3") { }
+        float("prop_name_4") { }
+    }
+}
+````
+
+You always have to define a default value and to each type some sepsifc values:
+
+- Enum (saves a state)
+
+````kotlin
+enum("my_enum_prop") {
+    default("sit")  //could also be a Molang Expression/Query
+    values = arrayListOf("sit", "stand")
+    clientSync = true   //access this property in the resource pack
+}
+````
+The enum property has some restrictions on values but Monstera will warn you if any rule is violated.
+Restrictions include: values can't exceed 16, value name length is between 1 and 32 and value name has to start with an 
+alphabetic character.
+
+- Bool  (saves true or false)
+
+````kotlin
+bool("my_bool_prop") {
+    default(Query.isBaby)
+    clientSync = false
+}
+````
+
+- Int   (saves a number)
+
+````kotlin
+int("my_int_property") {
+    default(1)
+    range = 1 to 10
+    clientSync = true
+}
+````
+
+- Float (saves a floating point number)
+
+````kotlin
+int("my_float_property") {
+    default(1f)
+    range = 1f to 10f
+    clientSync = true
+}
+````
+
+#### Modify property value with Events
+
+To modify properties with events access the proprty by name within a sepcifc event:
+
+````kotlin
+events {
+    event("my_event") {
+        setProperty("my_bool_prop", true)
+    }
+}
+````
+
+#### Access Properties
+
+- Query: `Query.property("my_bool_property")` & `Query.hasProperty("my_bool_property")`
+- Filter: 
+
+````kotlin
+components {
+    environmentSensor {
+        trigger(event = "my_event") {
+            allOf {
+                hasProperty("==", Subject.SELF, "my_bool_property")
+                boolProperty("my_bool_property", ">", Subject.SELF, 2)
+            }
+        }
+    }
+}
+````
+
+## :fa-solid fa-horse: Resource
 
 ### Blockbench Files
 
@@ -129,7 +222,7 @@ resource {
 }
 ````
 
-### Textures
+### Textures & Geometries
 
 To add a single texture add it like:
 
@@ -139,7 +232,7 @@ resource {
     geometryLayer(
         getResource("entities/default_model.geo.json"),
         layerName = "default"
-    )    //it's currently only possible to add 1 geometry layer
+    )    //it's currently only possible to add 1 geometry layer, use render parts if you need more
 }
 ````
 
@@ -154,7 +247,7 @@ resource {
     geometryLayer(
         geoId = "geometry.cat",
         layerName = "default"
-    )    //it's currently only possible to add 1 geometry layer
+    )    //it's currently only possible to add 1 geometry layer, use render parts if you need more
 }
 ````
 
@@ -183,6 +276,25 @@ resource {
     )
 }
 ````
+
+### Render Parts
+
+You may want to have access to multiple render controllers while adding textures and want to render certain textures and
+geometries only on some conditions.
+
+Therefor you can call:
+
+````kotlin
+resource {
+    renderPart(partName = "outer", query = !Query.isSheared and Query.isBaby) {
+        material = "parrot"
+        textureLayer(getResource("default_texture.png"))
+        geometryLayer(getResource("default_model.geo.json"))
+    }
+}
+````
+
+You can define multiple render parts.
 
 ### Animations and Controllers
 

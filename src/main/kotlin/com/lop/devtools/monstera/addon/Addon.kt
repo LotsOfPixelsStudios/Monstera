@@ -135,8 +135,6 @@ interface Addon {
      *
      * ```
      * block {
-     *    name("my_block", "My Block")
-     *
      *    defaultBlock {
      *         //...
      *    }

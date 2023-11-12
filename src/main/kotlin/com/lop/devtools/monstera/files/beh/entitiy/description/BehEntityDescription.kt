@@ -27,12 +27,16 @@ class BehEntityDescription : MonsteraFile {
             unsafe.general["is_experimental"] = isExperimental
             runtimeIdentifier?.let { unsafe.general["runtime_identifier"] = "minecraft:${it.toString().lowercase()}" }
 
-            if (unsafe.scripts.unsafe.getData().isNotEmpty())
-                unsafe.general["scripts"] = unsafe.scripts.unsafe.getData()
-            if (unsafe.animations.unsafe.getData().isNotEmpty())
-                unsafe.general["animations"] = unsafe.animations.unsafe.getData()
-            if (unsafe.properties.unsafe.getData().isNotEmpty())
-                unsafe.general["properties"] = unsafe.properties.unsafe.getData()
+            val scriptData = scripts.unsafe.getData()
+            val animationData = animations.unsafe.getData()
+            val propertyData = properties.unsafe.getData()
+
+            if (scriptData.isNotEmpty())
+                unsafe.general["scripts"] = scriptData
+            if (animationData.isNotEmpty())
+                unsafe.general["animations"] = animationData
+            if (propertyData.isNotEmpty())
+                unsafe.general["properties"] = propertyData
 
             return unsafe.general
         }

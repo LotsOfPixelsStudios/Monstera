@@ -3,11 +3,11 @@ package com.lop.devtools.monstera.files.animcontroller
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Query
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class AnimStateComponent: MonsteraFile {
-    private val logger = LoggerFactory.getLogger("Anim Controller State")
+    private val logger = getMonsteraLogger("AnimController State")
     /**
      * unsafe to use variables, used for plugins/ libraries
      */

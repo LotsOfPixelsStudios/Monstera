@@ -2,11 +2,11 @@ package com.lop.devtools.monstera.addon.sound
 
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.files.res.sounds.*
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 
 class SoundData(val addon: Addon) : Sound {
-    private val logger = LoggerFactory.getLogger("Sound")
+    private val logger = getMonsteraLogger("Sound")
 
     override var identifier: String = ""
         set(value) {

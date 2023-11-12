@@ -2,7 +2,7 @@ package com.lop.devtools.monstera.addon.entity
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 import kotlin.math.abs
 
@@ -10,7 +10,7 @@ import kotlin.math.abs
  * return the geometry id from a given json file, empty if parser failed
  */
 fun getGeoId(file: File): String {
-    val logger = LoggerFactory.getLogger("Geometry")
+    val logger = getMonsteraLogger("Geometry")
     val jsonString = file.readText()
     val geoFile = Gson().fromJson(jsonString, JsonObject::class.java)
 

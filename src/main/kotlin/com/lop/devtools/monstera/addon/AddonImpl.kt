@@ -1,6 +1,7 @@
 package com.lop.devtools.monstera.addon
 
 import com.lop.devtools.monstera.Config
+import com.lop.devtools.monstera.MonsteraLoggerContext
 import com.lop.devtools.monstera.addon.api.InvokeBeforeEnd
 import com.lop.devtools.monstera.addon.api.PackageInvoke
 import com.lop.devtools.monstera.addon.block.Block
@@ -50,8 +51,10 @@ abstract class AddonImpl(
     override var includeInfoMcFunction: Boolean = true
 
     override fun entity(name: String, displayName: String, entity: Entity.() -> Unit): Entity {
+        MonsteraLoggerContext.setEntity(name)
         val ent = BasicEntity(this, name, displayName).apply(entity)
         ent.build()
+        MonsteraLoggerContext.clear()
         return ent
     }
 
@@ -60,8 +63,10 @@ abstract class AddonImpl(
     }
 
     override fun item(name: String, displayName: String, item: Item.() -> Unit): Item {
+        MonsteraLoggerContext.setItem(name)
         val data = Item(name, displayName, this).apply(item)
         data.build()
+        MonsteraLoggerContext.clear()
         return data
     }
 
@@ -104,8 +109,12 @@ abstract class AddonImpl(
         }
     }
 
-    override fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
-        return BlockImpl(this, name, displayName).apply(data).build()
+    override fun block(name: String, displayName: String, block: Block.() -> Unit): Block {
+        MonsteraLoggerContext.setBlock(name)
+        val data = BlockImpl(this, name, displayName).apply(block)
+        data.build()
+        MonsteraLoggerContext.clear()
+        return data
     }
 
     override fun scripts(directory: File) {

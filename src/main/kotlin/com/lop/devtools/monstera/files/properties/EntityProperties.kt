@@ -4,17 +4,21 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.properties.types.*
-import org.slf4j.LoggerFactory
+import com.lop.devtools.monstera.getMonsteraLogger
 
 class EntityProperties : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = LoggerFactory.getLogger("Entity Property")
+    private val logger = getMonsteraLogger("Property")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, GenericProperty<*>>()
         override fun getData(): MutableMap<String, Any> = general.map { (k, v) ->
             v as MonsteraFile
-            k to (v.unsafe as MonsteraUnsafeMap).getData()
+            val dataMap = (v.unsafe as MonsteraUnsafeMap).getData()
+            if(!dataMap.containsKey("default")) {
+                logger.warn("No default value for property given!")
+            }
+            k to dataMap
         }.toMap().toMutableMap()
     }
 

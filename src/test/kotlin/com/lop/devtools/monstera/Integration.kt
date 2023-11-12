@@ -14,6 +14,18 @@ fun main() {
                     physics {  }
                     pushable {  }
                 }
+                properties {
+                    enum("1rwong_start") {
+                        default("abc")
+                        values = mutableListOf("abc", "ab")
+                    }
+                    enum("missing_default") {
+                        values = mutableListOf("a")
+                    }
+                    enum("missing_values") {
+                        default("ab")
+                    }
+                }
             }
             resource {
                 components {
@@ -25,6 +37,9 @@ fun main() {
         }
         entity("aververyverlongnametahtisshurlytoolongthanks") {
 
+        }
+        item("my_item", "My Item") {
+            renderOffset("tools")
         }
     }
 }
