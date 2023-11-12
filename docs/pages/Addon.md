@@ -27,7 +27,7 @@ thereby also used as the namespace of entities etc.
 Within the Body or the Addon Context we can define entities, items, etc. that will automatically be associated with the
 addon.
 
-## &#128195; Modifications
+## :fa-solid fa-screwdriver-wrench: Modifications
 
 This section may be interesting for publishing the addon, as for example overwriting the end users version may be
 a bit different as on the machine of the developer:
@@ -55,7 +55,7 @@ addon(/*...*/) {
 }
 ```
 
-## &#128296; Build the addon
+## :fa-solid fa-hammer: Build the addon
 
 ### Local Build
 
@@ -92,6 +92,6 @@ Default is to add a Tag (GitLab) or Release (GitHub) to trigger the pipeline to 
 
 To correctly package the addon, see the Package page.
 
-## &#129514; Experimental Features
+## :fa-solid fa-flask: Experimental Features
 
 Currently, the JSON UI is experimental and may be discontinued as it will be deprecated in future mc versions.
