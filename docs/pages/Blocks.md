@@ -32,7 +32,7 @@ We can also apply geometries and with it textures:
 block("my_dirt_block", "Grassy Dirt Block") {
     geometry(getResource("default_texture.png"))
     texture(getResource("default_model.geo.json"))
-    sound { }
+    sound("block.sand.fall") { }
 }
 ````
 

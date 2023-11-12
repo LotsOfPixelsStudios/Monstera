@@ -1,6 +1,6 @@
 # Sounds
 
-## Sound API
+## :fa-solid fa-code: Sound API
 
 Blocks and Entities use the sound API, it should help to creating sounds more efficently. 
 Note: You can call the `sound { }` multiple times for multiple sounds.
@@ -10,8 +10,7 @@ Note: You can call the `sound { }` multiple times for multiple sounds.
 On an example on the block sound API
 
 ````kotlin
-sound {
-    identifier = "block.sand.fall"
+sound("block.sand.fall") {
     pitch = 1f to 1.2f   //default 1 to 1
     volume = 0.7f to 1f  //default 1 to 1
     maxDistance = 16
@@ -33,7 +32,7 @@ sound {
  }
 ````
 
-## Classic Sound
+## :fa-solid fa-volume-high: Classic Sounds
 
 If you have problems and opt to reading the [wiki](https://wiki.bedrock.dev/concepts/sounds.html) this approach can help
 as it resembles what you learn there.

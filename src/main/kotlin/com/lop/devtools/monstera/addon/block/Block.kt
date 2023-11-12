@@ -57,8 +57,7 @@ interface Block {
      * add a sound to the block, call multiple times for different sound files
      *
      * ```
-     * sound {
-     *     identifier = "block.sand.fall"
+     * sound(identifier = "block.sand.fall") {
      *     pitch = 1f to 1.2f   //default 1 to 1
      *     volume = 0.7f to 1f  //default 1 to 1
      *     maxDistance = 16
@@ -80,7 +79,7 @@ interface Block {
      * }
      * ```
      */
-    fun sound(data: Sound.() -> Unit): String
+    fun sound(identifier: String, data: Sound.() -> Unit): String
 
     /**
      * you may want to use this function to import existing sound sounds form sound.json like, note this will overwrite
