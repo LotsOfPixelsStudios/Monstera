@@ -37,7 +37,9 @@ class ComponentRideable : MonsteraFile {
                 }
             }
 
-            general["seats"] = seats.getData()
+            val seatsData = seats.getData()
+            if(seatsData.isNotEmpty())
+                general["seats"] = seatsData
 
             return general
         }
