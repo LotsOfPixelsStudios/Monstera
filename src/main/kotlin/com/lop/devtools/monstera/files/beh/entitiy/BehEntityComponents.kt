@@ -313,6 +313,10 @@ class BehEntityComponents : MonsteraFile {
      *
      * lets the entity circle around its target
      * used by the phantom
+     *
+     * note: if the entity has no target, the heightAboveTargetRange is the world level.
+     * So if the heightAboveTargetRange is set to 20, the entity will literally go to y = 20 and circly there
+     *
      * @sample circleAroundAnchorSample
      */
     fun circleAroundAnchor(value: ComponentCircleAroundAnchor.() -> Unit) {
