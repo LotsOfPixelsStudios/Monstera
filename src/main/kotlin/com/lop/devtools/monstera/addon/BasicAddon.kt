@@ -1,6 +1,8 @@
 package com.lop.devtools.monstera.addon
 
 import com.lop.devtools.monstera.Config
+import com.lop.devtools.monstera.getMonsteraLogger
+import kotlin.system.measureTimeMillis
 
 @DslMarker
 annotation class AddonEntry
@@ -14,7 +16,12 @@ class BasicAddon(config: Config) : AddonImpl(config) {
 
 @AddonEntry
 fun addon(config: Config, addon: Addon.() -> Unit): Config {
-    BasicAddon(config).apply(addon).build()
+    val logger = getMonsteraLogger("Monstera")
+    logger.info("Building Addon ...")
+    val buildTime = measureTimeMillis {
+        BasicAddon(config).apply(addon).build()
+    }
+    logger.info("Finished building Addon in ${buildTime / 1000}.${buildTime % 1000}s")
     return config
 }
 
