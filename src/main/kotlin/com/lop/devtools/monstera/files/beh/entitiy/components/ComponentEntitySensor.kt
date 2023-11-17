@@ -5,7 +5,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 class ComponentEntitySensor {
     val general = mutableMapOf<String, Any>()
-    private val logger = getMonsteraLogger("Component Entity Sensor")
+    private fun logger() = getMonsteraLogger("Component Entity Sensor")
 
     var sensorRange: Float? = null
     var relativeRange: Boolean? = null
@@ -25,12 +25,12 @@ class ComponentEntitySensor {
         minimumCount?.let {
             general["minimum_count"] = it
             if (it == 0)
-                logger.warn("minimumCount cant be 0 as the sensor can't check this -> work with inverse filters!")
+                logger().warn("minimumCount cant be 0 as the sensor can't check this -> work with inverse filters!")
         }
         maximumCount?.let {
             general["maximum_count"] = it
             if (it == 0)
-                logger.warn("minimumCount cant be 0 as the sensor can't check this -> work with inverse filters!")
+                logger().warn("minimumCount cant be 0 as the sensor can't check this -> work with inverse filters!")
         }
         event?.let { general["event"] = it }
         return general

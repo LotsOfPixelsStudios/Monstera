@@ -6,12 +6,12 @@ import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 
 class SoundData(val addon: Addon) : Sound {
-    private val logger = getMonsteraLogger("Sound")
+    private fun logger() = getMonsteraLogger("Sound")
 
     override var identifier: String = ""
         set(value) {
             if (value.contains(":")) {
-                logger.warn("($identifier) Sound identifier should not contain a ':', follow the naming convention" +
+                logger().warn("($identifier) Sound identifier should not contain a ':', follow the naming convention" +
                         " '<projectShort>.<entity>.<sound>' like 'tp.test.drive'")
             }
             field = value

@@ -7,7 +7,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 class ComponentRideable : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = getMonsteraLogger("Component Ride")
+    private fun logger() = getMonsteraLogger("Component Ride")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, Any>()
@@ -26,13 +26,13 @@ class ComponentRideable : MonsteraFile {
                 //stream of all entries matched if player is present -> if so only execute warnings once
                 types.firstOrNull { it == "player" }?.apply {
                     if (!general.containsKey("interact_text") && !ignoreInteractText) {
-                        logger.warn(
+                        logger().warn(
                             "no interact text found: Players with touch screen can't interact, add " +
                                     "interactText() to you're rideable component or ignore it with ignoreInteractText()"
                         )
                     }
                     if (!ignoreExitText && !setExitText) {
-                        logger.warn("no exit text found: Players may not know how to leave the current entity")
+                        logger().warn("no exit text found: Players may not know how to leave the current entity")
                     }
                 }
             }

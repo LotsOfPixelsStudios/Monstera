@@ -8,7 +8,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 class EntityProperties : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = getMonsteraLogger("Property")
+    private fun logger() = getMonsteraLogger("Property")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, GenericProperty<*>>()
@@ -16,7 +16,7 @@ class EntityProperties : MonsteraFile {
             v as MonsteraFile
             val dataMap = (v.unsafe as MonsteraUnsafeMap).getData()
             if(!dataMap.containsKey("default")) {
-                logger.warn("No default value for property given!")
+                logger().warn("No default value for property given!")
             }
             k to dataMap
         }.toMap().toMutableMap()
@@ -40,7 +40,7 @@ class EntityProperties : MonsteraFile {
                 (unsafe.general[name] as EnumProperty).apply(propertyData)
                 return
             }
-            logger.warn("Property '$name' is defined twice with a different Type! (Overwriting)")
+            logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
         unsafe.general[idWithNameSpace(name)] = EnumProperty().apply(propertyData)
     }
@@ -62,7 +62,7 @@ class EntityProperties : MonsteraFile {
                 (unsafe.general[name] as BoolProperty).apply(propertyData)
                 return
             }
-            logger.warn("Property '$name' is defined twice with a different Type! (Overwriting)")
+            logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
         unsafe.general[idWithNameSpace(name)] = BoolProperty().apply(propertyData)
     }
@@ -85,7 +85,7 @@ class EntityProperties : MonsteraFile {
                 (unsafe.general[name] as IntProperty).apply(propertyData)
                 return
             }
-            logger.warn("Property '$name' is defined twice with a different Type! (Overwriting)")
+            logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
         unsafe.general[idWithNameSpace(name)] = IntProperty().apply(propertyData)
     }
@@ -108,7 +108,7 @@ class EntityProperties : MonsteraFile {
                 (unsafe.general[name] as FloatProperty).apply(propertyData)
                 return
             }
-            logger.warn("Property '$name' is defined twice with a different Type! (Overwriting)")
+            logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
         unsafe.general[idWithNameSpace(name)] = FloatProperty().apply(propertyData)
     }

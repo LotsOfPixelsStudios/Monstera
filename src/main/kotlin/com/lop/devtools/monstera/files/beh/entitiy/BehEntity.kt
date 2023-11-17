@@ -13,7 +13,7 @@ import java.nio.file.Path
  * Create an Entity with a description, componentGroups, components and events
  */
 class BehEntity: MonsteraFile {
-    private val logger = getMonsteraLogger("BehEntity File")
+    private fun logger() = getMonsteraLogger("BehEntity File")
     override val unsafe = Unsafe()
 
     inner class Unsafe: MonsteraUnsafeMap {
@@ -39,13 +39,13 @@ class BehEntity: MonsteraFile {
             //check if there are events with no matching group
             events.unsafe.debugAddedGroups.forEach {
                 if (!groupsData.keys.contains(it)) {
-                    logger.warn("ComponentGroup '$it' was added in a event but does not exist")
+                    logger().warn("ComponentGroup '$it' was added in a event but does not exist")
                 }
             }
             //check if there are groups that were not added
             groupsData.keys.forEach {
                 if (!events.unsafe.debugAddedGroups.contains(it)) {
-                    logger.warn("ComponentGroup '$it' was never added with events")
+                    logger().warn("ComponentGroup '$it' was never added with events")
                 }
             }
 

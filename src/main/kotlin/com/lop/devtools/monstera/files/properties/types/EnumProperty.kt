@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 @Suppress("MemberVisibilityCanBePrivate")
 class EnumProperty: GenericProperty<String>, MonsteraFile {
-    private val logger = getMonsteraLogger("Enum Property")
+    private fun logger() = getMonsteraLogger("Enum Property")
 
     override val unsafe = Unsafe()
     inner class Unsafe: MonsteraUnsafeMap {
@@ -16,14 +16,14 @@ class EnumProperty: GenericProperty<String>, MonsteraFile {
 
         override fun getData(): MutableMap<String, Any> {
             if (values.size > 16)
-                logger.warn("max entries for enum values is 16!")
+                logger().warn("max entries for enum values is 16!")
             if(values.isEmpty())
-                logger.warn("entries are empty, enum property will be ignored!")
+                logger().warn("entries are empty, enum property will be ignored!")
             values.filter { it.length > 32 || it.isEmpty() }.forEach {
-                logger.warn("entry '$it' is invalid, length must be between 1 and 32, length was ${it.length}!")
+                logger().warn("entry '$it' is invalid, length must be between 1 and 32, length was ${it.length}!")
             }
             values.filter { !it.first().isLetter() }.forEach {
-                logger.warn("entry '$it' is invalid, must start with a alphabetic character found '${it.first()}'!")
+                logger().warn("entry '$it' is invalid, must start with a alphabetic character found '${it.first()}'!")
             }
             general["type"] = "enum"
             general["values"] = values
