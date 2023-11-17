@@ -7,7 +7,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class AnimStateComponent: MonsteraFile {
-    private val logger = getMonsteraLogger("AnimController State")
+    private fun logger() = getMonsteraLogger("AnimController State")
     /**
      * unsafe to use variables, used for plugins/ libraries
      */
@@ -35,13 +35,13 @@ class AnimStateComponent: MonsteraFile {
 
             onEntry?.forEach {
                 if (!it.startsWith("@") && !it.startsWith("/") && !it.endsWith(";")) {
-                    logger.warn("Found onEntry Command/Event without correct prefix: '$it'," +
+                    logger().warn("Found onEntry Command/Event without correct prefix: '$it'," +
                             " expected: '@$it' or '/$it'")
                 }
             }
             onExit?.forEach {
                 if (!it.startsWith("@") && !it.startsWith("/") && !it.endsWith(";")) {
-                    logger.warn("Found onExit Command/Event without correct prefix: '$it'," +
+                    logger().warn("Found onExit Command/Event without correct prefix: '$it'," +
                             " expected: '@$it' or '/$it'")
                 }
             }

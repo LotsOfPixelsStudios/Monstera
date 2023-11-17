@@ -23,7 +23,7 @@ interface MaterialExtensions {
 
 class Materials(val fileName: String) : MonsteraFile, MaterialExtensions {
     override val unsafe = Unsafe()
-    private val logger = getMonsteraLogger("Material")
+    private fun logger() = getMonsteraLogger("Material")
 
     companion object {
         private val instances = mutableMapOf<Int, Materials>()
@@ -43,7 +43,7 @@ class Materials(val fileName: String) : MonsteraFile, MaterialExtensions {
         override fun getData(): MutableMap<String, Any> {
             general.putAll(materialDefs.map { (id, material) -> id to material.unsafe.getData() })
             if (!general.containsKey("version")) {
-                logger.error("Build failed, no version found, materials won't be applied!")
+                logger().error("Build failed, no version found, materials won't be applied!")
             }
             return mutableMapOf("materials" to general)
         }
@@ -67,7 +67,7 @@ class Materials(val fileName: String) : MonsteraFile, MaterialExtensions {
      */
     fun newMaterial(material: Material, data: MaterialsDef.() -> Unit): String {
         if (unsafe.materialDefs.containsKey(material.name)) {
-            unsafe.materialDefs[material.name]?.apply(data) ?: logger.error(
+            unsafe.materialDefs[material.name]?.apply(data) ?: logger().error(
                 "Invalid state. This should not happen! Material list contained key '$material' but when trying to apply data it was null!"
             )
         } else {

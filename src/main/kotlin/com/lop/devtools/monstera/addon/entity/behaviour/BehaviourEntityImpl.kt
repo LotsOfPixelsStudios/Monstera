@@ -18,7 +18,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 abstract class BehaviourEntityImpl(
     override val unsafeParent: Entity
 ) : BehaviourEntity, OverwriteComponentsImpl(unsafeParent) {
-    private val logger = getMonsteraLogger("Behaviour")
+    private fun logger() = getMonsteraLogger("Behaviour")
 
     override var runtimeIdentifier: RuntimeIdentifier? = null
         set(value) {
@@ -38,7 +38,7 @@ abstract class BehaviourEntityImpl(
             description {
                 animations {
                     if (unsafe.general.containsKey(name)) {
-                        logger.warn(
+                        logger().warn(
                             "(${unsafeParent.name}) Animation '${
                                 name.split(".").last()
                             }' already exists (overwriting)"
@@ -68,7 +68,7 @@ abstract class BehaviourEntityImpl(
                 }
                 animations {
                     if (unsafe.general.containsKey(name)) {
-                        logger.warn(
+                        logger().warn(
                             "(${unsafeParent.name})" + "Animation '${
                                 name.split(".").last()
                             }' already exists (overwriting)"

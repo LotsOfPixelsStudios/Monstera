@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Version**
-Monster: [Monstera Version]
+Monstera: [Monstera Version]
 Minecraft: [Minecraft Version]
 
 **To Reproduce**

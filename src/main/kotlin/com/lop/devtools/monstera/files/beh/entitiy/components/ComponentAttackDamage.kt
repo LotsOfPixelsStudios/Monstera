@@ -6,14 +6,14 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 class ComponentAttackDamage : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = getMonsteraLogger("Component Attack Damage")
+    private fun logger() = getMonsteraLogger("Component Attack Damage")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, Any>()
 
         override fun getData(): MutableMap<String, Any> {
             if (!iKnowWhatImDoing)
-                logger.warn("You probably mean attack { } not attackDamage { }. set 'iKnowWhatImDoing = true' to remove this warning!")
+                logger().warn("You probably mean attack { } not attackDamage { }. set 'iKnowWhatImDoing = true' to remove this warning!")
             value?.let { general["value"] = it }
             return general
         }

@@ -10,7 +10,7 @@ import kotlin.math.abs
  * return the geometry id from a given json file, empty if parser failed
  */
 fun getGeoId(file: File): String {
-    val logger = getMonsteraLogger("Geometry")
+    fun logger() = getMonsteraLogger("Geometry")
     val jsonString = file.readText()
     val geoFile = Gson().fromJson(jsonString, JsonObject::class.java)
 
@@ -36,7 +36,7 @@ fun getGeoId(file: File): String {
             }
         }
     } catch (e: Exception) {
-        logger.error("No geometry identifier found in file: ${file.name}!")
+        logger().error("No geometry identifier found in file: ${file.name}!")
     }
     return ""
 }

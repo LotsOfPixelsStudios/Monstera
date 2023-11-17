@@ -7,7 +7,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 
 class ResRenConUvAnim : MonsteraFile {
     override val unsafe = Unsafe()
-    private val logger = getMonsteraLogger("Uv Render")
+    private fun logger() = getMonsteraLogger("Uv Render")
 
     inner class Unsafe : MonsteraUnsafeMap {
         val general = mutableMapOf<String, Any>()
@@ -24,7 +24,7 @@ class ResRenConUvAnim : MonsteraFile {
             is Number -> ls.add(from)
             is String -> ls.add(from)
 
-            else -> logger.warn(
+            else -> logger().warn(
                 "type can't be parsed: invalid type '${from::class.java.name}'"
             )
         }
@@ -33,7 +33,7 @@ class ResRenConUvAnim : MonsteraFile {
             is Number -> ls.add(to)
             is String -> ls.add(to)
 
-            else -> logger.warn(
+            else -> logger().warn(
                 "type can't be parsed: '${to::class.java.name}'"
             )
         }

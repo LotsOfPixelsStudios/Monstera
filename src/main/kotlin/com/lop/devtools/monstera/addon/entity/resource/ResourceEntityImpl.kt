@@ -16,7 +16,7 @@ abstract class ResourceEntityImpl(override val unsafeParent: Entity) : ResourceE
     override var disableRender: Boolean = false
     val renderParts: ArrayList<BasicRenderPart> = ArrayList()
     override var hasDefaultTexture = false
-    private val logger = getMonsteraLogger("Resource")
+    private fun logger() = getMonsteraLogger("Resource")
 
 
     override fun textureLayer(texturePath: String, layerName: String) {
@@ -166,7 +166,7 @@ abstract class ResourceEntityImpl(override val unsafeParent: Entity) : ResourceE
     override fun animation(file: File) {
         val animations = extractAnimationIdsFromFile(file)
         if (animations.isEmpty()) {
-            logger.warn("No animations found in file: ${file.name}")
+            logger().warn("No animations found in file: ${file.name}")
             return
         }
         val uniqueFilename = getUniqueFileName(file)
