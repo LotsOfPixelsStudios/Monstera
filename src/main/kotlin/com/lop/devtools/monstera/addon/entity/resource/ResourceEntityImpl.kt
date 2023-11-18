@@ -273,11 +273,11 @@ abstract class ResourceEntityImpl(override val unsafeParent: Entity) : ResourceE
 
         unsafeRawEntity.unsafe.build(unsafeParent.name, unsafeParent.addon.config.paths.resEntity)
 
-        if (unsafeControllers.unsafe.getData().isNotEmpty())
-            unsafeRenderController.unsafe.build(
-                unsafeParent.name,
-                unsafeParent.addon.config.paths.resAnimController
-            )
+        //controllers check themselves if they should be build
+        unsafeControllers.unsafe.build(
+            unsafeParent.name,
+            unsafeParent.addon.config.paths.resAnimController
+        )
     }
 }
 
