@@ -32,16 +32,19 @@ class AnimationControllers: MonsteraFile {
             path: Path,
             version: String = "1.10.0"
         ) {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
-            MonsteraBuilder.buildTo(
-                path, "$sanFile.json", mutableMapOf(
-                    "format_version" to version,
-                    "animation_controllers" to getData()
+            val data = getData()
+            if(data.isNotEmpty()) {
+                val sanFile = filename
+                    .removeSuffix(".json")
+                    .replace("-", "_")
+                    .replace(" ", "_")
+                MonsteraBuilder.buildTo(
+                    path, "$sanFile.json", mutableMapOf(
+                        "format_version" to version,
+                        "animation_controllers" to data
+                    )
                 )
-            )
+            }
         }
     }
 
