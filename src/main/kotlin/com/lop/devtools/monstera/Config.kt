@@ -38,7 +38,7 @@ class Config(
     var resUUID: UUID = UUID.nameUUIDFromBytes("$projectName-res$uuidSalt".toByteArray()),
     var resModUUID: UUID = UUID.nameUUIDFromBytes("$projectName-res-mod$uuidSalt".toByteArray()),
     var comMojangPath: Path = Path(
-        System.getenv("LOCALAPPDATA"),
+        System.getenv("LOCALAPPDATA") ?: "",
         "Packages",
         "Microsoft.MinecraftUWP_8wekyb3d8bbwe",
         "LocalState",
