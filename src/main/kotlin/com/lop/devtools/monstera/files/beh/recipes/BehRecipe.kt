@@ -2,14 +2,16 @@ package com.lop.devtools.monstera.files.beh.recipes
 
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.files.MonsteraBuilder
+import java.nio.file.Path
 
-class BehRecipe: MonsteraFile {
+class BehRecipe : MonsteraFile {
     /**
      * unsafe to use variables, used for plugins/ libraries
      */
     override val unsafe = Unsafe()
 
-    inner class Unsafe: MonsteraUnsafeMap {
+    inner class Unsafe : MonsteraUnsafeMap {
         /**
          * access to all defined data
          */
@@ -27,10 +29,40 @@ class BehRecipe: MonsteraFile {
             reagent?.let { unsafe.general["reagent"] = it }
             return unsafe.general
         }
+
+        fun build(
+            filename: String,
+            path: Path,
+            version: String = "1.17.41"
+        ) {
+            val sanFile = filename
+                .removeSuffix(".json")
+                .replace("-", "_")
+                .replace(" ", "_")
+            MonsteraBuilder.buildTo(
+                path, "$sanFile.json", mutableMapOf(
+                    "format_version" to version,
+                    "minecraft:recipe_shaped" to getData()
+                )
+            )
+        }
     }
+
     var identifier: String? = null
     var tags: ArrayList<RecipeTags>? = null
+        set(value) {
+            if (field == null || value == null)
+                field = value
+            else
+                field?.let { field!!.addAll(it) }
+        }
     var pattern: ArrayList<String>? = null
+        set(value) {
+            if (field == null || value == null)
+                field = value
+            else
+                field?.let { field!!.addAll(it) }
+        }
     var inputBrewingStand: String? = null
 
     var reagent: String? = null
@@ -66,6 +98,13 @@ class BehRecipe: MonsteraFile {
                 )
             )
         }
+    }
+
+    /**
+     * @param data define how this item will be unlocked in the recipe book
+     */
+    fun unlock(data: BehRecipeUnlock.() -> Unit) {
+        unsafe.general["unlock"] = BehRecipeUnlock().apply(data).unsafe.getData()
     }
 
     /**

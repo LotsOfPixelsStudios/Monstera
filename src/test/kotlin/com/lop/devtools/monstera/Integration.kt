@@ -26,6 +26,10 @@ fun main() {
                         default("ab")
                     }
                 }
+
+                craftingRecipe {
+
+                }
             }
             resource {
                 components {

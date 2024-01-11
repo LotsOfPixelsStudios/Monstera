@@ -4,6 +4,7 @@ import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.entity.behaviour.components.OverwriteComponentsImpl
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.animcontroller.AnimController
 import com.lop.devtools.monstera.files.animcontroller.AnimStateComponent
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
@@ -108,6 +109,10 @@ abstract class BehaviourEntityImpl(
         }
     }
 
+    override fun craftingRecipe(data: CraftingRecipe.() -> Unit) {
+        unsafeRawCraftingRecipe.apply(data)
+    }
+
     override fun AnimStateComponent.controller(name: String, query: Query, data: AnimController.() -> Unit) {
         controller("${unsafeParent.name}.$name", query)
         animController(name, Query.False, data)
@@ -141,5 +146,13 @@ abstract class BehaviourEntityImpl(
                 unsafeParent.name,
                 unsafeParent.addon.config.paths.behAnimController
             )
+
+        if(!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
+            unsafeRawCraftingRecipe.unsafe.build(
+                unsafeParent.name,
+                unsafeParent.getIdentifier() + "_spawn_egg",
+                unsafeParent.addon
+            )
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.entity.behaviour.components.OverwriteComponents
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.animcontroller.AnimController
 import com.lop.devtools.monstera.files.animcontroller.AnimationControllers
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
@@ -19,6 +20,7 @@ interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
     val unsafeRawEntity: BehEntity
     val unsafeRawAnimations: BehAnimations
     val unsafeRawControllers: AnimationControllers
+    val unsafeRawCraftingRecipe: CraftingRecipe
 
     /**
      * add a runtimeIdentifier like guardian
@@ -162,6 +164,25 @@ interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
      * ```
      */
     fun properties(data: EntityProperties.() -> Unit)
+
+    /**
+     * creates a recipe for the crafting table
+     *
+     * ```
+     * craftingRecipe {
+     *     craftingPattern(
+     *         t("","minecraft:diamond","minecraft:diamond"),
+     *         t("","minecraft:diamond",""),
+     *         t("","minecraft:stick","")
+     *     )
+     *     unlock {
+     *         item("minecraft:wood", count = 3, data = 2)
+     *         context()
+     *     }
+     * }
+     * ```
+     */
+    fun craftingRecipe(data: CraftingRecipe.() -> Unit)
 
     /**
      * internal function for building the beh files
