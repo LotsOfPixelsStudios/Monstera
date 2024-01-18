@@ -26,7 +26,7 @@ class ResItemComp: MonsteraFile {
     fun icon(iconName: String, iconPath: String = "textures/items/$iconName", addon: Addon? = null) {
         addon?.let {
             TextureIndex.instance(it).textures.add(iconPath)
-            ItemTextureIndex.instance(it).textureMap.put(iconName, iconPath)
+            ItemTextureIndex.instance(it).addItemTexture(iconName, iconPath)
         }
 
         unsafe.general["minecraft:icon"] = iconName
@@ -37,7 +37,7 @@ class ResItemComp: MonsteraFile {
             iconPath.forEach { path ->
                 TextureIndex.instance(it).textures.add(path)
             }
-            ItemTextureIndex.instance(it).textureMap.put(iconName, iconPath)
+            ItemTextureIndex.instance(it).addItemTexture(iconName, iconPath)
         }
         unsafe.general["minecraft:icon"] = iconName
     }
