@@ -78,6 +78,8 @@ class CraftingRecipe: MonsteraFile {
     }
 
     private fun compilePattern(t: String): String {
+        if(t.isEmpty() || t == " ")
+            return " "
         if(unsafe.keyPattern.containsKey(t))
             return unsafe.keyPattern[t]!!
 
