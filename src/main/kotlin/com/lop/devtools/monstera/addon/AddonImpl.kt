@@ -109,12 +109,12 @@ abstract class AddonImpl(
         }
     }
 
-    override fun block(name: String, displayName: String, block: Block.() -> Unit): Block {
+    override fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
         MonsteraLoggerContext.setBlock(name)
-        val data = BlockImpl(this, name, displayName).apply(block)
-        data.build()
+        val mData = BlockImpl(this, name, displayName).apply(data)
+        mData.build()
         MonsteraLoggerContext.clear()
-        return data
+        return mData
     }
 
     override fun scripts(directory: File) {
