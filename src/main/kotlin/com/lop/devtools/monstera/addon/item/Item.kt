@@ -5,6 +5,7 @@ import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.beh.item.BehItem
 import com.lop.devtools.monstera.files.beh.item.BehItemComponents
 import com.lop.devtools.monstera.files.getUniqueFileName
+import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.items.ResItem
 import java.io.File
 
@@ -40,14 +41,16 @@ class Item(val name: String, val displayName: String, private val addon: Addon) 
         texture.copyTo(target, true)
         resItem.components {
             icon(
-                "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}"
+                name,
+                "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}",
+                addon
             )
         }
     }
 
     fun vanillaTexture(texture: String, path: String = "textures/items/$texture") {
         resItem.components {
-            icon(texture, path)
+            icon(texture, path, addon)
         }
     }
 
