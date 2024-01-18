@@ -52,7 +52,7 @@ class ResEntitySpawnEgg: MonsteraFile {
     }
 
     fun eggByTexture(addon: Addon, textureName: String, path: String = "textures/items/$textureName") {
-        ItemTextureIndex.instance(addon).textureMap[textureName] = path
+        ItemTextureIndex.instance(addon).addItemTexture(textureName, path)
         TextureIndex.instance(addon).textures.add(path)
         unsafe.eggByTexture(textureName)
     }
