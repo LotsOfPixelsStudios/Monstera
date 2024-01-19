@@ -1,47 +1,102 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeList
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 import java.awt.Color
 
-class ComponentSummonEntity {
-    val general = mutableMapOf<String, Any>()
+class ComponentSummonEntity : MonsteraFile {
+    override val unsafe = Unsafe()
 
-    var priority: Int? = null
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
+
+        override fun getData(): MutableMap<String, Any> {
+            return general
+        }
+    }
+
+
+    var priority: Int = 0
+        set(value) {
+            unsafe.general["priority"] = value
+            field = value
+        }
 
     fun summonChoices(value: BehEntityCompSummonChoices.() -> Unit) {
-        general["summon_choices"] = BehEntityCompSummonChoices().apply(value).getData()
-    }
-
-    fun getData(): MutableMap<String, Any> {
-        priority?.let { general["priority"] = it }
-        return general
+        unsafe.general["summon_choices"] = BehEntityCompSummonChoices().apply(value).unsafe.getData()
     }
 }
 
-class BehEntityCompSummonChoices {
-    val general = arrayListOf<Any>()
+class BehEntityCompSummonChoices : MonsteraFile {
+    override val unsafe = Unsafe()
+
+    inner class Unsafe : MonsteraUnsafeList {
+        val general = mutableListOf<Any>()
+
+        override fun getData(): MutableList<Any> {
+            return general
+        }
+    }
 
     fun summonChoice(value: SummonChoice.() -> Unit) {
-        general.add(SummonChoice().apply { value(this) }.getData())
-    }
-
-    fun getData(): ArrayList<Any> {
-        return general
+        unsafe.general.add(SummonChoice().apply { value(this) }.unsafe.getData())
     }
 }
 
-class SummonChoice {
-    val general = mutableMapOf<String, Any>()
+class SummonChoice : MonsteraFile {
+    override val unsafe = Unsafe()
 
-    var castDuration: Float? = null
-    var cooldownTime: Float? = null
-    var doCasting: Boolean? = null
-    var maxActivationRange: Float? = null
-    var minActivationRange: Float? = null
-    var particleColor: Color? = null
-    var startSoundEvent: String? = null
-    var weight: Int? = null
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
+
+        override fun getData(): MutableMap<String, Any> {
+            return general
+        }
+    }
+
+    var castDuration: Number = 0
+        set(value) {
+            unsafe.general["cast_duration"] = value
+            field = value
+        }
+    var cooldownTime: Number = 0
+        set(value) {
+            unsafe.general["cooldown_time"] = value
+            field = value
+        }
+    var doCasting: Boolean = false
+        set(value) {
+            unsafe.general["do_casting"] = value
+            field = value
+        }
+    var maxActivationRange: Number = 0
+        set(value) {
+            unsafe.general["max_activation_range"] = value
+            field = value
+        }
+    var minActivationRange: Number = 0
+        set(value) {
+            unsafe.general["min_activation_range"] = value
+            field = value
+        }
+    var particleColor: Color = Color.BLACK
+        set(value) {
+            unsafe.general["particle_color"] = "#${Integer.toHexString(value.rgb)}"
+            field = value
+        }
+    var startSoundEvent: String = ""
+        set(value) {
+            unsafe.general["start_sound_event"] = value
+            field = value
+        }
+    var weight: Int = 1
+        set(value) {
+            unsafe.general["weight"] = value
+            field = value
+        }
 
     /**
      * 0..1
@@ -49,8 +104,8 @@ class SummonChoice {
      * @param value what to spawn with which weight and delay, shape and form
      */
     fun sequences(value: SummonSequence.() -> Unit) {
-        general.apply {
-            put("sequence", SummonSequence().apply { value(this) }.getData())
+        unsafe.general.apply {
+            put("sequence", SummonSequence().apply { value(this) }.unsafe.getData())
         }
     }
 
@@ -59,8 +114,9 @@ class SummonChoice {
      *
      * @param value The weight of this spell. Controls how likely the mob is to choose this spell when casting one
      */
+    @Deprecated("Use variable", ReplaceWith("weight = value"))
     fun weight(value: Int) {
-        general.apply {
+        unsafe.general.apply {
             put("weight", value)
         }
     }
@@ -71,59 +127,93 @@ class SummonChoice {
      * @param filters entity filter
      */
     fun filters(filters: BehEntityFilter.() -> Unit) {
-        general.apply {
+        unsafe.general.apply {
             put("filters", BehEntityFilter().apply { filters(this) }.getData())
         }
     }
-
-    fun getData(): MutableMap<String, Any> {
-        castDuration?.let { general["cast_duration"] = it }
-        cooldownTime?.let { general["cooldown_time"] = it }
-        doCasting?.let { general["do_casting"] = it }
-        maxActivationRange?.let { general["max_activation_range"] = it }
-        minActivationRange?.let { general["min_activation_range"] = it }
-        particleColor?.let { general["particle_color"] = "#${Integer.toHexString(it.rgb)}" }
-        startSoundEvent?.let { general["start_sound_event"] = it }
-        weight?.let { general["weight"] = it }
-        return general
-    }
 }
 
-class SummonSequence {
-    val general = arrayListOf<MutableMap<String, Any>>()
+class SummonSequence : MonsteraFile {
+    override val unsafe = Unsafe()
+
+    inner class Unsafe : MonsteraUnsafeList {
+        val general = mutableListOf<Any>()
+
+        override fun getData(): MutableList<Any> {
+            return general
+        }
+    }
 
     fun sequence(data: SummonSeqCom.() -> Unit) {
-        general.add(SummonSeqCom().apply(data).getData())
-    }
-
-    fun getData(): ArrayList<MutableMap<String, Any>> {
-        return general
+        unsafe.general.add(SummonSeqCom().apply(data).unsafe.getData())
     }
 }
 
-class SummonSeqCom {
-    val general = mutableMapOf<String, Any>()
+class SummonSeqCom : MonsteraFile {
+    override val unsafe = Unsafe()
 
-    var shape: String? = null
-    var target: Subject? = null
-    var baseDelay: Float? = null
-    var delayPerSummon: Float? = null
-    var numEntitiesSpawned: Int? = null
-    var entityType: String? = null
-    var size: Float? = null
-    var entityLifeSpan: Float? = null
-    var soundEvent: String? = null
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
 
-    fun getData(): MutableMap<String, Any> {
-        shape?.let { general["shape"] = it }
-        target?.let { general["target"] = it }
-        baseDelay?.let { general["base_delay"] = it }
-        delayPerSummon?.let { general["delay_per_summon"] = it }
-        numEntitiesSpawned?.let { general["num_entities_spawned"] = it }
-        entityType?.let { general["entity_type"] = it }
-        size?.let { general["size"] = it }
-        entityLifeSpan?.let { general["entity_lifespan"] = it }
-        soundEvent?.let { general["sound_event"] = it }
-        return general
+        override fun getData(): MutableMap<String, Any> {
+            return general
+        }
     }
+
+    var shape: String = ""
+        set(value) {
+            unsafe.general["shape"] = value
+            field = value
+        }
+    var target: Subject = Subject.SELF
+        set(value) {
+            unsafe.general["target"] = value.toString().lowercase()
+            field = value
+        }
+    var baseDelay: Number = 0
+        set(value) {
+            unsafe.general["base_delay"] = value
+            field = value
+        }
+    var delayPerSummon: Number = 0
+        set(value) {
+            unsafe.general["delay_per_summon"] = value
+            field = value
+        }
+    var numEntitiesSpawned: Int = 0
+        set(value) {
+            unsafe.general["num_entities_spawned"] = value
+            field = value
+        }
+    var entityType: String = ""
+        set(value) {
+            unsafe.general["entity_type"] = value
+            field = value
+        }
+    var size: Number = 0
+        set(value) {
+            unsafe.general["size"] = value
+            field = value
+        }
+    var entityLifeSpan: Number = 0
+        set(value) {
+            unsafe.general["entity_lifespan"] = value
+            field = value
+        }
+    var soundEvent: String = ""
+        set(value) {
+            unsafe.general["sound_event"] = value
+            field = value
+        }
+
+    var summonCap: Int = 0
+        set(value) {
+            unsafe.general["summon_cap"]
+            field = value
+        }
+    var summonCapRadius: Number = 0
+        set(value) {
+            unsafe.general["summon_cap_radius"]
+            field = value
+        }
 }
