@@ -2838,6 +2838,10 @@ class BehEntityComponents : MonsteraFile {
                             entityLifeSpan = 1.1f
                             soundEvent = "prepare.attack" /* or use the sound {} api */
                         }
+                        sequence {
+                            summonCap = 8
+                            summonCapRadius = 16
+                        }
                     }
                     //other
                     doCasting = true
