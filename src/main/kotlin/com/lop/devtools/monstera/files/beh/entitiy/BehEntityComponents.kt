@@ -2810,7 +2810,7 @@ class BehEntityComponents : MonsteraFile {
      * @sample behSummonEntitySample
      */
     fun behSummonEntity(value: ComponentSummonEntity.() -> Unit) {
-        unsafe.general["minecraft:behavior.summon_entity"] = ComponentSummonEntity().apply(value).getData()
+        unsafe.general["minecraft:behavior.summon_entity"] = ComponentSummonEntity().apply(value).unsafe.getData()
     }
 
     private fun behSummonEntitySample() {
