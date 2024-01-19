@@ -18,7 +18,6 @@ class ComponentSummonEntity : MonsteraFile {
         }
     }
 
-
     var priority: Int = 0
         set(value) {
             unsafe.general["priority"] = value
@@ -144,6 +143,23 @@ class SummonSequence : MonsteraFile {
         }
     }
 
+    /**
+     * ```
+     * sequence {
+     *     shape = "circle"
+     *     target = Subject.SELF
+     *     baseDelay = 1f
+     *     delayPerSummon = 0f
+     *     numEntitiesSpawned = 5
+     *     entityType = "minecraft:evocation_fang"
+     *     size = 1.5f
+     *     entityLifeSpan = 1.1f
+     *     soundEvent = "prepare.attack" /* or use the sound {} api */
+     *     summonCap = 3
+     *     summonCapRadius = 16
+     * }
+     * ```
+     */
     fun sequence(data: SummonSeqCom.() -> Unit) {
         unsafe.general.add(SummonSeqCom().apply(data).unsafe.getData())
     }
@@ -208,12 +224,12 @@ class SummonSeqCom : MonsteraFile {
 
     var summonCap: Int = 0
         set(value) {
-            unsafe.general["summon_cap"]
+            unsafe.general["summon_cap"] = value
             field = value
         }
     var summonCapRadius: Number = 0
         set(value) {
-            unsafe.general["summon_cap_radius"]
+            unsafe.general["summon_cap_radius"] = value
             field = value
         }
 }
