@@ -419,7 +419,7 @@ class BehItemComponents : MonsteraFile {
     fun shooter(settings: BehItemShooter.() -> Unit) {
         val behItemShooter = BehItemShooter().apply { settings(this) }
         unsafe.general.apply {
-            put("minecraft:shooter", behItemShooter.getData())
+            put("minecraft:shooter", behItemShooter.unsafe.getData())
         }
     }
 
@@ -468,7 +468,18 @@ class BehItemComponents : MonsteraFile {
     @ExperimentalUnsignedTypes
     private fun sampleShooter() {
         shooter {
-            ammunition("arrow")
+            ammunition {
+                item = "minecraft:arrow"
+                useOffhand = true
+                searchInventory = true
+                useInCreative = true
+            }
+            ammunition {
+                item = "minecraft:fireworks_rocket"
+                useOffhand = true
+                searchInventory = true
+                useInCreative = true
+            }
             chargeOnDraw(true)
             launchPowerScale(1.0f)
             maxDrawDuration(2)
