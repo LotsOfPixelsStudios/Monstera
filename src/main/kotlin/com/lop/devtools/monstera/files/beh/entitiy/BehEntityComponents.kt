@@ -62,7 +62,7 @@ class BehEntityComponents : MonsteraFile {
     var color2: Int? = null
     var flyingSpeed: Float? = null
     var lavaMovement: Float? = null
-    var movement: Float? = null
+    var movement: Number? = null
     var playerExhaustion: Number? = null
     var playerExperience: Number? = null
     var playerLevel: Number? = null
@@ -86,6 +86,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behAvoidBlockSample
      */
+    @VanillaComponentMarker
     fun behAvoidBlock(value: ComponentAvoidBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.avoid_block"] = ComponentAvoidBlock().apply(value).unsafe.getData()
     }
@@ -117,6 +118,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behAvoidMobTypeSample
      */
+    @VanillaComponentMarker
     fun behAvoidMobType(value: ComponentAvoidMobType.() -> Unit) {
         unsafe.general["minecraft:behavior.avoid_mob_type"] = ComponentAvoidMobType().apply(value).unsafe.getData()
     }
@@ -142,6 +144,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample sampleHide
      */
+    @VanillaComponentMarker
     fun behHide(comp: ComponentHide.() -> Unit) {
         unsafe.general["minecraft:behavior.hide"] = ComponentHide().apply(comp).getData()
     }
@@ -162,6 +165,7 @@ class BehEntityComponents : MonsteraFile {
      * Missing in the wiki.bedrock.dev documentation
      * @sample sampleMoveToPOI
      */
+    @VanillaComponentMarker
     fun behMoveToPOI(data: ComponentMoveToPOI.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_poi"] = ComponentMoveToPOI().apply(data).getData()
     }
@@ -179,6 +183,7 @@ class BehEntityComponents : MonsteraFile {
      * @param value
      * @sample sampleAdmireItem
      */
+    @VanillaComponentMarker
     fun behAdmireItem(
         value: ComponentAdmireItem.() -> Unit
     ) {
@@ -203,6 +208,7 @@ class BehEntityComponents : MonsteraFile {
      * @param data, set the priority
      * @sample sampleBarter
      */
+    @VanillaComponentMarker
     fun behBarter(data: ComponentBarter.() -> Unit) {
         unsafe.general["minecraft:behavior.barter"] = ComponentBarter().apply(data).unsafe.getData()
     }
@@ -219,6 +225,7 @@ class BehEntityComponents : MonsteraFile {
      * @param value
      * @sample sampleBehBeg
      */
+    @VanillaComponentMarker
     fun behBeg(
         value: ComponentBeg.() -> Unit
     ) {
@@ -241,6 +248,7 @@ class BehEntityComponents : MonsteraFile {
      * @param data the prio of executing this component, Movement speed multiplier of the mob when using this AI Goal
      * @sample sampleBreed
      */
+    @VanillaComponentMarker
     fun behBreed(data: ComponentBreed.() -> Unit) {
         unsafe.general["minecraft:behavior.breed"] = ComponentBreed().apply(data).unsafe.getData()
     }
@@ -258,6 +266,7 @@ class BehEntityComponents : MonsteraFile {
      * @param value
      * @sample behCelebrateSample
      */
+    @VanillaComponentMarker
     fun behCelebrate(value: ComponentCelebrate.() -> Unit) {
         unsafe.general["minecraft:behavior.celebrate"] = ComponentCelebrate().apply(value).unsafe.getData()
     }
@@ -278,6 +287,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample sampleChargeAttack
      */
+    @VanillaComponentMarker
     fun behChargeAttack(data: ComponentChargeAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.charge_attack"] = ComponentChargeAttack().apply(data).unsafe.getData()
     }
@@ -297,6 +307,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample sampleChargeHeldItems
      */
+    @VanillaComponentMarker
     fun behChargeHeldItem(data: ComponentChargeHeldItems.() -> Unit) {
         unsafe.general["minecraft:behavior.charge_held_item"] = ComponentChargeHeldItems().apply(data).unsafe.getData()
     }
@@ -319,6 +330,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample circleAroundAnchorSample
      */
+    @VanillaComponentMarker
     fun circleAroundAnchor(value: ComponentCircleAroundAnchor.() -> Unit) {
         unsafe.general["minecraft:behavior.circle_around_anchor"] =
             ComponentCircleAroundAnchor().apply(value).unsafe.getData()
@@ -345,6 +357,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample sampleControlledByPlayer
      */
+    @VanillaComponentMarker
     fun behControlledByPlayer(data: ComponentControlledByPlayer.() -> Unit) {
         unsafe.general["minecraft:behavior.controlled_by_player"] =
             ComponentControlledByPlayer().apply(data).unsafe.getData()
@@ -362,6 +375,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behDefendTrustedTargetSample
      */
+    @VanillaComponentMarker
     fun behDefendTrustedTarget(value: ComponentDefendTrustedTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.defend_trusted_target"] =
             ComponentDefendTrustedTarget().apply(value).getData()
@@ -390,6 +404,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample sampleBehDefendVillage
      */
+    @VanillaComponentMarker
     fun behDefendVillage(value: ComponentDefendVillage.() -> Unit) {
         unsafe.general["minecraft:behavior.defend_village_target"] =
             ComponentDefendVillage().apply(value).getData()
@@ -419,6 +434,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample delayedAttackSample
      */
+    @VanillaComponentMarker
     fun delayedAttack(value: ComponentDelayedAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.delayed_attack"] = ComponentDelayedAttack().apply(value).getData()
     }
@@ -444,6 +460,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to open and close doors.
      * @sample doorInteractSample
      */
+    @VanillaComponentMarker
     fun behDoorInteract(data: ComponentDoorInteract.() -> Unit) {
         unsafe.general["minecraft:behavior.door_interact"] = ComponentDoorInteract().apply(data).getData()
     }
@@ -460,6 +477,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the dragon to go out with glory. This controls the Ender Dragon's death animation and can't be used by other mobs.
      * @sample dragonDeathSample
      */
+    @VanillaComponentMarker
     fun behDragonDeath(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.dragondeath"] = ComponentPriority().apply(data).getData()
     }
@@ -476,6 +494,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the Dragon to fly around in a circle around the center podium. Can only be used by the Ender Dragon.
      * @sample sampleDragonHoldingPattern
      */
+    @VanillaComponentMarker
     fun behDragonHoldingPattern(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.dragonholdingpattern"] = ComponentPriority().apply(data).getData()
     }
@@ -492,6 +511,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the Dragon to stop flying and transition into perching mode. Can only be used by the Ender Dragon.
      * @sample sampleDragonLanding
      */
+    @VanillaComponentMarker
     fun behDragonLanding(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.dragonlanding"] = ComponentPriority().apply(data).getData()
     }
@@ -508,6 +528,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the dragon to look around for a player to attack while in perch mode. Can only be used by the Ender Dragon.
      * @sample sampleDragonScanning
      */
+    @VanillaComponentMarker
     fun behDragonScanning(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.dragonscanning"] = ComponentPriority().apply(data).getData()
     }
@@ -524,6 +545,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the dragon to leave perch mode and go back to flying around. Can only be used by the Ender Dragon.
      * @sample sampleDragonTakeOff
      */
+    @VanillaComponentMarker
     fun behDragonTakeOff(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.dragontakeoff"] = ComponentPriority().apply(data).getData()
     }
@@ -540,6 +562,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to drink potions based on specified environment conditions.
      * @sample behDrinkPotionSample
      */
+    @VanillaComponentMarker
     fun behDrinkPotion(value: ComponentDrinkPotion.() -> Unit) {
         unsafe.general["minecraft:behavior.drink_potion"] = ComponentDrinkPotion().apply(value).getData()
     }
@@ -574,6 +597,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behDropItemForSample
      */
+    @VanillaComponentMarker
     fun behDropItemFor(value: ComponentDropItemFor.() -> Unit) {
         unsafe.general["minecraft:behavior.drop_item_for"] = ComponentDropItemFor().apply(value).getData()
     }
@@ -618,6 +642,7 @@ class BehEntityComponents : MonsteraFile {
      * Used by the sheep to eat grass
      * @sample behEatBlockSample
      */
+    @VanillaComponentMarker
     fun behEatBlock(value: ComponentEatBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.eat_block"] = ComponentEatBlock().apply(value).getData()
     }
@@ -643,6 +668,7 @@ class BehEntityComponents : MonsteraFile {
      * -> delayBeforeEating Time in seconds the mob should wait before eating the item.
      * @sample eatCarriedItemSample
      */
+    @VanillaComponentMarker
     fun behEatCarriedItem(data: ComponentEatCarriedItem.() -> Unit) {
         unsafe.general["minecraft:behavior.eat_carried_item"] = ComponentEatCarriedItem().apply(data).getData()
     }
@@ -660,6 +686,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the enderman to drop a block they are carrying. Can only be used by Endermen.
      * @sample endermanLeaveBlockSample
      */
+    @VanillaComponentMarker
     fun behEndermanLeaveBlock(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.enderman_leave_block"] = ComponentPriority().apply(data).getData()
     }
@@ -676,6 +703,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the enderman to take a block and carry it around. Can only be used by Endermen.
      * @sample endermanTakeBlockSample
      */
+    @VanillaComponentMarker
     fun behEndermanTakeBlock(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.enderman_take_block"] = ComponentPriority().apply(data).getData()
     }
@@ -686,6 +714,7 @@ class BehEntityComponents : MonsteraFile {
         }
     }
 
+    @VanillaComponentMarker
     fun behEquipItem(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.equip_item"] = ComponentPriority().apply(data).getData()
     }
@@ -695,6 +724,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behExploreOutskirtsSample
      */
+    @VanillaComponentMarker
     fun behExploreOutskirts(value: ComponentExploreOutskirts.() -> Unit) {
         unsafe.general["minecraft:behavior.explore_outskirts"] = ComponentExploreOutskirts().apply(value).getData()
     }
@@ -722,6 +752,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to seek shade.
      * @sample findCoverSample
      */
+    @VanillaComponentMarker
     fun behFindCover(data: ComponentFindCover.() -> Unit) {
         unsafe.general["minecraft:behavior.find_cover"] = ComponentFindCover().apply(data).getData()
     }
@@ -739,6 +770,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behFindMountSample
      */
+    @VanillaComponentMarker
     fun behFindMount(value: ComponentFindMount.() -> Unit) {
         unsafe.general["minecraft:behavior.find_mount"] = ComponentFindMount().apply(value).getData()
     }
@@ -763,6 +795,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move towards the nearest underwater ruin or shipwreck.
      * @sample findUnderWaterTreasureSample
      */
+    @VanillaComponentMarker
     fun behFindUnderWaterTreasure(data: ComponentFindUnderWaterTreasure.() -> Unit) {
         unsafe.general["minecraft:behavior.find_underwater_treasure"] =
             ComponentFindUnderWaterTreasure().apply(data).getData()
@@ -783,6 +816,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to run away from direct sunlight and seek shade.
      * @sample fleeSunSample
      */
+    @VanillaComponentMarker
     fun behFleeSun(data: ComponentFleeSun.() -> Unit) {
         unsafe.general["minecraft:behavior.flee_sun"] = ComponentFleeSun().apply(data).getData()
     }
@@ -800,6 +834,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to stay afloat while swimming.
      * @sample floatSample
      */
+    @VanillaComponentMarker
     fun behFloat(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.float"] = ComponentPriority().apply(data).getData()
     }
@@ -816,6 +851,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to float around like the Ghast.
      * @sample behFloatWanderSample
      */
+    @VanillaComponentMarker
     fun behFloatWander(value: ComponentFloatWander.() -> Unit) {
         unsafe.general["minecraft:behavior.float_wander"] = ComponentFloatWander().apply(value).getData()
     }
@@ -840,6 +876,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to follow mobs that are in a caravan.
      * @sample behFollowCaravanSample
      */
+    @VanillaComponentMarker
     fun behFollowCaravan(value: ComponentFollowCaravan.() -> Unit) {
         unsafe.general["minecraft:behavior.follow_caravan"] = ComponentFollowCaravan().apply(value).getData()
     }
@@ -866,6 +903,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to follow other mobs.
      * @sample followMobSample
      */
+    @VanillaComponentMarker
     fun behFollowMob(data: ComponentFollowEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.follow_mob"] = ComponentFollowEntity().apply(data).getData()
     }
@@ -885,6 +923,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to follow the player that owns them.
      * @sample followOwnerSample
      */
+    @VanillaComponentMarker
     fun behFollowOwner(data: ComponentFollowOwner.() -> Unit) {
         unsafe.general["minecraft:behavior.follow_owner"] = ComponentFollowOwner().apply(data).getData()
     }
@@ -904,6 +943,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to follow their parent around.
      * @sample followParentSample
      */
+    @VanillaComponentMarker
     fun behFollowParent(data: ComponentFollowParent.() -> Unit) {
         unsafe.general["minecraft:behavior.follow_parent"] = ComponentFollowParent().apply(data).getData()
     }
@@ -921,6 +961,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows mob to move towards its current target captain.
      * @sample followTargetCaptainSample
      */
+    @VanillaComponentMarker
     fun behFollowTargetCaptain(data: ComponentFollowTargetCaptain.() -> Unit) {
         unsafe.general["minecraft:behavior.follow_target_captain"] =
             ComponentFollowTargetCaptain().apply(data).getData()
@@ -940,6 +981,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behGoHomeSample
      */
+    @VanillaComponentMarker
     fun behGoHome(value: ComponentGoHome.() -> Unit) {
         unsafe.general["minecraft:behavior.go_home"] = ComponentGoHome().apply(value).getData()
     }
@@ -975,6 +1017,7 @@ class BehEntityComponents : MonsteraFile {
      * Attack of the guardian (laser beam)
      * @sample guardianAttackSample
      */
+    @VanillaComponentMarker
     fun behGuardianAttack(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.guardian_attack"] = ComponentPriority().apply(data).getData()
     }
@@ -991,6 +1034,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the villager to harvest nearby farms. Can only be used by Villagers.
      * @sample harvestFarmBlockSample
      */
+    @VanillaComponentMarker
     fun behHarvestFarmBlock(data: ComponentHarvestFarmBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.harvest_farm_block"] = ComponentHarvestFarmBlock().apply(data).getData()
     }
@@ -1010,6 +1054,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behHoldGroundSample
      */
+    @VanillaComponentMarker
     fun behHoldGround(value: ComponentHoldGround.() -> Unit) {
         unsafe.general["minecraft:behavior.hold_ground"] = ComponentHoldGround().apply(value).getData()
     }
@@ -1031,6 +1076,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to target another mob that hurts them.
      * @sample behHurtByTargetSample
      */
+    @VanillaComponentMarker
     fun behHurtByTarget(value: ComponentHurtByTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.hurt_by_target"] = ComponentHurtByTarget().apply(value).getData()
     }
@@ -1059,6 +1105,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to inspect bookshelves.
      * @sample inspectBookshelfSample
      */
+    @VanillaComponentMarker
     fun behInspectBookshelf(data: ComponentInspectBookshelf.() -> Unit) {
         unsafe.general["minecraft:behavior.inspect_bookshelf"] = ComponentInspectBookshelf().apply(data).getData()
     }
@@ -1079,6 +1126,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behJumpToBlockSample
      */
+    @VanillaComponentMarker
     fun behJumpToBlock(value: ComponentJumpToBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.jump_to_block"] = ComponentJumpToBlock().apply(value).getData()
     }
@@ -1102,6 +1150,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to perform a damaging knockback that affects all nearby entities.
      * @sample behKnockbackRoarSample
      */
+    @VanillaComponentMarker
     fun behKnockbackRoar(value: ComponentKnockbackRoar.() -> Unit) {
         unsafe.general["minecraft:behavior.knockback_roar"] = ComponentKnockbackRoar().apply(value).getData()
     }
@@ -1130,6 +1179,7 @@ class BehEntityComponents : MonsteraFile {
      * -> randomStopInterval a random value in which the goal can use to pull out of the behavior. This is a 1/interval chance to play the sound
      * @sample layDownSample
      */
+    @VanillaComponentMarker
     fun behLayDown(data: ComponentLayDown.() -> Unit) {
         unsafe.general["minecraft:behavior.inspect_bookshelf"] = ComponentLayDown().apply(data).getData()
     }
@@ -1148,6 +1198,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to lay an egg block on a sand block if the mob is pregnant.
      * @sample layEggSample
      */
+    @VanillaComponentMarker
     fun behLayEgg(value: ComponentLayEgg.() -> Unit) {
         unsafe.general["minecraft:behavior.lay_egg"] = ComponentLayEgg().apply(value).getData()
     }
@@ -1172,6 +1223,7 @@ class BehEntityComponents : MonsteraFile {
      * -> yd The height in blocks the mob jumps when leaping at its target
      * @sample leapAtTargetSample
      */
+    @VanillaComponentMarker
     fun behLeapAtTarget(data: ComponentLeapAtTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.leap_at_target"] = ComponentLeapAtTarget().apply(data).getData()
     }
@@ -1191,6 +1243,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behLookAtEntitySample
      */
+    @VanillaComponentMarker
     fun behLookAtEntity(value: ComponentLookAtEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.look_at_entity"] = ComponentLookAtEntity().apply(value).getData()
     }
@@ -1214,6 +1267,7 @@ class BehEntityComponents : MonsteraFile {
      * look at the player
      * @sample behLookAtPlayerSample
      */
+    @VanillaComponentMarker
     fun behLookAtPlayer(value: ComponentLookAtSpecEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.look_at_player"] = ComponentLookAtSpecEntity().apply(value).getData()
     }
@@ -1239,6 +1293,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behLookAtTargetSample
      */
+    @VanillaComponentMarker
     fun behLookAtTarget(value: ComponentLookAtSpecEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.look_at_target"] = ComponentLookAtSpecEntity().apply(value).getData()
     }
@@ -1264,6 +1319,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behLookAtTradingPlayerSample
      */
+    @VanillaComponentMarker
     fun behLookAtTradingPlayer(value: ComponentLookAtSpecEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.look_at_target"] = ComponentLookAtSpecEntity().apply(value).getData()
     }
@@ -1290,6 +1346,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the villager to look for a mate to spawn other villagers with. Can only be used by Villagers.
      * @sample makeLoveSample
      */
+    @VanillaComponentMarker
     fun behMakeLove(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.make_love"] = ComponentPriority().apply(data).getData()
     }
@@ -1306,6 +1363,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity give a melee attack
      * @sample behMeleeAttackSample
      */
+    @VanillaComponentMarker
     fun behMeleeAttack(value: ComponentMeleeAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.melee_attack"] = ComponentMeleeAttack().apply(value).getData()
     }
@@ -1334,6 +1392,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity mingle with another
      * @sample behMingleSample
      */
+    @VanillaComponentMarker
     fun behMingle(value: ComponentMingle.() -> Unit) {
         unsafe.general["minecraft:behavior.mingle"] = ComponentMingle().apply(value).getData()
     }
@@ -1356,6 +1415,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move around on its own while mounted seeking a target to attack.
      * @sample mountPathingSample
      */
+    @VanillaComponentMarker
     fun behMountPathing(data: ComponentMountPathing.() -> Unit) {
         unsafe.general["minecraft:behavior.mount_pathing"] = ComponentMountPathing().apply(data).getData()
     }
@@ -1377,6 +1437,7 @@ class BehEntityComponents : MonsteraFile {
      * -> timeoutCooldown The cooldown time in seconds before the goal can be reused after a internal failure or timeout condition
      * @sample moveIndoorsSample
      */
+    @VanillaComponentMarker
     fun behMoveIndoors(data: ComponentMoveIndoors.() -> Unit) {
         unsafe.general["minecraft:behavior.move_indoors"] = ComponentMoveIndoors().apply(data).getData()
     }
@@ -1395,6 +1456,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Villagers. Allows the villagers to create paths around the village.
      * @sample moveThroughVillageSample
      */
+    @VanillaComponentMarker
     fun behMoveThroughVillage(data: ComponentMoveThroughVillage.() -> Unit) {
         unsafe.general["minecraft:behavior.move_through_village"] = ComponentMoveThroughVillage().apply(data).getData()
     }
@@ -1413,6 +1475,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Villagers. Allows the villagers to create paths around the village.
      * @sample behMoveToBlockSample
      */
+    @VanillaComponentMarker
     fun behMoveToBlock(value: ComponentMoveToBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_block"] = ComponentMoveToBlock().apply(value).getData()
     }
@@ -1451,6 +1514,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move back onto land when in water.
      * @sample moveToLandSample
      */
+    @VanillaComponentMarker
     fun behMoveToLand(data: ComponentMoveToLand.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_land"] = ComponentMoveToLand().apply(data).getData()
     }
@@ -1471,6 +1535,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample moveToLiquidSample
      */
+    @VanillaComponentMarker
     fun behMoveToLiquid(data: ComponentMoveToLiquid.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_liquid"] = ComponentMoveToLiquid().apply(data).getData()
     }
@@ -1492,6 +1557,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows mob to move towards a random block.
      * @sample moveToRandomBLockSample
      */
+    @VanillaComponentMarker
     fun behMoveToRandomBlock(data: ComponentMoveToRandomBlock.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_random_block"] = ComponentMoveToRandomBlock().apply(data).getData()
     }
@@ -1511,6 +1577,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move into a random location within a village.
      * @sample moveToVillageSample
      */
+    @VanillaComponentMarker
     fun behMoveToVillage(data: ComponentMoveToVillage.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_village"] = ComponentMoveToVillage().apply(data).getData()
     }
@@ -1531,6 +1598,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move back into lava when on land.
      * @sample moveToWaterSample
      */
+    @VanillaComponentMarker
     fun behMoveToWater(data: ComponentMoveToWater.() -> Unit) {
         unsafe.general["minecraft:behavior.move_to_water"] = ComponentMoveToWater().apply(data).getData()
     }
@@ -1552,6 +1620,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows Guardians, Iron Golems and Villagers to move within their pre-defined area that the mob should be restricted to. Other mobs don't have a restriction defined.
      * @sample moveTowardsDwellingRestrictionSample
      */
+    @VanillaComponentMarker
     fun behMoveTowardsDwellingRestriction(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.move_towards_dwelling_restriction"] =
             ComponentPrioSpeed().apply(data).getData()
@@ -1570,6 +1639,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows Guardians, Iron Golems and Villagers to move within their pre-defined area that the mob should be restricted to. Other mobs don't have a restriction defined.
      * @sample moveTowardsHomeRestrictionSample
      */
+    @VanillaComponentMarker
     fun behMoveTowardsHomeRestriction(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.move_towards_home_restriction"] = ComponentPrioSpeed().apply(data).getData()
     }
@@ -1587,6 +1657,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows mob to move towards its current target.
      * @sample moveTowardsTargetSample
      */
+    @VanillaComponentMarker
     fun behMoveTowardsTarget(data: ComponentMoveTowardsTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.move_towards_target"] = ComponentMoveTowardsTarget().apply(data).getData()
     }
@@ -1605,6 +1676,7 @@ class BehEntityComponents : MonsteraFile {
      * let's enities (like the fox) take a nap
      * @sample behNapSample
      */
+    @VanillaComponentMarker
     fun behNap(value: ComponentNap.() -> Unit) {
         unsafe.general["minecraft:behavior.nap"] = ComponentNap().apply(value).getData()
     }
@@ -1641,6 +1713,7 @@ class BehEntityComponents : MonsteraFile {
      * set a target for entities
      * @sample behNearestAttackableTargetSample
      */
+    @VanillaComponentMarker
     fun behNearestAttackableTarget(value: ComponentNearestAttackableTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.nearest_attackable_target"] =
             ComponentNearestAttackableTarget().apply(value).getData()
@@ -1689,6 +1762,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to check for and pursue the nearest valid target.
      * @sample behNearestPrioritizedAttackableTargetSample
      */
+    @VanillaComponentMarker
     fun behNearestPrioritizedAttackableTarget(value: ComponentNearestPrioritizedAttackableTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.nearest_prioritized_attackable_target"] =
             ComponentNearestPrioritizedAttackableTarget().apply(value).getData()
@@ -1726,6 +1800,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows to mob to be able to sit in place like the ocelot.
      * @sample ocelotSitOnBlockSample
      */
+    @VanillaComponentMarker
     fun behOcelotSitOnBlock(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.ocelot_sit_on_block"] = ComponentPrioSpeed().apply(data).getData()
     }
@@ -1743,6 +1818,7 @@ class BehEntityComponents : MonsteraFile {
      * the cat/ocelot attack
      * @sample behOcelotAttackSample
      */
+    @VanillaComponentMarker
     fun behOcelotAttack(value: ComponentOcelotAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.ocelotattack"] = ComponentOcelotAttack().apply(value).getData()
     }
@@ -1770,6 +1846,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to offer the player a flower like the Iron Golem does.
      * @sample offerFlowerSample
      */
+    @VanillaComponentMarker
     fun behOfferFlower(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.offer_flower"] = ComponentPriority().apply(data).getData()
     }
@@ -1786,6 +1863,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to open doors. Requires the mob to be able to path through doors, otherwise the mob won't even want to try opening them.
      * @sample openDoorSample
      */
+    @VanillaComponentMarker
     fun behOpenDoor(data: ComponentOpenDoor.() -> Unit) {
         unsafe.general["minecraft:behavior.open_door"] = ComponentOpenDoor().apply(data).getData()
     }
@@ -1803,6 +1881,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to target another mob that hurts their owner.
      * @sample ownerHurtByTargetSample
      */
+    @VanillaComponentMarker
     fun behOwnerHurtByTarget(value: ComponentOwnerHurtByTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.owner_hurt_by_target"] =
             ComponentOwnerHurtByTarget().apply(value).getData()
@@ -1825,6 +1904,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to target a mob that is hurt by their owner.
      * @sample ownerHurtTargetSample
      */
+    @VanillaComponentMarker
     fun behOwnerHurtTarget(value: ComponentOwnerHurtByTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.owner_hurt_target"] =
             ComponentOwnerHurtByTarget().apply(value).getData()
@@ -1845,6 +1925,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to enter the panic state, which makes it run around and away from the damage source that made it enter this state.
      * @sample behPanicSample
      */
+    @VanillaComponentMarker
     fun behPanic(value: ComponentPanic.() -> Unit) {
         unsafe.general["minecraft:behavior.panic"] = ComponentPanic().apply(value).getData()
     }
@@ -1870,6 +1951,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to peek out. This is what the shulker uses to look out of its shell.
      * @sample behPeekSample
      */
+    @VanillaComponentMarker
     fun behPeek(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.peek"] = ComponentPriority().apply(data).getData()
     }
@@ -1886,6 +1968,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the pet mob to move onto a bed with it's owner while sleeping.
      * @sample petSleepWithOwnerSample
      */
+    @VanillaComponentMarker
     fun behPetSleepWithOwner(data: ComponentPetSleepWithOwner.() -> Unit) {
         unsafe.general["minecraft:behavior.pet_sleep_with_owner"] = ComponentPetSleepWithOwner().apply(data).getData()
     }
@@ -1906,6 +1989,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to pick up items on the ground.
      * @sample behPickupItemsSample
      */
+    @VanillaComponentMarker
     fun behPickupItems(value: ComponentPickupItems.() -> Unit) {
         unsafe.general["minecraft:behavior.pickup_items"] = ComponentPickupItems().apply(value).getData()
     }
@@ -1932,6 +2016,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to play with other baby villagers. This can only be used by Villagers.
      * @sample playSample
      */
+    @VanillaComponentMarker
     fun behPlay(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.play"] = ComponentPrioSpeed().apply(data).getData()
     }
@@ -1949,6 +2034,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity play dead
      * @sample behPlayDeadSample
      */
+    @VanillaComponentMarker
     fun behPlayDead(value: ComponentPlayDead.() -> Unit) {
         unsafe.general["minecraft:behavior.play_dead"] = value
     }
@@ -1974,6 +2060,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Allows the mob to be ridden by the player after being tamed.
      */
+    @VanillaComponentMarker
     fun behPlayerRideTamed() {
         unsafe.general["minecraft:behavior.player_ride_tamed"] = mutableMapOf<Any, Any>()
     }
@@ -1984,6 +2071,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to eat/raid crops out of farms until they are full.
      * @sample behRaidGardenSample
      */
+    @VanillaComponentMarker
     fun behRaidGarden(value: ComponentRaidGarden.() -> Unit) {
         unsafe.general["minecraft:behavior.raid_garden"] = ComponentRaidGarden().apply(value).getData()
     }
@@ -2013,6 +2101,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity attack like a goat
      * @sample behRamAttackSample
      */
+    @VanillaComponentMarker
     fun behRamAttack(value: ComponentRamAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.ram_attack"] = ComponentRamAttack().apply(value).getData()
     }
@@ -2040,6 +2129,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to randomly break surface of the water.
      * @sample randomBreachSample
      */
+    @VanillaComponentMarker
     fun behRandomBreach(data: ComponentRandomBreach.() -> Unit) {
         unsafe.general["minecraft:behavior.random_breach"] = ComponentRandomBreach().apply(data).getData()
     }
@@ -2061,6 +2151,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows a mob to randomly fly around.
      * @sample randomFlySample
      */
+    @VanillaComponentMarker
     fun behRandomFly(data: ComponentRandomFly.() -> Unit) {
         unsafe.general["minecraft:behavior.random_fly"] = ComponentRandomFly().apply(data).getData()
     }
@@ -2083,6 +2174,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to hover around randomly, close to the surface
      * @sample behRandomHoverSample
      */
+    @VanillaComponentMarker
     fun behRandomHover(value: ComponentRandomHover.() -> Unit) {
         unsafe.general["minecraft:behavior.random_hover"] = ComponentRandomHover().apply(value).getData()
     }
@@ -2107,6 +2199,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to randomly look around.
      * @sample randomLookAroundSample
      */
+    @VanillaComponentMarker
     fun behRandomLookAround(value: ComponentLookAround.() -> Unit) {
         unsafe.general["minecraft:behavior.random_look_around"] = ComponentLookAround().apply(value).getData()
     }
@@ -2124,6 +2217,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to randomly sit and look around for a duration. Note: Must have a sitting animation set up to use this.
      * @sample randomLookAroundAndSitSample
      */
+    @VanillaComponentMarker
     fun behRandomLookAroundAndSit(data: ComponentRandomLookAroundAndSit.() -> Unit) {
         unsafe.general["minecraft:behavior.random_look_around_and_sit"] =
             ComponentRandomLookAroundAndSit().apply(data).getData()
@@ -2147,6 +2241,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to randomly sit for a duration.
      * @sample randomSittingSample
      */
+    @VanillaComponentMarker
     fun behRandomSitting(data: ComponentRandomSitting.() -> Unit) {
         unsafe.general["minecraft:behavior.random_sitting"] = ComponentRandomSitting().apply(data).getData()
     }
@@ -2167,6 +2262,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows a mob to randomly stroll around.
      * @sample randomStrollSample
      */
+    @VanillaComponentMarker
     fun behRandomStroll(data: ComponentRandomStroll.() -> Unit) {
         unsafe.general["minecraft:behavior.random_stroll"] = ComponentRandomStroll().apply(data).getData()
     }
@@ -2186,6 +2282,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample randomSwimSample
      */
+    @VanillaComponentMarker
     fun behRandomSwim(data: ComponentRandomSwim.() -> Unit) {
         unsafe.general["minecraft:behavior.random_swim"] = ComponentRandomSwim().apply(data).getData()
     }
@@ -2208,6 +2305,7 @@ class BehEntityComponents : MonsteraFile {
      * needs something to shoot like shooter()
      * @sample behRangedAttackSample
      */
+    @VanillaComponentMarker
     fun behRangedAttack(value: ComponentRangedAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.ranged_attack"] = ComponentRangedAttack().apply(value).getData()
     }
@@ -2232,6 +2330,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the villager to stop so another villager can breed with it. Can only be used by a Villager.
      * @sample receiveLoveSample
      */
+    @VanillaComponentMarker
     fun behReceiveLove(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.receive_love"] = ComponentPriority().apply(data).getData()
     }
@@ -2248,6 +2347,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to stay indoors during nighttime.
      * @sample restrictOpenDoorSample
      */
+    @VanillaComponentMarker
     fun behRestrictOpenDoor(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.restrict_open_door"] = ComponentPriority().apply(data).getData()
     }
@@ -2264,6 +2364,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to automatically start avoiding the sun when it's a clear day out.
      * @sample restrictSunSample
      */
+    @VanillaComponentMarker
     fun behRestrictSun(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.restrict_sun"] = ComponentPriority().apply(data).getData()
     }
@@ -2280,6 +2381,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to stay at a certain level when in liquid.
      * @sample riseToLiquidLevelSample
      */
+    @VanillaComponentMarker
     fun behRiseToLiquidLevel(data: ComponentRiseToLiquidLevel.() -> Unit) {
         unsafe.general["minecraft:behavior.rise_to_liquid_level"] = ComponentRiseToLiquidLevel().apply(data).getData()
     }
@@ -2299,6 +2401,7 @@ class BehEntityComponents : MonsteraFile {
      * This allows the mob to roll forward.
      * @sample rollSample
      */
+    @VanillaComponentMarker
     fun behRoll(data: ComponentRoll.() -> Unit) {
         unsafe.general["minecraft:behavior.roll"] = ComponentRoll().apply(data).getData()
     }
@@ -2316,6 +2419,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to run around aimlessly.
      * @sample runAroundLikeCrazySample
      */
+    @VanillaComponentMarker
     fun behRunAroundLikeCrazy(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.run_around_like_crazy"] = ComponentPrioSpeed().apply(data).getData()
     }
@@ -2332,6 +2436,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample scaredSample
      */
+    @VanillaComponentMarker
     fun behScared(data: ComponentScared.() -> Unit) {
         unsafe.general["minecraft:behavior.scared"] = ComponentScared().apply(data).getData()
     }
@@ -2349,6 +2454,7 @@ class BehEntityComponents : MonsteraFile {
      * send an event like the evocer to make blue sheeps red
      * @sample behSendEventSample
      */
+    @VanillaComponentMarker
     fun behSendEvent(value: ComponentSendEvent.() -> Unit) {
         unsafe.general["minecraft:behavior.send_event"] = ComponentSendEvent().apply(value).getData()
     }
@@ -2387,6 +2493,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behShareItemsSample
      */
+    @VanillaComponentMarker
     fun behShareItems(value: ComponentShareItems.() -> Unit) {
         unsafe.general["minecraft:behavior.share_items"] = ComponentShareItems().apply(value).getData()
     }
@@ -2410,6 +2517,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to go into stone blocks like Silverfish do. Currently it can only be used by Silverfish.
      * @sample silverFishMergeWithStoneSample
      */
+    @VanillaComponentMarker
     fun behSilverfishMergeWithStone(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.silverfish_merge_with_stone"] = ComponentPriority().apply(data).getData()
     }
@@ -2426,6 +2534,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to alert mobs in nearby blocks to come out. Currently it can only be used by Silverfish.
      * @sample silverFishWakeUpFriendsSample
      */
+    @VanillaComponentMarker
     fun behSilverfishWakeUpFriends(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.silverfish_wake_up_friends"] = ComponentPriority().apply(data).getData()
     }
@@ -2443,6 +2552,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Horses, Mules, Donkeys and Skeleton Horses.
      * @sample skeletonHorseTrapSample
      */
+    @VanillaComponentMarker
     fun behSkeletonHorseTrap(data: ComponentSkeletonHorseTrap.() -> Unit) {
         unsafe.general["minecraft:behavior.skeleton_horse_trap"] = ComponentSkeletonHorseTrap().apply(data).getData()
     }
@@ -2461,6 +2571,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows mobs that own a bed to in a village to move to and sleep in it.
      * @sample sleepSample
      */
+    @VanillaComponentMarker
     fun behSleep(data: ComponentSleep.() -> Unit) {
         unsafe.general["minecraft:behavior.sleep"] = ComponentSleep().apply(data).getData()
     }
@@ -2486,6 +2597,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Slimes and Magma Cubes. Allows the mob to use a melee attack like the slime's.
      * @sample slimeAttackSample
      */
+    @VanillaComponentMarker
     fun behSlimeAttack(data: ComponentSlimeAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.slime_attack"] = ComponentSlimeAttack().apply(data).getData()
     }
@@ -2503,6 +2615,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Slimes and Magma Cubes. Allows the mob to float.
      * @sample slimeFloatSample
      */
+    @VanillaComponentMarker
     fun behSlimeFloat(data: ComponentSlimeFloat.() -> Unit) {
         unsafe.general["minecraft:behavior.slime_float"] = ComponentSlimeFloat().apply(data).getData()
     }
@@ -2521,6 +2634,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Slimes and Magma Cubes.
      * @sample slimeKeepJumpingSample
      */
+    @VanillaComponentMarker
     fun behSlimeKeepJumping(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.slime_float"] = ComponentPrioSpeed().apply(data).getData()
     }
@@ -2538,6 +2652,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Slimes and Magma Cubes.
      * @sample slimeRandomRotationSample
      */
+    @VanillaComponentMarker
     fun behSlimeRandomDirection(data: ComponentSlimeRandomRotation.() -> Unit) {
         unsafe.general["minecraft:behavior.slime_random_direction"] =
             ComponentSlimeRandomRotation().apply(data).getData()
@@ -2560,6 +2675,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample snackingSample
      */
+    @VanillaComponentMarker
     fun behSnacking(data: ComponentSnacking.() -> Unit) {
         unsafe.general["minecraft:behavior.snacking"] = ComponentSnacking().apply(data).getData()
     }
@@ -2580,6 +2696,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behSneezeSample
      */
+    @VanillaComponentMarker
     fun behSneeze(value: ComponentSneeze.() -> Unit) {
         unsafe.general["minecraft:behavior.sneeze"] = ComponentSneeze().apply(value).getData()
     }
@@ -2617,6 +2734,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the squid to dive down in water. Can only be used by the Squid.
      * @sample squidDiveSample
      */
+    @VanillaComponentMarker
     fun behSquidDive(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.squid_dive"] = data
     }
@@ -2633,6 +2751,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the squid to swim away. Can only be used by the Squid.
      * @sample behSquidFlee
      */
+    @VanillaComponentMarker
     fun behSquidFlee(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.squid_flee"] = ComponentPriority().apply(data).getData()
     }
@@ -2649,6 +2768,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the squid to swim in place idly. Can only be used by the Squid.
      * @sample squidIdleSample
      */
+    @VanillaComponentMarker
     fun behSquidIdle(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.squid_idle"] = ComponentPriority().apply(data).getData()
     }
@@ -2665,6 +2785,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the squid to move away from ground blocks and back to water. Can only be used by the Squid.
      * @sample squidMoveAwayFromGroundSample
      */
+    @VanillaComponentMarker
     fun behSquidMoveAwayFromGround(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.squid_move_away_from_ground"] = ComponentPriority().apply(data).getData()
     }
@@ -2681,6 +2802,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the squid to stick to the ground when outside water. Can only be used by the Squid.
      * @sample squidOutOfWaterSample
      */
+    @VanillaComponentMarker
     fun behSquidOutOfWater(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.squid_out_of_water"] = ComponentPriority().apply(data).getData()
     }
@@ -2699,6 +2821,7 @@ class BehEntityComponents : MonsteraFile {
      * On failure, the mob will risk getting stuck
      * @sample behStalkAndPounceOnTargetSample
      */
+    @VanillaComponentMarker
     fun behStalkAndPounceOnTarget(value: ComponentStalkAndPounceOnTarget.() -> Unit) {
         unsafe.general["minecraft:behavior.stalk_and_pounce_on_target"] =
             ComponentStalkAndPounceOnTarget().apply(value).getData()
@@ -2730,6 +2853,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to stay put while it is in a sitting state instead of doing something else.
      * @sample stayWhileSittingSample
      */
+    @VanillaComponentMarker
     fun behStayWhileSitting(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.stay_while_sitting"] = ComponentPriority().apply(data).getData()
     }
@@ -2746,6 +2870,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity attack like the polar bear
      * @sample stompAttackSample
      */
+    @VanillaComponentMarker
     fun behStompAttack(data: ComponentStompAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.stomp_attack"] = ComponentStompAttack().apply(data).getData()
     }
@@ -2766,6 +2891,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this mob to stomp turtle eggs
      * @sample stompTurtleEggsSample
      */
+    @VanillaComponentMarker
     fun behStompTurtleEggs(data: ComponentStompTurtleEggs.() -> Unit) {
         unsafe.general["minecraft:behavior.stomp_turtle_egg"] = ComponentStompTurtleEggs().apply(data).getData()
     }
@@ -2787,6 +2913,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move into a random location within a village within the search range.
      * @sample strollTowardsVillageSample
      */
+    @VanillaComponentMarker
     fun behStrollTowardsVillage(data: ComponentStrollTowardsVillage.() -> Unit) {
         unsafe.general["minecraft:behavior.stroll_towards_village"] =
             ComponentStrollTowardsVillage().apply(data).getData()
@@ -2809,6 +2936,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to attack the player by summoning other entities.
      * @sample behSummonEntitySample
      */
+    @VanillaComponentMarker
     fun behSummonEntity(value: ComponentSummonEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.summon_entity"] = ComponentSummonEntity().apply(value).unsafe.getData()
     }
@@ -2855,6 +2983,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample swellSample
      */
+    @VanillaComponentMarker
     fun behSwell(data: ComponentSwell.() -> Unit) {
         unsafe.general["minecraft:behavior.stroll_towards_village"] = ComponentSwell().apply(data).getData()
     }
@@ -2872,6 +3001,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample swimIdleSample
      */
+    @VanillaComponentMarker
     fun behSwimIdle(data: ComponentSwimIdle.() -> Unit) {
         unsafe.general["minecraft:behavior.swim_idle"] = ComponentSwimIdle().apply(data).getData()
     }
@@ -2889,6 +3019,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample swimWanderSample
      */
+    @VanillaComponentMarker
     fun behSwimWander(data: ComponentSwimWander.() -> Unit) {
         unsafe.general["minecraft:behavior.swim_wander"] = ComponentSwimWander().apply(data).getData()
     }
@@ -2908,6 +3039,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behSwimWithEntitySample
      */
+    @VanillaComponentMarker
     fun behSwimWithEntity(value: ComponentSwimWithEntity.() -> Unit) {
         unsafe.general["minecraft:behavior.swim_with_entity"] =
             ComponentSwimWithEntity().apply(value).getData()
@@ -2938,6 +3070,7 @@ class BehEntityComponents : MonsteraFile {
      * used by the phantom to attack
      * @sample swoopAttackSample
      */
+    @VanillaComponentMarker
     fun behSwoopAttack(value: ComponentSwoopAttack.() -> Unit) {
         unsafe.general["minecraft:behavior.swoop_attack"] = ComponentSwoopAttack().apply(value).getData()
     }
@@ -2957,6 +3090,7 @@ class BehEntityComponents : MonsteraFile {
      * Can only be used by Villagers. Allows the mob to accept flowers from Iron Golems.
      * @sample takeFlowerSample
      */
+    @VanillaComponentMarker
     fun behTakeFlower(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.take_flower"] = ComponentPriority().apply(data).getData()
     }
@@ -2972,6 +3106,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample behTargetWhenPushedSample
      */
+    @VanillaComponentMarker
     fun behTargetWhenPushed(value: ComponentTargetWhenPushed.() -> Unit) {
         unsafe.general["minecraft:behavior.target_when_pushed"] = ComponentTargetWhenPushed().apply(value).getData()
     }
@@ -3000,6 +3135,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to be tempted by food they like.
      * @sample temptSample
      */
+    @VanillaComponentMarker
     fun behTempt(data: ComponentTempt.() -> Unit) {
         unsafe.general["minecraft:behavior.tempt"] = ComponentTempt().apply(data).getData()
     }
@@ -3021,6 +3157,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to look at a player that is holding a tradable item.
      * @sample tradeInterestSample
      */
+    @VanillaComponentMarker
     fun behTradeInterest(data: ComponentTradeInterest.() -> Unit) {
         unsafe.general["minecraft:behavior.trade_interest"] = ComponentTradeInterest().apply(data).getData()
     }
@@ -3044,6 +3181,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the player to trade with this mob.
      * @sample tradeWithPlayerSample
      */
+    @VanillaComponentMarker
     fun behTradeWithPlayer(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.trade_with_player"] = ComponentPriority().apply(data).getData()
     }
@@ -3060,6 +3198,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to target the same entity its owner is targeting.
      * call entityType()
      */
+    @VanillaComponentMarker
     fun behVexCopyOwnerTarget(value: BehEntityTypes.() -> Unit) {
         unsafe.general["minecraft:behavior.vex_copy_owner_target"] = BehEntityTypes().apply(value).getData()
     }
@@ -3070,6 +3209,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to move around randomly like the Vex.
      * @sample vexRandomAttackPosGoalSample
      */
+    @VanillaComponentMarker
     fun behVexRandomAttackPosGoal(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.vex_random_move"] = ComponentPriority().apply(data).getData()
     }
@@ -3086,6 +3226,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the wither to launch random attacks. Can only be used by the Wither Boss.
      * @sample behWitherRandomAttackPosGoalSample
      */
+    @VanillaComponentMarker
     fun behWitherRandomAttackPosGoal(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.wither_random_attack_pos_goal"] = ComponentPriority().apply(data).getData()
     }
@@ -3101,6 +3242,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample witherTargetHighestDamageSample
      */
+    @VanillaComponentMarker
     fun behWitherTargetHighestDamage(data: ComponentWitherTargetHighestDamage.() -> Unit) {
         unsafe.general["minecraft:behavior.wither_random_attack_pos_goal"] =
             ComponentWitherTargetHighestDamage().apply(data).getData()
@@ -3120,6 +3262,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample workSample
      */
+    @VanillaComponentMarker
     fun behWork(data: ComponentWork.() -> Unit) {
         unsafe.general["minecraft:behavior.work"] = ComponentWork().apply(data).getData()
     }
@@ -3148,6 +3291,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's strength to carry items.
      * @sample strengthSample
      */
+    @VanillaComponentMarker
     fun strength(data: ComponentStrength.() -> Unit) {
         unsafe.general["minecraft:strength"] = ComponentStrength().apply(data).getData()
     }
@@ -3170,6 +3314,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a rider to the entity. Requires minecraft:rideable.
      * @sample addRiderSample
      */
+    @VanillaComponentMarker
     fun addRider(data: ComponentAddRider.() -> Unit) {
         unsafe.general["minecraft:addrider"] = ComponentAddRider().apply(data).unsafe.getData()
     }
@@ -3189,6 +3334,7 @@ class BehEntityComponents : MonsteraFile {
      * Causes the mob to ignore attackable targets for a given duration.
      * @sample admireItemSample
      */
+    @VanillaComponentMarker
     fun admireItem(data: ComponentAdmItemComp.() -> Unit) {
         unsafe.general["minecraft:admire_item"] = ComponentAdmItemComp().apply(data).unsafe.getData()
     }
@@ -3207,6 +3353,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a timer for the entity to grow up. It can be accelerated by giving the entity the items it likes as defined by feedItems.
      * @sample ageableSample
      */
+    @VanillaComponentMarker
     fun ageable(value: ComponentAgeable.() -> Unit) {
         unsafe.general["minecraft:ageable"] = ComponentAgeable().apply(value).unsafe.getData()
     }
@@ -3234,6 +3381,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the entity's delay between playing its ambient sound.
      * @sample ambientSoundIntervalSample
      */
+    @VanillaComponentMarker
     fun ambientSoundInterval(data: ComponentAmbientSoundInterval.() -> Unit) {
         unsafe.general["minecraft:ambient_sound_interval"] =
             ComponentAmbientSoundInterval().apply(data).unsafe.getData()
@@ -3254,6 +3402,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's 'angry' state using a timer.
      * @sample angrySample
      */
+    @VanillaComponentMarker
     fun angry(settings: ComponentAngry.() -> Unit) {
         unsafe.general["minecraft:angry"] = ComponentAngry().apply(settings).unsafe.getData()
     }
@@ -3281,6 +3430,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the mob to break doors
      * @sample breakDoorSample
      */
+    @VanillaComponentMarker
     fun annBreakDoor(data: ComponentBreakDoor.() -> Unit) {
         unsafe.general["minecraft:annotation.break_door"] = ComponentBreakDoor().apply(data).unsafe.getData()
     }
@@ -3297,6 +3447,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Allows the actor to open doors assuming that that flags set up for the component to use in navigation
      */
+    @VanillaComponentMarker
     fun annOpenDoor() {
         unsafe.general.apply { put("minecraft:annotation.open_door", mutableMapOf<Any, Any>()) }
     }
@@ -3307,6 +3458,7 @@ class BehEntityComponents : MonsteraFile {
      * A component that does damage to entities that get within range.
      * @sample areaAttackSample
      */
+    @VanillaComponentMarker
     fun areaAttack(value: ComponentAreaAttack.() -> Unit) {
         unsafe.general["minecraft:area_attack"] = ComponentAreaAttack().apply(value).unsafe.getData()
     }
@@ -3332,6 +3484,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines an entity's melee attack and any additional effects on it.
      * @sample attackSample
      */
+    @VanillaComponentMarker
     fun attack(data: ComponentAttack.() -> Unit) {
         unsafe.general["minecraft:attack"] = ComponentAttack().apply(data).unsafe.getData()
     }
@@ -3355,6 +3508,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a cooldown to a mob. The intention of this cooldown is to be used to prevent the mob from attempting to aquire new attack targets.
      * @sample attackCooldownSample
      */
+    @VanillaComponentMarker
     fun attackCooldown(value: ComponentAttackCooldown.() -> Unit) {
         unsafe.general["minecraft:attack_cooldown"] = ComponentAttackCooldown().apply(value).unsafe.getData()
     }
@@ -3373,6 +3527,7 @@ class BehEntityComponents : MonsteraFile {
      * used by entities that are missing attack(), like the cat
      * @sample attackDamageSample
      */
+    @VanillaComponentMarker
     fun attackDamage(data: ComponentAttackDamage.() -> Unit) {
         unsafe.general["minecraft:attack_damage"] = ComponentAttackDamage().apply(data).unsafe.getData()
     }
@@ -3389,6 +3544,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity glide down like a chicken
      * @sample balloonableSample
      */
+    @VanillaComponentMarker
     fun balloonable(data: ComponentBalloonable.() -> Unit) {
         unsafe.general["minecraft:balloonable"] = ComponentBalloonable().apply(data).unsafe.getData()
     }
@@ -3405,6 +3561,7 @@ class BehEntityComponents : MonsteraFile {
      * Enables the component to drop an item as a barter exchange.
      * @sample barterSample
      */
+    @VanillaComponentMarker
     fun barter(data: ComponentBarterComp.() -> Unit) {
         unsafe.general["minecraft:barter"] = ComponentBarterComp().apply(data).unsafe.getData()
     }
@@ -3421,6 +3578,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * used by endermite, fox, player and rabbit
      */
+    @VanillaComponentMarker
     fun blockClimber() {
         unsafe.general["minecraft:block_climber"] = mutableMapOf<String, String>()
     }
@@ -3431,6 +3589,7 @@ class BehEntityComponents : MonsteraFile {
      * trigger an event if a block is broken
      * @sample blockSensorSample
      */
+    @VanillaComponentMarker
     fun blockSensor(value: ComponentBlockSensor.() -> Unit) {
         unsafe.general["minecraft:block_sensor"] = ComponentBlockSensor().apply(value).unsafe.getData()
     }
@@ -3462,6 +3621,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the conditions and behavior of a rideable entity's boost.
      * @sample boostAbleSample
      */
+    @VanillaComponentMarker
     fun boostAble(value: ComponentBoostItems.() -> Unit) {
         unsafe.general["minecraft:boostable"] = ComponentBoostItems().apply(value).unsafe.getData()
     }
@@ -3489,6 +3649,7 @@ class BehEntityComponents : MonsteraFile {
      * set the bossbar for an entity
      * @sample bossSample
      */
+    @VanillaComponentMarker
     fun boss(data: ComponentBoss.() -> Unit) {
         unsafe.general["minecraft:boss"] = ComponentBoss().apply(data).unsafe.getData()
     }
@@ -3507,6 +3668,7 @@ class BehEntityComponents : MonsteraFile {
      * Specifies the blocks that this entity can break as it moves around.
      * @sample breakBlocksSample
      */
+    @VanillaComponentMarker
     fun breakBlocks(data: ComponentBreakBlocks.() -> Unit) {
         unsafe.general["minecraft:break_blocks"] = ComponentBreakBlocks().apply(data).unsafe.getData()
     }
@@ -3523,6 +3685,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines what blocks this entity can breathe in and gives them the ability to suffocate.
      * @sample breathableSample
      */
+    @VanillaComponentMarker
     fun breathable(value: ComponentBreathable.() -> Unit) {
         unsafe.general["minecraft:breathable"] = ComponentBreathable().apply(value).unsafe.getData()
     }
@@ -3550,6 +3713,7 @@ class BehEntityComponents : MonsteraFile {
      * @param value Defines the way an entity can get into the 'love' state.
      * @sample breedableSample
      */
+    @VanillaComponentMarker
     fun breedable(value: ComponentBreedable.() -> Unit) {
         unsafe.general["minecraft:breedable"] = ComponentBreedable().apply(value).unsafe.getData()
     }
@@ -3590,6 +3754,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample bribeableSample
      */
+    @VanillaComponentMarker
     fun bribeable(data: ComponentBribeable.() -> Unit) {
         unsafe.general["minecraft:bribeable"] = ComponentBribeable().apply(data).unsafe.getData()
     }
@@ -3607,6 +3772,7 @@ class BehEntityComponents : MonsteraFile {
      * Enables an entity to float on the specified liquid blocks.
      * @sample buoyantSample
      */
+    @VanillaComponentMarker
     fun buoyant(data: ComponentBuoyant.() -> Unit) {
         unsafe.general["minecraft:buoyant"] = ComponentBuoyant().apply(data).unsafe.getData()
     }
@@ -3628,6 +3794,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Specifies if/how a mob burns in daylight.
      */
+    @VanillaComponentMarker
     fun burnsInDayLight(value: Boolean? = null) {
         if (value != null)
             unsafe.general["minecraft:burns_in_daylight"] = value
@@ -3640,6 +3807,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Allows this entity to climb up ladders.
      */
+    @VanillaComponentMarker
     fun canClimb() {
         unsafe.general["minecraft:can_climb"] = mutableMapOf<Any, Any>()
     }
@@ -3649,6 +3817,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Marks the entity as being able to fly, the pathfinder won't be restricted to paths where a solid block is required underneath it.
      */
+    @VanillaComponentMarker
     fun canFly() {
         unsafe.general["minecraft:can_fly"] = mutableMapOf<Any, Any>()
     }
@@ -3658,6 +3827,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Allows the entity to power jump like the horse does in vanilla.
      */
+    @VanillaComponentMarker
     fun canPowerJump() {
         unsafe.general["minecraft:can_power_jump"] = mutableMapOf<Any, Any>()
     }
@@ -3667,6 +3837,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample celebrateHuntSample
      */
+    @VanillaComponentMarker
     fun celebrateHunt(value: ComponentCelebrateHunt.() -> Unit) {
         unsafe.general["minecraft:celebrate_hunt"] = ComponentCelebrateHunt().apply(value).unsafe.getData()
     }
@@ -3689,6 +3860,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the width and height of the Entity's collision box.
      * @sample collisionBoxSample
      */
+    @VanillaComponentMarker
     fun collisionBox(data: ComponentCollisionBox.() -> Unit) {
         unsafe.general["minecraft:collision_box"] = ComponentCollisionBox().apply(data).unsafe.getData()
     }
@@ -3706,6 +3878,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's color. Only works on vanilla entities that have predefined color values (sheep, llama, shulker).
      * @sample colorSample
      */
+    @VanillaComponentMarker
     fun color(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:color"] = ComponentValue().apply(data).getData()
     }
@@ -3722,6 +3895,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's color. Only works on vanilla entities that have predefined color values (sheep, llama, shulker).
      * @sample colorSample
      */
+    @VanillaComponentMarker
     fun color2(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:color2"] = ComponentValue().apply(data).getData()
     }
@@ -3731,6 +3905,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * used by the axolotl to regenerate within a fight
      */
+    @VanillaComponentMarker
     fun combatRegeneration() {
         unsafe.general["minecraft:combat_regeneration"] = mutableMapOf<Any, Any>()
     }
@@ -3740,6 +3915,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample conditionalBandwidthOptimizationSample
      */
+    @VanillaComponentMarker
     fun conditionalBandwidthOptimization(value: ComponentConditionalBandwidthOptimization.() -> Unit) {
         unsafe.general["minecraft:conditional_bandwidth_optimization"] =
             ComponentConditionalBandwidthOptimization().apply(value).unsafe.getData()
@@ -3766,6 +3942,7 @@ class BehEntityComponents : MonsteraFile {
      * List of hitboxes for melee and ranged hits against the entity.
      * @sample customHitTestSample
      */
+    @VanillaComponentMarker
     fun customHitTest(value: ComponentCustomHitTest.() -> Unit) {
         unsafe.general.apply {
             put("minecraft:custom_hit_test", ComponentCustomHitTest().apply(value).unsafe.getData())
@@ -3789,6 +3966,7 @@ class BehEntityComponents : MonsteraFile {
      * Applies defined amount of damage to the entity at specified intervals.
      * @sample damageOverTimeSample
      */
+    @VanillaComponentMarker
     fun damageOverTime(data: ComponentDamageOverTime.() -> Unit) {
         unsafe.general["minecraft:damage_over_time"] = ComponentDamageOverTime().apply(data).unsafe.getData()
     }
@@ -3806,6 +3984,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines what events to call when this entity is damaged by specific entities or items.
      * @sample damageSensorSample
      */
+    @VanillaComponentMarker
     fun damageSensor(value: ComponentDamageSensors.() -> Unit) {
         unsafe.general["minecraft:damage_sensor"] =
             mutableMapOf("triggers" to ComponentDamageSensors().apply(value).getData())
@@ -3845,6 +4024,7 @@ class BehEntityComponents : MonsteraFile {
      * Despawns the Actor when the despawn rules or optional filters evaluate to true.
      * @sample despawnSample
      */
+    @VanillaComponentMarker
     fun despawn(value: ComponentDespawn.() -> Unit) {
         unsafe.general["minecraft:despawn"] = ComponentDespawn().apply(value).getData()
     }
@@ -3867,6 +4047,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample dryingOutTimerSample
      */
+    @VanillaComponentMarker
     fun dryingOutTimer(value: ComponentDryingOutTimer.() -> Unit) {
         unsafe.general["minecraft:drying_out_timer"] = ComponentDryingOutTimer().apply(value).getData()
     }
@@ -3888,6 +4069,7 @@ class BehEntityComponents : MonsteraFile {
      * let's the entity dwell like the cat in a village
      * @sample dwellerSample
      */
+    @VanillaComponentMarker
     fun dweller(data: ComponentDweller.() -> Unit) {
         unsafe.general["minecraft:dweller"] = ComponentDweller().apply(data).getData()
     }
@@ -3910,6 +4092,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample economyTradeTableSample
      */
+    @VanillaComponentMarker
     fun economyTradeTable(value: ComponentEconomyTradeTable.() -> Unit) {
         unsafe.general["minecraft:economy_trade_table"] = ComponentEconomyTradeTable().apply(value).getData()
     }
@@ -3938,6 +4121,7 @@ class BehEntityComponents : MonsteraFile {
      * A component that fires an event when a set of conditions are met by other entities within the defined range.
      * @sample entitySensorSample
      */
+    @VanillaComponentMarker
     fun entitySensor(value: ComponentEntitySensor.() -> Unit) {
         unsafe.general["minecraft:entity_sensor"] = ComponentEntitySensor().apply(value).getData()
     }
@@ -3963,6 +4147,7 @@ class BehEntityComponents : MonsteraFile {
      * Creates a trigger based on environment conditions.
      * @sample environmentSensorSample
      */
+    @VanillaComponentMarker
     fun environmentSensor(settings: ComponentEnvSensorTriggers.() -> Unit) {
         unsafe.general["minecraft:environment_sensor"] =
             mutableMapOf("triggers" to ComponentEnvSensorTriggers().apply(settings).getData())
@@ -3988,6 +4173,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the Equipment table to use for this Entity.
      * @sample equipmentSample
      */
+    @VanillaComponentMarker
     fun equipment(value: ComponentEquipment.() -> Unit) {
         unsafe.general["minecraft:equipment"] = ComponentEquipment().apply(value).getData()
     }
@@ -4011,6 +4197,7 @@ class BehEntityComponents : MonsteraFile {
      * @param value List of slots and the item that can be equipped., call slot()
      * @sample equippableSample
      */
+    @VanillaComponentMarker
     fun equippable(value: ComponentEquippable.() -> Unit) {
         unsafe.general["minecraft:equippable"] = ComponentEquippable().apply(value).getData()
     }
@@ -4050,6 +4237,7 @@ class BehEntityComponents : MonsteraFile {
      * sample query: "query.last_hit_by_player ? Math.Random(1,3) : 0"
      * @sample experienceRewardSample
      */
+    @VanillaComponentMarker
     fun experienceReward(data: ComponentExperienceReward.() -> Unit) {
         unsafe.general["minecraft:experience_reward"] = ComponentExperienceReward().apply(data).getData()
     }
@@ -4067,6 +4255,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample explodeSample
      */
+    @VanillaComponentMarker
     fun explode(value: ComponentExplode.() -> Unit) {
         unsafe.general["minecraft:explode"] = ComponentExplode().apply(value).getData()
     }
@@ -4091,6 +4280,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * used by the blaze
      */
+    @VanillaComponentMarker
     fun fireImmune(value: Boolean = true) {
         unsafe.general["minecraft:fire_immune"] = value
     }
@@ -4100,6 +4290,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample flockingSample
      */
+    @VanillaComponentMarker
     fun flocking(value: ComponentFlocking.() -> Unit) {
         unsafe.general["minecraft:flocking"] = ComponentFlocking().apply(value).getData()
     }
@@ -4133,6 +4324,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample flyingSpeedSample
      */
+    @VanillaComponentMarker
     fun flyingSpeed(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:flying_speed"] = ComponentValue().apply(data).getData()
     }
@@ -4149,6 +4341,7 @@ class BehEntityComponents : MonsteraFile {
      * used by phantom to follow a target
      * @sample followRangeSample
      */
+    @VanillaComponentMarker
     fun followRange(data: ComponentFollowRange.() -> Unit) {
         unsafe.general["minecraft:follow_range"] = ComponentFollowRange().apply(data).getData()
     }
@@ -4166,6 +4359,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the way a mob's genes and alleles are passed on to it's offspring, and how those traits manifest in the child. Compatible parent genes are crossed together, the alleles are handed down from the parents to the child, and any matching genetic variants fire off JSON events to modify the child and express the traits.
      * @sample geneticsSample
      */
+    @VanillaComponentMarker
     fun genetics(mutationRate: Float? = null, settings: ComponentGenetics.() -> Unit) {
         val data = mutableMapOf<String, Any>()
         if (mutationRate != null)
@@ -4209,6 +4403,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample giveableSample
      */
+    @VanillaComponentMarker
     fun giveable(value: ComponentGiveable.() -> Unit) {
         unsafe.general["minecraft:giveable"] = mutableMapOf("triggers" to ComponentGiveable().apply(value).getData())
     }
@@ -4226,6 +4421,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample groupSizeSample
      */
+    @VanillaComponentMarker
     fun groupSize(data: ComponentGroupSize.() -> Unit) {
         unsafe.general["minecraft:group_size"] = ComponentGroupSize().apply(data).getData()
     }
@@ -4247,6 +4443,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample growsCropSample
      */
+    @VanillaComponentMarker
     fun growsCrop(data: ComponentGrowsCrop.() -> Unit) {
         unsafe.general["minecraft:grows_crop"] = ComponentGrowsCrop().apply(data).getData()
     }
@@ -4264,6 +4461,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the interactions with this entity for healing it.
      * @sample healableSample
      */
+    @VanillaComponentMarker
     fun healable(settings: ComponentHealable.() -> Unit) {
         unsafe.general["minecraft:healable"] = ComponentHealable().apply(settings).getData()
     }
@@ -4287,6 +4485,7 @@ class BehEntityComponents : MonsteraFile {
      * healt of the entity
      * @sample healthSample
      */
+    @VanillaComponentMarker
     fun health(data: ComponentHealth.() -> Unit) {
         unsafe.general["minecraft:health"] = ComponentHealth().apply(data).getData()
     }
@@ -4304,6 +4503,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * used by the villager
      */
+    @VanillaComponentMarker
     fun hide() {
         unsafe.general["minecraft:hide"] = mutableMapOf<Any, Any>()
     }
@@ -4314,6 +4514,7 @@ class BehEntityComponents : MonsteraFile {
      * Saves a home pos for when the the entity is spawned.
      * @sample homeSample
      */
+    @VanillaComponentMarker
     fun home(data: ComponentHome.() -> Unit) {
         unsafe.general["minecraft:home"] = ComponentHome().apply(data).getData()
     }
@@ -4330,6 +4531,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample horseJumpStrengthSample
      */
+    @VanillaComponentMarker
     fun horseJumpStrength(data: ComponentHorseJumpStrength.() -> Unit) {
         unsafe.general["minecraft:horse.jump_strength"] = ComponentHorseJumpStrength().apply(data).getData()
     }
@@ -4346,6 +4548,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines a set of conditions under which an entity should take damage.
      * @sample hurtOnConditionSample
      */
+    @VanillaComponentMarker
     fun hurtOnCondition(settings: ComponentHurtOnDamage.() -> Unit) {
         unsafe.general["minecraft:hurt_on_condition"] =
             mutableMapOf("damage_conditions" to ComponentHurtOnDamage().apply(settings).getData())
@@ -4369,6 +4572,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * When configured as a rideable entity, the entity will be controlled using WASD controls.
      */
+    @VanillaComponentMarker
     fun inputGroundControlled() {
         unsafe.general["minecraft:input_ground_controlled"] = mutableMapOf<Any, Any>()
     }
@@ -4388,6 +4592,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample insideBlockNotifierSample
      */
+    @VanillaComponentMarker
     fun insideBlockNotifier(value: ComponentInsideBlockNotifier.() -> Unit) {
         unsafe.general["minecraft:inside_block_notifier"] = ComponentInsideBlockNotifier().apply(value).getData()
     }
@@ -4410,6 +4615,7 @@ class BehEntityComponents : MonsteraFile {
      * player has 3 days until phantoms can spawn on the player
      * @sample insomniaSample
      */
+    @VanillaComponentMarker
     fun insomnia(data: ComponentInsomnia.() -> Unit) {
         unsafe.general["minecraft:insomnia"] = ComponentInsomnia().apply(data).getData()
     }
@@ -4426,6 +4632,7 @@ class BehEntityComponents : MonsteraFile {
      * Despawns the Actor immediately.
      * @sample instantDespawnSample
      */
+    @VanillaComponentMarker
     fun instantDespawn(data: ComponentInstantDespawn.() -> Unit) {
         unsafe.general["minecraft:instant_despawn"] = ComponentInstantDespawn().apply(data).getData()
     }
@@ -4442,6 +4649,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines interactions with this entity.
      * @sample interactSample
      */
+    @VanillaComponentMarker
     fun interact(settings: ComponentInteractions.() -> Unit) {
         unsafe.general["minecraft:interact"] = ComponentInteractions().apply(settings).getData()
     }
@@ -4479,6 +4687,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample inventorySample
      */
+    @VanillaComponentMarker
     fun inventory(value: ComponentInventory.() -> Unit) {
         unsafe.general["minecraft:inventory"] = ComponentInventory().apply(value).getData()
     }
@@ -4505,6 +4714,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is a baby.
      */
+    @VanillaComponentMarker
     fun isBaby() {
         unsafe.general.apply {
             put("minecraft:is_baby", mutableMapOf<Any, Any>())
@@ -4516,6 +4726,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is charged.
      */
+    @VanillaComponentMarker
     fun isCharged() {
         unsafe.general["minecraft:is_charged"] = mutableMapOf<Any, Any>()
     }
@@ -4525,6 +4736,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently carrying a chest.
      */
+    @VanillaComponentMarker
     fun isChested() {
         unsafe.general["minecraft:is_chested"] = mutableMapOf<Any, Any>()
     }
@@ -4543,6 +4755,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun isDyeable(data: ComponentIsDyeAble.() -> Unit) {
         unsafe.general["minecraft:is_dyeable"] = ComponentIsDyeAble().apply(data).getData()
     }
@@ -4562,6 +4775,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity can hide from hostile mobs while invisible.
      */
+    @VanillaComponentMarker
     fun isHiddenWhenInvisible() {
         unsafe.general["minecraft:is_hidden_when_invisible"] = mutableMapOf<Any, Any>()
     }
@@ -4571,6 +4785,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently on fire.
      */
+    @VanillaComponentMarker
     fun isIgnited() {
         unsafe.general["minecraft:is_ignited"] = mutableMapOf<Any, Any>()
     }
@@ -4580,6 +4795,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is an illager captain.
      */
+    @VanillaComponentMarker
     fun isIllagerCaptain() {
         unsafe.general["minecraft:is_illager_captain"] = mutableMapOf<Any, Any>()
     }
@@ -4589,6 +4805,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently saddled.
      */
+    @VanillaComponentMarker
     fun isSaddled() {
         unsafe.general["minecraft:is_saddled"] = mutableMapOf<Any, Any>()
     }
@@ -4598,6 +4815,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently shaking.
      */
+    @VanillaComponentMarker
     fun isShaking() {
         unsafe.general["minecraft:is_shaking"] = mutableMapOf<Any, Any>()
     }
@@ -4607,6 +4825,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently sheared.
      */
+    @VanillaComponentMarker
     fun isSheared() {
         unsafe.general["minecraft:is_sheared"] = mutableMapOf<Any, Any>()
     }
@@ -4616,6 +4835,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity can be stacked
      */
+    @VanillaComponentMarker
     fun isStackable() {
         unsafe.general["minecraft:is_stackable"] = mutableMapOf<Any, Any>()
     }
@@ -4625,6 +4845,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently stunned.
      */
+    @VanillaComponentMarker
     fun isStunned() {
         unsafe.general["minecraft:is_stunned"] = mutableMapOf<Any, Any>()
     }
@@ -4634,6 +4855,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity is currently tamed.
      */
+    @VanillaComponentMarker
     fun isTamed() {
         unsafe.general["minecraft:is_tamed"] = mutableMapOf<Any, Any>()
     }
@@ -4644,6 +4866,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines what items can be used to control this entity while ridden
      * @sample itemControllableSample
      */
+    @VanillaComponentMarker
     fun itemControllable(data: ComponentItemControllable.() -> Unit) {
         unsafe.general["minecraft:item_controllable"] = ComponentItemControllable().apply(data).getData()
     }
@@ -4659,6 +4882,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Determines that this entity is an item hopper.
      */
+    @VanillaComponentMarker
     fun itemHopper() {
         unsafe.general["minecraft:item_hopper"] = mutableMapOf<Any, Any>()
     }
@@ -4668,6 +4892,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Defines a dynamic type jump control that will change jump  based on the speed modifier of the mob.
      */
+    @VanillaComponentMarker
     fun jumpDynamic() {
         unsafe.general["minecraft:jump.dynamic"] = mutableMapOf<Any, Any>()
     }
@@ -4678,6 +4903,7 @@ class BehEntityComponents : MonsteraFile {
      * Gives the entity the ability to jump.
      * @sample jumpStaticSample
      */
+    @VanillaComponentMarker
     fun jumpStatic(data: ComponentJumpStatic.() -> Unit) {
         unsafe.general["minecraft:jump.static"] = ComponentJumpStatic().apply(data).getData()
     }
@@ -4693,6 +4919,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample knockbackResistanceSample
      */
+    @VanillaComponentMarker
     fun knockbackResistance(data: ComponentKnockbackResistance.() -> Unit) {
         unsafe.general["minecraft:knockback_resistance"] = ComponentKnockbackResistance().apply(data).getData()
     }
@@ -4712,6 +4939,7 @@ class BehEntityComponents : MonsteraFile {
      * lets the entity move in lava like the strider
      * @sample lavaMovementSample
      */
+    @VanillaComponentMarker
     fun lavaMovement(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:lava_movement"] = ComponentValue().apply(data).getData()
     }
@@ -4728,6 +4956,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to be leashed and defines the conditions and events for this entity when is leashed.
      * @sample leashableSample
      */
+    @VanillaComponentMarker
     fun leashable(value: ComponentLeashable.() -> Unit) {
         unsafe.general["minecraft:leashable"] = ComponentLeashable().apply(value).getData()
     }
@@ -4751,6 +4980,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the behavior when another entity looks at this entity.
      * @sample lookAtSample
      */
+    @VanillaComponentMarker
     fun lookAt(value: ComponentLookAt.() -> Unit) {
         unsafe.general["minecraft:lookat"] = ComponentLookAt().apply(value).getData()
     }
@@ -4784,6 +5014,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the loot table for what items this entity drops upon death.
      * @sample lootSample
      */
+    @VanillaComponentMarker
     fun loot(data: ComponentLoot.() -> Unit) {
         unsafe.general["minecraft:loot"] = ComponentLoot().apply(data).getData()
     }
@@ -4803,6 +5034,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * This component is used to implement part of the Wandering Trader behavior
      */
+    @VanillaComponentMarker
     fun managedWanderingTrader() {
         unsafe.general["minecraft:managed_wandering_trader"] = mutableMapOf<Any, Any>()
     }
@@ -4813,6 +5045,7 @@ class BehEntityComponents : MonsteraFile {
      * Additional variant value. Can be used to further differentiate variants.
      * @param value The ID of the variant. By convention, 0 is the ID of the base entity
      */
+    @VanillaComponentMarker
     fun markVariant(value: Int) {
         unsafe.general["minecraft:mark_variant"] = mutableMapOf("value" to value)
     }
@@ -4823,6 +5056,7 @@ class BehEntityComponents : MonsteraFile {
      * A component that applies a mob effect to entities that get within range.
      * @sample mobEffectSample
      */
+    @VanillaComponentMarker
     fun mobEffect(value: ComponentMobEffect.() -> Unit) {
         unsafe.general["minecraft:mob_effect"] = ComponentMobEffect().apply(value).getData()
     }
@@ -4848,6 +5082,7 @@ class BehEntityComponents : MonsteraFile {
      * movement speed, a normal speed is 0.2f
      * @sample movementSample
      */
+    @VanillaComponentMarker
     fun movement(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:movement"] = ComponentValue().apply(data).getData()
     }
@@ -4864,6 +5099,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control allows the mob to swim in water and walk on land.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementAmphibious(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.amphibious"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4874,6 +5110,7 @@ class BehEntityComponents : MonsteraFile {
      * This component accents the movement of an entity.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementBasic(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.basic"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4884,6 +5121,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control causes the mob to fly.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementFly(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.fly"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4894,6 +5132,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control allows a mob to fly, swim, climb, etc.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementGeneric(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.generic"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4903,6 +5142,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample movementGlideSample
      */
+    @VanillaComponentMarker
     fun movementGlide(data: ComponentMovementGlide.() -> Unit) {
         unsafe.general["minecraft:movement.glide"] = ComponentMovementGlide().apply(data).getData()
     }
@@ -4922,6 +5162,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control causes the mob to hover.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementHover(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.hover"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4932,6 +5173,7 @@ class BehEntityComponents : MonsteraFile {
      * Move control that causes the mob to jump as it moves with a specified delay between jumps.
      * @sample movementJumpSample
      */
+    @VanillaComponentMarker
     fun movementJump(value: ComponentMovementJump.() -> Unit) {
         unsafe.general["minecraft:movement.jump"] = ComponentMovementJump().apply(value).getData()
     }
@@ -4949,6 +5191,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control causes the mob to hop as it moves.
      * @sample movementGneSample
      */
+    @VanillaComponentMarker
     fun movementSkip(data: ComponentMaxTurn.() -> Unit) {
         unsafe.general["minecraft:movement.skip"] = ComponentMaxTurn().apply(data).getData()
     }
@@ -4965,6 +5208,7 @@ class BehEntityComponents : MonsteraFile {
      * This move control causes the mob to sway side to side giving the impression it is swimming.
      * @sample movementSwaySample
      */
+    @VanillaComponentMarker
     fun movementSway(data: ComponentMovementSway.() -> Unit) {
         unsafe.general["minecraft:movement.sway"] = ComponentMovementSway().apply(data).getData()
     }
@@ -4992,6 +5236,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun nameable(value: ComponentNameable.() -> Unit) {
         unsafe.general["minecraft:nameable"] = ComponentNameable().apply(value).getData()
     }
@@ -5026,6 +5271,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths that include vertical walls like the vanilla Spiders do.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationClimb(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.climb"] = ComponentNavigation().apply(value).getData()
     }
@@ -5036,6 +5282,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths by flying around the air like the regular Ghast.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationFloat(
         value: ComponentNavigation.() -> Unit
     ) {
@@ -5048,6 +5295,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths in the air like the vanilla Parrots do.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationFly(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.fly"] = ComponentNavigation().apply(value).getData()
     }
@@ -5058,6 +5306,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths by walking, swimming, flying and/or climbing around and jumping up and down a block.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationGeneric(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.generic"] = ComponentNavigation().apply(value).getData()
     }
@@ -5068,6 +5317,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths in the air like the vanilla Bees do. Keeps them from falling out of the skies and doing predictive movement.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationHover(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.hover"] = ComponentNavigation().apply(value).getData()
     }
@@ -5078,6 +5328,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths that include water.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationSwim(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.swim"] = ComponentNavigation().apply(value).getData()
     }
@@ -5088,6 +5339,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows this entity to generate paths by walking around and jumping up and down a block like regular mobs.
      * @sample navigationSample
      */
+    @VanillaComponentMarker
     fun navigationWalk(value: ComponentNavigation.() -> Unit) {
         unsafe.general["minecraft:navigation.walk"] = ComponentNavigation().apply(value).getData()
     }
@@ -5097,6 +5349,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample npcSample
      */
+    @VanillaComponentMarker
     fun npc(npcData: ComponentNpc.() -> Unit) {
         unsafe.general["minecraft:npc"] = mutableMapOf("npc_data" to ComponentNpc().apply(npcData).getData())
     }
@@ -5124,6 +5377,7 @@ class BehEntityComponents : MonsteraFile {
      * Only usable by the Ender Dragon. Adds a trigger to call on this entity's death.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onDeath(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_death"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5134,6 +5388,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger that will run when a nearby entity of the same type as this entity becomes Angry.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onFriendlyAnger(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_friendly_anger"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5144,6 +5399,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger to call when this entity takes damage.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onHurt(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_hurt"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5154,6 +5410,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger to call when this entity is attacked by the player.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onHurtByPlayer(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_hurt_by_player"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5164,6 +5421,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger to call when this entity is set on fire
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onIgnite(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_ignite"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5174,6 +5432,7 @@ class BehEntityComponents : MonsteraFile {
      * Only usable by the Ender Dragon. Adds a trigger to call when this entity lands.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onStartLanding(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_start_landing"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5184,6 +5443,7 @@ class BehEntityComponents : MonsteraFile {
      * Only usable by the Ender Dragon. Adds a trigger to call when this entity starts flying.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onStartTakeoff(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_start_takeoff"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5194,6 +5454,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger to call when this entity finds a target.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onTargetAcquired(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_target_acquired"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5204,6 +5465,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a trigger to call when this entity loses the target it currently has.
      * @sample onEventSample
      */
+    @VanillaComponentMarker
     fun onTargetEscape(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_target_escape"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5221,6 +5483,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Adds a trigger to call when this pet's owner awakes after sleeping with the pet.
      */
+    @VanillaComponentMarker
     fun onWakeWithOwner(data: ComponentOnEvent.() -> Unit) {
         unsafe.general["minecraft:on_wake_with_owner"] = ComponentOnEvent().apply(data).getData()
     }
@@ -5230,6 +5493,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * used by boat
      */
+    @VanillaComponentMarker
     fun outOfControl() {
         unsafe.general["minecraft:out_of_control"] = mutableMapOf<Any, Any>()
     }
@@ -5239,6 +5503,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample peekSample
      */
+    @VanillaComponentMarker
     fun peek(value: ComponentPeek.() -> Unit) {
         unsafe.general["minecraft:peek"] = value
     }
@@ -5257,6 +5522,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Defines whether an entity should be persistent in the game world.
      */
+    @VanillaComponentMarker
     fun persistent() {
         unsafe.general["minecraft:persistent"] = mutableMapOf<Any, Any>()
     }
@@ -5267,6 +5533,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines a dynamic type jump control that will change jump  based on the speed modifier of the mob.
      * @sample physicsSample
      */
+    @VanillaComponentMarker
     fun physics(data: ComponentPhysics.() -> Unit) {
         unsafe.general["minecraft:physics"] = ComponentPhysics().apply(data).getData()
     }
@@ -5284,10 +5551,12 @@ class BehEntityComponents : MonsteraFile {
      * used by player
      * @sample playerCompSample
      */
+    @VanillaComponentMarker
     fun playerExhaustion(data: ComponentValMax.() -> Unit) {
         unsafe.general["minecraft:player.exhaustion"] = ComponentValMax().apply(data).getData()
     }
 
+    @VanillaComponentMarker
     fun exhaustionValues(data: ComponentExhaustionValues.() -> Unit) {
         unsafe.general["minecraft:exhaustion_values"] = ComponentExhaustionValues().apply(data).unsafe.getData()
     }
@@ -5298,6 +5567,7 @@ class BehEntityComponents : MonsteraFile {
      * used by player
      * @sample playerCompSample
      */
+    @VanillaComponentMarker
     fun playerExperience(data: ComponentValMax.() -> Unit) {
         unsafe.general["minecraft:player.experience"] = ComponentValMax().apply(data).getData()
     }
@@ -5308,6 +5578,7 @@ class BehEntityComponents : MonsteraFile {
      * used by player
      * @sample playerCompSample
      */
+    @VanillaComponentMarker
     fun playerLevel(data: ComponentValMax.() -> Unit) {
         unsafe.general["minecraft:player.level"] = ComponentValMax().apply(data).getData()
     }
@@ -5325,6 +5596,7 @@ class BehEntityComponents : MonsteraFile {
      * used by player
      * @sample playerSaturationSample
      */
+    @VanillaComponentMarker
     fun playerSaturation(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:player.saturation"] = ComponentValue().apply(data).getData()
     }
@@ -5340,6 +5612,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample preferredPathSample
      */
+    @VanillaComponentMarker
     fun preferredPath(value: ComponentPreferredPath.() -> Unit) {
         unsafe.general["minecraft:preferred_path"] = ComponentPreferredPath().apply(value).getData()
     }
@@ -5397,6 +5670,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the entity to be a thrown entity.
      * @sample projectileSample
      */
+    @VanillaComponentMarker
     fun projectile(settings: ComponentProjectile.() -> Unit) {
         unsafe.general["minecraft:projectile"] = ComponentProjectile().apply(settings).getData()
     }
@@ -5515,6 +5789,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines what can push an entity between other entities and pistons.
      * @sample pushableSample
      */
+    @VanillaComponentMarker
     fun pushable(data: ComponentPushable.() -> Unit) {
         unsafe.general["minecraft:pushable"] = ComponentPushable().apply(data).getData()
     }
@@ -5532,6 +5807,7 @@ class BehEntityComponents : MonsteraFile {
      * Attempts to trigger a raid at the entity's location.
      * @sample raidTriggerSample
      */
+    @VanillaComponentMarker
     fun raidTrigger(data: ComponentRaidTrigger.() -> Unit) {
         unsafe.general["minecraft:raid_trigger"] = ComponentRaidTrigger().apply(data).getData()
     }
@@ -5549,6 +5825,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's movement on the rails. An entity with this component is only allowed to move on the rail.
      * @sample railMovementSample
      */
+    @VanillaComponentMarker
     fun railMovement(data: ComponentRailMovement.() -> Unit) {
         unsafe.general["minecraft:rail_movement"] = ComponentRailMovement().apply(data).getData()
     }
@@ -5564,6 +5841,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample railSensorSample
      */
+    @VanillaComponentMarker
     fun railSensor(value: ComponentRailSensor.() -> Unit) {
         unsafe.general["minecraft:rail_sensor"] = ComponentRailSensor().apply(value).getData()
     }
@@ -5588,6 +5866,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the ravager's response to their melee attack being blocked.
      * @sample ravagerBlockedSample
      */
+    @VanillaComponentMarker
     fun ravagerBlocked(value: ComponentRavagerBlocked.() -> Unit) {
         unsafe.general["minecraft:ravager_blocked"] = ComponentRavagerBlocked().apply(value).getData()
     }
@@ -5608,6 +5887,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample rideableSample
      */
+    @VanillaComponentMarker
     fun rideable(value: ComponentRideable.() -> Unit) {
         unsafe.rideAble.apply(value)
     }
@@ -5661,6 +5941,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the entity's visual size.
      * @sample scaleSample
      */
+    @VanillaComponentMarker
     fun scale(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:scale"] = ComponentValue().apply(data).getData()
     }
@@ -5676,6 +5957,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Allows the player to detect and manuever on the scaffolding block.
      */
+    @VanillaComponentMarker
     fun scaffoldingClimber() {
         unsafe.general.apply {
             put("minecraft:scaffolding_climber", mutableMapOf<Any, Any>())
@@ -5685,17 +5967,16 @@ class BehEntityComponents : MonsteraFile {
     /**
      * 0..1
      *
-     * @sample scaleByAgeSample
+     * ````
+     * scaleByAge {
+     *     endScale = 20f
+     *     startScale = 10f
+     * }
+     * ````
      */
+    @VanillaComponentMarker
     fun scaleByAge(data: ComponentScaleByAge.() -> Unit) {
         unsafe.general["minecraft:scale_by_age"] = ComponentScaleByAge().apply(data).getData()
-    }
-
-    private fun scaleByAgeSample() {
-        scaleByAge {
-            endScale = 20f
-            startScale = 10f
-        }
     }
 
     /**
@@ -5704,6 +5985,7 @@ class BehEntityComponents : MonsteraFile {
      * Fires off scheduled mob events at time of day events.
      * @sample schedulerSample
      */
+    @VanillaComponentMarker
     fun scheduler(value: ComponentScheduler.() -> Unit) {
         unsafe.general["minecraft:scheduler"] = ComponentScheduler().apply(value).getData()
     }
@@ -5733,6 +6015,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines a list of items the mob wants to share or pick up. Each item must have the following parameters:
      * @sample shareAblesSample
      */
+    @VanillaComponentMarker
     fun shareAbles(value: ComponentShareables.() -> Unit) {
         unsafe.general["minecraft:shareables"] = ComponentShareables().apply(value).getData()
     }
@@ -5779,6 +6062,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample shooterSample
      */
+    @VanillaComponentMarker
     fun shooter(data: ComponentShooter.() -> Unit) {
         unsafe.general["minecraft:shooter"] = ComponentShooter().apply(data).getData()
     }
@@ -5797,6 +6081,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's 'sit' state.
      * @sample sittAbleSample
      */
+    @VanillaComponentMarker
     fun sittAble(data: ComponentSittAble.() -> Unit) {
         unsafe.general["minecraft:sittable"] = ComponentSittAble().apply(data).getData()
     }
@@ -5814,6 +6099,7 @@ class BehEntityComponents : MonsteraFile {
      * Skin ID value. Can be used to differentiate skins, such as base skins for villagers.
      * @param value The ID of the skin. By convention, 0 is the ID of the base skin
      */
+    @VanillaComponentMarker
     fun skinId(value: Int) {
         unsafe.general["minecraft:skin_id"] = mutableMapOf("value" to value)
     }
@@ -5823,6 +6109,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample spawnEntitiesSample
      */
+    @VanillaComponentMarker
     fun spawnEntities(settings: ComponentSpawnEntities.() -> Unit) {
         unsafe.general["minecraft:spawn_entity"] = ComponentSpawnEntities().apply(settings).getData()
     }
@@ -5862,6 +6149,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines what mob effects to add and remove to the entity when adding this component.
      * @sample spellEffectsSample
      */
+    @VanillaComponentMarker
     fun spellEffects(value: ComponentSpellEffects.() -> Unit) {
         unsafe.general["minecraft:spell_effects"] = ComponentSpellEffects().apply(value).getData()
     }
@@ -5892,6 +6180,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the rules for a mob to be tamed by the player.
      * @sample tameAbleSample
      */
+    @VanillaComponentMarker
     fun tameAble(value: ComponentTameable.() -> Unit) {
         unsafe.general["minecraft:tameable"] = ComponentTameable().apply(value).getData()
     }
@@ -5916,6 +6205,7 @@ class BehEntityComponents : MonsteraFile {
      * Allows the Entity to be tamed by mounting it.
      * @sample tameMountSample
      */
+    @VanillaComponentMarker
     fun tameMount(settings: ComponentTameMount.() -> Unit) {
         unsafe.general["minecraft:tamemount"] = ComponentTameMount().apply(settings).getData()
     }
@@ -5943,6 +6233,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the entity's range within which it can see or sense other entities to target them.
      * @sample targetNearbySensorSample
      */
+    @VanillaComponentMarker
     fun targetNearbySensor(value: ComponentTargetNearbySensor.() -> Unit) {
         unsafe.general["minecraft:target_nearby_sensor"] = ComponentTargetNearbySensor().apply(value).getData()
     }
@@ -5965,6 +6256,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines an entity's teleporting behavior.
      * @sample teleportSample
      */
+    @VanillaComponentMarker
     fun teleport(value: ComponentTeleport.() -> Unit) {
         unsafe.general["minecraft:teleport"] = ComponentTeleport().apply(value).getData()
     }
@@ -5990,6 +6282,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines if the entity ticks the world and the radius around it to tick.
      * @sample tickWorldSample
      */
+    @VanillaComponentMarker
     fun tickWorld(data: ComponentTickWorld.() -> Unit) {
         unsafe.general["minecraft:tick_world"] = ComponentTickWorld().apply(data).getData()
     }
@@ -6008,6 +6301,7 @@ class BehEntityComponents : MonsteraFile {
      * Adds a timer after which an event will fire.
      * @sample timerSample
      */
+    @VanillaComponentMarker
     fun timer(value: ComponentTimer.() -> Unit) {
         unsafe.general["minecraft:timer"] = ComponentTimer().apply(value).getData()
     }
@@ -6042,6 +6336,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines this entity's ability to trade with players.
      * @sample tradeTableSample
      */
+    @VanillaComponentMarker
     fun tradeTable(value: ComponentTradeTable.() -> Unit) {
         unsafe.general["minecraft:trade_table"] = ComponentTradeTable().apply(value).getData()
     }
@@ -6064,6 +6359,7 @@ class BehEntityComponents : MonsteraFile {
      * Causes an entity to leave a trail of blocks as it moves about the world.
      * @sample trailSample
      */
+    @VanillaComponentMarker
     fun trail(value: ComponentTrail.() -> Unit) {
         unsafe.general["minecraft:trail"] = ComponentTrail().apply(value).getData()
     }
@@ -6086,6 +6382,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines an entity's transformation from the current definition into another
      * @sample transformationSample
      */
+    @VanillaComponentMarker
     fun transformation(settings: ComponentTransformation.() -> Unit) {
         unsafe.general["minecraft:transformation"] = ComponentTransformation().apply(settings).getData()
     }
@@ -6124,6 +6421,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the rules for a mob to trust players.
      * @sample trustingSample
      */
+    @VanillaComponentMarker
     fun trusting(value: ComponentTrusting.() -> Unit) {
         unsafe.general["minecraft:trusting"] = ComponentTrusting().apply(value).getData()
     }
@@ -6146,6 +6444,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines the families this entity belongs to.
      * @param family List of family names
      */
+    @VanillaComponentMarker
     fun typeFamily(family: ArrayList<String>) {
         typeFamilies?.addAll(family) ?: run {
             typeFamilies = family
@@ -6160,6 +6459,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun underwaterMovement(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:underwater_movement"] = ComponentValue().apply(data).getData()
     }
@@ -6177,6 +6477,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * @sample waterMovementSample
      */
+    @VanillaComponentMarker
     fun waterMovement(data: ComponentWaterMovement.() -> Unit) {
         unsafe.general["minecraft:water_movement"] = ComponentWaterMovement().apply(data).getData()
     }
@@ -6193,6 +6494,7 @@ class BehEntityComponents : MonsteraFile {
      * Used to differentiate the component group of a variant of an entity from others (e.g. ocelot, villager)
      * @param value The ID of the variant. By convention, 0 is the ID of the base entity
      */
+    @VanillaComponentMarker
     fun variant(value: Int) {
         unsafe.general["minecraft:variant"] = mutableMapOf("value" to value)
     }
@@ -6207,6 +6509,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets this entity's default head rotation angle.
      * @sample defaultLookAngleSample
      */
+    @VanillaComponentMarker
     fun defaultLookAngle(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:default_look_angle"] = ComponentValue().apply(data).getData()
     }
@@ -6222,6 +6525,7 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity can float in liquid blocks.
      */
+    @VanillaComponentMarker
     fun floatsInLiquid() {
         unsafe.general.apply {
             put("minecraft:floats_in_liquid", mutableMapOf<Any, Any>())
@@ -6234,6 +6538,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the number of blocks the entity can step without jumping.
      * @sample footSizeSample
      */
+    @VanillaComponentMarker
     fun footSize(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:foot_size"] = ComponentValue().apply(data).getData()
     }
@@ -6250,6 +6555,7 @@ class BehEntityComponents : MonsteraFile {
      * Defines how much does friction affect this entity.
      * @sample frictionModifierSample
      */
+    @VanillaComponentMarker
     fun frictionModifier(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:friction_modifier"] = ComponentValue().apply(data).getData()
     }
@@ -6266,6 +6572,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the offset from the ground that the entity is actually at.
      * @sample groundOffsetSample
      */
+    @VanillaComponentMarker
     fun groundOffset(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:ground_offset"] = ComponentValue().apply(data).getData()
     }
@@ -6282,6 +6589,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the distance through which the entity can push through.
      * @sample pushTroughSample
      */
+    @VanillaComponentMarker
     fun pushTrough(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:push_through"] = ComponentValue().apply(data).getData()
     }
@@ -6298,6 +6606,7 @@ class BehEntityComponents : MonsteraFile {
      * Sets the entity's base volume for sound effects.
      * @sample soundVolumeSample
      */
+    @VanillaComponentMarker
     fun soundVolume(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:sound_volume"] = ComponentValue().apply(data).getData()
     }
@@ -6314,6 +6623,7 @@ class BehEntityComponents : MonsteraFile {
      *  Sets the speed multiplier for this entity's walk animation speed.
      * @sample walkAnimationSpeedSample
      */
+    @VanillaComponentMarker
     fun walkAnimationSpeed(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:walk_animation_speed"] = ComponentValue().apply(data).getData()
     }
@@ -6329,10 +6639,12 @@ class BehEntityComponents : MonsteraFile {
      *
      * Sets that this entity wants to become a jockey.
      */
+    @VanillaComponentMarker
     fun wantsJockey() {
         unsafe.general["minecraft:wants_jockey"] = mutableMapOf<Any, Any>()
     }
 
+    @VanillaComponentMarker
     fun vibrationListener() {
         unsafe.general["minecraft:vibration_listener"] = mutableMapOf<Any, Any>()
     }
@@ -6349,6 +6661,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behGoAndGiveItemsToNoteblock(data: ComponentGoAndGiveItemsToNoteblock.() -> Unit) {
         unsafe.general["minecraft:behavior.go_and_give_items_to_noteblock"] =
             ComponentGoAndGiveItemsToNoteblock().apply(data).unsafe.getData()
@@ -6366,6 +6679,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behGoAndGiveItemsToOwner(data: ComponentGoAndGiveItemsToNoteblock.() -> Unit) {
         unsafe.general["minecraft:behavior.go_and_give_items_to_owner"] =
             ComponentGoAndGiveItemsToNoteblock().apply(data).unsafe.getData()
@@ -6383,6 +6697,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behStayNearNoteblock(data: ComponentStayNearNoteblock.() -> Unit) {
         unsafe.general["minecraft:behavior.stay_near_noteblock"] =
             ComponentStayNearNoteblock().apply(data).unsafe.getData()
@@ -6399,6 +6714,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun dash(data: ComponentDash.() -> Unit) {
         unsafe.general["minecraft:dash"] = ComponentDash().apply(data).unsafe.getData()
     }
@@ -6406,6 +6722,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the camel
      */
+    @VanillaComponentMarker
     fun persistSit() {
         unsafe.general["minecraft:persist_sit"] = mutableMapOf<String, String>()
     }
@@ -6421,6 +6738,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun variableMaxAutoStep(data: ComponentVariableMaxAutoStepMonsteraFile.() -> Unit) {
         unsafe.general["minecraft:variable_max_auto_step"] =
             ComponentVariableMaxAutoStepMonsteraFile().apply(data).unsafe.getData()
@@ -6429,6 +6747,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by drowned, fox
      */
+    @VanillaComponentMarker
     fun equipItem() {
         unsafe.general["minecraft:equip_item"] = mutableMapOf<String, String>()
     }
@@ -6448,6 +6767,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behEatMob(data: ComponentEatMob.() -> Unit) {
         unsafe.general["minecraft:behavior.eat_mob"] = ComponentEatMob().apply(data).unsafe.getData()
     }
@@ -6466,6 +6786,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behCroak(data: ComponentCroak.() -> Unit) {
         unsafe.general["minecraft:behavior.croak"] = ComponentCroak().apply(data).unsafe.getData()
     }
@@ -6482,6 +6803,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behFeelingHappy(data: ComponentFeelingHappy.() -> Unit) {
         unsafe.general["minecraft:behavior.feeling_happy"] = ComponentFeelingHappy().apply(data).unsafe.getData()
     }
@@ -6498,6 +6820,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behRising(data: ComponentFeelingHappy.() -> Unit) {
         unsafe.general["minecraft:behavior.rising"] = ComponentFeelingHappy().apply(data).unsafe.getData()
     }
@@ -6505,6 +6828,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the sniffer
      */
+    @VanillaComponentMarker
     fun isPregnant() {
         unsafe.general["minecraft:is_pregnant"] = mutableMapOf<String, String>()
     }
@@ -6524,6 +6848,7 @@ class BehEntityComponents : MonsteraFile {
      * items("torchflower_seeds")
      * ```
      */
+    @VanillaComponentMarker
     fun behRandomSearchAndDig(data: ComponentRandomSearchAndDig.() -> Unit) {
         unsafe.general["minecraft:behavior.random_search_and_dig"] =
             ComponentRandomSearchAndDig().apply(data).unsafe.getData()
@@ -6541,6 +6866,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behScenting(data: ComponentScenting.() -> Unit) {
         unsafe.general["minecraft:behavior.scenting"] = ComponentScenting().apply(data).unsafe.getData()
     }
@@ -6557,6 +6883,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behCelebrateSurvive(data: ComponentCelebrateSurvive.() -> Unit) {
         unsafe.general["minecraft:behavior.celebrate_survive"] =
             ComponentCelebrateSurvive().apply(data).unsafe.getData()
@@ -6573,6 +6900,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behMoveOutdoors(data: ComponentMoveOutdoors.() -> Unit) {
         unsafe.general["minecraft:behavior.move_outdoors"] = ComponentMoveOutdoors().apply(data).unsafe.getData()
     }
@@ -6594,6 +6922,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behWorkComposter(data: ComponentWork.() -> Unit) {
         unsafe.general["minecraft:behavior.work_composter"] = ComponentWork().apply(data).getData()
     }
@@ -6607,6 +6936,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behFertilizeFarmBlock(data: ComponentPriority.() -> Unit) {
         unsafe.general["minecraft:behavior.fertilize_farm_block"] = ComponentPriority().apply(data).getData()
     }
@@ -6614,6 +6944,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the wandering trader
      */
+    @VanillaComponentMarker
     fun behDrinkMilk(data: ComponentDrinkMilk.() -> Unit) {
         unsafe.general["minecraft:behavior.drink_milk"] = ComponentDrinkMilk().apply(data).unsafe.getData()
     }
@@ -6628,6 +6959,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behEmerge(data: ComponentEmerge.() -> Unit) {
         unsafe.general["minecraft:behavior.emerge"] = ComponentEmerge().apply(data).unsafe.getData()
     }
@@ -6641,6 +6973,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun movementSoundDistanceOffset(data: ComponentValue.() -> Unit) {
         unsafe.general["minecraft:movement_sound_distance_offset"] = ComponentValue().apply(data).getData()
     }
@@ -6648,6 +6981,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the warden
      */
+    @VanillaComponentMarker
     fun vibrationDamper() {
         unsafe.general["minecraft:vibration_damper"] = mapOf<String, String>()
     }
@@ -6655,6 +6989,7 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the warden
      */
+    @VanillaComponentMarker
     fun suspectTracking() {
         unsafe.general["minecraft:suspect_tracking"] = mapOf<String, String>()
     }
@@ -6683,6 +7018,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun angerLevel(data: ComponentAngerLevel.() -> Unit) {
         unsafe.general["minecraft:anger_level"] = ComponentAngerLevel().apply(data).unsafe.getData()
     }
@@ -6703,6 +7039,7 @@ class BehEntityComponents : MonsteraFile {
      * interval = "2.0 - math.clamp(query.anger_level / 80 * 1.5, 0, 1.5)"
      * ```
      */
+    @VanillaComponentMarker
     fun heartbeat(interval: String) {
         unsafe.general["minecraft:heartbeat"] = mapOf(
             "interval" to interval
@@ -6725,6 +7062,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behDig(data: ComponentDig.() -> Unit) {
         unsafe.general["minecraft:behavior.dig"] = ComponentDig().apply(data).unsafe.getData()
     }
@@ -6739,6 +7077,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behRoar(data: ComponentRoar.() -> Unit) {
         unsafe.general["minecraft:behavior.roar"] = ComponentRoar().apply(data).unsafe.getData()
     }
@@ -6764,6 +7103,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behSonicBoom(data: ComponentSonicBoom.() -> Unit) {
         unsafe.general["minecraft:behavior.sonic_boom"] = ComponentSonicBoom().apply(data).unsafe.getData()
     }
@@ -6778,6 +7118,7 @@ class BehEntityComponents : MonsteraFile {
      * }
      * ```
      */
+    @VanillaComponentMarker
     fun behInvestigateSuspiciousLocation(data: ComponentPrioSpeed.() -> Unit) {
         unsafe.general["minecraft:behavior.investigate_suspicious_location"] =
             ComponentPrioSpeed().apply(data).getData()
@@ -6786,7 +7127,80 @@ class BehEntityComponents : MonsteraFile {
     /**
      * used by the warden
      */
+    @VanillaComponentMarker
     fun behSniff(data: ComponentSniff.() -> Unit) {
         unsafe.general["minecraft:behavior.sniff"] = ComponentSniff().apply(data).unsafe.getData()
     }
+
+    @DslMarker
+    annotation class VanillaComponentMarker
+
+    /**
+     * contains all components a mob needs for walking
+     *
+     * - physics
+     * - navigation
+     * - movement
+     * - jump
+     */
+    @MonsteraComponentMarker
+    fun walkMovement(speed: Number, navData: ComponentNavigation.() -> Unit) {
+        navigationWalk(navData)
+        movement = speed
+        movementBasic { }
+        jumpStatic { }
+        physics { }
+    }
+
+    /**
+     * contains the movement type for the ghast
+     *
+     * - physics
+     * - navigation
+     * - movement
+     * - jump
+     * - float
+     * - fly
+     */
+    @MonsteraComponentMarker
+    fun ghastMovement(speed: Number, navData: ComponentNavigation.() -> Unit) {
+        behFloatWander { }
+        navigationFloat(navData)
+        movement = speed
+        canFly()
+        physics { }
+        jumpStatic { }
+    }
+
+    /**
+     * contains components for a simple ranged attack
+     *
+     * @param ammo the item or projectile that should be shot
+     */
+    fun rangedAttack(
+        ammo: String,
+        priority: Int = 2,
+        radius: Number = 32,
+        attackInterval: Number = 5,
+        entityTypes: BehEntityTypes.() -> Unit
+    ) {
+        behNearestAttackableTarget {
+            this.priority = priority
+            mustSee = true
+            mustReach = false
+            entityTypes(entityTypes)
+        }
+
+        shooter {
+            def = ammo
+        }
+        behRangedAttack {
+            this.priority = priority + 1
+            attackRadius = radius
+            attackIntervalMin = attackInterval
+        }
+    }
+
+    @DslMarker
+    annotation class MonsteraComponentMarker
 }

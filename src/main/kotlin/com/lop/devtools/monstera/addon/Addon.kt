@@ -36,8 +36,7 @@ interface Addon {
      * Define an abstract entity
      *
      * ```
-     * entity {
-     *    name("id", "Display")
+     * entity("id", "Display") {
      *    behaviour {  }
      *    resource {  }
      * }
@@ -104,8 +103,7 @@ interface Addon {
 
     /**
      * ```
-     *  item {
-     *      name("test_item", "Test Item")
+     *  item("test_item", "Test Item") {
      *      renderOffset("tools")
      *      texture(getResource("test_item"))
      *      category("Equipment")

@@ -5,12 +5,12 @@ class ComponentRangedAttack {
 
     var priority: Int? = null
     var burstShots: Int? = null
-    var burstInterval: Float? = null
-    var chargeChargedTrigger: Float? = null
-    var chargeShootTrigger: Float? = null
-    var attackIntervalMin: Float? = null
-    var attackIntervalMax: Float? = null
-    var attackRadius: Float? = null
+    var burstInterval: Number? = null
+    var chargeChargedTrigger: Number? = null
+    var chargeShootTrigger: Number? = null
+    var attackIntervalMin: Number? = null
+    var attackIntervalMax: Number? = null
+    var attackRadius: Number? = null
 
 
     fun getData(): MutableMap<String, Any> {
