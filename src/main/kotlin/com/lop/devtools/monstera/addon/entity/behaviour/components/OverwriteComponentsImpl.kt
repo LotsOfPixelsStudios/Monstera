@@ -6,6 +6,7 @@ import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentInventory
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentLoot
+import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentRideable
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.files.res.sounds.CategorySound
@@ -15,6 +16,14 @@ import com.lop.devtools.monstera.files.res.sounds.SoundCategory
 abstract class OverwriteComponentsImpl(override val unsafeParent: Entity) : OverwriteComponents {
     override fun ComponentLoot.table(tableName: String, table: BehLootTables.() -> Unit) {
         genTable(tableName, unsafeParent.addon, table)
+    }
+
+    override fun ComponentRideable.exitText(displayText: String, key: String) {
+        exitText(displayText, key, unsafeParent.addon.config)
+    }
+
+    override fun ComponentRideable.interactText(displayName: String?, key: String) {
+        interactText(displayName, key, unsafeParent.addon.config)
     }
 
     override fun BehEntityComponents.sound(data: Sound.() -> Unit): String {
