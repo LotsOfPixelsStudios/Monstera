@@ -5896,7 +5896,7 @@ class BehEntityComponents : MonsteraFile {
         rideable {
             //boat
             seatCount = 2
-            interactText(key = "action.interact.ride.boat")
+            interactText(key = "action.interact.ride.boat", config = null)
             pullInEntities = true
             seats {
                 //with one entity occupied
@@ -5927,7 +5927,7 @@ class BehEntityComponents : MonsteraFile {
             }
 
             //other
-            exitText("crouch to ext", "action.hint.exit.boat")
+            exitText("crouch to ext", "action.hint.exit.boat", null)
             crouchingSkipInteract = true
             controllingSeat = 1
             familyTypes = arrayListOf("player")
