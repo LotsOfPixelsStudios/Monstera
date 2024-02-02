@@ -72,7 +72,7 @@ class ComponentRideable : MonsteraFile {
     fun interactText(
         displayName: String? = null,
         key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase(),
-        config: Config? = null
+        config: Config?
     ) {
         unsafe.general["interact_text"] = key
         if (displayName != null)
@@ -89,7 +89,7 @@ class ComponentRideable : MonsteraFile {
     fun exitText(
         displayText: String,
         key: String,
-        config: Config? = null
+        config: Config?
     ) {
         setExitText = true
         config?.langFileBuilder?.addonRes?.add(key, displayText)
@@ -117,8 +117,6 @@ class CompSeats {
 }
 
 class CompSeat : MonsteraFile {
-    val general = mutableMapOf<String, Any>()
-
     override val unsafe = Unsafe()
 
     inner class Unsafe : MonsteraUnsafeMap {
@@ -142,6 +140,6 @@ class CompSeat : MonsteraFile {
     var lockRiderRotation: Number? = null
 
     fun position(x: Float, y: Float, z: Float) {
-        general["position"] = arrayListOf(x, y, z)
+        unsafe.general["position"] = arrayListOf(x, y, z)
     }
 }
