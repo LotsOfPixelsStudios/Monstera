@@ -48,7 +48,7 @@ class BehItemFood {
     fun effects(settings: Effects.() -> Unit) {
         val effects = Effects().apply { settings(this) }
         general.apply {
-            put("effects", effects)
+            put("effects", effects.getData())
         }
     }
 
