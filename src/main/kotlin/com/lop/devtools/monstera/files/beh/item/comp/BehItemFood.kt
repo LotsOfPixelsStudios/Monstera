@@ -1,16 +1,31 @@
 package com.lop.devtools.monstera.files.beh.item.comp
 
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.beh.item.comp.food.Effects
 import com.lop.devtools.monstera.files.beh.item.comp.food.Saturation
 
-class BehItemFood {
-    val general = mutableMapOf<String,Any>()
+class BehItemFood: MonsteraFile {
+    override val unsafe = Unsafe()
+
+    inner class Unsafe: MonsteraUnsafeMap {
+        val general = mutableMapOf<String,Any>()
+
+        val effects = Effects()
+
+        override fun getData(): MutableMap<String, Any> {
+            val effectsData = effects.getData()
+            if(effectsData.isNotEmpty())
+                general["effects"] = effectsData
+            return general
+        }
+    }
 
     /**
      * 0..1
      */
     fun nutrition(value: Int) {
-        general.apply {
+        unsafe.general.apply {
             put("nutrition", value)
         }
     }
@@ -19,7 +34,7 @@ class BehItemFood {
      * 0..1
      */
     fun saturation(value: Saturation) {
-        general.apply {
+        unsafe.general.apply {
             put("saturation_modifier", value)
         }
     }
@@ -28,7 +43,7 @@ class BehItemFood {
      * 0..1
      */
     fun useConvertTo(value: String) {
-        general.apply {
+        unsafe.general.apply {
             put("using_converts_to", value)
         }
     }
@@ -37,7 +52,7 @@ class BehItemFood {
      * 0..1
      */
     fun alwaysEat(value: Boolean) {
-        general.apply {
+        unsafe.general.apply {
             put("can_always_eat", value)
         }
     }
@@ -46,13 +61,6 @@ class BehItemFood {
      * 0..1
      */
     fun effects(settings: Effects.() -> Unit) {
-        val effects = Effects().apply { settings(this) }
-        general.apply {
-            put("effects", effects.getData())
-        }
-    }
-
-    fun getData(): MutableMap<String,Any> {
-        return general
+        unsafe.effects.apply(settings)
     }
 }
