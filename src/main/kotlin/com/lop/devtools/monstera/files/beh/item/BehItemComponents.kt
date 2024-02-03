@@ -177,7 +177,7 @@ class BehItemComponents : MonsteraFile {
     fun food(settings: BehItemFood.() -> Unit) {
         val behItemFood = BehItemFood().apply { settings(this) }
         unsafe.general.apply {
-            put("minecraft:food", behItemFood.getData())
+            put("minecraft:food", behItemFood.unsafe.getData())
         }
     }
 
