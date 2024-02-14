@@ -8,9 +8,9 @@ import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.animcontroller.AnimController
 import com.lop.devtools.monstera.files.animcontroller.AnimStateComponent
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponentGroups
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
+import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.RuntimeIdentifier
+import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvents
 import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.properties.EntityProperties
@@ -85,16 +85,16 @@ abstract class BehaviourEntityImpl(
         addSharedController("controller.animation.${from.name}.$originalName", query, localName)
     }
 
-    override fun components(data: BehEntityComponents.() -> Unit) {
+    override fun components(data: Components.() -> Unit) {
         unsafeRawEntity.components(data)
     }
 
-    override fun componentGroups(data: BehEntityComponentGroups.() -> Unit) {
-        unsafeRawEntity.componentGroups(data)
+    override fun componentGroup(name: String, components: Components.() -> Unit) {
+        unsafeRawEntity.componentGroup(name, components)
     }
 
-    override fun events(data: BehEntityEvents.() -> Unit) {
-        unsafeRawEntity.events(data)
+    override fun events(name: String, data: BehEntityEvent.() -> Unit) {
+        unsafeRawEntity.event(name, data)
     }
 
     override fun spawnRule(value: SysSpawnRule.() -> Unit) {
@@ -131,7 +131,7 @@ abstract class BehaviourEntityImpl(
             isExperimental = false
         }
 
-        unsafeRawEntity.unsafe.build(
+        unsafeRawEntity.build(
             unsafeParent.name,
             unsafeParent.addon.config.paths.behEntity,
             getVersionAsString(unsafeParent.addon.config.targetMcVersion)

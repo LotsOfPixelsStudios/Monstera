@@ -9,7 +9,7 @@ import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.items.ResItem
 import java.io.File
 
-class Item(val name: String, val displayName: String, private val addon: Addon) {
+class Item(val name: String, val displayName: String, val addon: Addon) {
     private val behItem = BehItem()
     private val resItem = ResItem()
     private var category: String = "equipment"

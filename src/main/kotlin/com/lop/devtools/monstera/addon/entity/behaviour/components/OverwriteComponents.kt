@@ -2,24 +2,24 @@ package com.lop.devtools.monstera.addon.entity.behaviour.components
 
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.sound.Sound
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
-import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentInventory
-import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentLoot
-import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentRideable
+import com.lop.devtools.monstera.files.beh.entitiy.components.Components
+import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Inventory
+import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Loot
+import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Rideable
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 
 interface OverwriteComponents {
     val unsafeParent: Entity
 
-    fun ComponentLoot.table(tableName: String, table: BehLootTables.() -> Unit)
+    fun Loot.table(tableName: String, table: BehLootTables.() -> Unit)
 
-    fun ComponentRideable.interactText(
+    fun Rideable.interactText(
         displayName: String? = null,
         key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase()
     )
 
-    fun ComponentRideable.exitText(
+    fun Rideable.exitText(
         displayText: String,
         key: String
     )
@@ -54,12 +54,12 @@ interface OverwriteComponents {
      *
      * @return the sound identifier
      */
-    fun BehEntityComponents.sound(data: Sound.() -> Unit): String
+    fun Components.sound(data: Sound.() -> Unit): String
 
     /**
      * overwrites the name of the entity (not the item)
      */
-    fun ComponentInventory.containerName(displayName: String)
+    fun Inventory.containerName(displayName: String)
 
     fun BehEntityEvent.setProperty(property: String, value: Any)
 }

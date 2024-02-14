@@ -8,5 +8,9 @@ enum class Subject {
     PLAYER,
     SELF,
     TARGET,
-    BABY
+    BABY;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

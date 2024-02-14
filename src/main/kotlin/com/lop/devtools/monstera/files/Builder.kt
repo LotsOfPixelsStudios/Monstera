@@ -22,7 +22,7 @@ object MonsteraBuilder {
             filename = "$fileName.json"
         }
 
-        val gson = GsonBuilder().setPrettyPrinting().create()
+        val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create()
         val outputFile = path.resolve(filename).toFile()
 
         if (fileName.length > 30) {

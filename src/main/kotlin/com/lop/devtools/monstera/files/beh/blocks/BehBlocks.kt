@@ -1,49 +1,62 @@
 package com.lop.devtools.monstera.files.beh.blocks
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.getVersionAsString
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehBlocks : MonsteraFile {
-    override val unsafe = Unsafe()
-
-    inner class Unsafe : MonsteraUnsafeMap {
-        val general = mutableMapOf<String, Any>()
-        val description = Description()
-        val components = Components()
-
-        override fun getData(): MutableMap<String, Any> {
-            general["description"] = description.unsafe.getData()
-            general["components"] = components.unsafe.getData()
-            return general
+class BehBlocks : MonsteraBuildableFile {
+    override fun build(filename: String, path: Path?, version: String?) {
+        val sanFile = filename
+            .removeSuffix(".json")
+            .replace("-", "_")
+            .replace(" ", "_")
+        val selPath = path ?: Addon.active?.config?.paths?.behBlocks ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for block file '$sanFile' as no addon was initialized!")
+            return
         }
 
-        fun Addon.build(filename: String) =
-            build(filename, getVersionAsString(config.targetMcVersion), config.paths.behBlocks)
-
-        fun build(
-            filename: String,
-            version: String,
-            path: Path
-        ) {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
-            MonsteraBuilder.buildTo(
-                path, "$sanFile.json", mutableMapOf(
-                    "format_version" to version,
-                    "minecraft:block" to getData()
-                )
+        MonsteraBuilder.buildTo(
+            selPath,
+            "$sanFile.json",
+            FileHeader(
+                version ?: getVersionAsString(Addon.active?.config?.targetMcVersion ?: arrayListOf()),
+                this
             )
-        }
+        )
     }
 
+    /**
+     * load json blocks with this class
+     */
+    data class FileHeader(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "",
+
+        @SerializedName("minecraft:block")
+        @Expose
+        var block: BehBlocks
+    )
+
+    @SerializedName("components")
+    @Expose
+    var descriptionData: Description? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("components")
+    @Expose
+    var componentsData: Components? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
     fun description(data: Description.() -> Unit) {
-        unsafe.description.apply(data)
+        descriptionData = (descriptionData ?: Description()).apply(data)
     }
 
     /**
@@ -52,41 +65,26 @@ class BehBlocks : MonsteraFile {
      * materialInstance()
      * ```
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun components(data: Components.() -> Unit) {
-        unsafe.components.apply(data)
+        componentsData = (componentsData ?: Components()).apply(data)
     }
 
-    class Description : MonsteraFile {
-        override val unsafe = Unsafe()
-
-        inner class Unsafe : MonsteraUnsafeMap {
-            val general = mutableMapOf<String, Any>()
-            override fun getData(): MutableMap<String, Any> {
-                return general
-            }
-        }
-
-        fun identifier(value: String) {
-            unsafe.general["identifier"] = value
-        }
+    class Description {
+        @SerializedName("components")
+        @Expose
+        var identifier: String? = null
     }
 
-    class Components : MonsteraFile {
-        override val unsafe = Unsafe()
+    class Components {
+        @SerializedName("minecraft:geometry")
+        @Expose
+        var geometry: String? = null
 
-        inner class Unsafe : MonsteraUnsafeMap {
-            val general = mutableMapOf<String, Any>()
-            val materialInstance = MaterialInstance()
-
-            override fun getData(): MutableMap<String, Any> {
-                general["minecraft:material_instances"] = materialInstance.unsafe.getData()
-                return general
-            }
-        }
-
-        fun geometry(id: String) {
-            unsafe.general["minecraft:geometry"] = id
-        }
+        @SerializedName("minecraft:material_instances")
+        @Expose
+        var materialInstance: MutableMap<String, MaterialSettings>? = null
+            @MonsteraBuildSetter set
 
         /**
          * ```
@@ -94,51 +92,41 @@ class BehBlocks : MonsteraFile {
          * site("*", "path")
          * ```
          */
+        @OptIn(MonsteraBuildSetter::class)
         fun materialInstance(data: MaterialInstance.() -> Unit) {
-            unsafe.materialInstance.apply(data)
+            materialInstance = (materialInstance
+                ?: mutableMapOf()).also { it.putAll(MaterialInstance().apply(data).materialSettingsSite) }
         }
     }
 
-    class MaterialInstance : MonsteraFile {
-        override val unsafe = Unsafe()
-
-        inner class Unsafe : MonsteraUnsafeMap {
-            val general = mutableMapOf<String, Any>()
-            val materialSettingsSite = mutableMapOf<String, MaterialSettings>()
-            override fun getData(): MutableMap<String, Any> {
-                materialSettingsSite.forEach { (k, v) ->
-                    general[k] = v.unsafe.getData()
-                }
-                return general
-            }
-        }
+    class MaterialInstance {
+        val materialSettingsSite = mutableMapOf<String, MaterialSettings>()
 
         fun all(settings: MaterialSettings.() -> Unit) {
-            if (unsafe.materialSettingsSite.containsKey("*")) {
-                unsafe.materialSettingsSite["*"]!!.apply(settings)
+            if (materialSettingsSite.containsKey("*")) {
+                materialSettingsSite["*"]!!.apply(settings)
             } else {
-                unsafe.materialSettingsSite["*"] = MaterialSettings().apply(settings)
+                materialSettingsSite["*"] = MaterialSettings().apply(settings)
             }
         }
     }
 
-    class MaterialSettings : MonsteraFile {
-        override val unsafe = Unsafe()
+    class MaterialSettings {
+        @SerializedName("texture")
+        @Expose
+        var texture: String? = null
 
-        inner class Unsafe : MonsteraUnsafeMap {
-            val general = mutableMapOf<String, Any>()
-            override fun getData(): MutableMap<String, Any> {
-                return general
-            }
-        }
+        @SerializedName("render_method")
+        @Expose
+        var renderMethod: RenderMethod? = null
 
-        fun texture(name: String) {
-            unsafe.general["texture"] = name
-        }
+        @SerializedName("ambient_occlusion")
+        @Expose
+        var ambientOcclusion: Boolean? = null
 
-        fun renderMethod(value: RenderMethod = RenderMethod.OPAQUE) {
-            unsafe.general["render_method"] = value.toString()
-        }
+        @SerializedName("face_dimming")
+        @Expose
+        var faceDimming: Boolean? = null
 
         enum class RenderMethod(val s: String) {
             OPAQUE("opaque"),
@@ -149,14 +137,6 @@ class BehBlocks : MonsteraFile {
             override fun toString(): String {
                 return s
             }
-        }
-
-        fun ambientOcclusion(value: Boolean = true) {
-            unsafe.general["ambient_occlusion"] = value
-        }
-
-        fun faceDimming(value: Boolean = true) {
-            unsafe.general["face_dimming"] = value
         }
     }
 }

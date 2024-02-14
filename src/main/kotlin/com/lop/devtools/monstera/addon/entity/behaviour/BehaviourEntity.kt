@@ -10,10 +10,9 @@ import com.lop.devtools.monstera.files.animcontroller.AnimationControllers
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
 import com.lop.devtools.monstera.files.beh.animations.BehAnimations
 import com.lop.devtools.monstera.files.beh.entitiy.BehEntity
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponentGroups
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
+import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.RuntimeIdentifier
-import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvents
+import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.properties.EntityProperties
 
 interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
@@ -115,7 +114,7 @@ interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
      * }
      * ```
      */
-    fun components(data: BehEntityComponents.() -> Unit)
+    fun components(data: Components.() -> Unit)
 
     /**
      * add component groups
@@ -128,7 +127,7 @@ interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
      * }
      * ```
      */
-    fun componentGroups(data: BehEntityComponentGroups.() -> Unit)
+    fun componentGroup(name: String, components: Components.() -> Unit)
 
     /**
      * add events
@@ -141,7 +140,7 @@ interface BehaviourEntity: OverwriteComponents, AnimationControllerExtensions {
      * }
      * ```
      */
-    fun events(data: BehEntityEvents.() -> Unit)
+    fun events(name: String, data: BehEntityEvent.() -> Unit)
 
     /**
      * define spawn rules for the entity

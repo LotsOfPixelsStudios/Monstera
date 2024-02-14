@@ -1,26 +1,16 @@
 package com.lop.devtools.monstera.files.properties
 
 import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.properties.types.*
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class EntityProperties : MonsteraFile {
-    override val unsafe = Unsafe()
-    private fun logger() = getMonsteraLogger("Property")
+class EntityProperties {
+    val propertyData = mutableMapOf<String, GenericProperty<*>>()
 
-    inner class Unsafe : MonsteraUnsafeMap {
-        val general = mutableMapOf<String, GenericProperty<*>>()
-        override fun getData(): MutableMap<String, Any> = general.map { (k, v) ->
-            v as MonsteraFile
-            val dataMap = (v.unsafe as MonsteraUnsafeMap).getData()
-            if(!dataMap.containsKey("default")) {
-                logger().warn("No default value for property given!")
-            }
-            k to dataMap
-        }.toMap().toMutableMap()
-    }
+    private fun logger() = getMonsteraLogger("Property")
 
     /**
      * Set a property where you can save an enum.
@@ -34,15 +24,15 @@ class EntityProperties : MonsteraFile {
      * }
      * ```
      */
-    fun enum(name: String, propertyData: EnumProperty.() -> Unit) {
-        if (unsafe.general.containsKey(name)) {
-            if (unsafe.general[name] is EnumProperty) {
-                (unsafe.general[name] as EnumProperty).apply(propertyData)
+    fun enum(name: String, data: EnumProperty.() -> Unit) {
+        if (propertyData.containsKey(name)) {
+            if (propertyData[name] is EnumProperty) {
+                (propertyData[name] as EnumProperty).apply(data)
                 return
             }
             logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
-        unsafe.general[idWithNameSpace(name)] = EnumProperty().apply(propertyData)
+        propertyData[idWithNameSpace(name)] = EnumProperty().apply(data)
     }
 
     /**
@@ -56,15 +46,15 @@ class EntityProperties : MonsteraFile {
      * }
      * ```
      */
-    fun bool(name: String, propertyData: BoolProperty.() -> Unit) {
-        if (unsafe.general.containsKey(name)) {
-            if (unsafe.general[name] is BoolProperty) {
-                (unsafe.general[name] as BoolProperty).apply(propertyData)
+    fun bool(name: String, data: BoolProperty.() -> Unit) {
+        if (propertyData.containsKey(name)) {
+            if (propertyData[name] is BoolProperty) {
+                (propertyData[name] as BoolProperty).apply(data)
                 return
             }
             logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
-        unsafe.general[idWithNameSpace(name)] = BoolProperty().apply(propertyData)
+        propertyData[idWithNameSpace(name)] = BoolProperty().apply(data)
     }
 
     /**
@@ -79,15 +69,15 @@ class EntityProperties : MonsteraFile {
      * }
      * ```
      */
-    fun int(name: String, propertyData: IntProperty.() -> Unit) {
-        if (unsafe.general.containsKey(name)) {
-            if (unsafe.general[name] is IntProperty) {
-                (unsafe.general[name] as IntProperty).apply(propertyData)
+    fun int(name: String, data: IntProperty.() -> Unit) {
+        if (propertyData.containsKey(name)) {
+            if (propertyData[name] is IntProperty) {
+                (propertyData[name] as IntProperty).apply(data)
                 return
             }
             logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
-        unsafe.general[idWithNameSpace(name)] = IntProperty().apply(propertyData)
+        propertyData[idWithNameSpace(name)] = IntProperty().apply(data)
     }
 
     /**
@@ -102,15 +92,15 @@ class EntityProperties : MonsteraFile {
      * }
      * ```
      */
-    fun float(name: String, propertyData: FloatProperty.() -> Unit) {
-        if (unsafe.general.containsKey(name)) {
-            if (unsafe.general[name] is FloatProperty) {
-                (unsafe.general[name] as FloatProperty).apply(propertyData)
+    fun float(name: String, data: FloatProperty.() -> Unit) {
+        if (propertyData.containsKey(name)) {
+            if (propertyData[name] is FloatProperty) {
+                (propertyData[name] as FloatProperty).apply(data)
                 return
             }
             logger().warn("Property '$name' is defined twice with a different Type! (Overwriting)")
         }
-        unsafe.general[idWithNameSpace(name)] = FloatProperty().apply(propertyData)
+        propertyData[idWithNameSpace(name)] = FloatProperty().apply(data)
     }
 
     private fun idWithNameSpace(name: String): String {
