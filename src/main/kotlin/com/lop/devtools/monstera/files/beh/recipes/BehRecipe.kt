@@ -1,144 +1,312 @@
 package com.lop.devtools.monstera.files.beh.recipes
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehRecipe : MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
+class BehRecipeShaped : MonsteraBuildableFile {
+    var data = BehRecipe()
 
-    inner class Unsafe : MonsteraUnsafeMap {
-        /**
-         * access to all defined data
-         */
-        val general = mutableMapOf<String, Any>()
-
-        override fun getData(): MutableMap<String, Any> {
-            identifier?.let { unsafe.general["description"] = mutableMapOf("identifier" to it) }
-            tags?.let {
-                val tags = arrayListOf<String>()
-                it.forEach { tag -> tags.add(tag.toString().lowercase()) }
-                unsafe.general["tags"] = tags
-            }
-            pattern?.let { unsafe.general["pattern"] = it }
-            inputBrewingStand?.let { unsafe.general["input"] = it }
-            reagent?.let { unsafe.general["reagent"] = it }
-            return unsafe.general
+    override fun build(filename: String, path: Path?, version: String?) {
+        val sanFile = filename
+            .removeSuffix(".json")
+            .replace("-", "_")
+            .replace(" ", "_")
+        val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for crafting recipe file '$sanFile' as no addon was initialized!")
+            return
         }
 
-        fun build(
-            filename: String,
-            path: Path,
-            version: String = "1.17.41"
-        ) {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
-            MonsteraBuilder.buildTo(
-                path, "$sanFile.json", mutableMapOf(
-                    "format_version" to version,
-                    "minecraft:recipe_shaped" to getData()
-                )
+        MonsteraBuilder.buildTo(
+            selPath,
+            "$sanFile.json",
+            BehRecipe.FileHeaderShaped(
+                version ?: Addon.active?.config?.formatVersions?.behRecipe ?: "1.17.41",
+                data
             )
+        )
+    }
+}
+
+class BehRecipeFurnace : MonsteraBuildableFile {
+    var data = BehRecipe()
+
+    override fun build(filename: String, path: Path?, version: String?) {
+        val sanFile = filename
+            .removeSuffix(".json")
+            .replace("-", "_")
+            .replace(" ", "_")
+        val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for furnace recipe file '$sanFile' as no addon was initialized!")
+            return
         }
+
+        MonsteraBuilder.buildTo(
+            selPath,
+            "$sanFile.json",
+            BehRecipe.FileHeaderFurnace(
+                version ?: Addon.active?.config?.formatVersions?.behRecipe ?: "1.17.41",
+                data
+            )
+        )
+    }
+}
+
+class BehRecipeBrewingMix : MonsteraBuildableFile {
+    var data = BehRecipe()
+
+    override fun build(filename: String, path: Path?, version: String?) {
+        val sanFile = filename
+            .removeSuffix(".json")
+            .replace("-", "_")
+            .replace(" ", "_")
+        val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for brewing mix recipe file '$sanFile' as no addon was initialized!")
+            return
+        }
+
+        MonsteraBuilder.buildTo(
+            selPath,
+            "$sanFile.json",
+            BehRecipe.FileHeaderBrewingMix(
+                version ?: Addon.active?.config?.formatVersions?.behRecipe ?: "1.17.41",
+                data
+            )
+        )
+    }
+}
+
+class BehRecipeBrewingContainer : MonsteraBuildableFile {
+    var data = BehRecipe()
+
+    override fun build(filename: String, path: Path?, version: String?) {
+        val sanFile = filename
+            .removeSuffix(".json")
+            .replace("-", "_")
+            .replace(" ", "_")
+        val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for brew container recipe file '$sanFile' as no addon was initialized!")
+            return
+        }
+
+        MonsteraBuilder.buildTo(
+            selPath,
+            "$sanFile.json",
+            BehRecipe.FileHeaderBrewingContainer(
+                version ?: Addon.active?.config?.formatVersions?.behRecipe ?: "1.17.41",
+                data
+            )
+        )
+    }
+}
+
+class BehRecipe {
+    /**
+     * load json blocks with this class
+     */
+    data class FileHeaderShaped(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "1.17.41",
+
+        @SerializedName("minecraft:recipe_shaped")
+        @Expose
+        var recipe: BehRecipe
+    )
+
+    data class FileHeaderFurnace(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "1.17.41",
+
+        @SerializedName("minecraft:recipe_furnace")
+        @Expose
+        var recipe: BehRecipe
+    )
+
+    data class FileHeaderBrewingMix(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "1.17.41",
+
+        @SerializedName("minecraft:recipe_brewing_mix")
+        @Expose
+        var recipe: BehRecipe
+    )
+
+    data class FileHeaderBrewingContainer(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "1.17.41",
+
+        @SerializedName("minecraft:recipe_brewing_container")
+        @Expose
+        var recipe: BehRecipe
+    )
+
+    @SerializedName("description")
+    @Expose
+    var descriptionData: Description? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun description(identifier: String) {
+        descriptionData = Description().apply { this.identifier = identifier }
     }
 
-    var identifier: String? = null
-    var tags: ArrayList<RecipeTags>? = null
-        set(value) {
-            if (field == null || value == null)
-                field = value
-            else
-                field?.let { field!!.addAll(it) }
-        }
-    var pattern: ArrayList<String>? = null
-        set(value) {
-            if (field == null || value == null)
-                field = value
-            else
-                field?.let { field!!.addAll(it) }
-        }
-    var inputBrewingStand: String? = null
+    class Description {
+        @SerializedName("identifier")
+        @Expose
+        var identifier: String? = null
+    }
 
+    /**
+     * used for brewing
+     */
+    @SerializedName("input")
+    @Expose
+    var input: String? = null
+
+    /**
+     * used for brewing
+     */
+    @SerializedName("reagent")
+    @Expose
     var reagent: String? = null
 
-    fun description(identifier: String) {
-        unsafe.general.apply { put("identifier", identifier) }
+    @SerializedName("tags")
+    @Expose
+    var tags: MutableList<RecipeTags>? = null
+
+    @SerializedName("pattern")
+    @Expose
+    var pattern: MutableList<String>? = null
+
+    @SerializedName("key")
+    @Expose
+    var key: MutableMap<String, String>? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun addKey(key: String, item: String) {
+        this.key = (this.key ?: mutableMapOf()).apply { put(key, item) }
     }
 
+    @SerializedName("unlock")
+    @Expose
+    var unlockData: MutableList<ItemInfo>? = null
+        @MonsteraBuildSetter set
+
     /**
-     * 1
+     * ```
+     * unlockRequirement {
+     *     item = "minecraft:planks"
+     *     data(2)
+     *     count = 3
      *
-     * only used for tag: crafting_table
-     */
-    fun keys(setting: BehRecipeKey.() -> Unit) {
-        val behRecipeKey = BehRecipeKey().apply { setting(this) }
-
-        unsafe.general.apply {
-            put("key", behRecipeKey.unsafe.getData())
-        }
-    }
-
-    /**
-     * 1
+     *     item = "minecraft:spawn_egg"
+     *     data("q.get_actor_info_id('minecraft:chicken')")
      *
-     * only used for tag: crafting_table
+     *     item = "minecraft:potion_type:strength"
+     * }
+     * ```
      */
-    fun result(item: String, data: Int = 0) {
-        unsafe.general.apply {
-            put(
-                "result", mutableMapOf(
-                    "item" to item,
-                    "data" to data
-                )
-            )
-        }
+    @OptIn(MonsteraBuildSetter::class)
+    fun unlockRequirement(option: ItemInfo.() -> Unit) {
+        unlockData = (unlockData ?: mutableListOf()).apply { add(ItemInfo().apply(option)) }
     }
 
-    /**
-     * @param data define how this item will be unlocked in the recipe book
-     */
-    fun unlock(data: BehRecipeUnlock.() -> Unit) {
-        unsafe.general["unlock"] = BehRecipeUnlock().apply(data).unsafe.getData()
-    }
+    @SerializedName("result")
+    @Expose
+    var resultData: MutableList<ItemInfo>? = null
+        @MonsteraBuildSetter set
+
 
     /**
-     * 1
+     * can be called multiple times if there should be more than one item as a result
+     * ```
+     * result {
+     *     item = "minecraft:planks"
+     *     data(2)
+     *     count = 3
      *
-     * only used by tags: "furnace", "smoker", "campfire", "soul_campfire"
+     *     item = "minecraft:spawn_egg"
+     *     data("q.get_actor_info_id('minecraft:chicken')")
+     *
+     *     item = "minecraft:potion_type:strength"
+     * }
+     * ```
      */
-    fun inputFurnace(item: String, data: Int = 0, count: Int) {
-        unsafe.general.apply {
-            put(
-                "input", mutableMapOf(
-                    "item" to item,
-                    "data" to data,
-                    "count" to count
-                )
-            )
-        }
+    @OptIn(MonsteraBuildSetter::class)
+    fun result(data: ItemInfo.() -> Unit) {
+        resultData = (resultData ?: mutableListOf()).apply { add(ItemInfo().apply(data)) }
     }
 
+    @SerializedName("ingredients")
+    @Expose
+    var ingredientsData: MutableList<ItemInfo>? = null
+        @MonsteraBuildSetter set
+
     /**
-     * 1
+     * can be called multiple times if there should be more than one ingredient
+     * ```
+     * ingredient {
+     *     item = "minecraft:planks"
+     *     data(2)
+     *     count = 3
      *
-     * only used by tags: "furnace", "smoker", "campfire", "soul_campfire" and "brewing_stand"
+     *     item = "minecraft:spawn_egg"
+     *     data("q.get_actor_info_id('minecraft:chicken')")
+     *
+     *     item = "minecraft:potion_type:strength"
+     * }
+     * ```
      */
-    fun output(item: String, count: Int = 1) {
-        unsafe.general.apply {
-            put(
-                "output", mutableMapOf(
-                    "item" to item,
-                    "count" to count
-                )
-            )
-        }
+    @OptIn(MonsteraBuildSetter::class)
+    fun ingredient(data: ItemInfo.() -> Unit) {
+        ingredientsData = (ingredientsData ?: mutableListOf()).apply { add(ItemInfo().apply(data)) }
     }
+
+    class ItemInfo {
+        @SerializedName("item")
+        @Expose
+        var item: String? = null
+
+        @SerializedName("data")
+        @Expose
+        var data: Any? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun data(value: Int) {
+            data = value
+        }
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun data(value: String) {
+            data = value
+        }
+
+        @SerializedName("context")
+        @Expose
+        var context: String? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun context() {
+            context = "PlayerInWater"
+        }
+
+        @SerializedName("count")
+        @Expose
+        var count: Int? = null
+    }
+
 }
 
 enum class RecipeTags {
@@ -150,5 +318,9 @@ enum class RecipeTags {
     CRAFTING_TABLE,
     STONECUTTER,
     SMITHING_TABLE,
-    BREWING_STAND
+    BREWING_STAND;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

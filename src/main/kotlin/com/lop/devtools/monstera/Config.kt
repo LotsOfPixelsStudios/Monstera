@@ -137,7 +137,10 @@ class Config(
         var behEntity: String = targetMcVersion,
         var resEntity: String = "1.8.0",
         var behItem: String = targetMcVersion,
-        var behAnimation: String = "1.8.0"
+        var behAnimation: String = "1.8.0",
+        var behBlock: String = targetMcVersion,
+        var behRecipe: String = "1.17.41",
+        var behSpawnRules: String = "1.8.0"
     )
 }
 

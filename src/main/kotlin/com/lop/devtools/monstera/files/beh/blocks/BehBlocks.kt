@@ -6,7 +6,6 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
@@ -25,7 +24,7 @@ class BehBlocks : MonsteraBuildableFile {
             selPath,
             "$sanFile.json",
             FileHeader(
-                version ?: getVersionAsString(Addon.active?.config?.targetMcVersion ?: arrayListOf()),
+                version ?: Addon.active?.config?.formatVersions?.behBlock ?: "1.20.50",
                 this
             )
         )
@@ -37,14 +36,14 @@ class BehBlocks : MonsteraBuildableFile {
     data class FileHeader(
         @SerializedName("format_version")
         @Expose
-        var formatVersion: String = "",
+        var formatVersion: String = "1.20.50",
 
         @SerializedName("minecraft:block")
         @Expose
         var block: BehBlocks
     )
 
-    @SerializedName("components")
+    @SerializedName("description")
     @Expose
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
