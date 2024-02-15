@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.lop.devtools.monstera.files.beh.entitiy
 
 import com.google.gson.annotations.Expose
@@ -7,6 +9,7 @@ import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
@@ -50,12 +53,27 @@ class BehEntity : MonsteraBuildableFile {
         }
 
         MonsteraBuilder.buildTo(
-            selPath, "$sanFile.json", mutableMapOf(
-                "format_version" to version,
-                "minecraft:entity" to this
+            selPath,
+            "$sanFile.json",
+            FileHeader(
+                version ?: Addon.active?.config?.formatVersions?.behEntity ?: "1.20.50",
+                this
             )
         )
     }
+
+    /**
+     * load json blocks with this class
+     */
+    data class FileHeader(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "1.20.50",
+
+        @SerializedName("minecraft:entity")
+        @Expose
+        var entity: BehEntity
+    )
 
     /**
      * 1 instance required
