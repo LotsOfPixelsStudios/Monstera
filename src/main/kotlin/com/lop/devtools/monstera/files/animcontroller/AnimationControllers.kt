@@ -13,6 +13,9 @@ import java.nio.file.Path
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class AnimationControllers: MonsteraBuildableFile {
     override fun build(filename: String, path: Path?, version: String?) {
+        if(animationControllersData.isEmpty())
+            return
+
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
