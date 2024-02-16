@@ -144,7 +144,8 @@ class Config(
         var behRecipe: String = "1.17.41",
         var behSpawnRules: String = "1.8.0",
         var behAnimController: String = "1.10.0",
-        var resAnimController: String = "1.10.0"
+        var resAnimController: String = "1.10.0",
+        var resAttachable: String = "1.10.0"
     )
 }
 
