@@ -5,6 +5,7 @@ import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentInventory
 import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentLoot
+import com.lop.devtools.monstera.files.beh.entitiy.components.ComponentRideable
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 
@@ -12,6 +13,16 @@ interface OverwriteComponents {
     val unsafeParent: Entity
 
     fun ComponentLoot.table(tableName: String, table: BehLootTables.() -> Unit)
+
+    fun ComponentRideable.interactText(
+        displayName: String? = null,
+        key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase()
+    )
+
+    fun ComponentRideable.exitText(
+        displayText: String,
+        key: String
+    )
 
     /**
      * add a sound to a component
