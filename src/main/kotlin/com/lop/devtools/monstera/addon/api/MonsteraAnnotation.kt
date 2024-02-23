@@ -22,3 +22,8 @@ annotation class DebugMarker
 @Retention(AnnotationRetention.RUNTIME)
 @RequiresOptIn("This field should not be used within an addon", RequiresOptIn.Level.WARNING)
 annotation class MonsteraBuildField
+
+@Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+@RequiresOptIn("Notice: Holiday Creator Features must be enabled", RequiresOptIn.Level.WARNING)
+annotation class HolidayCreatorFeature(val since: String = "current", val till: String = "current")

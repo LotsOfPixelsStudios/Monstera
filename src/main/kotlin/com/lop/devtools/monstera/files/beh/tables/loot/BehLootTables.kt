@@ -5,10 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.beh.spawnrules.BehSpawnRules
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
@@ -51,6 +48,11 @@ class BehLootTables {
             )
         }
     }
+
+    /**
+     * returns true if no pool is defined
+     */
+    fun isEmpty() = poolsData.isNullOrEmpty()
 
 
     @SerializedName("pools")

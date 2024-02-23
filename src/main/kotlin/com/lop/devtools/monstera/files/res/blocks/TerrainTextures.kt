@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.*
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import java.nio.file.Path
 
 class TerrainTextures : InvokeBeforeEnd {
     @SerializedName("texture_name")

@@ -10,7 +10,11 @@ enum class SoundCategory {
     HOSTILE,
     MUSIC,
     RECORD,
-    NEUTRAL
+    NEUTRAL;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }
 
 enum class CategorySound {
@@ -18,5 +22,9 @@ enum class CategorySound {
     ENTITY,
     DEFAULT_ENTITY,
     INDIVIDUAL,
-    INTERACTIVE
+    INTERACTIVE;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

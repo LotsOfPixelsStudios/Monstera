@@ -1,40 +1,47 @@
 package com.lop.devtools.monstera.files.res.sounds
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.addon.api.HolidayCreatorFeature
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
-class ResSoundComp: MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
+class ResSoundComp {
+    @SerializedName("is3D")
+    @Expose
+    var is3D: Boolean? = null
 
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
+    @SerializedName("weight")
+    @Expose
+    var weight: Number? = null
 
-        override fun getData(): MutableMap<String, Any> {
-            unsafe.general["is3D"] = is3D
-            unsafe.general["weight"] = weight
-            return unsafe.general
-        }
-    }
-    var is3D: Boolean = false
+    @SerializedName("name")
+    @Expose
+    var name: String? = null
 
-    var weight: Number = 1
+    @SerializedName("stream")
+    @Expose
+    var stream: MutableMap<Any, Any>? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("volume")
+    @Expose
+    var volume: Number? = null
+
+    @SerializedName("pitch")
+    @Expose
+    var pitch: Number? = null
 
     /**
      * 0..1
      *
      * @param value The path to the file, such as: "sounds/music/game/creative/creative1"
      */
+    @Deprecated("use field", ReplaceWith("name = value"))
     fun name(value: String) {
-        unsafe.general["name"] = value
+        name = value
     }
 
     fun name(value: File, addon: Addon) {
@@ -42,12 +49,13 @@ class ResSoundComp: MonsteraFile {
         val targetPath = addon.config.paths.resSounds.resolve("monstera").resolve(uniqueFileName)
         value.copyTo(targetPath.toFile(), true)
         val fileType = value.name.split(".").last()
-        unsafe.general["name"] = "sounds/monstera/" + uniqueFileName.removeSuffix(".$fileType")
+        name = "sounds/monstera/" + uniqueFileName.removeSuffix(".$fileType")
     }
 
-    @ExperimentalUnsignedTypes
+    @OptIn(MonsteraBuildSetter::class)
+    @HolidayCreatorFeature
     fun stream() {
-        unsafe.general["stream"] = mutableMapOf<String, String>()
+        stream = mutableMapOf()
     }
 
     /**
@@ -56,16 +64,8 @@ class ResSoundComp: MonsteraFile {
      * How loud the sound should play. Sounds cannot be made more audible than initially encoded.
      * @param value between 0.0 & 1.0
      */
+    @Deprecated("use field", ReplaceWith("volume = value"))
     fun volume(value: Float = 1.0f) {
-        unsafe.general["volume"] = value
-    }
-
-    /**
-     * 0..1
-     *
-     * @param value The pitch of the sound (how low/high it sounds). Ranges from 0.0 to 1.0 (standard), but can be higher, such as 1.48.
-     */
-    fun pitch(value: Float = 1.0f) {
-        unsafe.general["volume"] = value
+        volume = value
     }
 }

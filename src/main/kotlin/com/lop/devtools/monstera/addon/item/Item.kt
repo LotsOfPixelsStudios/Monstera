@@ -5,7 +5,6 @@ import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.beh.item.BehItem
 import com.lop.devtools.monstera.files.beh.item.BehItemComponents
 import com.lop.devtools.monstera.files.getUniqueFileName
-import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.items.ResItem
 import java.io.File
 
@@ -80,8 +79,12 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
     }
 
     fun build() {
-        behItem.description(identifier(), category)
-        behItem.unsafe.build(name, addon.config.paths.behItems)
+        behItem.description {
+            identifier = identifier()
+            if(menuCategoryData == null)
+                menuCategory = BehItem.Description.Category.ITEMS
+        }
+        behItem.build(name, addon.config.paths.behItems)
 
         resItem.description(identifier(), category, displayName)
         resItem.unsafe.build(name, addon.config.paths.resItem)

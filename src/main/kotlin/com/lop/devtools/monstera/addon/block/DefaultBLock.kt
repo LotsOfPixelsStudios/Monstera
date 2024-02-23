@@ -1,11 +1,27 @@
-package com.lop.devtools.monstera.addon.block.resource
+package com.lop.devtools.monstera.addon.block
 
+import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.sound.Sound
+import com.lop.devtools.monstera.files.getUniqueFileName
+import com.lop.devtools.monstera.files.res.blocks.BlockDefs
+import com.lop.devtools.monstera.files.res.blocks.TerrainTextures
 import java.io.File
 
-interface DefaultBLock {
-    var isotropic: Boolean
-    var brightnessGamma: Number
+open class DefaultBLock(private val parentRef: Block, private val addonRef: Addon) {
+    var isotropic: Boolean = false
+        set(value) {
+            BlockDefs.instance(addonRef).addDefinition(parentRef.name) {
+                isotropic = value
+            }
+            field = value
+        }
+    var brightnessGamma: Number = 1
+        set(value) {
+            BlockDefs.instance(addonRef).addDefinition(parentRef.name) {
+                brightnessGamma = value
+            }
+            field = value
+        }
 
     /**
      * call as often as there are faces, if called with the same face, the texture will be overwritten, you may don't use
@@ -15,7 +31,24 @@ interface DefaultBLock {
      * @param name the name of the texture referenced in the resource pack
      * @param face the face to apply on the bock see [Face]
      */
-    fun texture(path: String, name: String, face: Face)
+    fun texture(path: String, name: String, face: Face) {
+        TerrainTextures.instance(addonRef).addBlockTexture(name, path)
+
+        BlockDefs.instance(addonRef).addDefinition(parentRef.name) {
+            texture {
+                when (face) {
+                    Face.ALL -> texture(name)
+                    Face.UP -> up(name)
+                    Face.DOWN -> down(name)
+                    Face.SITE -> side(name)
+                    Face.NORTH -> north(name)
+                    Face.SOUTH -> south(name)
+                    Face.WEST -> west(name)
+                    Face.EAST -> east(name)
+                }
+            }
+        }
+    }
 
     /**
      * call as often as there are faces, if called with the same face, the texture will be overwritten
@@ -23,7 +56,16 @@ interface DefaultBLock {
      * @param file the texture file
      * @param face the face to apply on the bock see [Face]
      */
-    fun texture(file: File, face: Face = Face.ALL)
+    fun texture(file: File, face: Face) {
+        val fileName = getUniqueFileName(file)
+        val target = addonRef.config.paths.resTextures.resolve("monstera").resolve(fileName)
+        file.copyTo(target.toFile(), true)
+        texture(
+            "textures/monstera/${fileName.removeSuffix(".png")}",
+            fileName.removeSuffix(".png"),
+            face
+        )
+    }
 
     /**
      * add a sound to the block, call multiple time for different sound files
@@ -57,7 +99,7 @@ interface DefaultBLock {
      * @param data the sound data described in the sampe code
      * @return the identifier
      */
-    fun sound(identifier: String, data: Sound.() -> Unit): String
+    fun sound(identifier: String, data: Sound.() -> Unit): String = parentRef.sound(identifier, data)
 
     /**
      * you may want to use this function to import existing sound sounds form sound.json like, note this will overwrite
@@ -69,14 +111,29 @@ interface DefaultBLock {
      * sound("nether_brick")
      * ```
      */
-    fun sound(name: String)
+    fun sound(name: String) {
+        parentRef.sound(name)
+    }
 
     /**
      * Experimental: not quite sure if this will work in the future, be safe for now and just give 1 file
      *
      * @param files the texture file that will be carried over
      */
-    fun carriedTextures(vararg files: File)
+    fun carriedTextures(vararg files: File) {
+        val textureFile = files[0]
+        val fileName = getUniqueFileName(textureFile)
+        val fileNameWithoutSuffix = fileName.removeSuffix(".png")
+        val target = addonRef.config.paths.resTextures.resolve("monstera").resolve(fileName)
+        textureFile.copyTo(target.toFile(), true)
+        TerrainTextures.instance(addonRef).addBlockTexture(
+            fileNameWithoutSuffix,
+            "textures/monstera/${fileNameWithoutSuffix}"
+        )
+        BlockDefs.instance(addonRef).addDefinition(parentRef.name) {
+            carriedTextures = fileNameWithoutSuffix
+        }
+    }
 
     enum class Face {
         ALL,

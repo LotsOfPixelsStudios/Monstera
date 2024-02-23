@@ -1,9 +1,6 @@
 package com.lop.devtools.monstera.files.properties
 
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.DebugMarker
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.properties.types.*
 import com.lop.devtools.monstera.getMonsteraLogger
 

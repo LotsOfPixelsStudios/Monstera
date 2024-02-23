@@ -26,6 +26,11 @@ class AnimationControllers: MonsteraBuildableFile {
         MonsteraBuilder.buildTo(path, "$sanFile.json", this)
     }
 
+    /**
+     * returns true if no controller was defined
+     */
+    fun isEmpty() = animationControllersData.isEmpty()
+
     @SerializedName("format_version")
     @Expose
     var formatVersion: String = "1.10.0"

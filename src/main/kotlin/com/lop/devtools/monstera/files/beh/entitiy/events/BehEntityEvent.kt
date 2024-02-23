@@ -121,6 +121,18 @@ open class BehEntityEvent {
     }
 
     /**
+     * 0..*
+     *
+     * modify properties defined in the description of the entity
+     *
+     * @param property the property to modify
+     * @param value the value of the property
+     */
+    fun Addon.setProperty(property: String, value: Any) {
+        setProperty(property, value, this)
+    }
+
+    /**
      * returns all component group names that where added with events
      */
     @DebugMarker

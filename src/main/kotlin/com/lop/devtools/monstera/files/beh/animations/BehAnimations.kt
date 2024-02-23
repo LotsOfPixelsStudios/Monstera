@@ -25,6 +25,11 @@ class BehAnimations : MonsteraBuildableFile {
         MonsteraBuilder.buildTo(buildPath, "$sanFile.json", this)
     }
 
+    /**
+     * returns true if no animations where defined
+     */
+    fun isEmpty() = animData.isNullOrEmpty()
+
     @SerializedName("format_version")
     @Expose
     var formatVersion: String = Addon.active?.config?.formatVersions?.behAnimation ?: "1.8.0"

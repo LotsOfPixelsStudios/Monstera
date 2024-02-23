@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
@@ -23,7 +22,7 @@ class ResEntity: MonsteraBuildableFile {
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
-        val selPath = path ?: Addon.active?.config?.paths?.behBlocks ?: run {
+        val selPath = path ?: Addon.active?.config?.paths?.resEntity ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!")
             return
         }

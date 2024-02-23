@@ -145,7 +145,8 @@ class Config(
         var behSpawnRules: String = "1.8.0",
         var behAnimController: String = "1.10.0",
         var resAnimController: String = "1.10.0",
-        var resAttachable: String = "1.10.0"
+        var resAttachable: String = "1.10.0",
+        var resSoundDefs: String = "1.14.0"
     )
 }
 

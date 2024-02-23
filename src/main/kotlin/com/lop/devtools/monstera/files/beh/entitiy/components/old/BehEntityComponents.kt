@@ -1,6 +1,5 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.old
 
-import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang

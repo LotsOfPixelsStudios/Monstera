@@ -1,41 +1,47 @@
 package com.lop.devtools.monstera.files.res.sounds
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.res.entities.ResEntity
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResSoundDefs : MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
+class ResSoundDefs : MonsteraBuildableFile {
 
-    inner class Unsafe : MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
-        val soundDefs = mutableMapOf<String, ResSoundDef>()
-
-        override fun getData(): MutableMap<String, Any> {
-            if(soundDefs.isNotEmpty()) {
-                soundDefs.forEach { (k,v) ->
-                    general[k] = v.unsafe.getData()
-                }
-            }
-            return general
+    override fun build(filename: String, path: Path?, version: String?) {
+        val selPath = path ?: Addon.active?.config?.paths?.resSounds ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for sound def file as no addon was initialized!")
+            return
         }
 
-        fun build(
-            filename: String = "sound_definitions.json",
-            path: Path,
-        ) {
-            MonsteraBuilder.buildTo(
-                path, filename, getData()
-            )
+        Addon.active?.config?.formatVersions?.resSoundDefs?.let {
+            formatVersion = it
         }
+        version?.let {
+            formatVersion = it
+        }
+
+        MonsteraBuilder.buildTo(
+            selPath,
+            "sound_definitions.json",
+            this
+        )
     }
+
+    @SerializedName("format_version")
+    @Expose
+    var formatVersion: String = "1.14.0"
+
+    @SerializedName("sound_definitions")
+    @Expose
+    var soundDefinitions: MutableMap<String, ResSoundDef> = mutableMapOf()
+        @MonsteraBuildSetter set
 
     /**
      * 0..1
@@ -60,10 +66,10 @@ class ResSoundDefs : MonsteraFile {
      * @param settings
      */
     fun newSoundDef(soundIdentifier: String, settings: ResSoundDef.() -> Unit) {
-        if(unsafe.soundDefs.containsKey(soundIdentifier)) {
-            unsafe.soundDefs[soundIdentifier]!!.apply(settings)
+        if(soundDefinitions.containsKey(soundIdentifier)) {
+            soundDefinitions[soundIdentifier]!!.apply(settings)
         } else {
-            unsafe.soundDefs[soundIdentifier] = ResSoundDef().apply(settings)
+            soundDefinitions[soundIdentifier] = ResSoundDef().apply(settings)
         }
     }
 }
