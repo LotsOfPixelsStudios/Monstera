@@ -38,6 +38,6 @@ class BehEntityDescScripts: MonsteraFile {
         if(query == Query.True)
             unsafe.animations.add(animation)
         else
-            unsafe.animations.add(mutableMapOf(animation to query))
+            unsafe.animations.add(mutableMapOf(animation to query.data))
     }
 }
