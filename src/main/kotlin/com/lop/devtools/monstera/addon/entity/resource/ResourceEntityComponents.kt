@@ -23,7 +23,7 @@ open class ResourceEntityComponents(
         }
     var disableMaterial: Boolean = false
 
-    fun spawnEgg(displayText: String, data: ResEntitySpawnEgg.() -> Unit) {
+    fun spawnEgg(displayText: String = "Spawn ${unsafeParent.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
         unsafeRawEntity.description {
             this.spawnEgg(data)
             langKey(

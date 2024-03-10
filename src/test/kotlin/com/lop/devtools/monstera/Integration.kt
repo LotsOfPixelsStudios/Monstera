@@ -33,7 +33,7 @@ fun main() {
             }
             resource {
                 components {
-                    spawnEgg {
+                    spawnEgg("Spawn $name") {
                         eggByColor(Color.CYAN, Color.BLACK)
                     }
                 }

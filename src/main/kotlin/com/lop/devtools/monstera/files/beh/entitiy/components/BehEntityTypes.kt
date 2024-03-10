@@ -64,6 +64,6 @@ class CompEntityType: MonsteraFile {
     var priority: Int? = null   //usage only in nearest prioritized target
 
     fun filters(value: BehEntityFilter.() -> Unit) {
-        unsafe.general["filters"] = BehEntityFilter().apply(value).getData()
+        unsafe.general["filters"] = BehEntityFilter().apply(value)
     }
 }

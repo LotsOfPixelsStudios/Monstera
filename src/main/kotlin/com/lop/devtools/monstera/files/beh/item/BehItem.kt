@@ -10,7 +10,6 @@ import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
 class BehItem : MonsteraBuildableFile {
-
     override fun build(filename: String, path: Path?, version: String?) {
         val sanFile = filename
             .removeSuffix(".json")

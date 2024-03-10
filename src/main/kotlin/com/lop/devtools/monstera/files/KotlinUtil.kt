@@ -4,6 +4,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
 import java.util.*
+import kotlin.io.path.Path
 
 /**
  * load a directory or a file from the resource directory
@@ -23,16 +24,19 @@ private fun getResourceSample() {
     getResource("entity/default_texture.png")
 }
 
-fun getValueForLangKey(lanFile: File, key: String): String? {
+fun getValueForLangKey(lanFile: File, key: String): Result<String> {
     if (lanFile.exists()) {
         val data = lanFile.readText()
         data.split("\n").forEach {
             if (it.contains(key)) {
-                return it.removePrefix("$key=").replace("\n", "").replace("\r", "")
+                return Result.success(
+                    it.removePrefix("$key=").replace("\n", "").replace("\r", "")
+                )
             }
         }
+        return Result.failure(Error("lang key does not exist"))
     }
-    return null
+    return Result.failure(Error("lang file does not exist"))
 }
 
 /**
@@ -51,9 +55,7 @@ fun getUniqueFileName(file: File): String {
 }
 
 fun File(vararg parents: String): File {
-    return File(parents.joinToString(separator = File.separator) {
-        it
-    })
+    return File(parents.joinToString(separator = File.separator))
 }
 
 fun File.createWithDirs(): File {

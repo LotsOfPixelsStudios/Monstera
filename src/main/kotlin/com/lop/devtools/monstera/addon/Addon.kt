@@ -64,7 +64,7 @@ open class Addon(val config: Config)  {
      * ```
      */
     @AddonTopLevel
-    fun entity(name: String, displayName: String, entity: Entity.() -> Unit): Entity {
+    fun entity(name: String, displayName: String = name, entity: Entity.() -> Unit): Entity {
         MonsteraLoggerContext.setEntity(name)
         val ent = Entity(this, name, displayName).apply(entity)
         ent.build()
@@ -143,7 +143,7 @@ open class Addon(val config: Config)  {
      * ```
      */
     @AddonTopLevel
-    fun item(name: String, displayName: String, item: Item.() -> Unit): Item {
+    fun item(name: String, displayName: String = name, item: Item.() -> Unit): Item {
         MonsteraLoggerContext.setItem(name)
         val data = Item(name, displayName, this).apply(item)
         data.build()
@@ -282,7 +282,6 @@ open class Addon(val config: Config)  {
 }
 
 fun buildInformation(addon: Addon) {
-
     val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
     val characterLength = max(
