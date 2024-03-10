@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.addon
 
 import com.lop.devtools.monstera.Config
@@ -13,6 +15,7 @@ import com.lop.devtools.monstera.addon.mcfunction.McFunction
 import com.lop.devtools.monstera.addon.mcfunction.buildMcFunctions
 import com.lop.devtools.monstera.addon.sound.SoundUtil
 import com.lop.devtools.monstera.files.File
+import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.manifest.generateManifest
 import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.TextureIndex
@@ -300,7 +303,7 @@ fun buildInformation(addon: Addon) {
         entries = arrayListOf(
             "say §b$format",
             "say §b#§a Monstera version: ${addon.config.monsteraVersion}",
-            "say §b#§a build version: ${(System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: "local")}",
+            "say §b#§a build version: ${(System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(addon.config.version))}",
             "say §b#§a build time: $time",
             "say §b$format",
         )

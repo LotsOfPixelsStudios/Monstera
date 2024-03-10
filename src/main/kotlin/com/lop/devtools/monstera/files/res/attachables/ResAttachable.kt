@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.res.attachables
 
 import com.google.gson.annotations.Expose

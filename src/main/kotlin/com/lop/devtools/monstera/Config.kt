@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package com.lop.devtools.monstera
 

@@ -4,7 +4,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
 import java.util.*
-import kotlin.io.path.Path
 
 /**
  * load a directory or a file from the resource directory
