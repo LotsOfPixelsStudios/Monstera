@@ -34,5 +34,9 @@ enum class DamageType {
     TEMPERATURE,
     THORNS,
     VOID,
-    WITHER
+    WITHER;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

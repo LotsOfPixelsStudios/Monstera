@@ -7,9 +7,9 @@ import kotlin.system.measureTimeMillis
 @DslMarker
 annotation class AddonEntry
 
-class BasicAddon(config: Config) : AddonImpl(config) {
+class BasicAddon(config: Config) : Addon(config) {
     init {
-        Addon.active = this
+        active = this
     }
 }
 

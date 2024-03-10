@@ -4,27 +4,26 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafe
 import com.lop.devtools.monstera.files.beh.recipes.BehRecipe
-import com.lop.devtools.monstera.files.beh.recipes.BehRecipeUnlock
+import com.lop.devtools.monstera.files.beh.recipes.BehRecipeShaped
 import com.lop.devtools.monstera.files.beh.recipes.RecipeTags
 
 class CraftingRecipe: MonsteraFile {
     override val unsafe = Unsafe()
 
     inner class Unsafe: MonsteraUnsafe {
-        val rawRecipe = BehRecipe()
+        val rawRecipe = BehRecipeShaped()
         val keyPattern = mutableMapOf<String, String>()
 
         fun isEmpty() = keyPattern.isEmpty()
 
         fun build(name: String, identifier: String, addon: Addon, resultItem: String = identifier) {
-            rawRecipe.identifier = identifier
-            rawRecipe.result(resultItem)
-            rawRecipe.keys {
-                keyPattern.forEach { (id, key) ->
-                    key(key, id)
-                }
+            rawRecipe.data.description(identifier)
+            rawRecipe.data.result { item = resultItem }
+            keyPattern.forEach { (id, key) ->
+                rawRecipe.data.addKey(key, id)
             }
-            rawRecipe.unsafe.build(name, addon.config.paths.behRecipe)
+
+            rawRecipe.build(name, addon.config.paths.behRecipe, addon.config.formatVersions.behRecipe)
         }
     }
 
@@ -33,10 +32,14 @@ class CraftingRecipe: MonsteraFile {
      * add a pattern for the crafting table to the recipe
      *
      * ```
+     * val d = "minecraft:diamond"
+     * val s = "minecraft:stick"
+     * val e = ""
+     *
      * craftingPattern(
-     *     t("","minecraft:diamond","minecraft:diamond"),
-     *     t("","minecraft:diamond",""),
-     *     t("","minecraft:stick","")
+     *     t(e,d,d),
+     *     t(e,s,e),
+     *     t(e,s,e)
      * )
      * ```
      */
@@ -45,27 +48,32 @@ class CraftingRecipe: MonsteraFile {
         t2: Triple<String, String, String>,
         t3: Triple<String, String, String>,
     ) {
-        unsafe.rawRecipe.tags = arrayListOf(RecipeTags.CRAFTING_TABLE)
-        unsafe.rawRecipe.pattern = arrayListOf(
-            tripleToPattern(t1),
-            tripleToPattern(t2),
-            tripleToPattern(t3)
-        )
+        with(unsafe.rawRecipe.data) {
+            tags = mutableListOf(RecipeTags.CRAFTING_TABLE)
+            pattern = mutableListOf(
+                tripleToPattern(t1),
+                tripleToPattern(t2),
+                tripleToPattern(t3)
+            )
+        }
     }
 
     /**
      * @param data define how this item will be unlocked in the recipe book
      *
      * ```
-     * unlock {
+     * unlockRequirement {
      *     item("minecraft:wood", count = 3, data = 2)
      *     context()
      * }
      * ```
      */
-    fun unlock(data: BehRecipeUnlock.() -> Unit) {
-        unsafe.rawRecipe.unlock(data)
+    fun unlockRequirement(data: BehRecipe.ItemInfo.() -> Unit) {
+        unsafe.rawRecipe.data.unlockRequirement(data)
     }
+
+    @Deprecated("old", ReplaceWith("unlockRequirement(data)"),)
+    fun unlock(data: BehRecipe.ItemInfo.() -> Unit) = unlockRequirement(data)
 
     fun t(i1: String, i2: String, i3: String) = Triple(i1, i2, i3)
 

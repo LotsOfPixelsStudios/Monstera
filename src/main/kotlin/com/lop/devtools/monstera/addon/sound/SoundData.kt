@@ -69,8 +69,8 @@ class SoundData(val addon: Addon) : Sound {
                 weight = settings.weight
                 is3D = settings.is3D
                 name(file, addon = addon)
-                volume(settings.volume.toFloat())
-                pitch(settings.pitch.toFloat())
+                volume = settings.volume
+                pitch = settings.pitch
             }
         }
 
@@ -78,9 +78,9 @@ class SoundData(val addon: Addon) : Sound {
             ret.add {
                 weight = settings.weight
                 is3D = settings.is3D
-                name(file)
-                volume(settings.volume.toFloat())
-                pitch(settings.pitch.toFloat())
+                name = file
+                volume = settings.volume
+                pitch = settings.pitch
             }
         }
         return ret

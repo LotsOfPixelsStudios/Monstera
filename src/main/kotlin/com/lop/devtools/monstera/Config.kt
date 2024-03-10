@@ -1,9 +1,12 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera
 
 import com.lop.devtools.monstera.addon.dev.ResourceLoader
 import com.lop.devtools.monstera.addon.entity.resource.copyDefaultTextureTo
 import com.lop.devtools.monstera.addon.entity.resource.generateDefaultGeo
 import com.lop.devtools.monstera.files.File
+import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.lang.LangFileBuilder
 import java.io.File
 import java.nio.file.Path
@@ -47,6 +50,7 @@ class Config(
     ),
     var paths: AddonPaths = AddonPaths(behPath, resPath),
     var targetMcVersion: ArrayList<Int> = arrayListOf(1, 19, 40),
+    var formatVersions: FormatVersions = FormatVersions(getVersionAsString(targetMcVersion)),
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
     var scriptingVersion: String = "1.6.0"
@@ -129,5 +133,20 @@ class Config(
             "textures/default"
         }
     }
+
+    class FormatVersions(
+        targetMcVersion: String,
+        var behEntity: String = targetMcVersion,
+        var resEntity: String = "1.10.0",
+        var behItem: String = targetMcVersion,
+        var behAnimation: String = "1.8.0",
+        var behBlock: String = targetMcVersion,
+        var behRecipe: String = "1.17.41",
+        var behSpawnRules: String = "1.8.0",
+        var behAnimController: String = "1.10.0",
+        var resAnimController: String = "1.10.0",
+        var resAttachable: String = "1.10.0",
+        var resSoundDefs: String = "1.14.0"
+    )
 }
 

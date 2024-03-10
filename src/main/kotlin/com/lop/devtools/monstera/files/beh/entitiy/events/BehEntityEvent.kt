@@ -1,75 +1,57 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.addon.api.DebugMarker
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
+open class BehEntityEvent {
+    open class ContainsFilter : BehEntityEvent() {
+        @SerializedName("filters")
+        @Expose
+        var filter: BehEntityFilter? = null
+            @MonsteraBuildSetter set
 
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined data
-         */
-        val general = mutableMapOf<String, Any>()
-
-        /**
-         * obj for removed groups in event
-         */
-        val remove = BehEntityAddRemove()
-
-        /**
-         * obj for added groups in event
-         */
-        val add = BehEntityAddRemove()
-
-        /**
-         * obj for sequence groups in event
-         */
-        val sequence = BehEntitySequence(parent)
-
-        /**
-         * obj for randomized groups in event
-         */
-        val randomize = BehEntityRandomize(parent)
-
-        /**
-         * set for modified properties
-         */
-        val setProperties = mutableMapOf<String, Any>()
-
-        fun setProperty(property: String, value: Any) {
-            val propertyValue = if (value is Molang) value.toString() else value
-            unsafe.setProperties[property] = propertyValue
-        }
-
-        /**
-         * build object for gson parser
-         */
-        override fun getData(): MutableMap<String, Any> {
-            if (unsafe.remove.unsafe.getData().isNotEmpty()) unsafe.general["remove"] = unsafe.remove.unsafe.getData()
-            if (unsafe.add.unsafe.getData().isNotEmpty()) unsafe.general["add"] = unsafe.add.unsafe.getData()
-            if (unsafe.sequence.unsafe.getData().isNotEmpty()) unsafe.general["sequence"] = unsafe.sequence.unsafe.getData()
-            if (unsafe.randomize.unsafe.getData().isNotEmpty()) unsafe.general["randomize"] = unsafe.randomize.unsafe.getData()
-            if (unsafe.setProperties.isNotEmpty()) unsafe.general["set_property"] = unsafe.setProperties
-            //### debugger ###
-            parent.unsafe.debugAddedGroups.addAll(unsafe.add.unsafe.general)
-            //################
-
-            return unsafe.general
+        @OptIn(MonsteraBuildSetter::class)
+        fun filters(data: BehEntityFilter. () -> Unit) {
+            filter = (filter ?: BehEntityFilter()).apply(data)
         }
     }
 
-    /**
-     * access the unsafe context, alternatively use "unsafe."
-     */
-    fun unsafe(data: Unsafe.() -> Unit) {
-        unsafe.apply(data)
+    open class ContainsWeight : ContainsFilter() {
+        @SerializedName("weight")
+        @Expose
+        var weight: Number? = null
     }
+
+    @SerializedName("add")
+    @Expose
+    var addGroupsData: BehEntityAddRemove? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("remove")
+    @Expose
+    var removeGroupsData: BehEntityAddRemove? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("sequence")
+    @Expose
+    var sequenceData: MutableList<ContainsFilter>? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("randomize")
+    @Expose
+    var randomizeData: MutableList<ContainsWeight>? = null
+        @MonsteraBuildSetter set
+
+    @SerializedName("set_property")
+    @Expose
+    var setPropertyData: MutableMap<String, Any>? = null
+        @MonsteraBuildSetter set
+
 
     /**
      * 0..1
@@ -78,8 +60,9 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      * @param settings: the component{} fun for defining all the component groups
      * @ sample remove{component("...")}
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun remove(settings: BehEntityAddRemove.() -> Unit) {
-        unsafe.remove.apply(settings)
+        removeGroupsData = (removeGroupsData ?: BehEntityAddRemove()).apply(settings)
     }
 
     /**
@@ -89,8 +72,9 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      * @param settings: the component{} fun for defining all the component groups
      * @ sample add{component("...")}
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun add(settings: BehEntityAddRemove.() -> Unit) {
-        unsafe.add.apply(settings)
+        addGroupsData = (addGroupsData ?: BehEntityAddRemove()).apply(settings)
     }
 
     /**
@@ -101,8 +85,10 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      * @param settings: add as much add{} or remove{} 's as you want, you can also add a filter see [BehEntitySequence]
      * @ sample sequence{add{...}; remove{...}; add{...}}
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun sequence(settings: BehEntitySequence.() -> Unit) {
-        unsafe.sequence.apply(settings)
+        sequenceData =
+            (sequenceData ?: mutableListOf()).also { it.addAll(BehEntitySequence().apply(settings).sequenceEvents) }
     }
 
     /**
@@ -111,8 +97,10 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      *
      * @param settings: randomComp()
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun randomize(settings: BehEntityRandomize.() -> Unit) {
-        unsafe.randomize.apply(settings)
+        randomizeData =
+            (randomizeData ?: mutableListOf()).also { it.addAll(BehEntityRandomize().apply(settings).randomEvents) }
     }
 
     /**
@@ -123,9 +111,38 @@ class BehEntityEvent(private val parent: BehEntityEvents): MonsteraFile {
      * @param property the property to modify
      * @param value the value of the property
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun setProperty(property: String, value: Any, addon: Addon) {
         val key = if (property.startsWith(addon.config.namespace)) property else "${addon.config.namespace}:$property"
         val propertyValue = if (value is Molang) value.toString() else value
-        unsafe.setProperties[key] = propertyValue
+        setPropertyData = (setPropertyData ?: mutableMapOf()).apply {
+            this[key] = propertyValue
+        }
+    }
+
+    /**
+     * 0..*
+     *
+     * modify properties defined in the description of the entity
+     *
+     * @param property the property to modify
+     * @param value the value of the property
+     */
+    fun Addon.setProperty(property: String, value: Any) {
+        setProperty(property, value, this)
+    }
+
+    /**
+     * returns all component group names that where added with events
+     */
+    @DebugMarker
+    fun getAddedGroups(): MutableList<String> {
+        val groups = mutableListOf<String>()
+
+        groups.addAll(addGroupsData?.componentGroups ?: listOf())
+        groups.addAll(sequenceData?.flatMap { it.getAddedGroups() } ?: listOf())
+        groups.addAll(randomizeData?.flatMap { it.getAddedGroups() } ?: listOf())
+        
+        return groups
     }
 }

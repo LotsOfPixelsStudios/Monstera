@@ -22,8 +22,8 @@ class SoundUtil(val addon: Addon): MonsteraFile {
         }
 
         fun build() {
-            soundDefs.unsafe.build(path = addon.config.resPath)
-            sounds.unsafe.build(path = addon.config.resPath)
+            soundDefs.build("", path = addon.config.resPath)
+            sounds.build("", path = addon.config.resPath)
         }
     }
 

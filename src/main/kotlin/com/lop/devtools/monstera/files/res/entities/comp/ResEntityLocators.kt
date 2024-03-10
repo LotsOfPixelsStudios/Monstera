@@ -1,71 +1,30 @@
 package com.lop.devtools.monstera.files.res.entities.comp
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 
-class ResEntityLocators : MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
-
-    inner class Unsafe : MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
-
-        val lead = ResEntityLead()
-        override fun getData(): MutableMap<String, Any> {
-            if (unsafe.lead.getData().isNotEmpty()) unsafe.general["lead"] = unsafe.lead.getData()
-
-            return unsafe.general
-        }
-    }
+class ResEntityLocators {
+    @SerializedName("lead")
+    @Expose
+    var leadData: MutableMap<String, MutableList<Number>>? = null
+        @MonsteraBuildSetter set
 
     /**
-     * 1
+     * can be called multiple times
      *
      * @sample sample
      */
-    fun lead(settings: ResEntityLead.() -> Unit) {
-        unsafe.lead.apply(settings)
+    @OptIn(MonsteraBuildSetter::class)
+    fun lead(locationName: String, location: ArrayList<Number>) {
+        leadData = (leadData ?: mutableMapOf()).apply {
+            put(locationName, location)
+        }
     }
 
     private fun sample() {
-        lead {
-            attach("head", arrayListOf(0.0f, 0.0f, 0.0f))
-            attach("head", 0.0f, 0.0f, 0.0f)
-        }
-    }
-}
-
-class ResEntityLead {
-    val general = mutableMapOf<String, Any>()
-
-    /**
-     * 1
-     *
-     * @param locationName: where to attach name
-     * @param location: 3 Floats in a List where the pos is
-     */
-    fun attach(locationName: String = "head", location: ArrayList<Float>) {
-        general[locationName] = location
-    }
-
-    /**
-     * 1
-     *
-     * @param locationName: where to attach name
-     * @param x: Float with x coords
-     * @param y: Float with y coords
-     * @param z: Float with z coords
-     */
-    fun attach(locationName: String = "head", x: Float, y: Float, z: Float) {
-        general[locationName] = arrayListOf(x, y, z)
-    }
-
-    fun getData(): Map<String, Any> {
-        return general
+        lead("head", arrayListOf(0.0f, 0.0f, 0.0f))
     }
 }

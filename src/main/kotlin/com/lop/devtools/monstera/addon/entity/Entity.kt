@@ -4,21 +4,25 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.behaviour.BehaviourEntity
 import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
 import com.lop.devtools.monstera.addon.sound.SoundData
+import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
-interface Entity {
-    val name: String
-    val displayName: String
-    val addon: Addon
+open class Entity(
+    val addon: Addon,
+    var name: String = "",
+    var displayName: String = ""
+) {
+    val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(this)
+    val unsafeResourceEntity: ResourceEntity = ResourceEntity(this)
 
-    val unsafeBehaviourEntity: BehaviourEntity
-    val unsafeResourceEntity: ResourceEntity
-    var unsafeSpawnAble: Boolean
-    val unsafeSoundData: MutableList<SoundData>
+    var unsafeSpawnAble: Boolean = false
+    val unsafeSoundData: MutableList<SoundData> = mutableListOf()
 
     /**
      * @return the identifier of the entity as it is defined in the final beh/res pack
      */
-    fun getIdentifier(): String
+    fun getIdentifier(): String {
+        return addon.config.namespace + ":" + name
+    }
 
     /**
      * modify the resource components of the entity
@@ -36,7 +40,9 @@ interface Entity {
      * }
      * ```
      */
-    fun resource(entity: ResourceEntity.() -> Unit)
+    fun resource(entity: ResourceEntity.() -> Unit) {
+        unsafeResourceEntity.apply(entity)
+    }
 
     /**
      * modify the behaviour of the entity
@@ -47,12 +53,12 @@ interface Entity {
      *          //normal beh anim-controller
      *      }
      *
-     *      animations {
+     *      animation("") {
      *          //normal beh animations
      *      }
      *
      *      //beh Entity Components
-     *      componentGroups {
+     *      componentGroup("") {
      *
      *      }
      *      components {
@@ -64,7 +70,16 @@ interface Entity {
      *  }
      * ````
      */
-    fun behaviour(entity: BehaviourEntity.() -> Unit)
+    fun behaviour(entity: BehaviourEntity.() -> Unit) {
+        unsafeBehaviourEntity.apply(entity)
+    }
 
-    fun build()
+    fun build() {
+        unsafeBehaviourEntity.build()
+        unsafeResourceEntity.build()
+
+        if (unsafeSoundData.isNotEmpty()) {
+            addon.unsafeApplySoundData(unsafeSoundData, name)
+        }
+    }
 }
