@@ -28,6 +28,6 @@ class BehEntityDescScripts {
         animateData = if(query == Query.True)
             (animateData ?: mutableListOf()).also { it.add(animation) }
         else
-            (animateData ?: mutableListOf()).also { it.add(mutableMapOf(animation to query)) }
+            (animateData ?: mutableListOf()).also { it.add(mutableMapOf(animation to query.data)) }
     }
 }
