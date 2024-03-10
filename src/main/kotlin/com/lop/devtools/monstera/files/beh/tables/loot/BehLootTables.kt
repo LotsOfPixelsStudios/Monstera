@@ -141,7 +141,7 @@ class BehLootTables {
 
         @SerializedName("weight")
         @Expose
-        var max: Int? = null
+        var weight: Int? = null
 
         @SerializedName("functions")
         @Expose
