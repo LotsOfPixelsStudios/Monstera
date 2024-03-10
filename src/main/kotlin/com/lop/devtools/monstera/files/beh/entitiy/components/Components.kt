@@ -6,21 +6,6 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 
 class Components {
-    @SerializedName("minecraft:fire_immune")
-    @Expose
-    var fireImmune: Boolean? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("minecraft:burns_in_daylight")
-    @Expose
-    var burnsInDaylight: Boolean? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("minecraft:follow_range")
-    @Expose
-    var followRange: Number? = null
-        @MonsteraBuildSetter set
-
     @SerializedName("minecraft:is_hidden_when_invisible")
     @Expose
     var isHiddenWhenInvisibleData: IsHiddenWhenInvisible? = null

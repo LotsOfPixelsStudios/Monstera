@@ -47,7 +47,7 @@ class BehEntityDescription {
         scriptsData = (scriptsData ?: BehEntityDescScripts()).apply(settings)
     }
 
-    @SerializedName("scripts")
+    @SerializedName("animations")
     @Expose
     var animationData: MutableMap<String, String>? = null
         @MonsteraBuildSetter set
