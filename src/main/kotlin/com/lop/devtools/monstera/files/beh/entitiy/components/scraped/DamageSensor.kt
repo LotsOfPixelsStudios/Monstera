@@ -21,7 +21,9 @@ class DamageSensor {
      * ```
      * trigger {
      *     dealsDamage = false
-     *     cause =
+     *     cause = DamageType
+     *     damageMultiplier = 1
+     *     onDamage { }
      * }
      *```
      */
