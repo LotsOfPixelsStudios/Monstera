@@ -90,5 +90,9 @@ class DamageSensor {
         @SerializedName("target")
         @Expose
         var target: Subject? = null
+
+        @SerializedName("target")
+        @Expose
+        var event: String? = null
     }
 }
