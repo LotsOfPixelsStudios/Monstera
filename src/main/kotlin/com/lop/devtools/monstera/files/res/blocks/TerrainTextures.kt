@@ -23,7 +23,7 @@ class TerrainTextures : InvokeBeforeEnd {
     @Expose
     var padding = 8
 
-    @SerializedName("padding")
+    @SerializedName("texture_data")
     @Expose
     var textureData: MutableMap<String, Texture>? = null
         @MonsteraBuildSetter set
