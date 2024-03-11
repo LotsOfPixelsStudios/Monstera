@@ -38,7 +38,7 @@ open class Block(
      */
     fun geometry(geoId: String) {
         unsafeBehBlock.components {
-            geometry(geoId)
+            geometry = geoId
         }
     }
 
