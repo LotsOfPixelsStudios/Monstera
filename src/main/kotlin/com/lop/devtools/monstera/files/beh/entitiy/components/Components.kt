@@ -6832,6 +6832,25 @@ class Components {
         behOwnerHurtTargetData = (behOwnerHurtTargetData ?: BehOwnerHurtTarget()).apply(value)
     }
 
+    @SerializedName("minecraft:instant_despawn")
+    @Expose
+    var instantDespawnData: InstantDespawn? = null
+        @MonsteraBuildSetter set
+
+    /**
+     * If true, all entities linked to this entity in a child relationship (eg. leashed) will also be despawned.
+     * ```
+     * instantDespawn {
+     *     removeChildEntities = true
+     * }
+     *```
+     */
+    @OptIn(MonsteraBuildSetter::class)
+    @VanillaComponentMarker
+    fun instantDespawn(value: InstantDespawn.() -> Unit) {
+        instantDespawnData = (instantDespawnData ?: InstantDespawn()).apply(value)
+    }
+
     @DslMarker
     annotation class MonsteraComponentMarker
 

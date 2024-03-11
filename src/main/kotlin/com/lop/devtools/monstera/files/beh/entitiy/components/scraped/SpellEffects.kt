@@ -30,7 +30,7 @@ class SpellEffects {
 
     @SerializedName("remove_effects")
     @Expose
-    var removeEffects: String? = null
+    var removeEffects: MutableList<String>? = null
         
 
     class AddEffects {

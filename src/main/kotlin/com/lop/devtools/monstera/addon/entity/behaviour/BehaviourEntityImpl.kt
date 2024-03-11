@@ -172,16 +172,31 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      * add events
      *
      * ```
-     * events {
-     *     event("do_stuff") {
-     *         add { }
-     *     }
+     * event("do_stuff") {
+     *     add { }
      * }
      * ```
      */
-    fun events(name: String, data: BehEntityEvent.() -> Unit) {
+    @Deprecated("spelling", ReplaceWith("event(name, data)"))
+    fun events(name: String, data: BehEntityEvent.() -> Unit) = event(name, data)
+
+    /**
+     * add events
+     *
+     * ```
+     * event("do_stuff") {
+     *     add { }
+     * }
+     * ```
+     */
+    fun event(name: String, data: BehEntityEvent.() -> Unit) {
         unsafeRawEntity.event(name, data)
     }
+
+    fun eventBorn(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventBorn(data)
+    fun eventSpawned(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventSpawned(data)
+    fun eventOnPrime(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventOnPrime(data)
+    fun eventTransformed(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventTransformed(data)
 
     /**
      * define spawn rules for the entity

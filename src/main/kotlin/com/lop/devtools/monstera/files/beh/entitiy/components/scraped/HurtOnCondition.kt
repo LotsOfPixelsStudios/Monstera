@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
+import com.lop.devtools.monstera.files.beh.entitiy.data.DamageType
 
 class HurtOnCondition {
     @SerializedName("damage_conditions")
@@ -53,7 +54,7 @@ class HurtOnCondition {
 
         @SerializedName("cause")
         @Expose
-        var cause: String? = null
+        var cause: DamageType? = null
             
 
         @SerializedName("damage_per_tick")

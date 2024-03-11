@@ -15,14 +15,29 @@ class EnvironmentSensor {
     /**
      *
      * ```
-     * triggers {
+     * trigger {
+     *     event = start_drying_out
+     * }
+     *```
+     */
+    @Deprecated("spelling", ReplaceWith("trigger(data)"))
+    @OptIn(MonsteraBuildSetter::class)
+    @Components.VanillaComponentMarker
+    fun triggers(value: Triggers.() -> Unit) {
+        triggersData = (triggersData ?: mutableListOf()).also { it.add(Triggers().apply(value)) }
+    }
+
+    /**
+     *
+     * ```
+     * trigger {
      *     event = start_drying_out
      * }
      *```
      */
     @OptIn(MonsteraBuildSetter::class)
     @Components.VanillaComponentMarker
-    fun triggers(value: Triggers.() -> Unit) {
+    fun trigger(value: Triggers.() -> Unit) {
         triggersData = (triggersData ?: mutableListOf()).also { it.add(Triggers().apply(value)) }
     }
 
