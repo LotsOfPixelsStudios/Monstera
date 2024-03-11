@@ -398,7 +398,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
         }
 
         if (!disableRender) {
-            unsafeRenderController.unsafe.build(unsafeParent.name, unsafeParent.addon.config.paths.resRenderControllers)
+            unsafeRenderController.build(unsafeParent.name, unsafeParent.addon.config.paths.resRenderControllers)
         }
 
         unsafeRawEntity.build(unsafeParent.name, unsafeParent.addon.config.paths.resEntity)

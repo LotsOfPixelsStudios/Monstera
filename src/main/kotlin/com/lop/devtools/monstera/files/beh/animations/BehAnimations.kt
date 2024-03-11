@@ -7,10 +7,11 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class BehAnimations : MonsteraBuildableFile {
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
@@ -19,10 +20,11 @@ class BehAnimations : MonsteraBuildableFile {
 
         val buildPath = path ?: Addon.active?.config?.paths?.behAnim ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for animation file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for animation file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(buildPath, "$sanFile.json", this)
+        val target = MonsteraBuilder.buildTo(buildPath, "$sanFile.json", this)
+        return Result.success(target)
     }
 
     /**

@@ -135,7 +135,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
         }
         unsafeRenderController.apply {
             controllers("${unsafeParent.name}.$partName") {
-                geometry("Geometry.$id")
+                geometry = "Geometry.$id"
             }
         }
     }

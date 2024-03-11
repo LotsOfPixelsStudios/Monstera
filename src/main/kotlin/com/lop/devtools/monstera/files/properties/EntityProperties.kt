@@ -7,7 +7,7 @@ import com.lop.devtools.monstera.getMonsteraLogger
 class EntityProperties {
     val propertyData = mutableMapOf<String, GenericProperty<*>>()
 
-    private fun logger() = getMonsteraLogger("Property")
+    private fun logger() = getMonsteraLogger(this.javaClass.name)
 
     /**
      * Set a property where you can save an enum.

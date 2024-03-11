@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.tables.trading
 
 import com.google.gson.annotations.Expose
@@ -8,24 +10,33 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class BehEconomyTrades: MonsteraBuildableFile {
-    override fun build(filename: String, path: Path?, version: String?) {
+    companion object {
+        fun resolveRelative(path: Path): String {
+            val sub = path.toString().split("trading").last().replace("\\", "/")
+            return "trading$sub"
+        }
+    }
+
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behTrading ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for tade table file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for tade table file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             this
         )
+        return Result.success(target)
     }
 
     @SerializedName("tiers")

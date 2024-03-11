@@ -4956,6 +4956,7 @@ class Components {
      * ```
      * barter {
      *     barterTable = loot_tables/entities/piglin_barter.json
+     *     table("name") {  }
      *     cooldownAfterBeingAttacked = 20
      * }
      *```

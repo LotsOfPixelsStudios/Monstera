@@ -7,23 +7,25 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class Sounds : MonsteraBuildableFile {
     /**
      * @param filename ignored, is always sounds.json
      */
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val selPath = path ?: Addon.active?.config?.resPath ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for sounds.json as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for sounds.json as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "sounds.json",
             this
         )
+        return Result.success(target)
     }
 
     @SerializedName("block_sounds")

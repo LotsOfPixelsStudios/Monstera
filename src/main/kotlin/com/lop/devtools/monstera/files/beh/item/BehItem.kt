@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.item
 
 import com.google.gson.annotations.Expose
@@ -7,20 +9,21 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class BehItem : MonsteraBuildableFile {
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behItems ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for item file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for item file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             FileHeader(
@@ -28,6 +31,7 @@ class BehItem : MonsteraBuildableFile {
                 this
             )
         )
+        return Result.success(target)
     }
 
     /**

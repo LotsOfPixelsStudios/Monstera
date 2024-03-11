@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.addon.entity
 
 import com.lop.devtools.monstera.addon.Addon
@@ -6,10 +8,10 @@ import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
 import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
-open class Entity(
+class Entity(
     val addon: Addon,
-    var name: String = "",
-    var displayName: String = ""
+    var name: String = "undefined",
+    var displayName: String = name
 ) {
     val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(this)
     val unsafeResourceEntity: ResourceEntity = ResourceEntity(this)

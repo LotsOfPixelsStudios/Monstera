@@ -26,7 +26,7 @@ interface MonsteraBuildableFile {
         filename: String,
         path: Path? = null,
         version: String? = null
-    )
+    ): Result<Path>
 }
 
 interface MonsteraUnsafe
