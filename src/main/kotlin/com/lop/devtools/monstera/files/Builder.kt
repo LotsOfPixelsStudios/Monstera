@@ -25,7 +25,7 @@ object MonsteraBuilder {
             filename = "$fileName.json"
         }
 
-        val outputPath = path.resolve(fileName)
+        val outputPath = path.resolve(filename)
         val outputFile = outputPath.toFile()
 
         if (fileName.length > 30) {
