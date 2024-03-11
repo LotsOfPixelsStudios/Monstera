@@ -13,4 +13,6 @@ data class GeoBone(
     val rotation: ArrayList<Float>? = null,
     @Expose
     val cubes: ArrayList<Cube>? = null,
+    @Expose
+    val locators: Map<String, List<Number>>? = null
 )

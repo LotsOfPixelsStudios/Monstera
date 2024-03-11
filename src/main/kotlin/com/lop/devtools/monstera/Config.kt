@@ -95,7 +95,7 @@ class Config(
         var lootTableEntity: Path = behBase.resolve("loot_tables").resolve("entities"),
         var lootTableBlock: Path = behBase.resolve("loot_tables").resolve("blocks"),
         var behSpawnRules: Path = behBase.resolve("spawn_rules"),
-        var behTrading: Path = behBase.resolve("trading"),
+        var behTrading: Path = behBase.resolve("trading").resolve("economy_trades"),
         var behRecipe: Path = behBase.resolve("recipes"),
         var behTexts: Path = behBase.resolve("texts"),
         var behScripts: Path = behBase.resolve("scripts"),
@@ -138,6 +138,7 @@ class Config(
         targetMcVersion: String,
         var behEntity: String = targetMcVersion,
         var resEntity: String = "1.10.0",
+        var resItem: String = "1.10.0",
         var behItem: String = targetMcVersion,
         var behAnimation: String = "1.8.0",
         var behBlock: String = targetMcVersion,
@@ -146,7 +147,8 @@ class Config(
         var behAnimController: String = "1.10.0",
         var resAnimController: String = "1.10.0",
         var resAttachable: String = "1.10.0",
-        var resSoundDefs: String = "1.14.0"
+        var resSoundDefs: String = "1.14.0",
+        var resRendercontroller: String = "1.10.0"
     )
 }
 

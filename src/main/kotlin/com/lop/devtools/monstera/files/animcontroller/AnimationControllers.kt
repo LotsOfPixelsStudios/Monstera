@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.animcontroller
 
 import com.google.gson.annotations.Expose
@@ -8,13 +10,13 @@ import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 class AnimationControllers: MonsteraBuildableFile {
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         if(animationControllersData.isEmpty())
-            return
+            return Result.failure(Error("Animation Controller Data is empty, building does nothing!"))
 
         val sanFile = filename
             .removeSuffix(".json")
@@ -23,7 +25,8 @@ class AnimationControllers: MonsteraBuildableFile {
         if(path == null)
             error("path may not be null! can't build anim controller when not clear if beh or res.")
 
-        MonsteraBuilder.buildTo(path, "$sanFile.json", this)
+        val target = MonsteraBuilder.buildTo(path, "$sanFile.json", this)
+        return Result.success(target)
     }
 
     /**

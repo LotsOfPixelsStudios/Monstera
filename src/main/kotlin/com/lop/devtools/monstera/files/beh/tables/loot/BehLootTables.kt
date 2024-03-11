@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.tables.loot
 
 import com.google.gson.annotations.Expose
@@ -11,41 +13,48 @@ import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
 class BehLootTables {
+    companion object {
+        fun resolveRelative(path: Path): String {
+            val sub = path.toString().split("loot_tables").last().replace("\\", "/")
+            return "loot_tables$sub"
+        }
+    }
     class Block(val data: BehLootTables) : MonsteraBuildableFile {
-        override fun build(filename: String, path: Path?, version: String?) {
+        override fun build(filename: String, path: Path?, version: String?): Result<Path> {
             val sanFile = filename
                 .removeSuffix(".json")
                 .replace("-", "_")
                 .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableBlock ?: run {
                 getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for block loot file '$sanFile' as no addon was initialized!")
-                return
+                return Result.failure(Error("Could not Resolve a path for block loot file '$sanFile' as no addon was initialized!"))
             }
-
-            MonsteraBuilder.buildTo(
+            val target = MonsteraBuilder.buildTo(
                 selPath,
                 "$sanFile.json",
                 data
             )
+            return Result.success(target)
         }
     }
 
     class Entity(val data: BehLootTables) : MonsteraBuildableFile {
-        override fun build(filename: String, path: Path?, version: String?) {
+        override fun build(filename: String, path: Path?, version: String?): Result<Path> {
             val sanFile = filename
                 .removeSuffix(".json")
                 .replace("-", "_")
                 .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableEntity ?: run {
                 getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
-                return
+                return Result.failure(Error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!"))
             }
 
-            MonsteraBuilder.buildTo(
+            val target = MonsteraBuilder.buildTo(
                 selPath,
                 "$sanFile.json",
                 data
             )
+            return Result.success(target)
         }
     }
 
@@ -141,7 +150,7 @@ class BehLootTables {
 
         @SerializedName("weight")
         @Expose
-        var max: Int? = null
+        var weight: Int? = null
 
         @SerializedName("functions")
         @Expose

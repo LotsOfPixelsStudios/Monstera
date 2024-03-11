@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package com.lop.devtools.monstera.files.beh.entitiy
 
@@ -13,6 +13,7 @@ import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 /**
@@ -41,17 +42,17 @@ class BehEntity : MonsteraBuildableFile {
     var eventsData: MutableMap<String, BehEntityEvent>? = null
         @MonsteraBuildSetter set
 
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behEntity ?: run {
             logger().error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             FileHeader(
@@ -59,6 +60,7 @@ class BehEntity : MonsteraBuildableFile {
                 this
             )
         )
+        return Result.success(target)
     }
 
     /**

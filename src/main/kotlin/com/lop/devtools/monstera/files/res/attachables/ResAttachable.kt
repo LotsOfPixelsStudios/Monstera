@@ -10,20 +10,21 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class ResAttachable : MonsteraBuildableFile {
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resAttachable ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for attachable file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for attachable file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             FileHeader(
@@ -31,6 +32,7 @@ class ResAttachable : MonsteraBuildableFile {
                 this
             )
         )
+        return Result.success(target)
     }
 
     /**

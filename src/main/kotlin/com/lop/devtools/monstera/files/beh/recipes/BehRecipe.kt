@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.recipes
 
 import com.google.gson.annotations.Expose
@@ -7,22 +9,23 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class BehRecipeShaped : MonsteraBuildableFile {
     var data = BehRecipe()
 
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for crafting recipe file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for crafting recipe file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             BehRecipe.FileHeaderShaped(
@@ -30,23 +33,24 @@ class BehRecipeShaped : MonsteraBuildableFile {
                 data
             )
         )
+        return Result.success(target)
     }
 }
 
 class BehRecipeFurnace : MonsteraBuildableFile {
     var data = BehRecipe()
 
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for furnace recipe file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for furnace recipe file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             BehRecipe.FileHeaderFurnace(
@@ -54,23 +58,24 @@ class BehRecipeFurnace : MonsteraBuildableFile {
                 data
             )
         )
+        return Result.success(target)
     }
 }
 
 class BehRecipeBrewingMix : MonsteraBuildableFile {
     var data = BehRecipe()
 
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for brewing mix recipe file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for brewing mix recipe file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             BehRecipe.FileHeaderBrewingMix(
@@ -78,23 +83,24 @@ class BehRecipeBrewingMix : MonsteraBuildableFile {
                 data
             )
         )
+        return Result.success(target)
     }
 }
 
 class BehRecipeBrewingContainer : MonsteraBuildableFile {
     var data = BehRecipe()
 
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
             .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behRecipe ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for brew container recipe file '$sanFile' as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for brew container recipe file '$sanFile' as no addon was initialized!"))
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "$sanFile.json",
             BehRecipe.FileHeaderBrewingContainer(
@@ -102,6 +108,7 @@ class BehRecipeBrewingContainer : MonsteraBuildableFile {
                 data
             )
         )
+        return Result.success(target)
     }
 }
 

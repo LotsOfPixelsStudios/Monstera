@@ -14,7 +14,7 @@ object MonsteraBuilder {
      * @param path to the build file
      * @param fileName the filename
      */
-    fun buildTo(path: Path, fileName: String, data: Any, ignoreFileExt: Boolean = false) {
+    fun buildTo(path: Path, fileName: String, data: Any, ignoreFileExt: Boolean = false): Path {
         val logger = LoggerFactory.getLogger("File Builder")
 
         var filename = fileName
@@ -25,7 +25,8 @@ object MonsteraBuilder {
             filename = "$fileName.json"
         }
 
-        val outputFile = path.resolve(filename).toFile()
+        val outputPath = path.resolve(fileName)
+        val outputFile = outputPath.toFile()
 
         if (fileName.length > 30) {
             logger.error("Filename '${fileName}' is too long!")
@@ -33,6 +34,7 @@ object MonsteraBuilder {
 
         outputFile.createNewFile()
         outputFile.writeText(gson.toJson(data))
+        return outputPath
     }
 
     /**
@@ -42,7 +44,7 @@ object MonsteraBuilder {
      * @param targetObj indicates the type of the object
      * @return the specified class with the data defined in file as a Result
      */
-    fun <T>readFrom(file: File, targetObj: Class<T>): Result<T> {
+    fun <T> readFrom(file: File, targetObj: Class<T>): Result<T> {
         try {
             val raw = file.readText()
             return Result.success(gson.fromJson(raw, targetObj))

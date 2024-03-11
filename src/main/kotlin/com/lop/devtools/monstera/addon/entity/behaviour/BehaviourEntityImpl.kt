@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.addon.entity.behaviour
 
 import com.lop.devtools.monstera.addon.api.DebugMarker

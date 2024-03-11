@@ -5,19 +5,16 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.res.entities.ResEntity
 import com.lop.devtools.monstera.getMonsteraLogger
+import java.lang.Error
 import java.nio.file.Path
 
 class ResSoundDefs : MonsteraBuildableFile {
-
-    override fun build(filename: String, path: Path?, version: String?) {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val selPath = path ?: Addon.active?.config?.paths?.resSounds ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for sound def file as no addon was initialized!")
-            return
+            return Result.failure(Error("Could not Resolve a path for sound def file as no addon was initialized!"))
         }
 
         Addon.active?.config?.formatVersions?.resSoundDefs?.let {
@@ -27,11 +24,12 @@ class ResSoundDefs : MonsteraBuildableFile {
             formatVersion = it
         }
 
-        MonsteraBuilder.buildTo(
+        val target = MonsteraBuilder.buildTo(
             selPath,
             "sound_definitions.json",
             this
         )
+        return Result.success(target)
     }
 
     @SerializedName("format_version")
