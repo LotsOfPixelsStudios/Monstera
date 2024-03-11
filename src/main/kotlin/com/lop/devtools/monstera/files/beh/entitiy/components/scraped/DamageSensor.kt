@@ -93,7 +93,7 @@ class DamageSensor {
         @Expose
         var target: Subject? = null
 
-        @SerializedName("target")
+        @SerializedName("event")
         @Expose
         var event: String? = null
     }
