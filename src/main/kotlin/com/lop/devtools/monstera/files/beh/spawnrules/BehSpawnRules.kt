@@ -40,7 +40,7 @@ class BehSpawnRules : MonsteraBuildableFile {
         @Expose
         var formatVersion: String = "1.8.0",
 
-        @SerializedName("minecraft:block")
+        @SerializedName("minecraft:spawn_rules")
         @Expose
         var block: BehSpawnRules
     )
