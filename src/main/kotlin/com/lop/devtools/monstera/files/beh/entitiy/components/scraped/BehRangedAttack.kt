@@ -2,7 +2,9 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.getMonsteraLogger
 
 class BehRangedAttack {
     @SerializedName("priority")
@@ -56,4 +58,11 @@ class BehRangedAttack {
     @SerializedName("attack_interval")
     @Expose
     var attackInterval: Number? = null
+
+    @DebugMarker
+    fun verify() {
+        if(attackRadius == null) {
+            getMonsteraLogger(this.javaClass.name).warn("Ranged attack has no attackRadius!")
+        }
+    }
 }
