@@ -15,31 +15,31 @@ class MaterialInstance {
     }
 }
 
-    class MaterialSettings {
-        @SerializedName("texture")
-        @Expose
-        var texture: String? = null
+class MaterialSettings {
+    @SerializedName("texture")
+    @Expose
+    var texture: String? = null
 
-        @SerializedName("render_method")
-        @Expose
-        var renderMethod: RenderMethod? = null
+    @SerializedName("render_method")
+    @Expose
+    var renderMethod: RenderMethod? = null
 
-        @SerializedName("ambient_occlusion")
-        @Expose
-        var ambientOcclusion: Boolean? = null
+    @SerializedName("ambient_occlusion")
+    @Expose
+    var ambientOcclusion: Boolean? = null
 
-        @SerializedName("face_dimming")
-        @Expose
-        var faceDimming: Boolean? = null
+    @SerializedName("face_dimming")
+    @Expose
+    var faceDimming: Boolean? = null
 
-        enum class RenderMethod(val s: String) {
-            OPAQUE("opaque"),
-            DOUBLE_SIDED("double_sided"),
-            ALPHA_TEST("alpha_test"),
-            BLEND("blend");
+    enum class RenderMethod(val s: String) {
+        OPAQUE("opaque"),
+        DOUBLE_SIDED("double_sided"),
+        ALPHA_TEST("alpha_test"),
+        BLEND("blend");
 
-            override fun toString(): String {
-                return s
-            }
+        override fun toString(): String {
+            return s
         }
     }
+}
