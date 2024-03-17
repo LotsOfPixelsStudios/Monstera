@@ -66,6 +66,6 @@ class ResSoundComp: MonsteraFile {
      * @param value The pitch of the sound (how low/high it sounds). Ranges from 0.0 to 1.0 (standard), but can be higher, such as 1.48.
      */
     fun pitch(value: Float = 1.0f) {
-        unsafe.general["volume"] = value
+        unsafe.general["pitch"] = value
     }
 }
