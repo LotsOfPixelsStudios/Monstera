@@ -203,7 +203,7 @@ class BehSpawnRules : MonsteraBuildableFile {
          */
         @OptIn(MonsteraBuildSetter::class)
         fun permuteType(data: SpawnPermuteType.() -> Unit) {
-            permuteTypeData = (permuteTypeData ?: mutableListOf()).apply { SpawnPermuteType().apply(data) }
+            permuteTypeData = (permuteTypeData ?: mutableListOf()).apply { add(SpawnPermuteType().apply(data)) }
         }
 
         @SerializedName("minecraft:brightness_filter")
@@ -368,10 +368,17 @@ class BehSpawnRules : MonsteraBuildableFile {
     }
 }
 
-enum class PopulationControl{
+enum class PopulationControl {
+    @SerializedName("animal")
     ANIMAL,
+
+    @SerializedName("monster")
     MONSTER,
+
+    @SerializedName("water_animal")
     WATER_ANIMAL,
+
+    @SerializedName("ambient")
     AMBIENT;
 
     override fun toString(): String {
