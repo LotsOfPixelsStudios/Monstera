@@ -25,5 +25,4 @@ annotation class MonsteraBuildField
 
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
-@RequiresOptIn("Notice: Holiday Creator Features must be enabled", RequiresOptIn.Level.WARNING)
 annotation class HolidayCreatorFeature(val since: String = "current", val till: String = "current")

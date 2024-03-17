@@ -77,9 +77,10 @@ class ResRenderControllers : MonsteraBuildableFile {
         entityName: String,
         settings: ResRenderController.() -> Unit
     ) {
+        val controllerName = "controller.render.${entityName.removePrefix("controller.render.")}"
         renderControllers = (renderControllers ?: mutableMapOf()).apply {
-            get(entityName)?.apply(settings) ?: run {
-                put(entityName, ResRenderController().apply(settings))
+            get(controllerName)?.apply(settings) ?: run {
+                put(controllerName, ResRenderController().apply(settings))
             }
         }
     }

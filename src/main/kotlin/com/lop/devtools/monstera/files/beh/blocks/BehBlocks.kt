@@ -8,8 +8,8 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
 import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
 class BehBlocks : MonsteraBuildableFile {
@@ -49,17 +49,17 @@ class BehBlocks : MonsteraBuildableFile {
 
     @SerializedName("description")
     @Expose
-    var descriptionData: Description? = null
+    var descriptionData: BlockDescription? = null
         @MonsteraBuildSetter set
 
     @SerializedName("components")
     @Expose
-    var componentsData: Components? = null
+    var componentsData: BlockComponents? = null
         @MonsteraBuildSetter set
 
     @OptIn(MonsteraBuildSetter::class)
-    fun description(data: Description.() -> Unit) {
-        descriptionData = (descriptionData ?: Description()).apply(data)
+    fun description(data: BlockDescription.() -> Unit) {
+        descriptionData = (descriptionData ?: BlockDescription()).apply(data)
     }
 
     /**
@@ -69,77 +69,7 @@ class BehBlocks : MonsteraBuildableFile {
      * ```
      */
     @OptIn(MonsteraBuildSetter::class)
-    fun components(data: Components.() -> Unit) {
-        componentsData = (componentsData ?: Components()).apply(data)
-    }
-
-    class Description {
-        @SerializedName("components")
-        @Expose
-        var identifier: String? = null
-    }
-
-    class Components {
-        @SerializedName("minecraft:geometry")
-        @Expose
-        var geometry: String? = null
-
-        @SerializedName("minecraft:material_instances")
-        @Expose
-        var materialInstance: MutableMap<String, MaterialSettings>? = null
-            @MonsteraBuildSetter set
-
-        /**
-         * ```
-         * all("path")
-         * site("*", "path")
-         * ```
-         */
-        @OptIn(MonsteraBuildSetter::class)
-        fun materialInstance(data: MaterialInstance.() -> Unit) {
-            materialInstance = (materialInstance
-                ?: mutableMapOf()).also { it.putAll(MaterialInstance().apply(data).materialSettingsSite) }
-        }
-    }
-
-    class MaterialInstance {
-        val materialSettingsSite = mutableMapOf<String, MaterialSettings>()
-
-        fun all(settings: MaterialSettings.() -> Unit) {
-            if (materialSettingsSite.containsKey("*")) {
-                materialSettingsSite["*"]!!.apply(settings)
-            } else {
-                materialSettingsSite["*"] = MaterialSettings().apply(settings)
-            }
-        }
-    }
-
-    class MaterialSettings {
-        @SerializedName("texture")
-        @Expose
-        var texture: String? = null
-
-        @SerializedName("render_method")
-        @Expose
-        var renderMethod: RenderMethod? = null
-
-        @SerializedName("ambient_occlusion")
-        @Expose
-        var ambientOcclusion: Boolean? = null
-
-        @SerializedName("face_dimming")
-        @Expose
-        var faceDimming: Boolean? = null
-
-        enum class RenderMethod(val s: String) {
-            OPAQUE("opaque"),
-            DOUBLE_SIDED("double_sided"),
-            ALPHA_TEST("alpha_test"),
-            BLEND("blend");
-
-            override fun toString(): String {
-                return s
-            }
-        }
+    fun components(data: BlockComponents.() -> Unit) {
+        componentsData = (componentsData ?: BlockComponents()).apply(data)
     }
 }

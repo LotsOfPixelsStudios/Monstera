@@ -3,6 +3,7 @@ package com.lop.devtools.monstera.files.beh.entitiy.components
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 
 class Components {
@@ -1852,10 +1853,11 @@ class Components {
      * }
      *```
      */
-    @OptIn(MonsteraBuildSetter::class)
+    @OptIn(MonsteraBuildSetter::class, DebugMarker::class)
     @VanillaComponentMarker
     fun behRangedAttack(value: BehRangedAttack.() -> Unit) {
         behRangedAttackData = (behRangedAttackData ?: BehRangedAttack()).apply(value)
+        behRangedAttackData?.verify()
     }
 
     @SerializedName("minecraft:is_stackable")

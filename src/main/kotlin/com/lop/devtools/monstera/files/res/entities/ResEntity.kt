@@ -79,7 +79,7 @@ class ResEntity: MonsteraBuildableFile {
     }
 
     class Description {
-        @SerializedName("components")
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 

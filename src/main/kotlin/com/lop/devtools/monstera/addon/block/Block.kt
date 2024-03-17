@@ -6,6 +6,8 @@ import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
+import com.lop.devtools.monstera.files.beh.blocks.components.MaterialInstance
+import com.lop.devtools.monstera.files.beh.blocks.components.MaterialSettings
 import com.lop.devtools.monstera.files.createWithDirs
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.res.blocks.BlockDefs
@@ -55,7 +57,7 @@ open class Block(
     /**
      * set a texture that is applied on all sites
      */
-    fun texture(name: String, path: String, settings: BehBlocks.MaterialSettings.() -> Unit) {
+    fun texture(name: String, path: String, settings: MaterialSettings.() -> Unit) {
         unsafeBehBlock.components {
             materialInstance {
                 all {
@@ -70,7 +72,7 @@ open class Block(
     /**
      * set a texture that is applied on all sites
      */
-    fun texture(file: File, settings: BehBlocks.MaterialSettings.() -> Unit) {
+    fun texture(file: File, settings: MaterialSettings.() -> Unit) {
         val uniqueFilename = getUniqueFileName(file)
         val target = addon.config.paths.resTextures.resolve("monstera").resolve(uniqueFilename).toFile()
         file.copyTo(target.createWithDirs(), true)

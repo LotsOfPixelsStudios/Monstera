@@ -52,6 +52,8 @@ open class BehEntityEvent {
     var setPropertyData: MutableMap<String, Any>? = null
         @MonsteraBuildSetter set
 
+    var queueCommand = null
+
 
     /**
      * 0..1
