@@ -68,4 +68,13 @@ class ResSoundComp {
     fun volume(value: Float = 1.0f) {
         volume = value
     }
+
+    /**
+     * 0..1
+     *
+     * @param value The pitch of the sound (how low/high it sounds). Ranges from 0.0 to 1.0 (standard), but can be higher, such as 1.48.
+     */
+    fun pitch(value: Float = 1.0f) {
+        pitch = value
+    }
 }
