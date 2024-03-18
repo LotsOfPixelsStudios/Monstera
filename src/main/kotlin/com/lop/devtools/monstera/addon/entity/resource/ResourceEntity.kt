@@ -100,11 +100,11 @@ open class ResourceEntity(val unsafeParent: Entity) {
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    fun textureLayer(textures: ArrayList<File>, query: Unit.() -> Molang, layerName: String= hashLayerName(textures, query(Unit).data)) {
+    fun textureLayer(textures: ArrayList<File>, query: () -> Molang, layerName: String= hashLayerName(textures, query().data)) {
         unsafeRawEntity.apply {
             description {
                 renderPart("default") {
-                    textureLayer(textures, query, layerName)
+                    textureLayer(textures, query(), layerName)
                 }
             }
         }
@@ -291,7 +291,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
      * @param name the name of the controller
      */
     fun animationController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
-        val idName = "controller.animation.${unsafeParent.name}.${name.removePrefix("controller.animation.")}"
+        val idName = "controller.animation.${unsafeParent.name}.$name"
         unsafeControllers.animController(idName, data)
 
         unsafeRawEntity.apply {
