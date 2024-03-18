@@ -5,6 +5,7 @@ package com.lop.devtools.monstera.addon
 import com.lop.devtools.monstera.Config
 import com.lop.devtools.monstera.MonsteraLoggerContext
 import com.lop.devtools.monstera.addon.api.InvokeBeforeEnd
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeField
 import com.lop.devtools.monstera.addon.api.PackageInvoke
 import com.lop.devtools.monstera.addon.block.Block
 import com.lop.devtools.monstera.addon.dev.buildToMcFolder
@@ -29,7 +30,7 @@ import java.lang.Integer.max
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-open class Addon(val config: Config)  {
+open class Addon(val config: Config) {
     @DslMarker
     annotation class AddonTopLevel
 
@@ -47,6 +48,9 @@ open class Addon(val config: Config)  {
 
     val onEndListener: ArrayList<InvokeBeforeEnd> = arrayListOf()
     val onPackage: ArrayList<PackageInvoke> = arrayListOf()
+
+    @MonsteraUnsafeField
+    val entities: MutableMap<String, Entity> = mutableMapOf()
 
     var buildFunctions: Boolean = true
     var buildTextureList: Boolean = true
@@ -69,10 +73,9 @@ open class Addon(val config: Config)  {
     @AddonTopLevel
     fun entity(name: String, displayName: String = name, entity: Entity.() -> Unit): Entity {
         MonsteraLoggerContext.setEntity(name)
-        val ent = Entity(this, name, displayName).apply(entity)
-        ent.build()
+        entities[name] = (entities[name] ?: Entity(this, name, displayName)).apply(entity)
         MonsteraLoggerContext.clear()
-        return ent
+        return entities[name]!!
     }
 
     /**
@@ -244,6 +247,13 @@ open class Addon(val config: Config)  {
     }
 
     fun build() {
+        //entities
+        entities.forEach { (name, body) ->
+            MonsteraLoggerContext.setEntity(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
+        //blocks
         BlockDefs.instance(this).unsafe.build(config.resPath)
         TerrainTextures.instance(this).unsafe.buildFile(this)
         Materials.instance(this).apply {
@@ -303,7 +313,11 @@ fun buildInformation(addon: Addon) {
         entries = arrayListOf(
             "say §b$format",
             "say §b#§a Monstera version: ${addon.config.monsteraVersion}",
-            "say §b#§a build version: ${(System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(addon.config.version))}",
+            "say §b#§a build version: ${
+                (System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(
+                    addon.config.version
+                ))
+            }",
             "say §b#§a build time: $time",
             "say §b$format",
         )

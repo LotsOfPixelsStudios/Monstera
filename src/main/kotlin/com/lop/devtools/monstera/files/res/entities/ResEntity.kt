@@ -168,10 +168,10 @@ class ResEntity: MonsteraBuildableFile {
 
         fun texture(state: String, file: File, addon: Addon) {
             val targetName = getUniqueFileName(file).removeSuffix(".png")
-            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve("$targetName.png")
-            TextureIndex.instance(addon).textures.add("textures/monstera/$targetName")
+            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve(addon.config.namespace).resolve("$targetName.png")
+            TextureIndex.instance(addon).textures.add("textures/monstera/${addon.config.namespace}/$targetName")
             file.copyTo(targetPath.toFile(), true)
-            texture(state,"textures/monstera/$targetName")
+            texture(state,"textures/monstera/${addon.config.namespace}/$targetName")
         }
 
         @SerializedName("animations")

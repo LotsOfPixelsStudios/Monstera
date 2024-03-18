@@ -49,11 +49,11 @@ class Config(
         "com.mojang"
     ),
     var paths: AddonPaths = AddonPaths(behPath, resPath),
-    var targetMcVersion: ArrayList<Int> = arrayListOf(1, 19, 40),
+    var targetMcVersion: ArrayList<Int> = arrayListOf(1, 20, 70),
     var formatVersions: FormatVersions = FormatVersions(getVersionAsString(targetMcVersion)),
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
-    var scriptingVersion: String = "1.6.0"
+    var scriptingVersion: String = "1.8.0"
 ) {
     init {
         behPath.toFile().deleteRecursively()
