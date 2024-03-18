@@ -167,7 +167,7 @@ class ResEntity: MonsteraBuildableFile {
         }
 
         fun texture(state: String, file: File, addon: Addon) {
-            val targetName = getUniqueFileName(file)
+            val targetName = getUniqueFileName(file).removeSuffix(".png")
             val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve("$targetName.png")
             TextureIndex.instance(addon).textures.add("textures/monstera/$targetName")
             file.copyTo(targetPath.toFile(), true)
