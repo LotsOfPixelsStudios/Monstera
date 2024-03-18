@@ -92,7 +92,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
         unsafeRawEntity.apply {
             description {
                 renderPart("default") {
-                    textureLayer(textures, query(), layerName)
+                    textureLayer(textures, query, layerName)
                 }
             }
         }
