@@ -291,7 +291,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
      * @param name the name of the controller
      */
     fun animationController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
-        val idName = "controller.animation.${unsafeParent.name}.${name.removePrefix("controller.animation.")}"
+        val idName = "controller.animation.${unsafeParent.name}.$name"
         unsafeControllers.animController(idName, data)
 
         unsafeRawEntity.apply {

@@ -187,9 +187,8 @@ class ResEntity: MonsteraBuildableFile {
          */
         @OptIn(MonsteraBuildSetter::class)
         fun animation(refIdentifier: String = "default", animID: String) {
-            val sanitisedAnimName = "animation.${animID.removePrefix("animation.")}"
             animationsData = (animationsData ?: mutableMapOf()).apply {
-                put(refIdentifier, sanitisedAnimName)
+                put(refIdentifier, animID)
             }
         }
 

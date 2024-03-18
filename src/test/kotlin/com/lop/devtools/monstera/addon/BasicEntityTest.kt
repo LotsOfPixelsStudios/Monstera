@@ -23,6 +23,12 @@ class BasicEntityTest {
                 ), Query.variant)
                 geometryLayer(getResource("entity/geometries/soldier_npc.geo.json"))
                 animation(getResource("entity/animations/soldier_npc.animation.json"))
+
+                animationController("general") {
+                    state("default") {
+                        animations("base_pose", "move")
+                    }
+                }
             }
             behaviour {
                 components {
