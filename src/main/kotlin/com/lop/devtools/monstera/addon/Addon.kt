@@ -52,6 +52,12 @@ open class Addon(val config: Config) {
     @MonsteraUnsafeField
     val entities: MutableMap<String, Entity> = mutableMapOf()
 
+    @MonsteraUnsafeField
+    val items: MutableMap<String, Item> = mutableMapOf()
+
+    @MonsteraUnsafeField
+    val blocks: MutableMap<String, Block> = mutableMapOf()
+
     var buildFunctions: Boolean = true
     var buildTextureList: Boolean = true
     var buildItemTextureIndex: Boolean = true
@@ -151,10 +157,9 @@ open class Addon(val config: Config) {
     @AddonTopLevel
     fun item(name: String, displayName: String = name, item: Item.() -> Unit): Item {
         MonsteraLoggerContext.setItem(name)
-        val data = Item(name, displayName, this).apply(item)
-        data.build()
+        items[name] = (items[name] ?: Item(name, displayName, this)).apply(item)
         MonsteraLoggerContext.clear()
-        return data
+        return items[name]!!
     }
 
     /**
@@ -224,10 +229,9 @@ open class Addon(val config: Config) {
     @AddonTopLevel
     fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
         MonsteraLoggerContext.setBlock(name)
-        val mData = Block(this, name, displayName).apply(data)
-        mData.build()
+        blocks[name] = (blocks[name] ?: Block(this, name, displayName)).apply(data)
         MonsteraLoggerContext.clear()
-        return mData
+        return blocks[name]!!
     }
 
     fun scripts(directory: File) {
@@ -242,7 +246,7 @@ open class Addon(val config: Config) {
                     it.copyRecursively(File(scriptingDir, it.name), true)
                 }
         } else {
-            logger.warn("${directory.name}' is not a directory (scripting)")
+            logger.warn("${directory.path}' does not exist or is not a directory (scripting)")
         }
     }
 
@@ -253,7 +257,18 @@ open class Addon(val config: Config) {
             body.build()
             MonsteraLoggerContext.clear()
         }
+        //items
+        items.forEach { (name, body) ->
+            MonsteraLoggerContext.setItem(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
         //blocks
+        blocks.forEach { (name, body) ->
+            MonsteraLoggerContext.setBlock(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
         BlockDefs.instance(this).unsafe.build(config.resPath)
         TerrainTextures.instance(this).unsafe.buildFile(this)
         Materials.instance(this).apply {
