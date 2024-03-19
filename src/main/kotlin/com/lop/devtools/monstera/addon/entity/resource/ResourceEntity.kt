@@ -295,6 +295,10 @@ open class ResourceEntity(val unsafeParent: Entity) {
         }
     }
 
+    fun defaultRenderPart(data: RenderPart.() -> Unit) {
+        renderPart("default", Query.True, data)
+    }
+
     /**
      * add a geometry and a texture with a separate render controller.
      * This part will always be rendered as it defaults the query to Query.True.
