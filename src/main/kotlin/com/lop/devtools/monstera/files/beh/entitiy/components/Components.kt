@@ -6915,7 +6915,7 @@ open class Components: MonsteraRawFile() {
             mustSee = true
             mustReach = false
 
-            entityTypes(entityTypes)
+            entityType(entityTypes)
         }
 
         shooter {

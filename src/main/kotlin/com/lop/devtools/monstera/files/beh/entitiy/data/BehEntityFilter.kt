@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 
-class BehEntityFilter {
+open class BehEntityFilter {
     private val calledFilters = mutableListOf<BehEntityFilter>()
 
     @OptIn(MonsteraBuildSetter::class)

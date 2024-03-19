@@ -191,7 +191,12 @@ class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
          * @param animID the animation id e.g. animation.husk.walk
          */
         @OptIn(MonsteraBuildSetter::class)
-        fun animation(refIdentifier: String = "default", animID: String) {
+        fun animation(refIdentifier: String, animID: String) {
+            if(animationsData?.containsKey(refIdentifier) == true) {
+                getMonsteraLogger("Res Entity").warn(
+                    "Detected multiple definintions for animation (controller) name: '$refIdentifier'. Make sure animation names and controller names are unique!"
+                )
+            }
             animationsData = (animationsData ?: mutableMapOf()).apply {
                 put(refIdentifier, animID)
             }
