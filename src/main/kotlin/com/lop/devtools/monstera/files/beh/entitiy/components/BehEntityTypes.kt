@@ -1,69 +1,42 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
 class BehEntityTypes {
-    val general = arrayListOf<Any>()
-
-    /**
-     * 0..n
-     *
-     * set a new entity type
-     * @sample sampleType
-     */
-    fun type(value: CompEntityType.() -> Unit) {
-        general.add(CompEntityType().apply(value).unsafe.getData())
-    }
-
-    fun getData(): ArrayList<Any> {
-        return general
-    }
-
-    private fun sampleType() {
-        type {
-            maxDist = 2f
-            mustSee = false
-            mustForgetDuration = 3f
-            sprintSpeedMultiplier = 1.2f
-            walkSpeedMultiplier = 1f
-            filters {
-
-            }
-        }
-    }
-}
-
-class CompEntityType: MonsteraFile {
-    override val unsafe = Unsafe()
-
-    inner class Unsafe: MonsteraUnsafeMap {
-        val general = mutableMapOf<String, Any>()
-
-        override fun getData(): MutableMap<String, Any> {
-            maxDist?.let { general["max_dist"] = it }
-            mustSee?.let { general["must_see"] = it }
-            mustForgetDuration?.let { general["must_see_forget_duration"] = it }
-            sprintSpeedMultiplier?.let { general["sprint_speed_multiplier"] = it }
-            walkSpeedMultiplier?.let { general["walk_speed_multiplier"] = it }
-            priority?.let { general["priority"] = it }
-
-            return general
-        }
-    }
-
-
-
+    @SerializedName("max_dist")
+    @Expose
     var maxDist: Number? = null
+
+    @SerializedName("must_see")
+    @Expose
     var mustSee: Boolean? = null
+
+    @SerializedName("must_see_forget_duration")
+    @Expose
     var mustForgetDuration: Number? = null
+
+    @SerializedName("sprint_speed_multiplier")
+    @Expose
     var sprintSpeedMultiplier: Float? = null
+
+    @SerializedName("walk_speed_multiplier")
+    @Expose
     var walkSpeedMultiplier: Float? = null
 
-    var priority: Int? = null   //usage only in nearest prioritized target
+    @SerializedName("priority")
+    @Expose
+    var priority: Int? = null
 
-    fun filters(value: BehEntityFilter.() -> Unit) {
-        unsafe.general["filters"] = BehEntityFilter().apply(value).getData()
+    @SerializedName("filters")
+    @Expose
+    var filterData: BehEntityFilter? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun filters(data: BehEntityFilter.() -> Unit) {
+        filterData = (filterData ?: BehEntityFilter()).apply(data)
     }
 }

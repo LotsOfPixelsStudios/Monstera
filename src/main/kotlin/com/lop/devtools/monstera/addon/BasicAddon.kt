@@ -7,9 +7,9 @@ import kotlin.system.measureTimeMillis
 @DslMarker
 annotation class AddonEntry
 
-class BasicAddon(config: Config) : AddonImpl(config) {
+class BasicAddon(config: Config) : Addon(config) {
     init {
-        Addon.active = this
+        active = this
     }
 }
 
@@ -28,4 +28,15 @@ fun addon(config: Config, addon: Addon.() -> Unit): Config {
 @AddonEntry
 fun addon(projectName: String, conf: Config.() -> Unit = {}, addon: Addon.() -> Unit): Config {
     return addon(Config(projectName).apply(conf), addon)
+}
+
+@AddonEntry
+fun testAddon(addon: Addon.() -> Unit) {
+    (Addon.active ?: BasicAddon(Config("test_prj"))).apply(addon)
+}
+
+fun buildTestAddon() {
+    Addon.active?.build() ?: run {
+        getMonsteraLogger("Test Addon").warn("No Test Addon initilized!")
+    }
 }

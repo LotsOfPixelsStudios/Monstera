@@ -1,21 +1,7 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
-class BehEntitySequence(private val parent: BehEntityEvents) {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    val unsafe = Unsafe()
-
-    inner class Unsafe {
-        /**
-         * access to all defined data
-         */
-        val general = arrayListOf<Any>()
-
-        fun getData(): ArrayList<Any> {
-            return unsafe.general
-        }
-    }
+class BehEntitySequence {
+    val sequenceEvents: MutableList<BehEntityEvent.ContainsFilter> = mutableListOf()
 
     /**
      * 0..1 instances of remove allowed
@@ -24,7 +10,9 @@ class BehEntitySequence(private val parent: BehEntityEvents) {
      * @see BehEntityAddRemove
      */
     fun remove(settings: BehEntityAddRemove.() -> Unit) {
-        unsafe.general.add(BehEntityAddRemove().apply(settings).unsafe.getData())
+        sequenceComp {
+            remove(settings)
+        }
     }
 
     /**
@@ -34,14 +22,9 @@ class BehEntitySequence(private val parent: BehEntityEvents) {
      * @see BehEntityAddRemove
      */
     fun add(settings: BehEntityAddRemove.() -> Unit) {
-        val obj = BehEntityAddRemove().apply(settings)
-
-        //### debugger ###
-        parent.unsafe.debugAddedGroups.addAll(obj.unsafe.general)
-        //################
-
-        val data = obj.unsafe.getData()
-        unsafe.general.add(mutableMapOf("add" to data))
+        sequenceComp {
+            add(settings)
+        }
     }
 
     /**
@@ -50,35 +33,18 @@ class BehEntitySequence(private val parent: BehEntityEvents) {
      *
      * @param settings: add
      */
-    fun randomize(
-        settings: BehEntityRandomize.() -> Unit
-    ) {
-        val behEntityRandomize = BehEntityRandomize(parent).apply {
-            settings(this)
+    fun randomize(settings: BehEntityRandomize.() -> Unit) {
+        sequenceComp {
+            randomize(settings)
         }
-
-        val ran = mutableMapOf<String,Any>().apply {
-            put("randomize", behEntityRandomize.unsafe.getData())
-        }
-        unsafe.general.add(ran)
     }
 
     /**
      * 0..*
      *
      * @param comp do a encapsulate sequence comp yourself
-     * @sample sampleSeqComp
      */
-    fun sequenceComp(comp: BehEntitySequenceComp.() -> Unit) {
-        unsafe.general.add(BehEntitySequenceComp(parent).apply(comp).unsafe.getData())
-    }
-
-    private fun sampleSeqComp() {
-        sequenceComp {
-            add {  }
-            remove {  }
-            filters {  }
-            randomise {  }
-        }
+    fun sequenceComp(comp: BehEntityEvent.ContainsFilter.() -> Unit) {
+        sequenceEvents.add(BehEntityEvent.ContainsFilter().apply(comp))
     }
 }
