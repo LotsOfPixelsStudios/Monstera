@@ -18,9 +18,5 @@ enum class BiomeType {
     SWAMP,
     TAIGA,
     THE_END,
-    THE_NETHER;
-
-    override fun toString(): String {
-        return super.toString().lowercase()
-    }
+    THE_NETHER
 }

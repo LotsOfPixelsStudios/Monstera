@@ -1,24 +1,21 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
-
 package com.lop.devtools.monstera.files.res.rendercontrollers
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
-import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class ResRenConUvAnim : MonsteraRawFile() {
-    @SerializedName("offset")
-    @Expose
-    var offsetData: MutableList<Any>? = null
-        @MonsteraBuildSetter set
+class ResRenConUvAnim : MonsteraFile {
+    override val unsafe = Unsafe()
+    private fun logger() = getMonsteraLogger("Uv Render")
 
-    @SerializedName("scale")
-    @Expose
-    var scaleData: MutableList<Any>? = null
-        @MonsteraBuildSetter set
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
+
+        override fun getData(): MutableMap<String, Any> {
+            return general
+        }
+    }
 
     private fun get2ElList(from: Any, to: Any): MutableList<Any> {
         val ls = mutableListOf<Any>()
@@ -27,7 +24,7 @@ class ResRenConUvAnim : MonsteraRawFile() {
             is Number -> ls.add(from)
             is String -> ls.add(from)
 
-            else -> getMonsteraLogger(this.javaClass.name).warn(
+            else -> logger().warn(
                 "type can't be parsed: invalid type '${from::class.java.name}'"
             )
         }
@@ -36,7 +33,7 @@ class ResRenConUvAnim : MonsteraRawFile() {
             is Number -> ls.add(to)
             is String -> ls.add(to)
 
-            else -> getMonsteraLogger(this.javaClass.name).warn(
+            else -> logger().warn(
                 "type can't be parsed: '${to::class.java.name}'"
             )
         }
@@ -44,13 +41,11 @@ class ResRenConUvAnim : MonsteraRawFile() {
         return ls
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun offset(from: Any, to: Any = from) {
-        offsetData = get2ElList(from, to)
+        unsafe.general["offset"] = get2ElList(from, to)
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun scale(from: Any, to: Any = from) {
-        scaleData = get2ElList(from, to)
+        unsafe.general["scale"] = get2ElList(from, to)
     }
 }

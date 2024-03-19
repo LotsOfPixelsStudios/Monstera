@@ -15,9 +15,5 @@ enum class ColorType {
     RED,
     SILVER,
     WHITE,
-    YELLOW;
-
-    override fun toString(): String {
-        return super.toString().lowercase()
-    }
+    YELLOW
 }

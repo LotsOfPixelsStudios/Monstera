@@ -1,11 +1,8 @@
 package com.lop.devtools.monstera.files.properties.types
 
-import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.molang.Molang
 
 interface GenericProperty <T> {
-    var default: Any?
-
     /**
      * Set the default value of the property
      *
@@ -22,8 +19,5 @@ interface GenericProperty <T> {
     /**
      * indicates if the property should be available in the resource pack
      */
-    var clientSync: Boolean?
-
-    @DebugMarker
-    fun propertySpecificDebug()
+    var clientSync: Boolean
 }

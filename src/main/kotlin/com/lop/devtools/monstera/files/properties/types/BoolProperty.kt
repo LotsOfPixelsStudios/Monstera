@@ -1,35 +1,29 @@
 package com.lop.devtools.monstera.files.properties.types
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.DebugMarker
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraFile
 import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
 
-class BoolProperty: GenericProperty<Boolean> {
-    @SerializedName("default")
-    @Expose
-    override var default: Any? = null
+class BoolProperty: GenericProperty<Boolean>, MonsteraFile {
+    override val unsafe = Unsafe()
+    inner class Unsafe: MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
 
-    @SerializedName("type")
-    @Expose
-    var typeData: String = "bool"
-        @MonsteraBuildSetter set
-
-    @SerializedName("client_sync")
-    @Expose
-    override var clientSync: Boolean? = null
-
-    @DebugMarker
-    override fun propertySpecificDebug() {}
+        override fun getData(): MutableMap<String, Any> {
+            general["type"] = "bool"
+            if(clientSync)
+                general["client_sync"] = true
+            return general
+        }
+    }
 
     override fun default(value: Boolean) {
-        this.default = value
+        unsafe.general["default"] = value
     }
 
     override fun default(value: Molang) {
-        this.default = value.data
+        unsafe.general["default"] = value.data
     }
+
+    override var clientSync: Boolean = false
 }

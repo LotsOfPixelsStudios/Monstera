@@ -38,6 +38,6 @@ class ComponentTest {
         )
 
         val gson = GsonBuilder().setPrettyPrinting().create()
-        JSONAssert.assertEquals(gson.toJson(target), gson.toJson(entity), false)
+        JSONAssert.assertEquals(gson.toJson(target), gson.toJson(entity.unsafe.getData()), false)
     }
 }

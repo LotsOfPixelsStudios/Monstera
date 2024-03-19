@@ -23,19 +23,16 @@ private fun getResourceSample() {
     getResource("entity/default_texture.png")
 }
 
-fun getValueForLangKey(lanFile: File, key: String): Result<String> {
+fun getValueForLangKey(lanFile: File, key: String): String? {
     if (lanFile.exists()) {
         val data = lanFile.readText()
         data.split("\n").forEach {
             if (it.contains(key)) {
-                return Result.success(
-                    it.removePrefix("$key=").replace("\n", "").replace("\r", "")
-                )
+                return it.removePrefix("$key=").replace("\n", "").replace("\r", "")
             }
         }
-        return Result.failure(Error("lang key does not exist"))
     }
-    return Result.failure(Error("lang file does not exist"))
+    return null
 }
 
 /**
@@ -54,7 +51,9 @@ fun getUniqueFileName(file: File): String {
 }
 
 fun File(vararg parents: String): File {
-    return File(parents.joinToString(separator = File.separator))
+    return File(parents.joinToString(separator = File.separator) {
+        it
+    })
 }
 
 fun File.createWithDirs(): File {

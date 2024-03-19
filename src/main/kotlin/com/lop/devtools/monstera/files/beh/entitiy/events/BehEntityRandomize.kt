@@ -1,37 +1,37 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
-import com.lop.devtools.monstera.getMonsteraLogger
-
-class BehEntityRandomize {
-
+class BehEntityRandomize(private val parent: BehEntityEvents) {
     /**
-     * saves the data for all randomized sub events,
-     * add events through functions below
+     * unsafe to use variables, used for plugins/ libraries
      */
-    val randomEvents: MutableList<BehEntityEvent.ContainsWeight> = mutableListOf()
+    val unsafe = Unsafe()
 
-    fun add(weight: Int, vararg groups: String) {
-        randomComp {
-            this.weight = weight
-            add { componentGroups = groups.asList().toMutableList() }
-        }
-    }
+    inner class Unsafe {
+        /**
+         * access to all defined data
+         */
+        val general = arrayListOf<Any>()
 
-    fun remove(weight: Int, vararg groups: String) {
-        randomComp {
-            this.weight = weight
-            remove { componentGroups = groups.asList().toMutableList() }
+        fun getData(): ArrayList<Any> {
+            return unsafe.general
         }
     }
 
     /**
      * 1..*
+     *
+     * @sample sampleRandomComp
      */
-    fun randomComp(settings: BehEntityEvent.ContainsWeight.() -> Unit) {
-        randomEvents.add(BehEntityEvent.ContainsWeight().apply(settings).also {
-            if (it.weight == null)
-                getMonsteraLogger(this.javaClass.name)
-                    .warn("Randomized event component has no weight! Set with 'randomComp { weight = 1 }'.")
-        })
+    fun randomComp(settings: BehEntityRandomComp.() -> Unit) {
+        unsafe.general.add(BehEntityRandomComp(parent).apply(settings).getData())
+    }
+
+    private fun sampleRandomComp() {
+        randomComp {
+            weight = 1
+            add {  }
+            remove {  }
+            randomize {  }
+        }
     }
 }

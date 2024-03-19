@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.lop.devtools.monstera.addon.molang
 
 interface Molang {

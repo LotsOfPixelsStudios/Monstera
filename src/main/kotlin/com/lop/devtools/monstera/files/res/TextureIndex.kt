@@ -17,7 +17,7 @@ class TextureIndex {
     val textures = mutableListOf<String>()
 
     fun build(addon: Addon) {
-        MonsteraBuilder.legacyBuilder(addon.config.paths.resTextures, "textures_list.json", textures)
+        MonsteraBuilder.buildTo(addon.config.paths.resTextures, "textures_list.json", textures)
     }
 }
 
@@ -52,6 +52,6 @@ class ItemTextureIndex {
 
     fun build(addon: Addon) {
         particleTextureList(addon)
-        MonsteraBuilder.legacyBuilder(addon.config.paths.resTextures, "item_texture.json", getData())
+        MonsteraBuilder.buildTo(addon.config.paths.resTextures, "item_texture.json", getData())
     }
 }

@@ -1,67 +1,47 @@
 package com.lop.devtools.monstera.files.res.sounds
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
-import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
-class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
+class Sounds : MonsteraFile {
     /**
-     * @param filename ignored, is always sounds.json
+     * unsafe to use variables, used for plugins/ libraries
      */
-    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val selPath = path ?: Addon.active?.config?.resPath ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for sounds.json as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for sounds.json as no addon was initialized!"))
+    override val unsafe = Unsafe()
+
+    inner class Unsafe : MonsteraUnsafeMap {
+        /**
+         * access to all defined animations
+         */
+        val general = mutableMapOf<String, Any>()
+        val blockSounds = SpecSounds()
+        val entitySound = SpecSounds()
+        val defaultEntitySounds = SoundEvents()
+        val individualEventSounds = SpecSounds()
+        val interactiveSounds = SpecSounds()
+
+
+        override fun getData(): MutableMap<String, Any> {
+            general["block_sounds"] = blockSounds.unsafe.getData()
+            general["entity_sounds"] = mapOf(
+                "entities" to entitySound.unsafe.getData(),
+                "defaults" to defaultEntitySounds.unsafe.getData()
+            )
+            general["individual_event_sounds"] to individualEventSounds.unsafe.getData()
+            general["interactive_sounds"] to interactiveSounds.unsafe.getData()
+            return general
         }
 
-        val target = MonsteraBuilder.buildTo(
-            selPath,
-            "sounds.json",
-            this
-        )
-        return Result.success(target)
-    }
-
-    @SerializedName("block_sounds")
-    @Expose
-    var blockSoundsData: MutableMap<String, SoundEvents>? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("entity_sounds")
-    @Expose
-    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
-    var entitySoundsData: EntitySpecSound? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("individual_event_sounds")
-    @Expose
-    var individualEventSoundData: MutableMap<String, SoundEvents>? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("interactive_sounds")
-    @Expose
-    var interactiveSoundData: MutableMap<String, SoundEvents>? = null
-        @MonsteraBuildSetter set
-
-    class EntitySpecSound : MonsteraRawFile() {
-        @SerializedName("entities")
-        @Expose
-        var entitiesData: MutableMap<String, SoundEvents>? = null
-            @MonsteraBuildSetter set
-
-        @SerializedName("defaults")
-        @Expose
-        var defaultsData: SoundEvents? = null
-            @MonsteraBuildSetter set
+        fun build(
+            filename: String = "sounds.json",
+            path: Path
+        ) {
+            MonsteraBuilder.buildTo(
+                path, filename, getData()
+            )
+        }
     }
 
     /**
@@ -71,11 +51,8 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
      * @param soundIdGroups manage sound events
      * @sample sample
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun blockSounds(soundIdGroups: SpecSounds.() -> Unit) {
-        blockSoundsData = (blockSoundsData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
-        }
+        unsafe.blockSounds.apply(soundIdGroups)
     }
 
     /**
@@ -85,13 +62,8 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
      * @param soundIdGroups manage sound events
      * @sample sample
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun entitySounds(soundIdGroups: SpecSounds.() -> Unit) {
-        entitySoundsData = (entitySoundsData ?: EntitySpecSound()).apply {
-            entitiesData = (entitiesData ?: mutableMapOf()).apply {
-                putAll(SpecSounds().apply(soundIdGroups).eventData)
-            }
-        }
+        unsafe.entitySound.apply(soundIdGroups)
     }
 
     /**
@@ -101,11 +73,8 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
      * @param events manage sound events
      * @sample sample
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun defaultEntitySounds(events: SoundEvents.() -> Unit) {
-        entitySoundsData = (entitySoundsData ?: EntitySpecSound()).apply {
-            defaultsData = (defaultsData ?: SoundEvents()).apply(events)
-        }
+        unsafe.defaultEntitySounds.apply(events)
     }
 
     /**
@@ -115,11 +84,8 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
      * @param soundIdGroups manage sound events
      * @sample sample
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun individualEventSounds(soundIdGroups: SpecSounds.() -> Unit) {
-        individualEventSoundData = (individualEventSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
-        }
+        unsafe.individualEventSounds.apply(soundIdGroups)
     }
 
     /**
@@ -129,11 +95,8 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
      * @param soundIdGroups manage sound events
      * @sample sample
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun interactiveSounds(soundIdGroups: SpecSounds.() -> Unit) {
-        interactiveSoundData = (interactiveSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
-        }
+        unsafe.interactiveSounds.apply(soundIdGroups)
     }
 
     private fun sample() {
@@ -153,12 +116,21 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
             }
         }
     }
-
-
 }
 
-open class SpecSounds {
-    val eventData = mutableMapOf<String, SoundEvents>()
+class SpecSounds : MonsteraFile {
+    override val unsafe = Unsafe()
+
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
+        val eventGroups = mutableMapOf<String, SoundEvents>()
+        override fun getData(): MutableMap<String, Any> {
+            eventGroups.forEach { (key, value) ->
+                general[key] = mapOf("events" to value.unsafe.getData())
+            }
+            return general
+        }
+    }
 
     /**
      * 0..1
@@ -167,76 +139,76 @@ open class SpecSounds {
      * @param soundIdentifier like "ambient.candle" or "villager"
      */
     fun soundEventGroup(soundIdentifier: String, events: SoundEvents.() -> Unit) {
-        if (eventData.containsKey(soundIdentifier)) {
-            eventData[soundIdentifier]!!.apply(events)
+        if (unsafe.eventGroups.containsKey(soundIdentifier)) {
+            unsafe.eventGroups[soundIdentifier]!!.apply(events)
         } else {
-            eventData[soundIdentifier] = SoundEvents().apply(events)
+            unsafe.eventGroups[soundIdentifier] = SoundEvents().apply(events)
         }
     }
 }
 
-open class SoundEvents {
-    @SerializedName("events")
-    @Expose
-    var eventsData: MutableMap<String, SoundEventSettings>? = null
-        @MonsteraBuildSetter set
+class SoundEvents : MonsteraFile {
+    override val unsafe = Unsafe()
+
+    inner class Unsafe : MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
+        val eventSettings = mutableMapOf<String, SoundEventSettings>()
+
+        override fun getData(): MutableMap<String, Any> {
+            general.putAll(
+                eventSettings.map { it.key to it.value.getData() }.toMap()
+            )
+            return general
+        }
+    }
 
     fun event(event: SoundEvent, settings: SoundEventSettings.() -> Unit) {
-        event(event.toString(), settings)
+        if (unsafe.eventSettings.containsKey(event.toString())) {
+            unsafe.eventSettings[event.toString()]!!.apply(settings)
+        } else {
+            unsafe.eventSettings[event.toString()] = SoundEventSettings().apply(settings)
+        }
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun event(event: String, settings: SoundEventSettings.() -> Unit) {
-        eventsData = (eventsData ?: mutableMapOf()).also {
-            it[event]?.apply(settings) ?: kotlin.run {
-                it.put(event, SoundEventSettings().apply(settings))
-            }
+        if (unsafe.eventSettings.containsKey(event)) {
+            unsafe.eventSettings[event]!!.apply(settings)
+        } else {
+            unsafe.eventSettings[event] = SoundEventSettings().apply(settings)
         }
     }
 }
 
-open class SoundEventSettings {
-    @SerializedName("volume")
-    @Expose
-    var volumeData: Any? = null
-        @MonsteraBuildSetter set
+class SoundEventSettings {
+    val general = mutableMapOf<String, Any>()
 
-    @SerializedName("pitch")
-    @Expose
-    var pitchData: Any? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("sound")
-    @Expose
-    var sound: String? = null
-
-    @OptIn(MonsteraBuildSetter::class)
-    fun volume(value: Number) {
-        volumeData = value
+    fun volume(value: Float) {
+        general["volume"] = value
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun volume(value: Pair<Number, Number>) {
-        volumeData = if (value.first == value.second)
-            value.first
+        if (value.first == value.second)
+            general["volume"] = value.first
         else
-            listOf(value.first, value.second)
+            general["volume"] = listOf(value.first, value.second)
     }
 
-    @OptIn(MonsteraBuildSetter::class)
-    fun pitch(value: Number) {
-        pitchData = value
+    fun pitch(value: Float) {
+        general["pitch"] = value
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun pitch(value: Pair<Number, Number>) {
-        pitchData = if (value.first == value.second)
-            value.first
+        if (value.first == value.second)
+            general["pitch"] = value.first
         else
-            listOf(value.first, value.second)
+            general["pitch"] = listOf(value.first, value.second)
     }
 
     fun sound(value: String) {
-        sound = value
+        general["sound"] = value
+    }
+
+    fun getData(): MutableMap<String, Any> {
+        return general
     }
 }

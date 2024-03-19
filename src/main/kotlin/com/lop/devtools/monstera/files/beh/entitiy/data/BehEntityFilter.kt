@@ -1,66 +1,6 @@
 package com.lop.devtools.monstera.files.beh.entitiy.data
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-
-open class BehEntityFilter {
-    private val calledFilters = mutableListOf<BehEntityFilter>()
-
-    @OptIn(MonsteraBuildSetter::class)
-    fun getCopy(): BehEntityFilter {
-        return BehEntityFilter().also {
-            it.testData = testData
-            it.operatorData = operatorData
-            it.domainData = domainData
-            it.subjectData = subjectData
-            it.valueData = valueData
-            it.anyOfData = anyOfData
-            it.allOfData = allOfData
-            it.noneOfData = noneOfData
-        }
-    }
-
-    @SerializedName("test")
-    @Expose
-    var testData: String? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("operator")
-    @Expose
-    var operatorData: String? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("domain")
-    @Expose
-    var domainData: String? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("subject")
-    @Expose
-    var subjectData: Subject? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("value")
-    @Expose
-    var valueData: Any? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("any_of")
-    @Expose
-    var anyOfData: MutableList<BehEntityFilter>? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("all_of")
-    @Expose
-    var allOfData: MutableList<BehEntityFilter>? = null
-        @MonsteraBuildSetter set
-
-    @SerializedName("none_of")
-    @Expose
-    var noneOfData: MutableList<BehEntityFilter>? = null
-        @MonsteraBuildSetter set
-
+class BehEntityFilter {
     val general = mutableMapOf<String, Any>()
     val generalList = arrayListOf<Any>()
 
@@ -72,17 +12,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) A floating point value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun clockTime(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Float
     ) {
-        testData = "clock_time"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "clock_time")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -93,17 +36,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) A floating point value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun distanceToNearestPlayer(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Float
     ) {
-        testData = "distance_to_nearest_player"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "distance_to_nearest_player")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -114,17 +60,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Ability type to test
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasAbility(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: BehEntityFilterAbilityFly
     ) {
-        testData = "has_ability"
-        operatorData = operator
-        subjectData = subject
-        valueData = value.toString()
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_ability")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -135,17 +84,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The tag to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasBiomeTag(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "has_biome_tag"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_biome_tag")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -156,17 +108,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The component name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasComponent(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "has_component"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_component")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -177,17 +132,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasContainerOpen(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "has_container_open"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_container_open")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -198,17 +156,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasDamage(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: DamageType
     ) {
-        testData = "has_damage"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_damage")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -220,19 +181,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The item name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasEquipment(
         domain: SlotDomain = SlotDomain.ANY,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "has_equipment"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain.toString()
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_equipment")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("domain", domain.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -243,17 +207,21 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) A string value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasMobEffect(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String? = null
     ) {
-        testData = "has_mob_effect"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_mob_effect")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            if (value != null)
+                put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -264,17 +232,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasRangedWeapon(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "has_ranged_weapon"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_ranged_weapon")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -285,17 +256,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) A string value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasTag(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String? = null
     ) {
-        testData = "has_tag"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_tag")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            value?.let { put("value", it) }
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -306,17 +280,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasTarget(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "has_target"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_target")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -327,17 +304,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasTargetSupply(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "has_trade_supply"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "has_trade_supply")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -348,17 +328,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hourlyClockTime(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "hourly_clock_time"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "hourly_clock_time")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -369,17 +352,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inCaravan(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_caravan"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_caravan")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -390,17 +376,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inClouds(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_clouds"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_clouds")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -411,17 +400,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inLava(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_lava"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_lava")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -432,17 +424,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inNether(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_nether"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_nether")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -453,17 +448,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inWater(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_water"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_water")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -474,17 +472,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inWaterOrRain(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "in_water_or_rain"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "in_water_or_rain")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -495,17 +496,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun inactivityTimer(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "inactivity_timer"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "inactivity_timer")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -516,17 +520,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The altitude value to compare with
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isAltitude(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "is_altitude"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_altitude")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -537,17 +544,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value string.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isAvoidingMobs(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "is_avoiding_mobs"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_avoiding_mobs")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -558,17 +568,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Biome type to test
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isBiome(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: BiomeType
     ) {
-        testData = "is_biome"
-        operatorData = operator
-        subjectData = subject
-        valueData = value.toString()
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_biome")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -579,17 +592,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Family name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isBlock(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "is_block"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_block")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -600,17 +616,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The brightness value to compare with.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isBrightness(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Float
     ) {
-        testData = "is_brightness"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_brightness")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -621,17 +640,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isClimbing(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_climbing"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_climbing")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -642,17 +664,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Palette Color to test
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isColor(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: ColorType
     ) {
-        testData = "is_color"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_color")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -663,17 +688,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isDayTime(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_daytime"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_daytime")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -684,17 +712,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The game's difficulty level to test
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isDifficulty(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: DifficultyType
     ) {
-        testData = "is_difficulty"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_difficulty")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -705,17 +736,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Family name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isFamily(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "is_family"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_family")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -727,19 +761,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Family name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isGameRule(
         domain: String,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_game_rule"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_game_rule")
+            put("domain", domain)
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -750,17 +787,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isHumid(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_humid"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_humid")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -771,17 +811,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isImmobile(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_immobile"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_immobile")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -792,17 +835,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isInVillage(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_in_village"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_in_village")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -813,17 +859,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isLeashed(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_leashed"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_leashed")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -834,17 +883,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isLeashedTo(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_leashed_to"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_leashed_to")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -855,17 +907,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isMarkVariant(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "is_mark_variant"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_mark_variant")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -876,17 +931,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isMoving(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_moving"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_moving")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -897,17 +955,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isOwner(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_owner"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_owner")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -918,17 +979,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isPersistent(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_persistent"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_persistent")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -939,17 +1003,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isRiding(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_persistent"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_riding")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -960,17 +1027,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isSkinId(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "is_skin_id"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_skin_id")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -981,17 +1051,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isSleeping(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_sleeping"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_sleeping")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1002,17 +1075,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isSneaking(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_sneaking"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_sneaking")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1023,17 +1099,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isSnowCovered(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_snow_covered"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_snow_covered")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1044,17 +1123,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isTarget(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_target"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_target")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1065,17 +1147,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Biome temperature catagory to test
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isTemperatureType(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: BiomeTemperatureType
     ) {
-        testData = "is_temperature_type"
-        operatorData = operator
-        subjectData = subject
-        valueData = value.toString()
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_temperature_type")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value.toString().lowercase())
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1086,17 +1171,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Biome temperature value to compare with.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isTemperatureValue(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Float
     ) {
-        testData = "is_temperature_value"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_temperature_value")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1107,17 +1195,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isUnderGround(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_underground"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_underground")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1128,17 +1219,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isUnderWater(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_underwater"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_underwater")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1149,17 +1243,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isVariant(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "is_variant"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_variant")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1170,17 +1267,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun isVisible(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "is_visible"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_visible")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1191,18 +1291,21 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Family name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     @Deprecated("docu says so")
     fun isWeather(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "is_weather"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "is_weather")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1213,17 +1316,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun lightLevel(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "light_level"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "light_level")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1234,17 +1340,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) A floating point value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun moonIntensity(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Float
     ) {
-        testData = "moon_intensity"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "moon_intensity")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1255,17 +1364,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun moonPhase(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "moon_phase"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "moon_phase")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1276,17 +1388,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun onGround(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "on_ground"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "on_ground")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1297,17 +1412,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun onLadder(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "on_ladder"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "on_ladder")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1318,17 +1436,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun randomChance(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "random_chance"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "random_chance")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1339,17 +1460,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) An integer value.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun riderCount(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "rider_count"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "rider_count")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1360,17 +1484,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun surfaceMob(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "surface_mob"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "surface_mob")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1381,17 +1508,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Optional) true or false.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun trusts(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "trusts"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "trusts")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1402,17 +1532,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) The Family name to look for
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun weather(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "weather"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "weather")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1423,17 +1556,20 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun weatherAtPosition(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "weather_at_position"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "weather_at_position")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1446,19 +1582,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun intProperty(
         domain: String,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "int_property"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "int_property")
+            put("domain", domain)
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1471,19 +1610,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun floatProperty(
         domain: String,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Int
     ) {
-        testData = "float_property"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "float_property")
+            put("domain", domain)
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1496,19 +1638,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun boolProperty(
         domain: String,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: Boolean = true
     ) {
-        testData = "bool_property"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "bool_property")
+            put("domain", domain)
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1521,19 +1666,22 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun enumProperty(
         domain: String,
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "enum_property"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        domainData = domain
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "enum_property")
+            put("domain", domain)
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
     /**
@@ -1545,34 +1693,51 @@ open class BehEntityFilter {
      * @param subject (Optional) The subject of this filter test.
      * @param value (Required) like thunderstorm, rain.
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun hasProperty(
         operator: String = "equals",
         subject: Subject = Subject.SELF,
         value: String
     ) {
-        testData = "has_property"
-        operatorData = operator
-        subjectData = subject
-        valueData = value
-        calledFilters.add(getCopy())
+        val thisData = mutableMapOf<String,Any>()
+        thisData.apply {
+            put("test", "int_property")
+            put("operator", operator)
+            put("subject", subject.toString().lowercase())
+            put("value", value)
+        }
+        general.putAll(thisData)
+        generalList.add(thisData)
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun allOf(settings: BehEntityFilter.() -> Unit) {
-        allOfData = (allOfData ?: mutableListOf()).also { it.addAll(BehEntityFilter().apply(settings).calledFilters) }
-        calledFilters.add(getCopy())
+        val behEntityFilter = BehEntityFilter().apply{ settings(this) }
+
+        general.apply {
+            put("all_of", behEntityFilter.getDataList())
+        }
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun anyOf(settings: BehEntityFilter.() -> Unit) {
-        anyOfData = (anyOfData ?: mutableListOf()).also { it.addAll(BehEntityFilter().apply(settings).calledFilters) }
-        calledFilters.add(getCopy())
+        val behEntityFilter = BehEntityFilter().apply{ settings(this) }
+
+        general.apply {
+            put("any_of", behEntityFilter.getDataList())
+        }
     }
 
-    @OptIn(MonsteraBuildSetter::class)
     fun noneOf(settings: BehEntityFilter.() -> Unit) {
-        noneOfData = (noneOfData ?: mutableListOf()).also { it.addAll(BehEntityFilter().apply(settings).calledFilters) }
-        calledFilters.add(getCopy())
+        val behEntityFilter = BehEntityFilter().apply{ settings(this) }
+
+        general.apply {
+            put("none_of", behEntityFilter.getDataList())
+        }
+    }
+
+    fun getData(): MutableMap<String, Any> {
+        return general
+    }
+
+    private fun getDataList(): ArrayList<Any> {
+        return generalList
     }
 }

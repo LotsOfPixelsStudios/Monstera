@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
-
 package com.lop.devtools.monstera.files.res.animations
 
 fun resAnimation(data: ResAnimation.() -> Unit): MutableMap<String, Any> {
