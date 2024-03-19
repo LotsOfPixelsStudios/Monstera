@@ -9,11 +9,12 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class AnimationControllers: MonsteraBuildableFile {
+class AnimationControllers: MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         if(animationControllersData.isEmpty())
             return Result.failure(Error("Animation Controller Data is empty, building does nothing!"))
@@ -61,7 +62,7 @@ class AnimationControllers: MonsteraBuildableFile {
         }
     }
 
-    class Controller {
+    open class Controller {
         @SerializedName("initial_state")
         @Expose
         var initialState: String? = null
@@ -81,7 +82,7 @@ class AnimationControllers: MonsteraBuildableFile {
         }
     }
 
-    class State {
+    open class State {
         @SerializedName("animations")
         @Expose
         var animations: MutableList<Any>? = null

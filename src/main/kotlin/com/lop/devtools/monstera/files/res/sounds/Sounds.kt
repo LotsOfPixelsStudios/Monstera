@@ -1,16 +1,19 @@
 package com.lop.devtools.monstera.files.res.sounds
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class Sounds : MonsteraBuildableFile {
+class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     /**
      * @param filename ignored, is always sounds.json
      */
@@ -35,6 +38,7 @@ class Sounds : MonsteraBuildableFile {
 
     @SerializedName("entity_sounds")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var entitySoundsData: EntitySpecSound? = null
         @MonsteraBuildSetter set
 
@@ -48,7 +52,7 @@ class Sounds : MonsteraBuildableFile {
     var interactiveSoundData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
-    class EntitySpecSound {
+    class EntitySpecSound : MonsteraRawFile() {
         @SerializedName("entities")
         @Expose
         var entitiesData: MutableMap<String, SoundEvents>? = null
@@ -153,7 +157,7 @@ class Sounds : MonsteraBuildableFile {
 
 }
 
-class SpecSounds {
+open class SpecSounds {
     val eventData = mutableMapOf<String, SoundEvents>()
 
     /**
@@ -171,7 +175,7 @@ class SpecSounds {
     }
 }
 
-class SoundEvents {
+open class SoundEvents {
     @SerializedName("events")
     @Expose
     var eventsData: MutableMap<String, SoundEventSettings>? = null
@@ -191,7 +195,7 @@ class SoundEvents {
     }
 }
 
-class SoundEventSettings {
+open class SoundEventSettings {
     @SerializedName("volume")
     @Expose
     var volumeData: Any? = null

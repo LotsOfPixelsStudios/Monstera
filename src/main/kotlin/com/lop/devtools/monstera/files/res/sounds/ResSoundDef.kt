@@ -4,13 +4,11 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
 @Suppress("unused")
-class ResSoundDef: MonsteraFile {
+open class ResSoundDef {
     @SerializedName("sounds")
     @Expose
     var soundsData: MutableList<Any>? = null
@@ -32,23 +30,7 @@ class ResSoundDef: MonsteraFile {
     @Expose
     var minDistance: Number? = null
 
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
 
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
-        val sounds = arrayListOf<Any>()
-
-        override fun getData(): MutableMap<String, Any> {
-            unsafe.general["sounds"] = unsafe.sounds
-            return unsafe.general
-        }
-    }
 
     /**
      * 0..1

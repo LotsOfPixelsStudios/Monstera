@@ -3,17 +3,20 @@
 package com.lop.devtools.monstera.files.beh.spawnrules
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.spawnrules.conditions.*
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class BehSpawnRules : MonsteraBuildableFile {
+class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
@@ -42,11 +45,13 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawn_rules")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var block: BehSpawnRules
-    )
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
 
@@ -63,7 +68,7 @@ class BehSpawnRules : MonsteraBuildableFile {
         descriptionData = (descriptionData ?: Description()).apply(data)
     }
 
-    class Description {
+    class Description : MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
@@ -106,7 +111,7 @@ class BehSpawnRules : MonsteraBuildableFile {
         conditionsData = (conditionsData ?: mutableListOf()).apply { add(Condition().apply(data)) }
     }
 
-    class Condition {
+    open class Condition {
         @SerializedName("minecraft:weight")
         @Expose
         var weightData: SpawnWeight? = null

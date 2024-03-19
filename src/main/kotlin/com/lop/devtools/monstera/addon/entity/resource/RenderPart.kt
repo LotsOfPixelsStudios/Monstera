@@ -220,6 +220,18 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
         }
     }
 
+    fun onHurtColor() {
+        TODO()
+    }
+
+    fun onFireColor() {
+        TODO()
+    }
+
+    fun overlayColor() {
+        TODO()
+    }
+
     /**
      * add multiple geometries to a layer and cycle through them with a molang query
      * @param geoIds the geometries by geometry ids (this only works with geometries that are already in the pack or are vanilla)

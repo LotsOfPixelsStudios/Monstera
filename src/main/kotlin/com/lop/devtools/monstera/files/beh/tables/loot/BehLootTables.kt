@@ -8,11 +8,12 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehLootTables {
+class BehLootTables: MonsteraRawFile() {
     companion object {
         fun resolveRelative(path: Path): String {
             val sub = path.toString().split("loot_tables").last().replace("\\", "/")
@@ -87,7 +88,7 @@ class BehLootTables {
         poolsData = (poolsData ?: mutableListOf()).apply { add(Pool().apply(data)) }
     }
 
-    class Pool {
+    open class Pool {
         @SerializedName("rolls")
         @Expose
         var rollsData: Any? = null
@@ -139,7 +140,7 @@ class BehLootTables {
         var max: Int? = null
     }
 
-    class Entry {
+    open class Entry {
         @SerializedName("type")
         @Expose
         var type: String? = null

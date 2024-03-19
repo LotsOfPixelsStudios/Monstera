@@ -6,10 +6,11 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResRenderControllers : MonsteraBuildableFile {
+class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename.removeSuffix(".json").replace("-", "_").replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resRenderControllers ?: run {

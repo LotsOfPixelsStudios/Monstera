@@ -2,8 +2,9 @@ package com.lop.devtools.monstera.files.beh.blocks.components
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class CollisionBox {
+class CollisionBox: MonsteraRawFile() {
     @SerializedName("origin")
     @Expose
     var origin: MutableList<Number>? = null

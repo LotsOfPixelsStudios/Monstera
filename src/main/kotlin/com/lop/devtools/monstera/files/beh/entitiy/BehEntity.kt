@@ -3,12 +3,15 @@
 package com.lop.devtools.monstera.files.beh.entitiy
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
@@ -24,11 +27,13 @@ class BehEntity : MonsteraBuildableFile {
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: BehEntityDescription? = null
         @MonsteraBuildSetter set
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var componentsData: Components? = null
         @MonsteraBuildSetter set
 
@@ -74,7 +79,7 @@ class BehEntity : MonsteraBuildableFile {
         @SerializedName("minecraft:entity")
         @Expose
         var entity: BehEntity
-    )
+    ): MonsteraRawFile()
 
     /**
      * 1 instance required

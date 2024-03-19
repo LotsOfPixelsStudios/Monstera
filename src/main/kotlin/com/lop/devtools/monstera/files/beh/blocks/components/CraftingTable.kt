@@ -3,8 +3,9 @@ package com.lop.devtools.monstera.files.beh.blocks.components
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class CraftingTable {
+class CraftingTable: MonsteraRawFile() {
     @SerializedName("table_name")
     @Expose
     var tableName: String? = null

@@ -1,17 +1,20 @@
 package com.lop.devtools.monstera.files.res.items
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.TextureIndex
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResItem: MonsteraBuildableFile {
+class ResItem : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename.removeSuffix(".json").replace("-", "_").replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resItem ?: run {
@@ -40,11 +43,13 @@ class ResItem: MonsteraBuildableFile {
 
         @SerializedName("minecraft:client_entity")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var entity: ResItem
-    )
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var description: Description? = null
         @MonsteraBuildSetter set
 
@@ -61,7 +66,7 @@ class ResItem: MonsteraBuildableFile {
         description = (description ?: Description()).apply(data)
     }
 
-    class Description {
+    class Description : MonsteraRawFile() {
         @SerializedName("components")
         @Expose
         var identifier: String? = null
@@ -73,6 +78,7 @@ class ResItem: MonsteraBuildableFile {
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var components: Components? = null
         @MonsteraBuildSetter set
 
@@ -88,7 +94,7 @@ class ResItem: MonsteraBuildableFile {
         components = (components ?: Components()).apply(data)
     }
 
-    class Components {
+    class Components : MonsteraRawFile() {
 
         @SerializedName("minecraft:icon")
         @Expose

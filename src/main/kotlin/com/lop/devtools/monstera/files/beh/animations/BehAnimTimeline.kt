@@ -2,7 +2,7 @@
 
 package com.lop.devtools.monstera.files.beh.animations
 
-class BehAnimTimeline(
+open class BehAnimTimeline(
     val keyFrameData: MutableMap<String, MutableList<String>>
 ) {
     fun keyFrame(time: Number, action: String) {

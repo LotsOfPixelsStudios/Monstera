@@ -8,12 +8,13 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class BehEconomyTrades: MonsteraBuildableFile {
+class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
     companion object {
         fun resolveRelative(path: Path): String {
             val sub = path.toString().split("trading").last().replace("\\", "/")
@@ -63,7 +64,7 @@ class BehEconomyTrades: MonsteraBuildableFile {
         tierData = (tierData ?: mutableListOf()).apply { add(Tier().apply(data)) }
     }
 
-    class Tier {
+    open class Tier {
         @SerializedName("groups")
         @Expose
         var groupsData: MutableList<Group>? = null
@@ -116,7 +117,7 @@ class BehEconomyTrades: MonsteraBuildableFile {
         }
     }
 
-    class Group {
+    open class Group {
         @SerializedName("num_to_select")
         @Expose
         var numToSelect: Number? = null
@@ -145,7 +146,7 @@ class BehEconomyTrades: MonsteraBuildableFile {
         }
     }
 
-    class Trade {
+    open class Trade {
         @SerializedName("wants")
         @Expose
         var wantsData: MutableList<Want>? = null
@@ -209,7 +210,7 @@ class BehEconomyTrades: MonsteraBuildableFile {
         var rewardExp: Boolean? = null
     }
 
-    class Want {
+    open class Want {
         @SerializedName("item")
         @Expose
         var item: String? = null
@@ -234,7 +235,7 @@ class BehEconomyTrades: MonsteraBuildableFile {
         var priceMultiplier: Number? = null
     }
 
-    class Give {
+    open class Give {
         @SerializedName("item")
         @Expose
         var item: String? = null

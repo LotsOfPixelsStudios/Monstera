@@ -4,8 +4,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class PlacementFilter {
+class PlacementFilter : MonsteraRawFile() {
     @SerializedName("conditions")
     @Expose
     var conditionsData: MutableList<Condition>? = null
@@ -29,7 +30,7 @@ class PlacementFilter {
         }
     }
 
-    class Condition {
+    open class Condition {
         @SerializedName("allowed_faces")
         @Expose
         var allowedFacesData: MutableList<Face>? = null

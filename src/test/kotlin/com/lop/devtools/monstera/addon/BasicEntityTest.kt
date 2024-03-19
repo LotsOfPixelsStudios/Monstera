@@ -34,10 +34,15 @@ class BasicEntityTest {
             }
 
             behaviour {
+                componentGroup("test") {
+                    isBaby {  }
+                    additionalKeys = mapOf("my_component" to "my_value")
+                }
                 components {
                     walkMovement(0.2) {
                         avoidWater = true
                     }
+                    additionalKeys = mapOf("my_component" to "my_value")
                 }
             }
         }
