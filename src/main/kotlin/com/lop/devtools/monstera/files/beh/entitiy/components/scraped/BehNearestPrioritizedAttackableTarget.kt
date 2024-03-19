@@ -38,12 +38,13 @@ class BehNearestPrioritizedAttackableTarget {
      * entityTypes {
      *     maxDist = 12
      *     priority = 0
+     *     filters { }
      * }
      *```
      */
     @OptIn(MonsteraBuildSetter::class)
     @Components.VanillaComponentMarker
-    fun entityTypes(value: BehEntityTypes.() -> Unit) {
+    fun entityType(value: BehEntityTypes.() -> Unit) {
         entityTypesData = (entityTypesData ?: mutableListOf()).also { it.add(BehEntityTypes().apply(value)) }
     }
 
