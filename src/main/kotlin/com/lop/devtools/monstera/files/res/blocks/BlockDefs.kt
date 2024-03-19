@@ -28,7 +28,7 @@ class BlockDefs : MonsteraFile, InvokeBeforeEnd {
         }
 
         fun build(resPath: Path) {
-            MonsteraBuilder.legacyBuilder(resPath, "blocks.json", getData())
+            MonsteraBuilder.buildTo(resPath, "blocks.json", getData())
         }
     }
 

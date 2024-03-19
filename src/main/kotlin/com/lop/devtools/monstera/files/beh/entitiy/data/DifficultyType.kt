@@ -4,9 +4,5 @@ enum class DifficultyType {
     EASY,
     HARD,
     NORMAL,
-    PEACEFUL;
-
-    override fun toString(): String {
-        return super.toString().lowercase()
-    }
+    PEACEFUL
 }

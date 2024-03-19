@@ -1246,22 +1246,6 @@ class Query(override var data: String) : Molang {
 
         fun angerLevel(subject: String) = Query("(query.anger_level($subject))")
 
-        fun anyTag(vararg tags: String) = Query(
-            "query.any_tag('${tags.joinToString("', '")}')"
-        )
-
-        fun allTags(vararg tags: String) = Query(
-            "query.all_tags('${tags.joinToString("', '")}')"
-        )
-
-        fun equippedItemAnyTag(vararg tags: String) = Query(
-            "query.equipped_item_all_tags('${tags.joinToString("', '")}')"
-        )
-
-        fun equippedItemAllTags(vararg tags: String) = Query(
-            "query.equipped_item_any_tag('${tags.joinToString("', '")}')"
-        )
-
         private fun idWithNameSpace(name: String): String {
             val props = Addon.active!!.config
             return if (name.startsWith(props.namespace)) name else "${props.namespace}:$name"

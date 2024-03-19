@@ -1,41 +1,48 @@
 package com.lop.devtools.monstera.files.res.rendercontrollers
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
-    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename.removeSuffix(".json").replace("-", "_").replace(" ", "_")
-        val selPath = path ?: Addon.active?.config?.paths?.resRenderControllers ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for res render controller file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for res render controller file '$sanFile' as no addon was initialized!"))
+class ResRenderControllers: MonsteraFile {
+    /**
+     * unsafe to use variables, used for plugins/ libraries
+     */
+    override val unsafe = Unsafe()
+
+    inner class Unsafe: MonsteraUnsafeMap {
+        /**
+         * access to all defined animations
+         */
+        val general = mutableMapOf<String, Any>()
+        val controllers = mutableMapOf<String, ResRenderController>()
+
+        override fun getData(): MutableMap<String, Any> {
+            controllers.forEach { (name, controller) ->
+                val newName = name.removePrefix("controller.render.")
+                general["controller.render.$newName"] = controller.unsafe.getData()
+            }
+            return general
         }
-        Addon.active?.config?.formatVersions?.resRendercontroller?.let { formatVersion = it }
-        version?.let { formatVersion = it }
 
-        val target = MonsteraBuilder.buildTo(
-            selPath,
-            "$sanFile.json",
-            this
-        )
-        return Result.success(target)
+        fun build(
+            filename: String,
+            path: Path,
+            version: String = "1.8.0"
+        ) {
+            val sanFile = filename
+                .removeSuffix(".json")
+                .replace("-", "_")
+                .replace(" ", "_")
+            MonsteraBuilder.buildTo(
+                path, "$sanFile.json", mutableMapOf(
+                    "format_version" to version,
+                    "render_controllers" to getData()
+                )
+            )
+        }
     }
-
-    @SerializedName("format_version")
-    @Expose
-    var formatVersion: String = "1.10.0"
-
-    @SerializedName("render_controllers")
-    @Expose
-    var renderControllers: MutableMap<String, ResRenderController>? = null
-        @MonsteraBuildSetter set
 
     /**
      * 1..*
@@ -73,16 +80,12 @@ class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
      * }
      * ```
      */
-    @OptIn(MonsteraBuildSetter::class)
     fun controllers(
         entityName: String,
         settings: ResRenderController.() -> Unit
     ) {
-        val controllerName = "controller.render.${entityName.removePrefix("controller.render.")}"
-        renderControllers = (renderControllers ?: mutableMapOf()).apply {
-            get(controllerName)?.apply(settings) ?: run {
-                put(controllerName, ResRenderController().apply(settings))
-            }
-        }
+        unsafe.controllers[entityName] =
+            //apply data if exist or else create a new obj
+            unsafe.controllers[entityName]?.apply(settings) ?: ResRenderController().apply(settings)
     }
 }

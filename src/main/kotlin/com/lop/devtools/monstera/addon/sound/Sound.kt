@@ -9,7 +9,7 @@ interface Sound {
     /**
      * like `identifier = tp.test.drive`
      */
-    var identifier: String
+    val identifier: String
 
     /**
      * the pitch that should be applied, as a range (from, to)

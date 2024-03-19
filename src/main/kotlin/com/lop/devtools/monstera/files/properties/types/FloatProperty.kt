@@ -1,49 +1,35 @@
 package com.lop.devtools.monstera.files.properties.types
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.DebugMarker
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraFile
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
 import com.lop.devtools.monstera.addon.molang.Molang
-import com.lop.devtools.monstera.getMonsteraLogger
 
-class FloatProperty: NumberProperty<Float> {
-    @SerializedName("default")
-    @Expose
-    override var default: Any? = null
+class FloatProperty: NumberProperty<Float>, MonsteraFile {
+    override val unsafe = Unsafe()
+    inner class Unsafe: MonsteraUnsafeMap {
+        val general = mutableMapOf<String, Any>()
 
-    @SerializedName("type")
-    @Expose
-    var typeData: String = "float"
-        @MonsteraBuildSetter set
+        override fun getData(): MutableMap<String, Any> {
+            general["type"] = "float"
 
-    @SerializedName("client_sync")
-    @Expose
-    override var clientSync: Boolean? = null
+            if(range.first != 0f || range.second != 0f)
+                general["range"] = listOf(range.first, range.second)
 
-    @DebugMarker
-    override fun propertySpecificDebug() {
-        if(rangeData.isNullOrEmpty())
-            getMonsteraLogger(this.javaClass.name).warn("Range of Float property is empty, property will be ignored!")
+            if(clientSync)
+                general["client_sync"] = true
+            return general
+        }
     }
 
-    @SerializedName("range")
-    @Expose
-    var rangeData: MutableList<Number>? = null
-        @MonsteraBuildSetter set
-
-    @OptIn(MonsteraBuildSetter::class)
     override var range: Pair<Float, Float> = 0f to 0f
-        set(value) {
-            rangeData = mutableListOf(value.first, value.second)
-            field = value
-        }
 
     override fun default(value: Number) {
-        this.default = value
+        unsafe.general["default"] = value
     }
 
     override fun default(value: Molang) {
-        this.default = value.data
+        unsafe.general["default"] = value.data
     }
+
+    override var clientSync: Boolean = false
 }

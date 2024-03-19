@@ -4,9 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
-import java.nio.ByteBuffer
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.abs
 
 /**
@@ -66,7 +63,7 @@ fun hashLayerName(files: ArrayList<File>, query: String): String {
     var hash = 0
     files.forEach { hash += it.name.hashCode() }
     hash += query.hashCode()
-    return "${hashToString(hash)}_layer"
+    return "layer_${abs(hash)}"
 }
 
 /**
@@ -76,16 +73,5 @@ fun hashLayerNameByIds(ids: ArrayList<String>, query: String): String {
     var hash = 0
     ids.forEach { hash += it.hashCode() }
     hash += query.hashCode()
-    return "${hashToString(hash)}_layer"
-}
-
-private fun hashToString(hash: Int): String {
-    val buff = ByteBuffer.allocate(Int.SIZE_BYTES).putInt(abs(hash)).array()
-    val enc = Base64
-        .getEncoder()
-        .encodeToString(buff)
-        .replace("=", "")
-        .replace("+", "")
-        .replace("/", "")
-    return enc
+    return "layer_${abs(hash)}"
 }

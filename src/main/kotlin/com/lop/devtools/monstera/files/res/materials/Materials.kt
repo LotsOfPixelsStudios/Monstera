@@ -49,7 +49,7 @@ class Materials(val fileName: String) : MonsteraFile, MaterialExtensions {
         }
 
         fun build(addon: Addon) {
-            MonsteraBuilder.legacyBuilder(addon.config.paths.resMaterials, "$fileName.material", getData(), true)
+            MonsteraBuilder.buildTo(addon.config.paths.resMaterials, "$fileName.material", getData(), true)
         }
     }
 
