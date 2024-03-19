@@ -6,9 +6,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class ResRenConUvAnim {
+class ResRenConUvAnim : MonsteraRawFile() {
     @SerializedName("offset")
     @Expose
     var offsetData: MutableList<Any>? = null

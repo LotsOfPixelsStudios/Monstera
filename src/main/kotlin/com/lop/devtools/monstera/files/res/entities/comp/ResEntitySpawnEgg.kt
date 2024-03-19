@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.TextureIndex
@@ -11,7 +12,7 @@ import java.awt.Color
 import java.io.File
 import java.nio.file.Path
 
-class ResEntitySpawnEgg {
+class ResEntitySpawnEgg: MonsteraRawFile() {
     @SerializedName("base_color")
     @Expose
     var baseColorData: String? = null

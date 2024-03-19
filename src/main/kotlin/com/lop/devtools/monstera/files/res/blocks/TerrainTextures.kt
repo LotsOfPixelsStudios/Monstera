@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.*
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class TerrainTextures : InvokeBeforeEnd {
+class TerrainTextures : InvokeBeforeEnd, MonsteraRawFile() {
     @SerializedName("texture_name")
     @Expose
     var textureName: String = "atlas.terrain"
@@ -35,7 +36,7 @@ class TerrainTextures : InvokeBeforeEnd {
         }
     }
 
-    class Texture {
+    open class Texture {
         @SerializedName("textures")
         @Expose
         var textures: String? = null

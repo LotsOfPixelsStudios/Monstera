@@ -3,6 +3,7 @@
 package com.lop.devtools.monstera.files.res.entities
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
@@ -10,6 +11,8 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.res.TextureIndex
 import com.lop.devtools.monstera.files.res.entities.comp.*
@@ -19,7 +22,7 @@ import java.io.File
 import java.lang.Error
 import java.nio.file.Path
 
-class ResEntity: MonsteraBuildableFile {
+class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
@@ -51,11 +54,13 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("minecraft:client_entity")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var entity: ResEntity
-    )
+    ): MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var description: Description? = null
         @MonsteraBuildSetter set
 
@@ -78,7 +83,7 @@ class ResEntity: MonsteraBuildableFile {
         description = (description ?: Description()).apply(data)
     }
 
-    class Description {
+    class Description: MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
@@ -168,10 +173,10 @@ class ResEntity: MonsteraBuildableFile {
 
         fun texture(state: String, file: File, addon: Addon) {
             val targetName = getUniqueFileName(file).removeSuffix(".png")
-            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve("$targetName.png")
-            TextureIndex.instance(addon).textures.add("textures/monstera/$targetName")
+            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve(addon.config.namespace).resolve("$targetName.png")
+            TextureIndex.instance(addon).textures.add("textures/monstera/${addon.config.namespace}/$targetName")
             file.copyTo(targetPath.toFile(), true)
-            texture(state,"textures/monstera/$targetName")
+            texture(state,"textures/monstera/${addon.config.namespace}/$targetName")
         }
 
         @SerializedName("animations")
@@ -234,6 +239,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("locators")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var locatorsData: ResEntityLocators? = null
             @MonsteraBuildSetter set
 
@@ -247,6 +253,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("spawn_egg")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnEggData: ResEntitySpawnEgg? = null
             @MonsteraBuildSetter set
 
@@ -303,6 +310,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("scripts")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var scriptsData: ResEntityScripts? = null
             @MonsteraBuildSetter set
 

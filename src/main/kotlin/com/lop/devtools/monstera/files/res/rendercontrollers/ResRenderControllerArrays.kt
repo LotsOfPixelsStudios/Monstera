@@ -6,8 +6,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class ResRenderControllerArrays(private val parent: ResRenderController) {
+class ResRenderControllerArrays(private val parent: ResRenderController): MonsteraRawFile() {
     @SerializedName("textures")
     @Expose
     var texturesData: MutableMap<String, MutableList<String>>? = null

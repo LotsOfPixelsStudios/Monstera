@@ -11,6 +11,7 @@ import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.res.entities.ResEntity
 import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderControllers
+import java.awt.Color
 import java.io.File
 
 open class RenderPart(val partName: String, query: Molang, val unsafeParent: Entity) {
@@ -20,6 +21,8 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
 
     var material: String = "parrot"
     var hasTextureLayer = false
+
+    private fun getRenderControllerId() = "${unsafeParent.name}.$partName"
 
     /**
      * CAUTION, path refers to the path within the build file, you probably want to give a File as a texture
@@ -40,7 +43,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
             }
         }
         unsafeRenderController.apply {
-            controllers("${unsafeParent.name}.$partName") {
+            controllers(getRenderControllerId()) {
                 texture("Texture.$id")
             }
         }
@@ -110,7 +113,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                 }
             }
             unsafeRenderController.apply {
-                controllers("${unsafeParent.name}.$partName") {
+                controllers(getRenderControllerId()) {
                     arrays {
                         textures(noInvalidateLayerName, query) {
                             add("Texture.${noInvalidateLayerName}_v$index")
@@ -134,7 +137,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
             }
         }
         unsafeRenderController.apply {
-            controllers("${unsafeParent.name}.$partName") {
+            controllers(getRenderControllerId()) {
                 geometry = "Geometry.$id"
             }
         }
@@ -209,7 +212,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                 }
             }
             unsafeRenderController.apply {
-                controllers("${unsafeParent.name}.$partName") {
+                controllers(getRenderControllerId()) {
                     arrays {
                         geometries(layerName, query) {
                             add("Geometry.${id}_v$index")
@@ -217,6 +220,24 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                     }
                 }
             }
+        }
+    }
+
+    fun onHurtColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.onHurtColor(color)
+        }
+    }
+
+    fun onFireColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.onFireColor(color)
+        }
+    }
+
+    fun overlayColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.overlayColor(color)
         }
     }
 

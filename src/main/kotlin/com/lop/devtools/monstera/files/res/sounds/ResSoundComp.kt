@@ -8,7 +8,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
-class ResSoundComp {
+open class ResSoundComp {
     @SerializedName("is3D")
     @Expose
     var is3D: Boolean? = null

@@ -1,11 +1,14 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
 open class BehEntityEvent {
@@ -52,7 +55,16 @@ open class BehEntityEvent {
     var setPropertyData: MutableMap<String, Any>? = null
         @MonsteraBuildSetter set
 
-    var queueCommand = null
+    @SerializedName("queue_command")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var queueCommandData: QueueCommand? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun queueCommand(command: String) {
+        queueCommandData = QueueCommand().apply { this.command = command }
+    }
 
 
     /**
@@ -146,5 +158,11 @@ open class BehEntityEvent {
         groups.addAll(randomizeData?.flatMap { it.getAddedGroups() } ?: listOf())
         
         return groups
+    }
+
+    class QueueCommand: MonsteraRawFile()  {
+        @SerializedName("command")
+        @Expose
+        var command: String? = null
     }
 }

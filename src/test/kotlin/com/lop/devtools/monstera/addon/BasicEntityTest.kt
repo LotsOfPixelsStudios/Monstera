@@ -3,13 +3,18 @@ package com.lop.devtools.monstera.addon
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.getResource
-import java.awt.Color
+import kotlin.test.AfterTest
 import kotlin.test.Test
 
 class BasicEntityTest {
+    @AfterTest
+    fun buildTask() {
+        buildTestAddon()
+    }
+
     @Test
-    fun basicEntityTest() {
-        TestAddon.lazyAddon.entity("soldior_test") {
+    fun basicEntityTest() = testAddon {
+        entity("soldior_test") {
             resource {
                 textureLayer(
                     arrayListOf(
@@ -30,10 +35,15 @@ class BasicEntityTest {
             }
 
             behaviour {
+                componentGroup("test") {
+                    isBaby {  }
+                    additionalKeys = mapOf("my_component" to "my_value")
+                }
                 components {
                     walkMovement(0.2) {
                         avoidWater = true
                     }
+                    additionalKeys = mapOf("my_component" to "my_value")
                 }
             }
         }

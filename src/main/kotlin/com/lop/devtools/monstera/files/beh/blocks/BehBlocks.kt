@@ -3,16 +3,19 @@
 package com.lop.devtools.monstera.files.beh.blocks
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehBlocks : MonsteraBuildableFile {
+class BehBlocks : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val sanFile = filename
             .removeSuffix(".json")
@@ -44,16 +47,19 @@ class BehBlocks : MonsteraBuildableFile {
 
         @SerializedName("minecraft:block")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var block: BehBlocks
-    )
+    ): MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: BlockDescription? = null
         @MonsteraBuildSetter set
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var componentsData: BlockComponents? = null
         @MonsteraBuildSetter set
 

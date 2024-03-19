@@ -4,9 +4,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.item.Item
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.item.comp.*
 
-class BehItemComponents {
+class BehItemComponents: MonsteraRawFile() {
     @SerializedName("minecraft:icon")
     @Expose
     var itemIconData: ItemIcon? = null

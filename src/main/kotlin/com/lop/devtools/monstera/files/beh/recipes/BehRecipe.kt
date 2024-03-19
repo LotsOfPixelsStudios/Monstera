@@ -3,16 +3,19 @@
 package com.lop.devtools.monstera.files.beh.recipes
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class BehRecipeShaped : MonsteraBuildableFile {
+class BehRecipeShaped : MonsteraBuildableFile, MonsteraRawFile() {
     var data = BehRecipe()
 
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
@@ -123,8 +126,9 @@ class BehRecipe {
 
         @SerializedName("minecraft:recipe_shaped")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    )
+    ): MonsteraRawFile()
 
     data class FileHeaderFurnace(
         @SerializedName("format_version")
@@ -133,8 +137,9 @@ class BehRecipe {
 
         @SerializedName("minecraft:recipe_furnace")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    )
+    ): MonsteraRawFile()
 
     data class FileHeaderBrewingMix(
         @SerializedName("format_version")
@@ -143,8 +148,9 @@ class BehRecipe {
 
         @SerializedName("minecraft:recipe_brewing_mix")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    )
+    ): MonsteraRawFile()
 
     data class FileHeaderBrewingContainer(
         @SerializedName("format_version")
@@ -153,11 +159,13 @@ class BehRecipe {
 
         @SerializedName("minecraft:recipe_brewing_container")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    )
+    ): MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
 
@@ -166,7 +174,7 @@ class BehRecipe {
         descriptionData = Description().apply { this.identifier = identifier }
     }
 
-    class Description {
+    class Description: MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
@@ -279,7 +287,7 @@ class BehRecipe {
         ingredientsData = (ingredientsData ?: mutableListOf()).apply { add(ItemInfo().apply(data)) }
     }
 
-    class ItemInfo {
+    open class ItemInfo {
         @SerializedName("item")
         @Expose
         var item: String? = null

@@ -3,10 +3,9 @@ package com.lop.devtools.monstera.files.res.entities.comp
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class ResEntityLocators {
+class ResEntityLocators : MonsteraRawFile() {
     @SerializedName("lead")
     @Expose
     var leadData: MutableMap<String, MutableList<Number>>? = null

@@ -5,8 +5,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class Components {
+open class Components: MonsteraRawFile() {
     @SerializedName("minecraft:is_hidden_when_invisible")
     @Expose
     var isHiddenWhenInvisibleData: IsHiddenWhenInvisible? = null

@@ -5,6 +5,7 @@ package com.lop.devtools.monstera.addon
 import com.lop.devtools.monstera.Config
 import com.lop.devtools.monstera.MonsteraLoggerContext
 import com.lop.devtools.monstera.addon.api.InvokeBeforeEnd
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeField
 import com.lop.devtools.monstera.addon.api.PackageInvoke
 import com.lop.devtools.monstera.addon.block.Block
 import com.lop.devtools.monstera.addon.dev.buildToMcFolder
@@ -29,7 +30,7 @@ import java.lang.Integer.max
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-open class Addon(val config: Config)  {
+open class Addon(val config: Config) {
     @DslMarker
     annotation class AddonTopLevel
 
@@ -47,6 +48,15 @@ open class Addon(val config: Config)  {
 
     val onEndListener: ArrayList<InvokeBeforeEnd> = arrayListOf()
     val onPackage: ArrayList<PackageInvoke> = arrayListOf()
+
+    @MonsteraUnsafeField
+    val entities: MutableMap<String, Entity> = mutableMapOf()
+
+    @MonsteraUnsafeField
+    val items: MutableMap<String, Item> = mutableMapOf()
+
+    @MonsteraUnsafeField
+    val blocks: MutableMap<String, Block> = mutableMapOf()
 
     var buildFunctions: Boolean = true
     var buildTextureList: Boolean = true
@@ -69,10 +79,9 @@ open class Addon(val config: Config)  {
     @AddonTopLevel
     fun entity(name: String, displayName: String = name, entity: Entity.() -> Unit): Entity {
         MonsteraLoggerContext.setEntity(name)
-        val ent = Entity(this, name, displayName).apply(entity)
-        ent.build()
+        entities[name] = (entities[name] ?: Entity(this, name, displayName)).apply(entity)
         MonsteraLoggerContext.clear()
-        return ent
+        return entities[name]!!
     }
 
     /**
@@ -148,10 +157,9 @@ open class Addon(val config: Config)  {
     @AddonTopLevel
     fun item(name: String, displayName: String = name, item: Item.() -> Unit): Item {
         MonsteraLoggerContext.setItem(name)
-        val data = Item(name, displayName, this).apply(item)
-        data.build()
+        items[name] = (items[name] ?: Item(name, displayName, this)).apply(item)
         MonsteraLoggerContext.clear()
-        return data
+        return items[name]!!
     }
 
     /**
@@ -221,10 +229,9 @@ open class Addon(val config: Config)  {
     @AddonTopLevel
     fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
         MonsteraLoggerContext.setBlock(name)
-        val mData = Block(this, name, displayName).apply(data)
-        mData.build()
+        blocks[name] = (blocks[name] ?: Block(this, name, displayName)).apply(data)
         MonsteraLoggerContext.clear()
-        return mData
+        return blocks[name]!!
     }
 
     fun scripts(directory: File) {
@@ -239,11 +246,29 @@ open class Addon(val config: Config)  {
                     it.copyRecursively(File(scriptingDir, it.name), true)
                 }
         } else {
-            logger.warn("${directory.name}' is not a directory (scripting)")
+            logger.warn("${directory.path}' does not exist or is not a directory (scripting)")
         }
     }
 
     fun build() {
+        //entities
+        entities.forEach { (name, body) ->
+            MonsteraLoggerContext.setEntity(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
+        //items
+        items.forEach { (name, body) ->
+            MonsteraLoggerContext.setItem(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
+        //blocks
+        blocks.forEach { (name, body) ->
+            MonsteraLoggerContext.setBlock(name)
+            body.build()
+            MonsteraLoggerContext.clear()
+        }
         BlockDefs.instance(this).unsafe.build(config.resPath)
         TerrainTextures.instance(this).unsafe.buildFile(this)
         Materials.instance(this).apply {
@@ -303,7 +328,11 @@ fun buildInformation(addon: Addon) {
         entries = arrayListOf(
             "say §b$format",
             "say §b#§a Monstera version: ${addon.config.monsteraVersion}",
-            "say §b#§a build version: ${(System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(addon.config.version))}",
+            "say §b#§a build version: ${
+                (System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(
+                    addon.config.version
+                ))
+            }",
             "say §b#§a build time: $time",
             "say §b$format",
         )

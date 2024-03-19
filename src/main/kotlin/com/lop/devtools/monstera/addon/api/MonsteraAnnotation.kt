@@ -18,10 +18,10 @@ annotation class MonsteraBuildSetter
 @RequiresOptIn("This field/function/class contains/returns debug related information.", RequiresOptIn.Level.WARNING)
 annotation class DebugMarker
 
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.FIELD, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @RequiresOptIn("This field should not be used within an addon", RequiresOptIn.Level.WARNING)
-annotation class MonsteraBuildField
+annotation class MonsteraUnsafeField
 
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

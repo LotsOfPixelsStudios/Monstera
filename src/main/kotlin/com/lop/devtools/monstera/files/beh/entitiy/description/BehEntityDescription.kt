@@ -4,13 +4,12 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.files.properties.types.GenericProperty
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class BehEntityDescription {
+class BehEntityDescription: MonsteraRawFile() {
     @SerializedName("identifier")
     @Expose
     var identifier: String? = null
