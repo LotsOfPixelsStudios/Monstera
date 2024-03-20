@@ -52,18 +52,16 @@ components.
 
 ```kotlin
 behaviour {
-    componentGroups {
-        componentGroup("baby") {
-            isBaby()
+    componentGroup("baby") {
+        isBaby()
+    }
+    componentGroup("adult") {
+        attack {
+            damage = 3
+            damageRange = arrayListOf(1, 2)
         }
-        componentGroup("adult") {
-            attack {
-                damage = 3
-                damageRange = arrayListOf(1, 2)
-            }
-            behMeleeAttack {
-                priority = 1
-            }
+        behMeleeAttack {
+            priority = 1
         }
     }
     components {
@@ -80,14 +78,12 @@ To add and remove Component Groups we can use events by calling within the entit
 
 ````kotlin
 behaviour {
-    events {
-        event("grow_up") {
-            remove {
-                componentGroup = "baby"
-            }
-            add {
-                componentGroup = "adult"
-            }
+    event("grow_up") {
+        remove {
+            componentGroup = "baby"
+        }
+        add {
+            componentGroup = "adult"
         }
     }
 }
@@ -412,3 +408,6 @@ components {
 ````
 
 [ Further reading ](https://wiki.bedrock.dev/visuals/materials.html)
+
+### Crafting
+
