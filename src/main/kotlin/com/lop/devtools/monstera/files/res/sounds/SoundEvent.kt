@@ -2,110 +2,112 @@ package com.lop.devtools.monstera.files.res.sounds
 
 import com.google.gson.annotations.SerializedName
 
-enum class SoundEvent {
+enum class SoundEvent(val s: String) {
     @SerializedName("default")
-    DEFAULT,
+    DEFAULT("default"),
 
     @SerializedName("hit")
-    HIT,
+    HIT("default"),
 
     @SerializedName("item.use.on")
-    ITEM_USE_ON,
+    ITEM_USE_ON("default"),
 
     @SerializedName("place")
-    PLACE,
+    PLACE("default"),
 
     @SerializedName("power.on")
-    POWER_ON,
+    POWER_ON("default"),
 
     @SerializedName("power.off")
-    POWER_OFF,
+    POWER_OFF("default"),
 
     @SerializedName("attack")
 
-    ATTACK,
+    ATTACK("default"),
 
     @SerializedName("ambient")
-    AMBIENT,
+    AMBIENT("default"),
 
     @SerializedName("ambient.in.water")
-    AMBIENT_IN_WATER,
+    AMBIENT_IN_WATER("default"),
 
     @SerializedName("ambient.aggressive")
-    AMBIENT_AGGRESSIVE,
+    AMBIENT_AGGRESSIVE("default"),
 
     @SerializedName("ambient.baby")
-    AMBIENT_BABY,
+    AMBIENT_BABY("default"),
 
     @SerializedName("ambient.worried")
-    AMBIENT_WORRIED,
+    AMBIENT_WORRIED("default"),
 
     @SerializedName("cant_breed")
-    CAN_BREED,
+    CAN_BREED("default"),
 
     @SerializedName("death")
-    DEATH,
+    DEATH("default"),
 
     @SerializedName("hurt")
-    HURT,
+    HURT("default"),
 
     @SerializedName("presneeze")
-    PRESNEEZE,
+    PRESNEEZE("default"),
 
     @SerializedName("sneeze")
-    SNEEZE,
+    SNEEZE("default"),
 
     @SerializedName("step")
-    STEP,
+    STEP("default"),
 
     @SerializedName("fall.big")
-    FALL_BIG,
+    FALL_BIG("default"),
 
     @SerializedName("fall.small")
-    FALL_SMALL,
+    FALL_SMALL("default"),
 
     @SerializedName("splash")
-    SPLASH,
+    SPLASH("default"),
 
     @SerializedName("shoot")
-    SHOOT,
+    SHOOT("default"),
 
     @SerializedName("breathe")
-    BREATHE,
+    BREATHE("default"),
 
     @SerializedName("swim")
-    SWIM,
+    SWIM("default"),
 
     @SerializedName("death.in.water")
-    DEATH_IN_WATER,
+    DEATH_IN_WATER("default"),
 
     @SerializedName("jump")
-    JUMP,
+    JUMP("default"),
 
     @SerializedName("eat")
-    EAT,
+    EAT("default"),
 
     @SerializedName("hurt.in.water")
-    HURT_IN_WATER,
+    HURT_IN_WATER("default"),
 
     @SerializedName("mad")
-    MAD,
+    MAD("default"),
 
     @SerializedName("stare")
-    STARE,
+    STARE("default"),
 
     @SerializedName("sniff")
-    SNIFF,
+    SNIFF("default"),
 
     @SerializedName("sleep")
-    SLEEP,
+    SLEEP("default"),
 
     @SerializedName("spit")
-    SPIT,
+    SPIT("default"),
 
     @SerializedName("warn")
-    WARN,
+    WARN("default"),
 
     @SerializedName("scream")
-    SCREAM;
+    SCREAM("default");
+
+    override fun toString() = s
 }

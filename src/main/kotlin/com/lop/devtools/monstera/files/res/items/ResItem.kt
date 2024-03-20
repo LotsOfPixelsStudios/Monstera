@@ -44,7 +44,7 @@ class ResItem : MonsteraBuildableFile, MonsteraRawFile() {
         @SerializedName("minecraft:client_entity")
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
-        var entity: ResItem
+        var item: ResItem
     ) : MonsteraRawFile()
 
     @SerializedName("description")
