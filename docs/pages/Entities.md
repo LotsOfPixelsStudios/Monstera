@@ -94,11 +94,11 @@ behaviour {
 Following default events are also support:
 
 ````kotlin
-events {
-    defaultBornEvent { }
-    defaultSpawnedEvent { }
-    defaultTransformedEvent { }
-    defaultOnPrimeEvent { }
+behaviour {
+    eventBorn { }
+    eventSpawned { }
+    eventOnPrime { }
+    eventTransformed { }
 }
 ````
 
@@ -411,3 +411,22 @@ components {
 
 ### Crafting
 
+Can be found in the behaviour part of the entity.
+
+```kotlin
+craftingRecipe {
+    val d = "minecraft:diamond"
+    val s = "minecraft:stick"
+    val n = ""
+
+    craftingPattern(
+        t(n,d,n),
+        t(n,d,n),
+        t(n,s,n)
+    )
+    unlock {
+        item("minecraft:wood", count = 3, data = 2)
+        context()
+    }
+}
+```
