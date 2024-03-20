@@ -25,7 +25,7 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
 
     fun renderOffset(category: String = "tools") {
         resItem.components {
-            renderOffset(category)
+            this.renderOffset = category
         }
     }
 
