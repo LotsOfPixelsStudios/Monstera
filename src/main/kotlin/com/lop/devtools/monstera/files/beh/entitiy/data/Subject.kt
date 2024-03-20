@@ -6,7 +6,7 @@ enum class Subject {
     @SerializedName("block")
     BLOCK,
 
-    @SerializedName("block")
+    @SerializedName("damager")
     DAMAGER,
 
     @SerializedName("other")
