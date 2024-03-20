@@ -6,19 +6,19 @@ enum class Subject {
     @SerializedName("block")
     BLOCK,
 
-    @SerializedName("block")
+    @SerializedName("damager")
     DAMAGER,
 
-    @SerializedName("damager")
+    @SerializedName("other")
     OTHER,
 
-    @SerializedName("other")
+    @SerializedName("parent")
     PARENT,
 
-    @SerializedName("parent")
+    @SerializedName("player")
     PLAYER,
 
-    @SerializedName("player")
+    @SerializedName("self")
     SELF,
 
     @SerializedName("target")

@@ -244,7 +244,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.hover")
     @Expose
-    var navigationHoverData: NavigationHover? = null
+    var navigationHoverData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -263,8 +263,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationHover(value: NavigationHover.() -> Unit) {
-        navigationHoverData = (navigationHoverData ?: NavigationHover()).apply(value)
+    fun navigationHover(value: NavigationComp.() -> Unit) {
+        navigationHoverData = (navigationHoverData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.hover")
@@ -848,7 +848,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.generic")
     @Expose
-    var navigationGenericData: NavigationGeneric? = null
+    var navigationGenericData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -870,8 +870,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationGeneric(value: NavigationGeneric.() -> Unit) {
-        navigationGenericData = (navigationGenericData ?: NavigationGeneric()).apply(value)
+    fun navigationGeneric(value: NavigationComp.() -> Unit) {
+        navigationGenericData = (navigationGenericData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.amphibious")
@@ -1405,7 +1405,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.float")
     @Expose
-    var navigationFloatData: NavigationFloat? = null
+    var navigationFloatData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -1418,8 +1418,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationFloat(value: NavigationFloat.() -> Unit) {
-        navigationFloatData = (navigationFloatData ?: NavigationFloat()).apply(value)
+    fun navigationFloat(value: NavigationComp.() -> Unit) {
+        navigationFloatData = (navigationFloatData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.basic")
@@ -1678,7 +1678,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.walk")
     @Expose
-    var navigationWalkData: NavigationWalk? = null
+    var navigationWalkData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -1704,8 +1704,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationWalk(value: NavigationWalk.() -> Unit) {
-        navigationWalkData = (navigationWalkData ?: NavigationWalk()).apply(value)
+    fun navigationWalk(value: NavigationComp.() -> Unit) {
+        navigationWalkData = (navigationWalkData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:can_climb")
@@ -2494,7 +2494,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.climb")
     @Expose
-    var navigationClimbData: NavigationClimb? = null
+    var navigationClimbData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -2507,8 +2507,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationClimb(value: NavigationClimb.() -> Unit) {
-        navigationClimbData = (navigationClimbData ?: NavigationClimb()).apply(value)
+    fun navigationClimb(value: NavigationComp.() -> Unit) {
+        navigationClimbData = (navigationClimbData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:addrider")
@@ -4623,7 +4623,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.fly")
     @Expose
-    var navigationFlyData: NavigationFly? = null
+    var navigationFlyData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -4637,8 +4637,8 @@ open class Components: MonsteraRawFile() {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationFly(value: NavigationFly.() -> Unit) {
-        navigationFlyData = (navigationFlyData ?: NavigationFly()).apply(value)
+    fun navigationFly(value: NavigationComp.() -> Unit) {
+        navigationFlyData = (navigationFlyData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.fly")
@@ -6869,7 +6869,7 @@ open class Components: MonsteraRawFile() {
      * - jump
      */
     @MonsteraComponentMarker
-    fun walkMovement(speed: Number, navData: NavigationWalk.() -> Unit) {
+    fun walkMovement(speed: Number, navData: NavigationComp.() -> Unit) {
         navigationWalk(navData)
         movement = speed
         movementBasic { }
@@ -6888,7 +6888,7 @@ open class Components: MonsteraRawFile() {
      * - fly
      */
     @MonsteraComponentMarker
-    fun ghastMovement(speed: Number, navData: NavigationFloat.() -> Unit) {
+    fun ghastMovement(speed: Number, navData: NavigationComp.() -> Unit) {
         behFloatWander { }
         navigationFloat(navData)
         movement = speed
