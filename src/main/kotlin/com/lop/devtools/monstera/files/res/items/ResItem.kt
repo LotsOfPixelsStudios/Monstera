@@ -41,7 +41,7 @@ class ResItem : MonsteraBuildableFile, MonsteraRawFile() {
         @Expose
         var formatVersion: String = "1.10.0",
 
-        @SerializedName("minecraft:client_entity")
+        @SerializedName("minecraft:item")
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var item: ResItem
@@ -67,7 +67,7 @@ class ResItem : MonsteraBuildableFile, MonsteraRawFile() {
     }
 
     class Description : MonsteraRawFile() {
-        @SerializedName("components")
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 

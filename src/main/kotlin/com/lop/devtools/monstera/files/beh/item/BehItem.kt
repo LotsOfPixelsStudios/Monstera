@@ -45,11 +45,11 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
         @Expose
         var formatVersion: String = "",
 
-        @SerializedName("minecraft:block")
+        @SerializedName("minecraft:item")
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var block: BehItem
-    ): MonsteraRawFile()
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
@@ -141,7 +141,7 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
         componentsData.apply(data)
     }
 
-    class Description: MonsteraRawFile() {
+    class Description : MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
@@ -165,7 +165,10 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
         }
 
         enum class Category {
+            @SerializedName("items")
             ITEMS,
+
+            @SerializedName("construction")
             CONSTRUCTION;
 
             override fun toString(): String {

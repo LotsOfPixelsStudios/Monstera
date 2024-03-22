@@ -1,4 +1,4 @@
-package com.lop.devtools.monstera.addon.recipes
+package com.lop.devtools.monstera.addon.concept.recipes
 
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraFile
