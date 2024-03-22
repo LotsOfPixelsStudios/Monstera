@@ -1,6 +1,5 @@
 package com.lop.devtools.monstera.addon
 
-import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.getResource
 import kotlin.test.AfterTest
@@ -46,12 +45,6 @@ class BasicEntityTest {
                     additionalKeys = mapOf("my_component" to "my_value")
                 }
             }
-        }
-    }
-
-    fun Entity.test() {
-        resource {
-
         }
     }
 }

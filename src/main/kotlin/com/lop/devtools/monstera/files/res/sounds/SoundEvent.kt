@@ -7,107 +7,106 @@ enum class SoundEvent(val s: String) {
     DEFAULT("default"),
 
     @SerializedName("hit")
-    HIT("default"),
+    HIT("hit"),
 
     @SerializedName("item.use.on")
-    ITEM_USE_ON("default"),
+    ITEM_USE_ON("item.use.on"),
 
     @SerializedName("place")
-    PLACE("default"),
+    PLACE("place"),
 
     @SerializedName("power.on")
-    POWER_ON("default"),
+    POWER_ON("power.on"),
 
     @SerializedName("power.off")
-    POWER_OFF("default"),
+    POWER_OFF("power.off"),
 
     @SerializedName("attack")
-
-    ATTACK("default"),
+    ATTACK("attack"),
 
     @SerializedName("ambient")
-    AMBIENT("default"),
+    AMBIENT("ambient"),
 
     @SerializedName("ambient.in.water")
-    AMBIENT_IN_WATER("default"),
+    AMBIENT_IN_WATER("ambient.in.water"),
 
     @SerializedName("ambient.aggressive")
-    AMBIENT_AGGRESSIVE("default"),
+    AMBIENT_AGGRESSIVE("ambient.aggressive"),
 
     @SerializedName("ambient.baby")
-    AMBIENT_BABY("default"),
+    AMBIENT_BABY("ambient.baby"),
 
     @SerializedName("ambient.worried")
-    AMBIENT_WORRIED("default"),
+    AMBIENT_WORRIED("ambient.worried"),
 
     @SerializedName("cant_breed")
-    CAN_BREED("default"),
+    CAN_BREED("cant_breed"),
 
     @SerializedName("death")
-    DEATH("default"),
+    DEATH("death"),
 
     @SerializedName("hurt")
-    HURT("default"),
+    HURT("hurt"),
 
     @SerializedName("presneeze")
-    PRESNEEZE("default"),
+    PRESNEEZE("presneeze"),
 
     @SerializedName("sneeze")
-    SNEEZE("default"),
+    SNEEZE("sneeze"),
 
     @SerializedName("step")
-    STEP("default"),
+    STEP("step"),
 
     @SerializedName("fall.big")
-    FALL_BIG("default"),
+    FALL_BIG("fall.big"),
 
     @SerializedName("fall.small")
-    FALL_SMALL("default"),
+    FALL_SMALL("fall.small"),
 
     @SerializedName("splash")
-    SPLASH("default"),
+    SPLASH("splash"),
 
     @SerializedName("shoot")
-    SHOOT("default"),
+    SHOOT("shoot"),
 
     @SerializedName("breathe")
-    BREATHE("default"),
+    BREATHE("breathe"),
 
     @SerializedName("swim")
-    SWIM("default"),
+    SWIM("swim"),
 
     @SerializedName("death.in.water")
-    DEATH_IN_WATER("default"),
+    DEATH_IN_WATER("death.in.water"),
 
     @SerializedName("jump")
-    JUMP("default"),
+    JUMP("jump"),
 
     @SerializedName("eat")
-    EAT("default"),
+    EAT("eat"),
 
     @SerializedName("hurt.in.water")
-    HURT_IN_WATER("default"),
+    HURT_IN_WATER("hurt.in.water"),
 
     @SerializedName("mad")
-    MAD("default"),
+    MAD("mad"),
 
     @SerializedName("stare")
-    STARE("default"),
+    STARE("stare"),
 
     @SerializedName("sniff")
-    SNIFF("default"),
+    SNIFF("sniff"),
 
     @SerializedName("sleep")
     SLEEP("default"),
 
     @SerializedName("spit")
-    SPIT("default"),
+    SPIT("spit"),
 
     @SerializedName("warn")
-    WARN("default"),
+    WARN("warn"),
 
     @SerializedName("scream")
-    SCREAM("default");
+    SCREAM("scream");
 
     override fun toString() = s
 }

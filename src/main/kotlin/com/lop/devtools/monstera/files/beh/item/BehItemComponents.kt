@@ -7,7 +7,7 @@ import com.lop.devtools.monstera.addon.item.Item
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.item.comp.*
 
-class BehItemComponents: MonsteraRawFile() {
+class BehItemComponents : MonsteraRawFile() {
     @SerializedName("minecraft:icon")
     @Expose
     var itemIconData: ItemIcon? = null
@@ -31,6 +31,16 @@ class BehItemComponents: MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun allowOffHand(value: Boolean) {
         allowOffHandData = ItemAllowOffHand().apply { this.value = value }
+    }
+
+    @SerializedName("minecraft:armor")
+    @Expose
+    var armorData: ItemArmor? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun armor(data: ItemArmor.() -> Unit) {
+        armorData = (armorData ?: ItemArmor()).apply(data)
     }
 
     @SerializedName("minecraft:block_placer")
@@ -86,6 +96,16 @@ class BehItemComponents: MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun cooldown(data: ItemCooldown.() -> Unit) {
         cooldownData = (cooldownData ?: ItemCooldown()).apply(data)
+    }
+
+    @SerializedName("minecraft:creative_category")
+    @Expose
+    var creativeCategoryData: ItemCreativeCategory? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun creativeCategory(data: ItemCreativeCategory.() -> Unit) {
+        creativeCategoryData = (creativeCategoryData ?: ItemCreativeCategory()).apply(data)
     }
 
     /**
@@ -466,19 +486,6 @@ class BehItemComponents: MonsteraRawFile() {
         stackedByDataData = ItemStackedByData().apply { this.value = value }
     }
 
-    @SerializedName("minecraft:tags")
-    @Expose
-    var tagsData: ItemTags? = null
-        @MonsteraBuildSetter set
-
-    /**
-     * Determines which tags are included on a given item.
-     */
-    @OptIn(MonsteraBuildSetter::class)
-    fun tags(vararg value: String) {
-        tagsData = (tagsData ?: ItemTags()).apply { this.tags(value.toList()) }
-    }
-
     @SerializedName("minecraft:throwable")
     @Expose
     var throwableData: ItemThrowable? = null
@@ -537,5 +544,17 @@ class BehItemComponents: MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun wearable(data: ItemWearable.() -> Unit) {
         wearableData = (wearableData ?: ItemWearable()).apply(data)
+    }
+
+    @SerializedName("tags")
+    @Expose
+    var tags: MutableList<String>? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun tags(vararg tag: String) {
+        tags = (tags ?: mutableListOf()).apply {
+            addAll(tag)
+        }
     }
 }

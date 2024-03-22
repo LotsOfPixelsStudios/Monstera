@@ -18,6 +18,8 @@ import java.nio.file.Path
 
 class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
+        if(isEmtpy())
+            return Result.failure(Error("File is empty!"))
         val sanFile = filename
             .removeSuffix(".json")
             .replace("-", "_")
@@ -37,6 +39,8 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         )
         return Result.success(target)
     }
+
+    fun isEmtpy() = descriptionData == null
 
     /**
      * load json blocks with this class
@@ -78,7 +82,9 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
      *      scripts {
      *          animate("hold_first_person", Query.isFirstPerson)
      *          animate("hold_third_person", !Query.isFirstPerson)
+     *          parentSetup = "v.chest_layer_visible = 0.0;"
      *      }
+     *      renderController("controller.render.armor")
      * }
      * ```
      */
@@ -88,7 +94,7 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
     }
 
     class Description: MonsteraRawFile() {
-        @SerializedName("components")
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 
@@ -171,9 +177,28 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         fun scripts(data: Scripts.() -> Unit) {
             scriptsData = (scriptsData ?: Scripts()).apply(data)
         }
+
+        @SerializedName("render_controllers")
+        @Expose
+        var renderControllerData: MutableList<Any>? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun renderController(vararg controller: String) {
+            renderControllerData = (renderControllerData ?: mutableListOf()).apply {
+                addAll(controller)
+            }
+        }
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun renderController(controller: List<String>) {
+            renderControllerData = (renderControllerData ?: mutableListOf()).apply {
+                addAll(controller)
+            }
+        }
     }
 
-    class Materials: MonsteraRawFile() {
+    open class Materials: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
@@ -183,7 +208,7 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         var enchanted: String? = null
     }
 
-    class Textures: MonsteraRawFile() {
+    open class Textures: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
@@ -193,13 +218,13 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         var enchanted: String? = null
     }
 
-    class Geometry: MonsteraRawFile() {
+    open class Geometry: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
     }
 
-    class Scripts: MonsteraRawFile() {
+    open class Scripts: MonsteraRawFile() {
         @SerializedName("animate")
         @Expose
         var animateData: MutableList<MutableMap<String, String>>? = null
@@ -212,5 +237,9 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         fun animate(name: String, query: Molang) {
             animateData = (animateData ?: mutableListOf()).apply { add(mutableMapOf(name to query.data)) }
         }
+
+        @SerializedName("parent_setup")
+        @Expose
+        var parentSetup: String? = null
     }
 }

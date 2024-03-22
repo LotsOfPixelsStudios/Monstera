@@ -6,7 +6,7 @@ import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
+import com.lop.devtools.monstera.addon.concept.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.animcontroller.AnimationControllers
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
 import com.lop.devtools.monstera.files.beh.animations.BehAnimations

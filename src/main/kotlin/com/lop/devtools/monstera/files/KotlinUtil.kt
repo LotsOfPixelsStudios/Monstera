@@ -3,6 +3,7 @@ package com.lop.devtools.monstera.files
 import java.io.File
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
+import java.nio.file.Path
 import java.util.*
 
 /**
@@ -36,6 +37,15 @@ fun getValueForLangKey(lanFile: File, key: String): Result<String> {
         return Result.failure(Error("lang key does not exist"))
     }
     return Result.failure(Error("lang file does not exist"))
+}
+
+/**
+ * @param path the system path to the file
+ * @param to retrive the relative path to this keyword, eg: "C:\...\res\texture\entity\test.png" and "texture" - would return "texture/entity/test.png"
+ */
+fun resolveRelativePath(path: Path, to: String): String {
+    val sub = path.toString().split(to).last().replace("\\", "/")
+    return "$to$sub"
 }
 
 /**

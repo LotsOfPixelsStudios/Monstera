@@ -215,12 +215,10 @@ open class ResourceEntity(val unsafeParent: Entity) {
     }
 
     /**
-     * animation names to use in an anim controller are the last index when splitting the id on a dot ->
-     * "animation.entity.walk" => "walk" can be used
-     *
      * @param file the animations
+     * @param animName set the name for all animations (input is the identifier), default is the string after the last dot "animation.entity.walk" => "walk"
      */
-    fun animation(file: File) {
+    fun animation(file: File, animName: (String) -> String  = { it.split(".").last() }) {
         val animations = extractAnimationIdsFromFile(file)
         if (animations.isEmpty()) {
             logger().warn("No animations found in file: ${file.name}")
@@ -236,7 +234,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
         animations.forEach {
             unsafeRawEntity.apply {
                 description {
-                    animation(it.split(".").last(), it)
+                    animation(animName(it), it)
                 }
             }
         }

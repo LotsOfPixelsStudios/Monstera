@@ -3,31 +3,46 @@
 package com.lop.devtools.monstera.addon.item
 
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
+import com.lop.devtools.monstera.addon.api.MonsteraUnsafeField
+import com.lop.devtools.monstera.addon.concept.attachable.AttachableApi
+import com.lop.devtools.monstera.addon.concept.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.beh.item.BehItem
 import com.lop.devtools.monstera.files.beh.item.BehItemComponents
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.lang.langKey
+import com.lop.devtools.monstera.files.res.ItemTextureIndex
+import com.lop.devtools.monstera.files.res.TextureIndex
+import com.lop.devtools.monstera.files.res.attachables.ResAttachable
 import com.lop.devtools.monstera.files.res.items.ResItem
 import java.io.File
 
 class Item(val name: String, val displayName: String, val addon: Addon) {
-    private val behItem = BehItem()
-    private val resItem = ResItem()
-    private var category: String = "equipment"
-    private val craftingRecipe: CraftingRecipe = CraftingRecipe()
+    @MonsteraUnsafeField
+    val behItem = BehItem()
+
+    @MonsteraUnsafeField
+    var category: String = "equipment"
+
+    @MonsteraUnsafeField
+    val craftingRecipe: CraftingRecipe = CraftingRecipe()
+
+    @MonsteraUnsafeField
+    val attachable = ResAttachable()
+
+    @MonsteraUnsafeField
+    val attachableApi = AttachableApi(identifier(), attachable, addon)
 
     fun category(category: String = "Equipment") {
         this.category = category
     }
 
-    fun identifier() = addon.config.namespace + ":" + name
-
-    fun renderOffset(category: String = "tools") {
-        resItem.components {
-            renderOffset(category)
+    fun menuCategory(data: BehItem.Description.Category) {
+        behItem.description {
+            this.menuCategory = data
         }
     }
+
+    fun identifier() = addon.config.namespace + ":" + name
 
     fun texture(texture: File) {
         val uniqueFilename = getUniqueFileName(texture)
@@ -41,18 +56,25 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
             .toFile()
 
         texture.copyTo(target, true)
-        resItem.components {
-            icon(
-                name,
-                "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}",
-                addon
-            )
+        TextureIndex.instance(addon).textures.add("textures/items/monstera/${uniqueFilename.removeSuffix(".png")}")
+        ItemTextureIndex.instance(addon).addItemTexture(name, "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}")
+        behItem.description {
+            components {
+                icon {
+                    this.texture = name
+                }
+            }
         }
     }
 
     fun vanillaTexture(texture: String, path: String = "textures/items/$texture") {
-        resItem.components {
-            icon(texture, path, addon)
+        ItemTextureIndex.instance(addon).addItemTexture(name, path)
+        behItem.description {
+            components {
+                icon {
+                    this.texture = texture
+                }
+            }
         }
     }
 
@@ -81,22 +103,29 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
         craftingRecipe.apply(data)
     }
 
+    fun attachable(data: AttachableApi.() -> Unit) {
+        attachableApi.apply(data)
+    }
+
     fun build() {
         behItem.description {
             identifier = identifier()
-            if(menuCategoryData == null)
+            if (menuCategoryData == null)
                 menuCategory = BehItem.Description.Category.ITEMS
         }
-        behItem.build(name, addon.config.paths.behItems)
-
-        resItem.description {
-            identifier = identifier()
-            this.category = this@Item.category
+        behItem.components {
+            displayNameKey("item.${identifier()}.name")
         }
         langKey("item.${identifier()}.name", displayName)
-        resItem.build(name)
 
-        if(!craftingRecipe.unsafe.isEmpty())
+        behItem.build(name, addon.config.paths.behItems)
+
+        if(!attachable.isEmtpy())
+            attachable.build(name)
+
+        //resItem.build(name)
+
+        if (!craftingRecipe.unsafe.isEmpty())
             craftingRecipe.unsafe.build(name, identifier(), addon)
     }
 }
