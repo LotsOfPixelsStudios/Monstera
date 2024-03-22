@@ -53,6 +53,15 @@ class SoundEntityTest {
                             )
                         )
                     }
+                    sound("mob.$name.ambient") {
+                        onEvent(SoundEvent.AMBIENT)
+                        sound(
+                            arrayListOf(
+                                getResource("sounds/fill1.fsb") to Sound.SoundDefData(),
+                                getResource("sounds/fill2.fsb") to Sound.SoundDefData()
+                            )
+                        )
+                    }
                 }
             }
             resource {
