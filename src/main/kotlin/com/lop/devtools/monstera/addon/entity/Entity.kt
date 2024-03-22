@@ -5,7 +5,7 @@ package com.lop.devtools.monstera.addon.entity
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.behaviour.BehaviourEntity
 import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
-import com.lop.devtools.monstera.addon.sound.SoundData
+import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
 class Entity(
@@ -17,7 +17,7 @@ class Entity(
     val unsafeResourceEntity: ResourceEntity = ResourceEntity(this)
 
     var unsafeSpawnAble: Boolean = false
-    val unsafeSoundData: MutableList<SoundData> = mutableListOf()
+    val unsafeSoundData: MutableList<Sound> = mutableListOf()
 
     /**
      * @return the identifier of the entity as it is defined in the final beh/res pack
@@ -81,7 +81,7 @@ class Entity(
         unsafeResourceEntity.build()
 
         if (unsafeSoundData.isNotEmpty()) {
-            addon.unsafeApplySoundData(unsafeSoundData, name)
+            addon.unsafeApplySoundData(unsafeSoundData, getIdentifier())
         }
     }
 }

@@ -3,7 +3,6 @@ package com.lop.devtools.monstera.addon.block
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.getGeoId
 import com.lop.devtools.monstera.addon.sound.Sound
-import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
 import com.lop.devtools.monstera.files.beh.blocks.components.MaterialInstance
@@ -28,7 +27,7 @@ open class Block(
     val unsafeBehBlock = BehBlocks()
     val unsafeBlockDefs = BlockDefs.instance(addon)
     val unsafeTerrainTextures = TerrainTextures.instance(addon)
-    val unsafeSoundData: MutableList<SoundData> = mutableListOf()
+    val unsafeSoundData: MutableList<Sound> = mutableListOf()
 
     /**
      * returns the identifier of the block that can be called in a command
@@ -125,7 +124,7 @@ open class Block(
      * ```
      */
     fun sound(identifier: String, data: Sound.() -> Unit): String {
-        val soundData = SoundData(addon).apply { this.identifier = identifier }.apply(data)
+        val soundData = Sound(addon).apply { this.identifier = identifier }.apply(data)
         unsafeSoundData.add(soundData)
         return soundData.identifier
     }

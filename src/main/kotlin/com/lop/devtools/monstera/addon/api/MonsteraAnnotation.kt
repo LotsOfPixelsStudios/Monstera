@@ -26,3 +26,6 @@ annotation class MonsteraUnsafeField
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class HolidayCreatorFeature(val since: String = "current", val till: String = "current")
+
+@DslMarker
+annotation class MonsteraApi
