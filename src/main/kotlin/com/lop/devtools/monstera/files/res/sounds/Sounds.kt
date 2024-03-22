@@ -74,7 +74,9 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun blockSounds(soundIdGroups: SpecSounds.() -> Unit) {
         blockSoundsData = (blockSoundsData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -89,7 +91,9 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     fun entitySounds(soundIdGroups: SpecSounds.() -> Unit) {
         entitySoundsData = (entitySoundsData ?: EntitySpecSound()).apply {
             entitiesData = (entitiesData ?: mutableMapOf()).apply {
-                putAll(SpecSounds().apply(soundIdGroups).eventData)
+                SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                    get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+                }
             }
         }
     }
@@ -118,7 +122,9 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun individualEventSounds(soundIdGroups: SpecSounds.() -> Unit) {
         individualEventSoundData = (individualEventSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -132,7 +138,9 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     @OptIn(MonsteraBuildSetter::class)
     fun interactiveSounds(soundIdGroups: SpecSounds.() -> Unit) {
         interactiveSoundData = (interactiveSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -158,7 +166,7 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
 }
 
 open class SpecSounds {
-    val eventData = mutableMapOf<String, SoundEvents>()
+    val eventData = mutableMapOf<String, SoundEvents.() -> Unit>()
 
     /**
      * 0..1
@@ -167,11 +175,7 @@ open class SpecSounds {
      * @param soundIdentifier like "ambient.candle" or "villager"
      */
     fun soundEventGroup(soundIdentifier: String, events: SoundEvents.() -> Unit) {
-        if (eventData.containsKey(soundIdentifier)) {
-            eventData[soundIdentifier]!!.apply(events)
-        } else {
-            eventData[soundIdentifier] = SoundEvents().apply(events)
-        }
+        eventData[soundIdentifier] = events
     }
 }
 
@@ -188,7 +192,7 @@ open class SoundEvents {
     @OptIn(MonsteraBuildSetter::class)
     fun event(event: String, settings: SoundEventSettings.() -> Unit) {
         eventsData = (eventsData ?: mutableMapOf()).also {
-            it[event]?.apply(settings) ?: kotlin.run {
+            it[event]?.apply(settings) ?: run {
                 it.put(event, SoundEventSettings().apply(settings))
             }
         }
