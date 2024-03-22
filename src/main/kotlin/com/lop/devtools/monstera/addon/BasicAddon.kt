@@ -32,7 +32,7 @@ fun addon(projectName: String, conf: Config.() -> Unit = {}, addon: Addon.() -> 
 
 @AddonEntry
 fun testAddon(addon: Addon.() -> Unit) {
-    (Addon.active ?: BasicAddon(Config("test_prj"))).apply(addon)
+    (Addon.active ?: BasicAddon(Config("test_prj"))).apply { buildToMcFolder = false }.apply(addon)
 }
 
 fun buildTestAddon() {
