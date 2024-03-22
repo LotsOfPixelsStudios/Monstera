@@ -1,6 +1,8 @@
-package com.lop.devtools.monstera.addon
+package com.lop.devtools.monstera.addon.entitiy
 
+import com.lop.devtools.monstera.addon.buildTestAddon
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.addon.testAddon
 import com.lop.devtools.monstera.files.getResource
 import kotlin.test.AfterTest
 import kotlin.test.Test

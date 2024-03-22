@@ -494,6 +494,18 @@ open class Components: MonsteraRawFile() {
      * Defines interactions with this entity.
      * ```
      * interact {
+     *     interaction {
+     *         giveItem = true
+     *         takeItem = true
+     *         interactText = action.interact.allay
+     *         useItem = true
+     *         swing = true
+     *         playSound = "ignite"
+     *         equipItemSlot = 1
+     *         spawnEntities = ""
+     *         spawnItems("table_name") { pool { } }
+     *         onInteract { }
+     *     }
      * }
      *```
      */
