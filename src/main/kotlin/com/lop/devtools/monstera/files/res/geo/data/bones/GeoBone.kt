@@ -14,5 +14,5 @@ data class GeoBone(
     @Expose
     val cubes: ArrayList<Cube>? = null,
     @Expose
-    val locators: Map<String, List<Number>>? = null
+    val locators: Map<String, Locator>? = null
 )
