@@ -29,10 +29,14 @@ class EquipmentEntityTest {
                                     type = "item"
                                     identifier = "minecraft:iron_axe"
                                     weight = 1
+                                    functions {
+                                        functionSetCount(1)
+                                    }
                                 }
                             }
                         }
                     }
+                    equipItem {  }
                 }
             }
             resource {
@@ -52,6 +56,7 @@ class EquipmentEntityTest {
                     spawnEgg {
                         eggByColor(Color.BLACK, Color.GRAY)
                     }
+                    enableAttachment = true
                 }
             }
         }
