@@ -15,7 +15,6 @@ class EquipmentEntityTest {
 
     @Test
     fun equipmentEntityTest() = testAddon {
-        buildToMcFolder = true
         entity("eq_test_ent", "My Equipment Test Entity") {
             behaviour {
                 components {
