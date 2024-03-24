@@ -4,15 +4,15 @@ import com.google.gson.annotations.Expose
 
 data class GeoBone(
     @Expose
-    val name: String,
+    var name: String,
     @Expose
-    val parent: String? = null,
+    var parent: String? = null,
     @Expose
-    val pivot: ArrayList<Float>? = null,
+    var pivot: ArrayList<Float>? = null,
     @Expose
-    val rotation: ArrayList<Float>? = null,
+    var rotation: ArrayList<Float>? = null,
     @Expose
-    val cubes: ArrayList<Cube>? = null,
+    var cubes: ArrayList<Cube>? = null,
     @Expose
-    val locators: Map<String, Locator>? = null
+    var locators: MutableMap<String, Locator>? = null
 )
