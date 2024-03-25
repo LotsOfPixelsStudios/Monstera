@@ -6,8 +6,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
+import com.lop.devtools.monstera.addon.api.MonsteraExperimental
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.addon.molang.Variable
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
@@ -80,9 +82,53 @@ class AnimationControllers: MonsteraBuildableFile, MonsteraRawFile() {
                 }
             }
         }
+
+        /**
+         * initialize variables to use in transitions, onEntry & onExit
+         *
+         * Note: this is a "legacy" feature it might work to just initialize the variables yourself, this is just a fallback
+         * option to create the states that try to initialize the variables
+         *
+         * ```
+         * variables {
+         *      set("my_var", Query.bodyYRotation(1))
+         *      set("my_var", "5")
+         *      set(Variable.new("my_var" to Query.headXRotation(2)))
+         * }
+         * ```
+         */
+        @MonsteraExperimental
+        fun variables(data: VariableApi.() -> Unit) {
+            if(initialState == null) {
+                getMonsteraLogger(this::class.simpleName ?: "Animation Controller")
+                    .warn("Variable initialisation 'variable { ... }' is only possible after 'initialState' is set!")
+            }
+
+            val vars = VariableApi().apply(data).variables
+            val normalIni = initialState ?: "default"
+
+            state("variable_init") {
+                onEntry = vars
+                transition("variable_init_2", Query.True)
+            }
+            state("variable_init_2") {
+                onEntry = vars
+                transition(normalIni, Query.True )
+            }
+
+            initialState = "variable_init"
+        }
     }
 
     open class State {
+
+        /**
+         * resource pack only!
+         */
+        @SerializedName("blend_transition")
+        @Expose
+        var blendTransition: Number? = null
+
         @SerializedName("animations")
         @Expose
         var animations: MutableList<Any>? = null

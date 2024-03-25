@@ -29,3 +29,11 @@ annotation class HolidayCreatorFeature(val since: String = "current", val till: 
 
 @DslMarker
 annotation class MonsteraApi
+
+@Target(AnnotationTarget.FIELD, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+@RequiresOptIn(
+    "Requires explicit opt in as this feature has a high probability of containing bugs, or can change rapidly",
+    RequiresOptIn.Level.WARNING
+)
+annotation class MonsteraExperimental
