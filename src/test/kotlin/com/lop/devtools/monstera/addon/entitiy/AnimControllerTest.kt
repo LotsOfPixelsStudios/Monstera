@@ -24,7 +24,11 @@ class AnimControllerTest {
                 components {
                     physics {  }
                 }
-                animController("myAnimController", Query.isBaby) {
+                //animation("test") {
+                //    timeline {  }
+                //    animLength = 2f
+                //}
+                animController("my_anim_controller", Query.isBaby) {
                     initialState = "default"
                     variables {
                         set(Variable.new("my_var" to Math.random(0, 1)))

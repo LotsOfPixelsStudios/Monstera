@@ -123,10 +123,10 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
                 scripts {
                     animate(name, query)
                 }
-                //controllers are loaded the same way as animations
-                addSharedAnimation(controllerIdentifier, name)
             }
         }
+        //controllers are loaded the same way as animations
+        addSharedAnimation(controllerIdentifier, name)
     }
 
     /**
