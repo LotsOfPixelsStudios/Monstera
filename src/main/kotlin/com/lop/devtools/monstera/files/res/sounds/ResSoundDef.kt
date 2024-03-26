@@ -1,38 +1,45 @@
 package com.lop.devtools.monstera.files.res.sounds
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
 @Suppress("unused")
-class ResSoundDef: MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
+open class ResSoundDef {
+    @SerializedName("sounds")
+    @Expose
+    var soundsData: MutableList<Any>? = null
+        @MonsteraBuildSetter set
 
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
-        val sounds = arrayListOf<Any>()
+    @SerializedName("category")
+    @Expose
+    var category: SoundCategory? = null
 
-        override fun getData(): MutableMap<String, Any> {
-            unsafe.general["sounds"] = unsafe.sounds
-            return unsafe.general
-        }
-    }
+    @SerializedName("__use_legacy_max_distance")
+    @Expose
+    var useLegacyMaxDistance: Boolean? = null
+
+    @SerializedName("max_distance")
+    @Expose
+    var maxDistance: Number? = null
+
+    @SerializedName("min_distance")
+    @Expose
+    var minDistance: Number? = null
+
+
 
     /**
      * 0..1
      *
      * @param value bool
      */
+    @Deprecated("use field", ReplaceWith("useLegacyMaxDistance = value"))
     fun useLegacyMaxDistance(value: Boolean = true) {
-        unsafe.general["__use_legacy_max_distance"] = value
+        useLegacyMaxDistance = value
     }
 
     /**
@@ -40,16 +47,19 @@ class ResSoundDef: MonsteraFile {
      *
      * @param value the category to choose from
      */
+    @Deprecated("use field", ReplaceWith("category = value"))
     fun category(value: SoundCategory) {
-        unsafe.general["category"] = value.toString().lowercase()
+        category = value
     }
 
+    @Deprecated("use field", ReplaceWith("maxDistance = value"))
     fun maxDistance(value: Float = 8.0f) {
-        unsafe.general["max_distance"] = value
+        maxDistance = value
     }
 
+    @Deprecated("use field", ReplaceWith("minDistance = value"))
     fun minDistance(value: Float = 1.0f) {
-        unsafe.general["min_distance"] = value
+        minDistance = value
     }
 
     /**
@@ -58,8 +68,9 @@ class ResSoundDef: MonsteraFile {
      * add a complex sound
      * @param sound the obj where all values are listed
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun sound(sound: ResSoundComp.() -> Unit) {
-        unsafe.sounds.add(ResSoundComp().apply(sound).unsafe.getData())
+        soundsData = (soundsData ?: mutableListOf()).apply { add(ResSoundComp().apply(sound)) }
     }
 
     /**
@@ -68,8 +79,9 @@ class ResSoundDef: MonsteraFile {
      * add a simple sound path
      * @param sound a string with the sound path e.g. "sounds/block/beehive/drip2"
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun sound(sound: String) {
-        unsafe.sounds.add(sound)
+        soundsData = (soundsData ?: mutableListOf()).apply { add(sound) }
     }
 
     /**
@@ -87,6 +99,6 @@ class ResSoundDef: MonsteraFile {
         )
 
         val fileType = sound.name.split(".").last()
-        unsafe.sounds.add("sounds/monstera/" + uniqueFileName.removeSuffix(".$fileType"))
+        sound("sounds/monstera/" + uniqueFileName.removeSuffix(".$fileType"))
     }
 }

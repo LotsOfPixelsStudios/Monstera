@@ -4,5 +4,9 @@ enum class BiomeTemperatureType {
     COLD,
     MILD,
     OCEAN,
-    WARM
+    WARM;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

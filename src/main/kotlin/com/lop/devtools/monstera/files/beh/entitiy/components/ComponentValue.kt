@@ -1,12 +1,10 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 class ComponentValue {
-    val general = mutableMapOf<String, Any>()
-
-    var value: Number? = null
-
-    fun getData(): MutableMap<String, Any> {
-        value?.let { general["value"] = it }
-        return general
-    }
+    @SerializedName("value")
+    @Expose
+    var value: Any? = null
 }

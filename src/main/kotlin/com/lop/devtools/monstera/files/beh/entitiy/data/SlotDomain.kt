@@ -7,5 +7,9 @@ enum class SlotDomain {
     HAND,
     HEAD,
     LEG,
-    TORSO
+    TORSO;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

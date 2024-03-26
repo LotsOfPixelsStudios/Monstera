@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.lotsofpixelsstudios:monstera:0.2.0")
+    implementation("com.lotsofpixelsstudios:monstera:0.3.2")
 }
 ````
 
@@ -45,13 +45,63 @@ Pixels Studios reserves the right to change the licence as we see fit without co
 
 ### :fa-solid fa-file-lines: Files 
 
-In this package we reconstruct minecraft files as they land in the addon with the help of a DSL.
+In this package we reconstruct Minecraft files as they end up in the addon using a DSL.
 
-Each class should extend the `MonsteraFile` Interface with an inner class called `Unsafe` to interact with 
-variables that are usually private. The goal of Monstera is to be flexible which mean that a plugin should be able to 
-delete for example keys from the data maps.
+For each type of file you will find a class that usually contains the format version in the inner class `FileHeader`, most of these classes extend the open class `MonsteraRawFile`.
+This class contains a simple map where a developer can add missing keys that are needed. To prevent Gson from parsing the map name `additionalKeys`, a custom `JsonSerializer`
+was written and applied to the defined Gson instance in the `MonsteraBuilder` object.
 
-Builder: The `Builder.kt` has a Gson reference to build the json files. This is the main Builder for all json files.
+Different types of files you might encounter:
+
+- The default file with the basic structure
+
+```kotlin
+class SomeFile : MonsteraBuildableFile, MonsteraRawFile() {
+
+    //default for basic buildable files, returns the path where the final file was built to
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> { }
+
+    data class FileHeader(
+
+        //gson will take this name as the key for the json element
+        @SerializedName("format_version")
+
+        //gson is set to exlude every field that is missing this annotation
+        @Expose
+
+        //basic information for minecraft - is contained in the json output
+        var formatVersion: String = "1.10.0",
+
+        @SerializedName("minecraft:some_file")
+        @Expose
+
+        //this type adapter annotation tells gson to parse the additional keys seperatly
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+        var myFile: SomeFile
+    ) : MonsteraRawFile()
+}
+```
+
+- The default file without the file header class, this usually happens when the first key can be defined by the developer, in this case `myDefs` can contain custom keys
+
+```kotlin
+class SomeFile {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {  }
+
+    @SerializedName("format_version")
+    @Expose
+    var formatVersion: String = "1.14.0"
+
+    @SerializedName("some_defs")
+    @Expose
+    var myDefs: MutableMap<String, MyDataClass> = mutableMapOf()
+        @MonsteraBuildSetter set
+}
+
+//To ensure that the developer can still modify keys, this class is open so that the developer
+//can inherit and modify the class with more keys.
+open class MyDataClass {  }
+```
 
 Addon specific files: files are seperated in the packages `beh` and `res` for behaviour and resource alike.
 Exceptions are files that can live in both behaviour and resource pack:
@@ -65,13 +115,6 @@ Exceptions are files that can live in both behaviour and resource pack:
 
 In this package we define higher level functionality for addons in general.
 
-The following thought was in mind while creating the structure:
+This should give the developer a more user friendly interface to use, the developer should still be able to access raw file object as this might be necessary when creating files with
+different format versions.
 
-- Use Interfaces for the documentation for the developer that should use the Interface
-- Use an Abstract or Open class that implements the interface for the implementation so plugin developers can modify or 
-add code the execution when creating for examples an own implementation of the entity  
-
-
-### TODOs
-
-- Not all classes in the files package use the `MonsteraFile` Interface

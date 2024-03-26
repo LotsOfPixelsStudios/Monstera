@@ -10,5 +10,9 @@ enum class BehEntityFilterAbilityFly {
     MUTE,
     NOCLIP,
     WALKSPEED,
-    WORLDBUILDER
+    WORLDBUILDER;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
 }

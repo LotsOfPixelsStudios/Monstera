@@ -1,30 +1,19 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.animations
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
-
-class BehAnimTimeline: MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
-
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined key frames
-         */
-        val general = mutableMapOf<String, Any>()
-
-        override fun getData(): MutableMap<String, Any> {
-            return unsafe.general
+open class BehAnimTimeline(
+    val keyFrameData: MutableMap<String, MutableList<String>>
+) {
+    fun keyFrame(time: Number, action: String) {
+        keyFrameData[time.toString()]?.apply { add(action) } ?: run {
+            keyFrameData[time.toString()] = mutableListOf(action)
         }
     }
 
-    fun keyFrame(time: Float, action: String) {
-        unsafe.general[time.toString()] = action
-    }
-
-    fun keyFrame(time: Float, action: ArrayList<String>) {
-        unsafe.general[time.toString()] = action
+    fun keyFrame(time: Number, action: ArrayList<String>) {
+        keyFrameData[time.toString()]?.apply { addAll(action) } ?: run {
+            keyFrameData[time.toString()] = action
+        }
     }
 }

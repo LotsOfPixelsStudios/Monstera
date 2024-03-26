@@ -3,6 +3,7 @@ package com.lop.devtools.monstera.files
 import java.io.File
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
+import java.nio.file.Path
 import java.util.*
 
 /**
@@ -23,16 +24,28 @@ private fun getResourceSample() {
     getResource("entity/default_texture.png")
 }
 
-fun getValueForLangKey(lanFile: File, key: String): String? {
+fun getValueForLangKey(lanFile: File, key: String): Result<String> {
     if (lanFile.exists()) {
         val data = lanFile.readText()
         data.split("\n").forEach {
             if (it.contains(key)) {
-                return it.removePrefix("$key=").replace("\n", "").replace("\r", "")
+                return Result.success(
+                    it.removePrefix("$key=").replace("\n", "").replace("\r", "")
+                )
             }
         }
+        return Result.failure(Error("lang key does not exist"))
     }
-    return null
+    return Result.failure(Error("lang file does not exist"))
+}
+
+/**
+ * @param path the system path to the file
+ * @param to retrive the relative path to this keyword, eg: "C:\...\res\texture\entity\test.png" and "texture" - would return "texture/entity/test.png"
+ */
+fun resolveRelativePath(path: Path, to: String): String {
+    val sub = path.toString().split(to).last().replace("\\", "/")
+    return "$to$sub"
 }
 
 /**
@@ -51,9 +64,7 @@ fun getUniqueFileName(file: File): String {
 }
 
 fun File(vararg parents: String): File {
-    return File(parents.joinToString(separator = File.separator) {
-        it
-    })
+    return File(parents.joinToString(separator = File.separator))
 }
 
 fun File.createWithDirs(): File {
