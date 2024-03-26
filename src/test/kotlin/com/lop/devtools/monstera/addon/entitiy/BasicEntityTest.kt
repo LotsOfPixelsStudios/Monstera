@@ -36,6 +36,12 @@ class BasicEntityTest {
             }
 
             behaviour {
+                properties {
+                    bool("test") {
+                        default = true
+                        clientSync = true
+                    }
+                }
                 componentGroup("test") {
                     isBaby {  }
                     additionalKeys = mapOf("my_component" to "my_value")

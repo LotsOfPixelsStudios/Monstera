@@ -60,7 +60,7 @@ class BehEntityDescription: MonsteraRawFile() {
 
     @SerializedName("properties")
     @Expose
-    var propertyData: MutableMap<String, GenericProperty<*>>? = null
+    var propertyData: MutableMap<String, Any>? = null
         @MonsteraBuildSetter set
 
     /**
@@ -86,11 +86,13 @@ class BehEntityDescription: MonsteraRawFile() {
 
     @DebugMarker
     fun debugLogProperties() {
-        propertyData?.filter { it.value.default == null }?.forEach { (k, _) ->
+        propertyData?.filter {
+            (it.value as GenericProperty<*>).default == null
+        }?.forEach { (k, _) ->
             getMonsteraLogger(this.javaClass.name).warn("No default value for property '$k' given!")
         }
         propertyData?.forEach {
-            it.value.propertySpecificDebug()
+            (it.value as GenericProperty<*>).propertySpecificDebug()
         }
     }
 }
