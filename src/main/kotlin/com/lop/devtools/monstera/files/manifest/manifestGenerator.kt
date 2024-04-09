@@ -18,7 +18,7 @@ import java.util.*
 fun generateManifest(
     version: MutableList<Int> = arrayListOf(1, 0, 0),
     config: Config,
-    minEnginVersion: ArrayList<Int> = config.targetMcVersion,
+    minEnginVersion: MutableList<Int> = config.targetMcVersion,
     scriptEntryFile: File = File()
 ): Pair<UUID, UUID> {
     val logger = LoggerFactory.getLogger("Manifest")

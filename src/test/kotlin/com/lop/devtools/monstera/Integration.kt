@@ -1,13 +1,24 @@
 package com.lop.devtools.monstera
 
 import com.lop.devtools.monstera.addon.addon
+import com.lop.devtools.monstera.files.getResource
 import java.awt.Color
 
 fun main() {
-    addon(config("testPrj") {
-        description = "This is a Test Project"
-        //packIcon = getResource("pack.png")
-    }) {
+    val conf1 = loadConfig(getResource("monstera.json"), getResource("monstera-local.json")).getOrElse {
+        getMonsteraLogger("addon").error(it.message)
+        it.printStackTrace()
+        return
+    }
+
+    val conf2 = config("my_test")  {
+        namespace = "monstera"
+        projectShort = "te"
+    }
+
+    addon(
+       conf2
+    ) {
         entity("my_test_entity", "My Test Entity") {
             behaviour {
                 components {
