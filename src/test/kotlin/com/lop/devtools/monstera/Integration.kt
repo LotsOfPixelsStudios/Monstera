@@ -9,56 +9,56 @@ class Integration {
     @Test
     fun intTest() {
         val conf1 = loadConfig(getResource("monstera.json"), getResource("monstera-local.json")).getOrElse {
-                getMonsteraLogger("addon").error(it.message)
-                it.printStackTrace()
-                return
-            }
+            getMonsteraLogger("addon").error(it.message)
+            it.printStackTrace()
+            return
+        }
 
-            val conf2 = config("my_test")  {
-                namespace = "monstera"
-                projectShort = "te"
-            }
+        val conf2 = config("my_test") {
+            namespace = "monstera"
+            projectShort = "te"
+        }
 
-            addon(
+        addon(
             conf1
-            ) {
-                entity("my_test_entity", "My Test Entity") {
-                    behaviour {
-                        components {
-                            physics {  }
-                            pushable {  }
+        ) {
+            entity("my_test_entity", "My Test Entity") {
+                behaviour {
+                    components {
+                        physics { }
+                        pushable { }
+                    }
+                    properties {
+                        enum("1rwong_start") {
+                            default("abc")
+                            values = mutableListOf("abc", "ab")
                         }
-                        properties {
-                            enum("1rwong_start") {
-                                default("abc")
-                                values = mutableListOf("abc", "ab")
-                            }
-                            enum("missing_default") {
-                                values = mutableListOf("a")
-                            }
-                            enum("missing_values") {
-                                default("ab")
-                            }
+                        enum("missing_default") {
+                            values = mutableListOf("a")
                         }
-
-                        craftingRecipe {
-
+                        enum("missing_values") {
+                            default("ab")
                         }
                     }
-                    resource {
-                        components {
-                            spawnEgg("Spawn $name") {
-                                eggByColor(Color.CYAN, Color.BLACK)
-                            }
-                        }
+
+                    craftingRecipe {
+
                     }
                 }
-                entity("aververyverlongnametahtisshurlytoolongthanks") {
-
-                }
-                item("my_item", "My Item") {
-
+                resource {
+                    components {
+                        spawnEgg("Spawn $name") {
+                            eggByColor(Color.CYAN, Color.BLACK)
+                        }
+                    }
                 }
             }
+            entity("aververyverlongnametahtisshurlytoolongthanks") {
+
+            }
+            item("my_item", "My Item") {
+
+            }
+        }
     }
 }
