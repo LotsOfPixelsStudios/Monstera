@@ -26,6 +26,7 @@
     ],
     "scriptingVersion": "1.8.0",
     "packIcon": "src/main/resources/pack.png",
+    "hashFileNames": true,
     "minecraftPaths": {
         "behEntity": "entities",
         "behAnimController": "animation_controllers",
