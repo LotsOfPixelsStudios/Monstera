@@ -10,10 +10,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
-import com.lop.devtools.monstera.files.getUniqueFileName
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.res.TextureIndex
 import com.lop.devtools.monstera.files.res.entities.comp.*
 import com.lop.devtools.monstera.files.res.materials.Material
@@ -24,18 +21,14 @@ import java.nio.file.Path
 
 class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resEntity ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for entity file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.resEntity ?: "1.10.0",
                 this

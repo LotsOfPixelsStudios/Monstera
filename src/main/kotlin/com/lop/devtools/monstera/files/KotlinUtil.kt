@@ -1,5 +1,6 @@
 package com.lop.devtools.monstera.files
 
+import com.lop.devtools.monstera.addon.Addon
 import java.io.File
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
@@ -61,6 +62,35 @@ fun getUniqueFileName(file: File): String {
         .replace("+", "")
         .replace("/", "")
     return enc + "_" + file.name
+}
+
+fun sanetiseFilename(filename: String, fileSuffix: String): String {
+    var sanFile = filename
+        .removeSuffix(".$fileSuffix")
+        .replace("-", "_")
+        .replace(" ", "_")
+    if(Addon.active?.config?.hashFileNames == true) {
+        sanFile = getUniqueBuildFileName(Addon.active!!.config.namespace, sanFile)
+    }
+    return "${sanFile}.$fileSuffix"
+}
+
+/**
+ * create a hash out of the namespace and fileName and append it to the fileName
+ * @param namespace the namespace of the project
+ * @param filename the file name to make unique
+ * @return a unique fileName to the namespace and fileName, this might be required if multiple addons are loaded with diffrent namespaces but same file names
+ */
+fun getUniqueBuildFileName(namespace: String, filename: String): String {
+    val hash = namespace.hashCode() + filename.hashCode()
+    val buff = ByteBuffer.allocate(Int.SIZE_BYTES).putInt(hash).array()
+    val enc = Base64
+        .getEncoder()
+        .encodeToString(buff)
+        .replace("=", "")
+        .replace("+", "")
+        .replace("/", "")
+    return "${filename}_$enc"
 }
 
 fun File(vararg parents: String): File {

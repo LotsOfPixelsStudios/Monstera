@@ -62,7 +62,7 @@ open class Addon(val config: Config) {
     var buildTextureList: Boolean = true
     var buildItemTextureIndex: Boolean = true
     var buildToMcFolder: Boolean = true
-    var manifestMinEnginVersion: ArrayList<Int> = config.targetMcVersion
+    var manifestMinEnginVersion: ArrayList<Int> = ArrayList(config.targetMcVersion)
 
     var includeInfoMcFunction: Boolean = true
 
@@ -283,7 +283,7 @@ open class Addon(val config: Config) {
         generateManifest(
             config.version,
             config,
-            minEnginVersion = manifestMinEnginVersion,
+            minEnginVersion = ArrayList(manifestMinEnginVersion),
             scriptEntryFile = config.scriptEntryFile
         )
 

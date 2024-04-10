@@ -19,6 +19,7 @@ class AnimControllerTest {
     @OptIn(MonsteraExperimental::class)
     @Test
     fun basicAnimControllerTest() = testAddon {
+        buildToMcFolder = true
         entity("my_anim_test", "Anim Test") {
             behaviour {
                 components {

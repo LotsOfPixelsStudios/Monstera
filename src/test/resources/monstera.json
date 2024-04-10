@@ -1,0 +1,72 @@
+{
+    "name": "Test Project",
+    "projectShort": "tpr",
+    "description": "My test Project",
+    "namespace": "monstera",
+    "version": [
+        0,
+        0,
+        1
+    ],
+    "authors": [
+        "Matthias Klenz"
+    ],
+    "world": "src/main/resources/template-wrold",
+    "worldUUID": "fe8b47f7-dfe9-4ad1-ac1f-18b8fda6bba6",
+    "worldModuleUUID": "8ac9af62-3bcd-4ebc-9600-a53ba72378fa",
+    "behUUID": "01ad7aa7-917a-45d4-8678-29dce3d36e05",
+    "behModuleUUID": "f60f5b8c-f5ff-4648-b069-e0554531b3df",
+    "scriptUUID": "a7966416-236e-4da7-a7e6-fe3f13ab8c79",
+    "resUUID": "c9a9728b-af73-4251-bcea-e4df4371f309",
+    "resModuleUUID": "41b5e80e-b651-46a7-a3c1-f3d829020ef0",
+    "targetMcVersion": [
+        1,
+        20,
+        70
+    ],
+    "scriptingVersion": "1.8.0",
+    "packIcon": "src/main/resources/pack.png",
+    "hashFileNames": true,
+    "minecraftPaths": {
+        "behEntity": "entities",
+        "behAnimController": "animation_controllers",
+        "behAnim": "animations",
+        "behBlocks": "blocks",
+        "behItems": "items",
+        "lootTableEntity": "loot_tables/entities",
+        "lootTableBlock": "loot_tables/blocks",
+        "behSpawnRules": "spawn_rules",
+        "behTrading": "trading/economy_trades",
+        "behRecipes": "recipes",
+        "behTexts": "texts",
+        "behScripts": "scripts",
+        "behMcFunction": "functions",
+        "resAnim": "animations",
+        "resAnimController": "animation_controllers",
+        "resEntity": "entity",
+        "resItem": "items",
+        "resModels": "models",
+        "resMaterials": "materials",
+        "resParticles": "particles",
+        "resRenderControllers": "render_controllers",
+        "resSounds": "sounds",
+        "resTextures": "textures",
+        "resAttachable": "attachables",
+        "resTexts": "texts"
+    },
+    "minecraftFormatVersions": {
+        "behEntitty": "1.20.70",
+        "behItem": "1.10.0",
+        "behAnim": "1.8.0",
+        "behBlock": "1.20.70",
+        "behRecipe": "1.17.41",
+        "behSpawnRule": "1.8.0",
+        "behAnimController": "1.10.0",
+        "resEntity": "1.10.0",
+        "resItem": "1.10.0",
+        "resAnimController": "1.10.0",
+        "resAttachable": "1.10.0",
+        "resSoundDefs": "1.14.0",
+        "resRenderController": "1.10.0"
+    }
+}

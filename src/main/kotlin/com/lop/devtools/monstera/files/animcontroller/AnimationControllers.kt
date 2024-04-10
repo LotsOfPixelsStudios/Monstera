@@ -9,11 +9,10 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.api.MonsteraExperimental
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.addon.molang.Variable
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
 class AnimationControllers: MonsteraBuildableFile, MonsteraRawFile() {
@@ -21,14 +20,10 @@ class AnimationControllers: MonsteraBuildableFile, MonsteraRawFile() {
         if(animationControllersData.isEmpty())
             return Result.failure(Error("Animation Controller Data is empty, building does nothing!"))
 
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         if(path == null)
             error("path may not be null! can't build anim controller when not clear if beh or res.")
 
-        val target = MonsteraBuilder.buildTo(path, "$sanFile.json", this)
+        val target = MonsteraBuilder.buildTo(path, sanetiseFilename(filename, "json"), this)
         return Result.success(target)
     }
 
