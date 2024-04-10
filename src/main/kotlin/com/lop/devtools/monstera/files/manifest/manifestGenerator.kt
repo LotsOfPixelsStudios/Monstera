@@ -25,7 +25,7 @@ fun generateManifest(
     val enableScripting = scriptEntryFile.exists() && scriptEntryFile.isFile
 
     if (enableScripting && config.targetMcVersion[0] == 1 && config.targetMcVersion[1] < 20) {
-        logger.warn("Scripting is only available in version 1.20 or greater! Update your targetMcVersion!")
+        logger.warn("Scripting is only available in version 1.20 or higher! Update your targetMcVersion!")
     }
 
     //Manifest

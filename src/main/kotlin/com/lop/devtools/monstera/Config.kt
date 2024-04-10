@@ -19,7 +19,8 @@ import kotlin.io.path.Path
 annotation class ConfigDSL
 
 @ConfigDSL
-@Deprecated("Use a config file, this function does not correcly apply config data!",
+@Deprecated(
+    "Use a config file, this function does not correcly apply config data!",
     ReplaceWith("loadConfig()", "com.lop.devtools.monstera.Config")
 )
 fun config(projectName: String, data: Config.() -> Unit): Config {
@@ -37,15 +38,18 @@ fun loadConfig(
     conf: File,
     local: File
 ): Result<Config> {
-    if (!conf.exists() || !local.exists()) {
-        return Result.failure(Error("Could not find config file!"))
+    if (!conf.exists()) {
+        return Result.failure(Error("Could not find monstera config file!"))
     }
 
     try {
         val gson = Gson()
         val monsteraConfig: MonsteraConfig = gson.fromJson(conf.readText(), MonsteraConfig::class.java)
         val monsteraLocalConfig: MonsteraLocalConfig =
-            gson.fromJson(local.readText(), MonsteraLocalConfig::class.java)
+            if (local.exists())
+                gson.fromJson(local.readText(), MonsteraLocalConfig::class.java)
+            else
+                MonsteraLocalConfig()
 
         val behPath = Path(
             System.getProperty("user.dir"),
@@ -67,6 +71,7 @@ fun loadConfig(
             description = monsteraConfig.description,
             version = monsteraConfig.version,
             authors = monsteraConfig.authors,
+            world = monsteraConfig.world?.let{ File(System.getProperty("user.dir"), it) } ?: File(),
             worldUUID = UUID.fromString(monsteraConfig.worldUUID),
             worldModuleUUID = UUID.fromString(monsteraConfig.worldModuleUUID),
             behUUID = UUID.fromString(monsteraConfig.behUUID),
@@ -127,8 +132,13 @@ fun loadConfig(
                 resAttachable = monsteraConfig.minecraftFormatVersions.resAttachable,
                 resSoundDefs = monsteraConfig.minecraftFormatVersions.resSoundDefs,
                 resRendercontroller = monsteraConfig.minecraftFormatVersions.resRenderController,
-            )
+            ),
+            langFileBuilder = Config.AddonLangFileBuilders(behPath, resPath)
         )
+        monsteraConfig.packIcon?.let {
+            config.packIcon = File(System.getProperty("user.dir"), it)
+        }
+
         return Result.success(config)
     } catch (e: Exception) {
         return Result.failure(e)
@@ -142,6 +152,7 @@ class MonsteraConfig(
     var namespace: String,
     var version: MutableList<Int>,
     var authors: MutableList<String>,
+    var world: String?,
     var worldUUID: String,
     var worldModuleUUID: String,
     var behUUID: String,
@@ -151,6 +162,8 @@ class MonsteraConfig(
     var resModuleUUID: String,
     var targetMcVersion: MutableList<Int>,
     var scriptingVersion: String,
+    var scriptEntryFile: String?,
+    var packIcon: String?,
     var minecraftPaths: MinecraftAddonPaths,
     var minecraftFormatVersions: MinecraftFormatVersions,
 )
@@ -200,9 +213,9 @@ class MinecraftFormatVersions(
 )
 
 class MonsteraLocalConfig(
-    var projectPath: String?,
-    var buildPath: String,
-    var minecraftDir: String?
+    var projectPath: String? = null,
+    var buildPath: String = "build",
+    var minecraftDir: String? = null
 )
 
 class Config(

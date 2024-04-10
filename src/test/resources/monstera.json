@@ -11,6 +11,7 @@
     "authors": [
         "Matthias Klenz"
     ],
+    "world": "src/main/resources/template-wrold",
     "worldUUID": "fe8b47f7-dfe9-4ad1-ac1f-18b8fda6bba6",
     "worldModuleUUID": "8ac9af62-3bcd-4ebc-9600-a53ba72378fa",
     "behUUID": "01ad7aa7-917a-45d4-8678-29dce3d36e05",
@@ -24,6 +25,7 @@
         70
     ],
     "scriptingVersion": "1.8.0",
+    "packIcon": "src/main/resources/pack.png",
     "minecraftPaths": {
         "behEntity": "entities",
         "behAnimController": "animation_controllers",
