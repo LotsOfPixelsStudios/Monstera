@@ -12,24 +12,21 @@ import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.spawnrules.conditions.*
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
 class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behBlocks ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for spawn rule file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for spawn rule file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for spawn rule file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for spawn rule file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.behSpawnRules ?: "1.8.0",
                 this

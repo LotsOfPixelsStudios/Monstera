@@ -80,6 +80,7 @@ fun loadConfig(
             resUUID = UUID.fromString(monsteraConfig.resUUID),
             resModUUID = UUID.fromString(monsteraConfig.resModuleUUID),
             targetMcVersion = monsteraConfig.targetMcVersion,
+            hashFileNames = monsteraConfig.hashFileNames,
             behPath = behPath,
             resPath = resPath,
 
@@ -164,6 +165,7 @@ class MonsteraConfig(
     var scriptingVersion: String,
     var scriptEntryFile: String?,
     var packIcon: String?,
+    var hashFileNames: Boolean = false,
     var minecraftPaths: MinecraftAddonPaths,
     var minecraftFormatVersions: MinecraftFormatVersions,
 )
@@ -249,7 +251,8 @@ class Config(
     var formatVersions: FormatVersions = FormatVersions(getVersionAsString(targetMcVersion)),
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
-    var scriptingVersion: String = "1.8.0"
+    var scriptingVersion: String = "1.8.0",
+    var hashFileNames: Boolean = false
 ) {
     init {
         behPath.toFile().deleteRecursively()
