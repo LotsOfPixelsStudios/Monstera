@@ -1,15 +1,17 @@
 package com.lop.devtools.monstera.files.beh.entitiy.description
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.files.properties.types.GenericProperty
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class BehEntityDescription: MonsteraRawFile() {
+open class BehEntityDescription: MonsteraRawFile() {
     @SerializedName("identifier")
     @Expose
     var identifier: String? = null
@@ -32,6 +34,7 @@ class BehEntityDescription: MonsteraRawFile() {
 
     @SerializedName("scripts")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var scriptsData: BehEntityDescScripts? = null
         @MonsteraBuildSetter set
 

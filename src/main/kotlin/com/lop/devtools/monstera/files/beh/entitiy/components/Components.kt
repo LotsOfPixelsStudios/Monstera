@@ -2,14 +2,17 @@ package com.lop.devtools.monstera.files.beh.entitiy.components
 
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.*
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 
-open class Components: MonsteraRawFile() {
+open class Components : MonsteraRawFile() {
     @SerializedName("minecraft:is_hidden_when_invisible")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isHiddenWhenInvisibleData: IsHiddenWhenInvisible? = null
         @MonsteraBuildSetter set
 
@@ -28,6 +31,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:type_family")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var typeFamilyData: TypeFamily? = null
         @MonsteraBuildSetter set
 
@@ -44,8 +48,21 @@ open class Components: MonsteraRawFile() {
         typeFamilyData = (typeFamilyData ?: TypeFamily()).apply(value)
     }
 
+    fun typeFamily(vararg values: String) {
+        typeFamily {
+            family(values.toList())
+        }
+    }
+
+    fun familyType(vararg values: String) {
+        typeFamily {
+            family(values.toList())
+        }
+    }
+
     @SerializedName("minecraft:collision_box")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var collisionBoxData: CollisionBox? = null
         @MonsteraBuildSetter set
 
@@ -66,6 +83,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:balloonable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var balloonableData: Balloonable? = null
         @MonsteraBuildSetter set
 
@@ -85,6 +103,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:breathable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var breathableData: Breathable? = null
         @MonsteraBuildSetter set
 
@@ -110,6 +129,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:nameable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var nameableData: Nameable? = null
         @MonsteraBuildSetter set
 
@@ -130,6 +150,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:leashable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var leashableData: Leashable? = null
         @MonsteraBuildSetter set
 
@@ -152,6 +173,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:health")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var healthData: Health? = null
         @MonsteraBuildSetter set
 
@@ -172,6 +194,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:hurt_on_condition")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var hurtOnConditionData: HurtOnCondition? = null
         @MonsteraBuildSetter set
 
@@ -190,6 +213,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:damage_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var damageSensorData: DamageSensor? = null
         @MonsteraBuildSetter set
 
@@ -208,6 +232,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -226,6 +251,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:flying_speed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var flyingSpeedData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -244,6 +270,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.hover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var navigationHoverData: NavigationComp? = null
         @MonsteraBuildSetter set
 
@@ -269,6 +296,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:movement.hover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementHoverData: MovementHover? = null
         @MonsteraBuildSetter set
 
@@ -287,6 +315,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:follow_range")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var followRangeData: FollowRange? = null
         @MonsteraBuildSetter set
 
@@ -307,6 +336,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:ambient_sound_interval")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var ambientSoundIntervalData: AmbientSoundInterval? = null
         @MonsteraBuildSetter set
 
@@ -328,6 +358,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:jump.static")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var jumpStaticData: JumpStatic? = null
         @MonsteraBuildSetter set
 
@@ -347,6 +378,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:can_fly")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canFlyData: CanFly? = null
         @MonsteraBuildSetter set
 
@@ -365,6 +397,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:physics")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var physicsData: Physics? = null
         @MonsteraBuildSetter set
 
@@ -386,6 +419,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:pushable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var pushableData: Pushable? = null
         @MonsteraBuildSetter set
 
@@ -406,6 +440,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:vibration_listener")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var vibrationListenerData: VibrationListener? = null
         @MonsteraBuildSetter set
 
@@ -424,6 +459,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:conditional_bandwidth_optimization")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var conditionalBandwidthOptimizationData: ConditionalBandwidthOptimization? = null
         @MonsteraBuildSetter set
 
@@ -443,6 +479,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:game_event_movement_tracking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var gameEventMovementTrackingData: GameEventMovementTracking? = null
         @MonsteraBuildSetter set
 
@@ -464,6 +501,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:inventory")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var inventoryData: Inventory? = null
         @MonsteraBuildSetter set
 
@@ -487,6 +525,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:interact")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var interactData: Interact? = null
         @MonsteraBuildSetter set
 
@@ -517,6 +556,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.panic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPanicData: BehPanic? = null
         @MonsteraBuildSetter set
 
@@ -541,6 +581,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.go_and_give_items_to_noteblock")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGoAndGiveItemsToNoteblockData: BehGoAndGiveItemsToNoteblock? = null
         @MonsteraBuildSetter set
 
@@ -563,6 +604,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.go_and_give_items_to_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGoAndGiveItemsToOwnerData: BehGoAndGiveItemsToOwner? = null
         @MonsteraBuildSetter set
 
@@ -584,6 +626,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.stay_near_noteblock")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStayNearNoteblockData: BehStayNearNoteblock? = null
         @MonsteraBuildSetter set
 
@@ -606,6 +649,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.follow_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowOwnerData: BehFollowOwner? = null
         @MonsteraBuildSetter set
 
@@ -630,6 +674,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.float")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFloatData: BehFloat? = null
         @MonsteraBuildSetter set
 
@@ -650,6 +695,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.look_at_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLookAtPlayerData: BehLookAtPlayer? = null
         @MonsteraBuildSetter set
 
@@ -673,6 +719,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.random_look_around")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomLookAroundData: BehRandomLookAround? = null
         @MonsteraBuildSetter set
 
@@ -693,6 +740,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.random_hover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomHoverData: BehRandomHover? = null
         @MonsteraBuildSetter set
 
@@ -716,6 +764,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:timer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var timerData: Timer? = null
         @MonsteraBuildSetter set
 
@@ -737,6 +786,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.pickup_items")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPickupItemsData: BehPickupItems? = null
         @MonsteraBuildSetter set
 
@@ -765,6 +815,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:knockback_resistance")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var knockbackResistanceData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -783,6 +834,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:loot")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var lootData: Loot? = null
         @MonsteraBuildSetter set
 
@@ -802,6 +854,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:persistent")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var persistentData: Persistent? = null
         @MonsteraBuildSetter set
 
@@ -820,6 +873,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:projectile")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var projectileData: Projectile? = null
         @MonsteraBuildSetter set
 
@@ -860,6 +914,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:navigation.generic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var navigationGenericData: NavigationComp? = null
         @MonsteraBuildSetter set
 
@@ -888,6 +943,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:movement.amphibious")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementAmphibiousData: MovementAmphibious? = null
         @MonsteraBuildSetter set
 
@@ -907,6 +963,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:underwater_movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var underwaterMovementData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -925,6 +982,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:despawn")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var despawnData: Despawn? = null
         @MonsteraBuildSetter set
 
@@ -944,6 +1002,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var attackData: Attack? = null
         @MonsteraBuildSetter set
 
@@ -965,6 +1024,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:combat_regeneration")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var combatRegenerationData: CombatRegeneration? = null
         @MonsteraBuildSetter set
 
@@ -983,6 +1043,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.play_dead")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPlayDeadData: BehPlayDead? = null
         @MonsteraBuildSetter set
 
@@ -1006,6 +1067,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.tempt")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTemptData: BehTempt? = null
         @MonsteraBuildSetter set
 
@@ -1031,6 +1093,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.nearest_attackable_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behNearestAttackableTargetData: BehNearestAttackableTarget? = null
         @MonsteraBuildSetter set
 
@@ -1060,6 +1123,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.melee_box_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMeleeBoxAttackData: BehMeleeBoxAttack? = null
         @MonsteraBuildSetter set
 
@@ -1087,6 +1151,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.move_to_water")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToWaterData: BehMoveToWater? = null
         @MonsteraBuildSetter set
 
@@ -1110,6 +1175,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.swim_idle")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwimIdleData: BehSwimIdle? = null
         @MonsteraBuildSetter set
 
@@ -1131,6 +1197,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.random_swim")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomSwimData: BehRandomSwim? = null
         @MonsteraBuildSetter set
 
@@ -1155,6 +1222,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.random_stroll")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomStrollData: BehRandomStroll? = null
         @MonsteraBuildSetter set
 
@@ -1178,6 +1246,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:attack_cooldown")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var attackCooldownData: AttackCooldown? = null
         @MonsteraBuildSetter set
 
@@ -1197,6 +1266,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:variant")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var variantData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1215,6 +1285,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:is_baby")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isBabyData: IsBaby? = null
         @MonsteraBuildSetter set
 
@@ -1233,6 +1304,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:scale")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var scaleData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1251,6 +1323,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:ageable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var ageableData: Ageable? = null
         @MonsteraBuildSetter set
 
@@ -1272,6 +1345,7 @@ open class Components: MonsteraRawFile() {
 
     @SerializedName("minecraft:behavior.follow_parent")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowParentData: BehFollowParent? = null
         @MonsteraBuildSetter set
 
@@ -6904,7 +6978,7 @@ open class Components: MonsteraRawFile() {
         behFloatWander { }
         navigationFloat(navData)
         movement = speed
-        canFly {  }
+        canFly { }
         physics { }
         jumpStatic { }
     }

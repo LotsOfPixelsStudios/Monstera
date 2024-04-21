@@ -20,11 +20,12 @@ class BehLootTables: MonsteraRawFile() {
             val sub = path.toString().split("loot_tables").last().replace("\\", "/")
             return "loot_tables$sub"
         }
+        private val logger = getMonsteraLogger(this::class.simpleName ?: "BehLootTables")
     }
     class Block(val data: BehLootTables) : MonsteraBuildableFile {
         override fun build(filename: String, path: Path?, version: String?): Result<Path> {
             val selPath = path ?: Addon.active?.config?.paths?.lootTableBlock ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!")
+                logger.error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!")
                 return Result.failure(Error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!"))
             }
             val target = MonsteraBuilder.buildTo(
@@ -43,7 +44,7 @@ class BehLootTables: MonsteraRawFile() {
                 .replace("-", "_")
                 .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableEntity ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
+                logger.error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
                 return Result.failure(Error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!"))
             }
 
@@ -60,7 +61,6 @@ class BehLootTables: MonsteraRawFile() {
      * returns true if no pool is defined
      */
     fun isEmpty() = poolsData.isNullOrEmpty()
-
 
     @SerializedName("pools")
     @Expose
@@ -154,6 +154,12 @@ class BehLootTables: MonsteraRawFile() {
         @Expose
         var functionData: MutableList<Any>? = null
             @MonsteraBuildSetter set
+
+        /**
+         * in older monstera version the identifier field was known as "name"
+         */
+        @Deprecated("", ReplaceWith("identifier"))
+        var name: String? = null
 
         /**
          * ```

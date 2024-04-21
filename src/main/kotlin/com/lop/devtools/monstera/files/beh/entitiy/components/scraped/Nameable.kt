@@ -1,24 +1,27 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class Nameable {
+class Nameable: MonsteraRawFile() {
     @SerializedName("always_show")
     @Expose
     var alwaysShow: Boolean? = null
         
-
     @SerializedName("allow_name_tag_renaming")
     @Expose
     var allowNameTagRenaming: Boolean? = null
         
-
     @SerializedName("default_trigger")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var defaultTriggerData: DefaultTrigger? = null
         @MonsteraBuildSetter set
 
@@ -39,6 +42,7 @@ class Nameable {
 
     @SerializedName("name_actions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var nameActionsData: MutableList<NameActions>? = null
         @MonsteraBuildSetter set
 
@@ -56,26 +60,24 @@ class Nameable {
         nameActionsData = (nameActionsData ?: mutableListOf()).also { it.add(NameActions().apply(value)) }
     }
 
-    class DefaultTrigger {
+    class DefaultTrigger: MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class NameActions {
+    class NameActions: MonsteraRawFile() {
         @SerializedName("name_filter")
         @Expose
         var nameFilter: String? = null
             
-
         @SerializedName("on_named")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var onNamedData: OnNamed? = null
             @MonsteraBuildSetter set
 
@@ -95,15 +97,13 @@ class Nameable {
         }
     }
 
-    class OnNamed {
+    class OnNamed: MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

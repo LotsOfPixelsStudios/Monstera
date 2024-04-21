@@ -7,11 +7,12 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-open class BehEntityEvent {
+open class BehEntityEvent : MonsteraRawFile() {
     open class ContainsFilter : BehEntityEvent() {
         @SerializedName("filters")
         @Expose
@@ -32,21 +33,25 @@ open class BehEntityEvent {
 
     @SerializedName("add")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var addGroupsData: BehEntityAddRemove? = null
         @MonsteraBuildSetter set
 
     @SerializedName("remove")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var removeGroupsData: BehEntityAddRemove? = null
         @MonsteraBuildSetter set
 
     @SerializedName("sequence")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var sequenceData: MutableList<ContainsFilter>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("randomize")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var randomizeData: MutableList<ContainsWeight>? = null
         @MonsteraBuildSetter set
 
@@ -156,11 +161,11 @@ open class BehEntityEvent {
         groups.addAll(addGroupsData?.componentGroups ?: listOf())
         groups.addAll(sequenceData?.flatMap { it.getAddedGroups() } ?: listOf())
         groups.addAll(randomizeData?.flatMap { it.getAddedGroups() } ?: listOf())
-        
+
         return groups
     }
 
-    class QueueCommand: MonsteraRawFile()  {
+    class QueueCommand : MonsteraRawFile() {
         @SerializedName("command")
         @Expose
         var command: String? = null

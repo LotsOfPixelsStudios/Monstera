@@ -1,15 +1,19 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.DamageType
 
-class HurtOnCondition {
+class HurtOnCondition : MonsteraRawFile() {
     @SerializedName("damage_conditions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var damageConditionsData: MutableList<DamageConditions>? = null
         @MonsteraBuildSetter set
 
@@ -28,8 +32,8 @@ class HurtOnCondition {
         damageConditionsData =
             (damageConditionsData ?: mutableListOf()).also { it.add(DamageConditions().apply(value)) }
     }
-    class DamageConditions {
 
+    class DamageConditions : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null
@@ -55,11 +59,9 @@ class HurtOnCondition {
         @SerializedName("cause")
         @Expose
         var cause: DamageType? = null
-            
 
         @SerializedName("damage_per_tick")
         @Expose
         var damagePerTick: Number? = null
-            
     }
 }

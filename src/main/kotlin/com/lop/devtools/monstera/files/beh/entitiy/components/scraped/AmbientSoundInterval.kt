@@ -1,12 +1,14 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class AmbientSoundInterval {
-
+class AmbientSoundInterval : MonsteraRawFile() {
     @SerializedName("value")
     @Expose
     var value: Number? = null
@@ -21,6 +23,7 @@ class AmbientSoundInterval {
 
     @SerializedName("event_names")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var eventNamesData: MutableList<EventNames>? = null
         @MonsteraBuildSetter set
 
@@ -40,7 +43,7 @@ class AmbientSoundInterval {
         eventNamesData = (eventNamesData ?: mutableListOf()).also { it.add(EventNames().apply(value)) }
     }
 
-    class EventNames {
+    class EventNames : MonsteraRawFile() {
         @SerializedName("event_name")
         @Expose
         var eventName: String? = null

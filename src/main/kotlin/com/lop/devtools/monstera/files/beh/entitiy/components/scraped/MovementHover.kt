@@ -1,3 +1,5 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
-class MovementHover
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class MovementHover : MonsteraRawFile()

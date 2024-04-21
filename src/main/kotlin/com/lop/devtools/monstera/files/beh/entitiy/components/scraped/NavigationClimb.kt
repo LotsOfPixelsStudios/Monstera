@@ -1,10 +1,13 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class NavigationComp {
+class NavigationComp: MonsteraRawFile() {
     @SerializedName("can_path_over_water")
     @Expose
     var canPathOverWater: Boolean? = null
@@ -79,6 +82,7 @@ class NavigationComp {
 
     @SerializedName("blocks_to_avoid")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var blocksToAvoid: MutableList<Block>? = null
         @MonsteraBuildSetter set
 
@@ -89,7 +93,7 @@ class NavigationComp {
         }
     }
 
-    open class Block {
+    open class Block : MonsteraRawFile() {
         @SerializedName("name")
         @Expose
         var name: String? = null

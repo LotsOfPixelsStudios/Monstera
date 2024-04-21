@@ -19,7 +19,21 @@ class DeserializerTest {
         myClass.additionalKeys = mapOf("key1" to "value1", "key2" to "value2")
         myClass.clazzInner.additionalKeys = mapOf("key1" to "value1", "key2" to "value2")
 
-        val json = gson.toJson(myClass, MonsteraRawFile::class.java)
+        var json = gson.toJson(myClass, MonsteraRawFile::class.java)
+        println(json)
+
+        myClass.mapTest = mutableMapOf("my_map_test" to MyClass2().apply {
+            additionalKeys = mapOf("mapInner" to "check")
+        })
+
+        json = gson.toJson(myClass, MonsteraRawFile::class.java)
+        println(json)
+
+        myClass.listTest = mutableListOf(MyClass2().apply {
+            additionalKeys = mapOf("listInner" to "check")
+        })
+
+        json = gson.toJson(myClass, MonsteraRawFile::class.java)
         println(json)
     }
 
@@ -30,6 +44,14 @@ class DeserializerTest {
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var clazzInner = MyClass2()
+
+        @Expose
+        @JsonAdapter(MonsteraMapFileTypeAdapter::class)
+        var mapTest: MutableMap<String, MyClass2>? = null
+
+        @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
+        var listTest: MutableList<MyClass2>? = null
     }
 
     class MyClass2 : MonsteraRawFile() {

@@ -1,29 +1,30 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehGoAndGiveItemsToOwner {
+class BehGoAndGiveItemsToOwner : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("run_speed")
     @Expose
     var runSpeed: Number? = null
         
-
     @SerializedName("throw_sound")
     @Expose
     var throwSound: String? = null
         
-
     @SerializedName("on_item_throw")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onItemThrowData: MutableList<OnItemThrow>? = null
         @MonsteraBuildSetter set
 
@@ -42,15 +43,13 @@ class BehGoAndGiveItemsToOwner {
         onItemThrowData = (onItemThrowData ?: mutableListOf()).also { it.add(OnItemThrow().apply(value)) }
     }
 
-    class OnItemThrow {
+    class OnItemThrow : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }
