@@ -1,35 +1,35 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehGoHome {
+class BehGoHome : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("speed_multiplier")
     @Expose
     var speedMultiplier: Number? = null
         
-
     @SerializedName("interval")
     @Expose
     var interval: Number? = null
         
-
     @SerializedName("goal_radius")
     @Expose
     var goalRadius: Number? = null
         
-
     @SerializedName("on_home")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onHomeData: MutableList<OnHome>? = null
         @MonsteraBuildSetter set
 
@@ -50,6 +50,7 @@ class BehGoHome {
 
     @SerializedName("on_failed")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onFailedData: MutableList<OnFailed>? = null
         @MonsteraBuildSetter set
 
@@ -68,12 +69,11 @@ class BehGoHome {
         onFailedData = (onFailedData ?: mutableListOf()).also { it.add(OnFailed().apply(value)) }
     }
 
-    class OnHome {
+    class OnHome : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null
             
-
         /**
          * com.lop.devtools.monstera.files.beh.entitiy.components.scraped.com.lop.devtools.monstera.files.beh.entitiy.components.scraped.com.lop.devtools.monstera.files.beh.entitiy.components.scraped.com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Filters allow data objects to specify test criteria which allows their use.
          * ```
@@ -91,23 +91,18 @@ class BehGoHome {
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnFailed {
-
+    class OnFailed : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

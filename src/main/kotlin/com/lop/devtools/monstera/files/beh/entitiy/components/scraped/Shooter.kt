@@ -1,12 +1,15 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Shooter {
+class Shooter : MonsteraRawFile() {
     @SerializedName("def")
     @Expose
     var def: String? = null
@@ -29,6 +32,7 @@ class Shooter {
 
     @SerializedName("projectiles")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var projectilesData: MutableList<Projectiles>? = null
         @MonsteraBuildSetter set
 
@@ -52,7 +56,7 @@ class Shooter {
     @Expose
     var magic: Boolean? = null
 
-    class Projectiles {
+    class Projectiles : MonsteraRawFile() {
         @SerializedName("def")
         @Expose
         var def: String? = null

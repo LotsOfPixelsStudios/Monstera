@@ -1,3 +1,5 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
-class OutOfControl
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class OutOfControl : MonsteraRawFile()

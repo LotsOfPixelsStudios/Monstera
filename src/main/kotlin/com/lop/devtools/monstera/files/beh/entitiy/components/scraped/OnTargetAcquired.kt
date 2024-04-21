@@ -3,21 +3,20 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class OnTargetAcquired {
+class OnTargetAcquired : MonsteraRawFile() {
     @SerializedName("event")
     @Expose
     var event: String? = null
         
-
     @SerializedName("target")
     @Expose
     var target: Subject? = null
         
-
     @SerializedName("filters")
     @Expose
     var filtersData: BehEntityFilter? = null

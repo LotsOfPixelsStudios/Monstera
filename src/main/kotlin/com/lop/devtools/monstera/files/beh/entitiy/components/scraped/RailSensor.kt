@@ -1,11 +1,14 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class RailSensor {
+class RailSensor : MonsteraRawFile() {
     @SerializedName("check_block_types")
     @Expose
     var checkBlockTypes: Boolean? = null
@@ -33,6 +36,7 @@ class RailSensor {
 
     @SerializedName("on_deactivate")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onDeactivateData: OnDeactivate? = null
         @MonsteraBuildSetter set
 
@@ -52,6 +56,7 @@ class RailSensor {
 
     @SerializedName("on_activate")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onActivateData: OnActivate? = null
         @MonsteraBuildSetter set
 
@@ -69,17 +74,15 @@ class RailSensor {
         onActivateData = (onActivateData ?: OnActivate()).apply(value)
     }
 
-    class OnDeactivate {
+    class OnDeactivate : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 
-    class OnActivate {
+    class OnActivate : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 }
