@@ -3,8 +3,9 @@ package com.lop.devtools.monstera.files.beh.spawnrules.conditions
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class SpawnBiomeFilter {
+class SpawnBiomeFilter : MonsteraRawFile() {
     private val filterEntries = mutableListOf<SpawnBiomeFilter>()
 
     @OptIn(MonsteraBuildSetter::class)

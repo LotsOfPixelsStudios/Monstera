@@ -1,5 +1,5 @@
 package com.lop.devtools.monstera.files.beh.spawnrules.conditions
 
-class SpawnDisallowSpawnsInBubble
-{
-}
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class SpawnDisallowSpawnsInBubble : MonsteraRawFile()
