@@ -1,17 +1,20 @@
 package com.lop.devtools.monstera.files.beh.item.comp
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Strength
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class ItemDigger {
+class ItemDigger : MonsteraRawFile() {
     @SerializedName("use_efficiency")
     @Expose
     var useEfficiency: Boolean? = null
 
     @SerializedName("destroy_speeds")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var destroySpeedsData: MutableList<DestroySpeed>? = null
         @MonsteraBuildSetter set
 
@@ -26,7 +29,7 @@ class ItemDigger {
     }
 
 
-    class DestroySpeed {
+    class DestroySpeed : MonsteraRawFile() {
         @SerializedName("speed")
         @Expose
         var speed: Number? = null

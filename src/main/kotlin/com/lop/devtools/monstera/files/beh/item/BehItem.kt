@@ -145,6 +145,7 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("menu_category")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var menuCategoryData: CategoryData? = null
             @MonsteraBuildSetter set
 
@@ -155,7 +156,7 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
                 field = value
             }
 
-        class CategoryData {
+        class CategoryData : MonsteraRawFile() {
             @SerializedName("category")
             @Expose
             var category: Category? = null
