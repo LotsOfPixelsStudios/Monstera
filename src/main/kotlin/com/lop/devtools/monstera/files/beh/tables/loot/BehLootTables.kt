@@ -3,11 +3,13 @@
 package com.lop.devtools.monstera.files.beh.tables.loot
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.files.sanetiseFilename
@@ -64,6 +66,7 @@ class BehLootTables: MonsteraRawFile() {
 
     @SerializedName("pools")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var poolsData: MutableList<Pool>? = null
         @MonsteraBuildSetter set
 
@@ -85,7 +88,7 @@ class BehLootTables: MonsteraRawFile() {
         poolsData = (poolsData ?: mutableListOf()).apply { add(Pool().apply(data)) }
     }
 
-    open class Pool {
+    open class Pool : MonsteraRawFile() {
         @SerializedName("rolls")
         @Expose
         var rollsData: Any? = null
@@ -106,6 +109,7 @@ class BehLootTables: MonsteraRawFile() {
 
         @SerializedName("entries")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var entryData: MutableList<Entry>? = null
             @MonsteraBuildSetter set
 
@@ -137,7 +141,7 @@ class BehLootTables: MonsteraRawFile() {
         var max: Int? = null
     }
 
-    open class Entry {
+    open class Entry : MonsteraRawFile() {
         @SerializedName("type")
         @Expose
         var type: String? = null
