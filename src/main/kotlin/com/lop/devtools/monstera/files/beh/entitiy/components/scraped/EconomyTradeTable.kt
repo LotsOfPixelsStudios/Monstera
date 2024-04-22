@@ -2,10 +2,11 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.trading.BehEconomyTrades
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class EconomyTradeTable {
+class EconomyTradeTable : MonsteraRawFile() {
     @SerializedName("display_name")
     @Expose
     var displayName: String? = null
@@ -37,16 +38,13 @@ class EconomyTradeTable {
     @Expose
     var newScreen: Boolean? = null
 
-
     @SerializedName("persist_trades")
     @Expose
     var persistTrades: Boolean? = null
 
-
     @SerializedName("cured_discount")
     @Expose
     var curedDiscountData: MutableList<Number>? = null
-
 
     fun curedDiscount(vararg value: Number) {
         curedDiscountData = (curedDiscountData ?: mutableListOf()).also { it.addAll(value.toList()) }
@@ -55,7 +53,6 @@ class EconomyTradeTable {
     @SerializedName("max_cured_discount")
     @Expose
     var maxCuredDiscountData: MutableList<Number>? = null
-
 
     fun maxCuredDiscount(vararg value: Number) {
         maxCuredDiscountData = (maxCuredDiscountData ?: mutableListOf()).also { it.addAll(value.toList()) }

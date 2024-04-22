@@ -1,12 +1,15 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class BehDrinkPotion {
+class BehDrinkPotion : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
@@ -19,6 +22,7 @@ class BehDrinkPotion {
 
     @SerializedName("potions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var potionsData: MutableList<Potions>? = null
         @MonsteraBuildSetter set
 
@@ -37,18 +41,15 @@ class BehDrinkPotion {
         potionsData = (potionsData ?: mutableListOf()).also { it.add(Potions().apply(value)) }
     }
 
-    class Potions {
-
+    class Potions : MonsteraRawFile() {
         @SerializedName("id")
         @Expose
         var id: Number? = null
             
-
         @SerializedName("chance")
         @Expose
         var chance: Number? = null
             
-
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null

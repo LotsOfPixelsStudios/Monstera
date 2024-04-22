@@ -2,11 +2,12 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables.Companion.resolveRelative
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class Barter {
+class Barter : MonsteraRawFile() {
 
     @SerializedName("barter_table")
     @Expose
@@ -26,5 +27,4 @@ class Barter {
     @SerializedName("cooldown_after_being_attacked")
     @Expose
     var cooldownAfterBeingAttacked: Number? = null
-
 }

@@ -1,37 +1,35 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehLayEgg {
+class BehLayEgg : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("speed_multiplier")
     @Expose
     var speedMultiplier: Number? = null
         
-
     @SerializedName("search_range")
     @Expose
     var searchRange: Number? = null
         
-
     @SerializedName("search_height")
     @Expose
     var searchHeight: Number? = null
         
-
     @SerializedName("goal_radius")
     @Expose
     var goalRadius: Number? = null
         
-
     @SerializedName("target_blocks")
     @Expose
     var targetBlocksData: MutableList<String>? = null
@@ -53,29 +51,25 @@ class BehLayEgg {
     @Expose
     var allowLayingFromBelow: Boolean? = null
         
-
     @SerializedName("use_default_animation")
     @Expose
     var useDefaultAnimation: Boolean? = null
         
-
     @SerializedName("lay_seconds")
     @Expose
     var laySeconds: Number? = null
         
-
     @SerializedName("egg_type")
     @Expose
     var eggType: String? = null
         
-
     @SerializedName("lay_egg_sound")
     @Expose
     var layEggSound: String? = null
         
-
     @SerializedName("on_lay")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onLayData: OnLay? = null
         @MonsteraBuildSetter set
 
@@ -94,15 +88,13 @@ class BehLayEgg {
         onLayData = (onLayData ?: OnLay()).apply(value)
     }
 
-    class OnLay {
+    class OnLay : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

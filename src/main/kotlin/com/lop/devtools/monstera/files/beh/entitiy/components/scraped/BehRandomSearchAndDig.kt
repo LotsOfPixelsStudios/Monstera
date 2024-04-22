@@ -1,31 +1,32 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
+import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
+import com.lop.devtools.monstera.getMonsteraLogger
 
-class BehRandomSearchAndDig {
+class BehRandomSearchAndDig : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
-        
 
     @SerializedName("speed_multiplier")
     @Expose
     var speedMultiplier: Number? = null
-        
 
     @SerializedName("find_valid_position_retries")
     @Expose
     var findValidPositionRetries: Number? = null
-        
 
     @SerializedName("target_blocks")
     @Expose
     var targetBlocksData: MutableList<String>? = null
-        
 
     fun targetBlocks(vararg value: String) {
         targetBlocksData = (targetBlocksData ?: mutableListOf()).also { it.addAll(value.toList()) }
@@ -34,27 +35,22 @@ class BehRandomSearchAndDig {
     @SerializedName("goal_radius")
     @Expose
     var goalRadius: Number? = null
-        
 
     @SerializedName("search_range_xz")
     @Expose
     var searchRangeXz: Number? = null
-        
 
     @SerializedName("search_range_y")
     @Expose
     var searchRangeY: Number? = null
-        
 
     @SerializedName("cooldown_range")
     @Expose
     var cooldownRange: Number? = null
-        
 
     @SerializedName("digging_duration_range")
     @Expose
     var diggingDurationRangeData: MutableList<Number>? = null
-        
 
     fun diggingDurationRange(vararg value: Number) {
         diggingDurationRangeData = (diggingDurationRangeData ?: mutableListOf()).also { it.addAll(value.toList()) }
@@ -63,20 +59,35 @@ class BehRandomSearchAndDig {
     @SerializedName("item_table")
     @Expose
     var itemTable: String? = null
-        
+
+    /**
+     * ```
+     * table("name") {
+     *     pool {  }
+     * }
+     * ```
+     */
+    fun itemTable(tableName: String, data: BehLootTables.() -> Unit) {
+        val lootTables = BehLootTables().apply(data)
+        val target = BehLootTables.Entity(lootTables).build(tableName)
+        target.fold({
+            itemTable = BehLootTables.resolveRelative(it)
+        }, {
+            getMonsteraLogger(this::class.simpleName ?: "Entity search and dig").warn("Item table not added!")
+        })
+    }
 
     @SerializedName("spawn_item_after_seconds")
     @Expose
     var spawnItemAfterSeconds: Number? = null
-        
 
     @SerializedName("spawn_item_pos_offset")
     @Expose
     var spawnItemPosOffset: Number? = null
-        
 
     @SerializedName("on_searching_start")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onSearchingStartData: OnSearchingStart? = null
         @MonsteraBuildSetter set
 
@@ -97,6 +108,7 @@ class BehRandomSearchAndDig {
 
     @SerializedName("on_fail_during_searching")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onFailDuringSearchingData: OnFailDuringSearching? = null
         @MonsteraBuildSetter set
 
@@ -117,6 +129,7 @@ class BehRandomSearchAndDig {
 
     @SerializedName("on_digging_start")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onDiggingStartData: OnDiggingStart? = null
         @MonsteraBuildSetter set
 
@@ -137,6 +150,7 @@ class BehRandomSearchAndDig {
 
     @SerializedName("on_item_found")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onItemFoundData: OnItemFound? = null
         @MonsteraBuildSetter set
 
@@ -157,6 +171,7 @@ class BehRandomSearchAndDig {
 
     @SerializedName("on_fail_during_digging")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onFailDuringDiggingData: OnFailDuringDigging? = null
         @MonsteraBuildSetter set
 
@@ -177,6 +192,7 @@ class BehRandomSearchAndDig {
 
     @SerializedName("on_success")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onSuccessData: OnSuccess? = null
         @MonsteraBuildSetter set
 
@@ -195,75 +211,63 @@ class BehRandomSearchAndDig {
         onSuccessData = (onSuccessData ?: OnSuccess()).apply(value)
     }
 
-    class OnSearchingStart {
+    class OnSearchingStart : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnFailDuringSearching {
+    class OnFailDuringSearching : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: String? = null
-            
     }
 
-    class OnDiggingStart {
+    class OnDiggingStart : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnItemFound {
+    class OnItemFound : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnFailDuringDigging {
+    class OnFailDuringDigging : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnSuccess {
+    class OnSuccess : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
 
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

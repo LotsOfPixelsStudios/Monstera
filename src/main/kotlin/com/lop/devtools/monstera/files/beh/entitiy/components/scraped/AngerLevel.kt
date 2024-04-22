@@ -1,13 +1,15 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class AngerLevel {
-
+class AngerLevel : MonsteraRawFile() {
     @SerializedName("max_anger")
     @Expose
     var maxAnger: Number? = null
@@ -39,6 +41,7 @@ class AngerLevel {
 
     @SerializedName("on_increase_sounds")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onIncreaseSoundsData: MutableList<OnIncreaseSounds>? = null
         @MonsteraBuildSetter set
         
@@ -77,7 +80,7 @@ class AngerLevel {
         nuisanceFilterData = (nuisanceFilterData ?: BehEntityFilter()).apply(value)
     }
 
-    class OnIncreaseSounds {
+    class OnIncreaseSounds : MonsteraRawFile() {
         @SerializedName("sound")
         @Expose
         var sound: String? = null
