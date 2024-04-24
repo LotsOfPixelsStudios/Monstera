@@ -1,14 +1,18 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class EnvironmentSensor {
+class EnvironmentSensor : MonsteraRawFile() {
     @SerializedName("triggers")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var triggersData: MutableList<Triggers>? = null
         @MonsteraBuildSetter set
 
@@ -41,7 +45,7 @@ class EnvironmentSensor {
         triggersData = (triggersData ?: mutableListOf()).also { it.add(Triggers().apply(value)) }
     }
 
-    class Triggers {
+    class Triggers : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null
@@ -66,6 +70,5 @@ class EnvironmentSensor {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 }

@@ -8,10 +8,7 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
-import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
@@ -235,6 +232,7 @@ class BehRecipe {
 
     @SerializedName("result")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var resultData: MutableList<ItemInfo>? = null
         @MonsteraBuildSetter set
 
@@ -261,6 +259,7 @@ class BehRecipe {
 
     @SerializedName("ingredients")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var ingredientsData: MutableList<ItemInfo>? = null
         @MonsteraBuildSetter set
 
@@ -284,7 +283,7 @@ class BehRecipe {
         ingredientsData = (ingredientsData ?: mutableListOf()).apply { add(ItemInfo().apply(data)) }
     }
 
-    open class ItemInfo {
+    open class ItemInfo : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null

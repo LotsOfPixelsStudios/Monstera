@@ -8,9 +8,7 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.beh.spawnrules.conditions.*
 import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
@@ -77,6 +75,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("conditions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var conditionsData: MutableList<Condition>? = null
         @MonsteraBuildSetter set
 
@@ -108,9 +107,10 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
         conditionsData = (conditionsData ?: mutableListOf()).apply { add(Condition().apply(data)) }
     }
 
-    open class Condition {
+    open class Condition : MonsteraRawFile() {
         @SerializedName("minecraft:weight")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var weightData: SpawnWeight? = null
             @MonsteraBuildSetter set
 
@@ -121,6 +121,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:density_limit")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var densityLimitData: SpawnDensityLimit? = null
             @MonsteraBuildSetter set
 
@@ -147,6 +148,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:spawns_above_block_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsAboveBlockFilterData: SpawnAboveBlockFilter? = null
             @MonsteraBuildSetter set
 
@@ -168,6 +170,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:herd")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var herdData: SpawnHerd? = null
             @MonsteraBuildSetter set
 
@@ -188,6 +191,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:permute_type")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var permuteTypeData: MutableList<SpawnPermuteType>? = null
             @MonsteraBuildSetter set
 
@@ -210,6 +214,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:brightness_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var brightnessFilterData: SpawnBrightnessFilter? = null
             @MonsteraBuildSetter set
 
@@ -229,6 +234,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:height_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var heightFilterData: SpawnHeightFilter? = null
             @MonsteraBuildSetter set
 
@@ -247,6 +253,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:spawns_on_surface")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsOnSurfaceData: SpawnsOnSurface? = null
             @MonsteraBuildSetter set
 
@@ -257,6 +264,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:spawns_underground")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsUndergroundData: SpawnsUnderground? = null
             @MonsteraBuildSetter set
 
@@ -267,6 +275,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:spawns_underwater")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsUnderwaterData: SpawnsUnderwater? = null
             @MonsteraBuildSetter set
 
@@ -277,6 +286,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:disallow_spawns_in_bubble")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var disallowSpawnsInBubbleData: SpawnDisallowSpawnsInBubble? = null
             @MonsteraBuildSetter set
 
@@ -287,6 +297,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:spawns_lava")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsLavaData: SpawnsLava? = null
             @MonsteraBuildSetter set
 
@@ -297,6 +308,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:biome_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var biomeFilterData: SpawnBiomeFilter? = null
             @MonsteraBuildSetter set
 
@@ -317,6 +329,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("minecraft:difficulty_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var difficultyFilterData: SpawnDifficultyFilter? = null
             @MonsteraBuildSetter set
 

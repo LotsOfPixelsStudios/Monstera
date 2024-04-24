@@ -1,3 +1,5 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
-class IsShaking
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class IsShaking : MonsteraRawFile()

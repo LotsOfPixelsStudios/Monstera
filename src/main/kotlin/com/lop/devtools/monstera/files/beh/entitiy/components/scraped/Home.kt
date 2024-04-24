@@ -9,12 +9,10 @@ class Home {
     @Expose
     var restrictionRadius: Number? = null
         
-
     @SerializedName("home_block_list")
     @Expose
     var homeBlockListData: MutableList<String>? = null
         
-
     fun homeBlockList(vararg value: String) {
         homeBlockListData = (homeBlockListData ?: mutableListOf()).also { it.addAll(value.toList()) }
     }

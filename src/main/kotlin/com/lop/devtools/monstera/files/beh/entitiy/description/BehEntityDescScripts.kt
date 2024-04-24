@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class BehEntityDescScripts {
+class BehEntityDescScripts : MonsteraRawFile() {
     @SerializedName("animate")
     @Expose
     var animateData: MutableList<Any>? = null
@@ -25,7 +26,7 @@ class BehEntityDescScripts {
 
     @OptIn(MonsteraBuildSetter::class)
     fun animate(animation: String, query: Molang = Query.True) {
-        animateData = if(query == Query.True)
+        animateData = if (query == Query.True)
             (animateData ?: mutableListOf()).also { it.add(animation) }
         else
             (animateData ?: mutableListOf()).also { it.add(mutableMapOf(animation to query.data)) }

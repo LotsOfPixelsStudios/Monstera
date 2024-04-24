@@ -1,53 +1,48 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehMoveToBlock {
+class BehMoveToBlock : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("tick_interval")
     @Expose
     var tickInterval: Number? = null
         
-
     @SerializedName("start_chance")
     @Expose
     var startChance: Number? = null
         
-
     @SerializedName("search_range")
     @Expose
     var searchRange: Number? = null
         
-
     @SerializedName("search_height")
     @Expose
     var searchHeight: Number? = null
         
-
     @SerializedName("goal_radius")
     @Expose
     var goalRadius: Number? = null
         
-
     @SerializedName("stay_duration")
     @Expose
     var stayDuration: Number? = null
         
-
     @SerializedName("target_selection_method")
     @Expose
     var targetSelectionMethod: String? = null
         
-
     @SerializedName("target_offset")
     @Expose
     var targetOffsetData: MutableList<Number>? = null
@@ -80,6 +75,7 @@ class BehMoveToBlock {
 
     @SerializedName("target_blocks")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var targetBlocksData: MutableList<String>? = null
 
     fun targetBlocks(vararg value: String) {
@@ -88,6 +84,7 @@ class BehMoveToBlock {
 
     @SerializedName("on_stay_completed")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onStayCompletedData: MutableList<OnStayCompleted>? = null
         @MonsteraBuildSetter set
 
@@ -108,6 +105,7 @@ class BehMoveToBlock {
 
     @SerializedName("on_reach")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onReachData: MutableList<OnReach>? = null
         @MonsteraBuildSetter set
 
@@ -126,27 +124,23 @@ class BehMoveToBlock {
         onReachData = (onReachData ?: mutableListOf()).also { it.add(OnReach().apply(value)) }
     }
 
-    class OnStayCompleted {
+    class OnStayCompleted : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnReach {
+    class OnReach : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

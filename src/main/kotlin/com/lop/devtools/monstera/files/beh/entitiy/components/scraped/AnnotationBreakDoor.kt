@@ -2,17 +2,14 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class AnnotationBreakDoor {
-
+class AnnotationBreakDoor : MonsteraRawFile() {
     @SerializedName("break_time")
     @Expose
     var breakTime: Number? = null
         
-
     @SerializedName("min_difficulty")
     @Expose
     var minDifficulty: String? = null
-        
 }

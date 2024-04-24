@@ -1,14 +1,19 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class ConditionalBandwidthOptimization {
+class ConditionalBandwidthOptimization : MonsteraRawFile() {
     @SerializedName("default_values")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var defaultValuesData: DefaultValues? = null
         @MonsteraBuildSetter set
 
@@ -30,6 +35,7 @@ class ConditionalBandwidthOptimization {
 
     @SerializedName("conditional_values")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var conditionalValuesData: MutableList<ConditionalValues>? = null
         @MonsteraBuildSetter set
 
@@ -50,7 +56,7 @@ class ConditionalBandwidthOptimization {
             (conditionalValuesData ?: mutableListOf()).also { it.add(ConditionalValues().apply(value)) }
     }
 
-    class DefaultValues {
+    class DefaultValues : MonsteraRawFile() {
         @SerializedName("max_optimized_distance")
         @Expose
         var maxOptimizedDistance: Number? = null
@@ -67,7 +73,7 @@ class ConditionalBandwidthOptimization {
             
     }
 
-    class ConditionalValues {
+    class ConditionalValues : MonsteraRawFile() {
         @SerializedName("max_optimized_distance")
         @Expose
         var maxOptimizedDistance: Number? = null

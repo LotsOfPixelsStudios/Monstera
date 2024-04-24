@@ -9,9 +9,7 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
@@ -23,7 +21,7 @@ import java.nio.file.Path
 /**
  * Create an Entity with a description, componentGroups, components and events
  */
-class BehEntity : MonsteraBuildableFile {
+class BehEntity : MonsteraBuildableFile, MonsteraRawFile() {
     private fun logger() = getMonsteraLogger(this.javaClass.name)
 
     @SerializedName("description")
@@ -40,11 +38,13 @@ class BehEntity : MonsteraBuildableFile {
 
     @SerializedName("component_groups")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var componentGroupsData: MutableMap<String, Components>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("events")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var eventsData: MutableMap<String, BehEntityEvent>? = null
         @MonsteraBuildSetter set
 

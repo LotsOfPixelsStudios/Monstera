@@ -3,11 +3,13 @@
 package com.lop.devtools.monstera.files.beh.tables.trading
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.files.sanetiseFilename
@@ -39,6 +41,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("tiers")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var tierData: MutableList<Tier>? = null
         @MonsteraBuildSetter set
 
@@ -61,9 +64,10 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
         tierData = (tierData ?: mutableListOf()).apply { add(Tier().apply(data)) }
     }
 
-    open class Tier {
+    open class Tier : MonsteraRawFile() {
         @SerializedName("groups")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var groupsData: MutableList<Group>? = null
             @MonsteraBuildSetter set
 
@@ -92,6 +96,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("trades")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var tradesData: MutableList<Trade>? = null
             @MonsteraBuildSetter set
 
@@ -114,13 +119,14 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
         }
     }
 
-    open class Group {
+    open class Group : MonsteraRawFile() {
         @SerializedName("num_to_select")
         @Expose
         var numToSelect: Number? = null
 
         @SerializedName("trades")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var tradesData: MutableList<Trade>? = null
             @MonsteraBuildSetter set
 
@@ -143,9 +149,10 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
         }
     }
 
-    open class Trade {
+    open class Trade : MonsteraRawFile() {
         @SerializedName("wants")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var wantsData: MutableList<Want>? = null
             @MonsteraBuildSetter set
 
@@ -171,6 +178,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
 
         @SerializedName("gives")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var givesData: MutableList<Give>? = null
             @MonsteraBuildSetter set
 
@@ -207,7 +215,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
         var rewardExp: Boolean? = null
     }
 
-    open class Want {
+    open class Want : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null
@@ -232,7 +240,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
         var priceMultiplier: Number? = null
     }
 
-    open class Give {
+    open class Give : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null

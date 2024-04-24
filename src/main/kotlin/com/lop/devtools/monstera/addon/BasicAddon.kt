@@ -7,7 +7,7 @@ import kotlin.system.measureTimeMillis
 @DslMarker
 annotation class AddonEntry
 
-class BasicAddon(config: Config) : Addon(config) {
+class BasicAddon(config: Config, args: Array<String>) : Addon(config, args) {
     init {
         active = this
     }
@@ -15,24 +15,24 @@ class BasicAddon(config: Config) : Addon(config) {
 
 
 @AddonEntry
-fun addon(config: Config, addon: Addon.() -> Unit): Config {
+fun addon(config: Config, args: Array<String> = arrayOf(), addon: Addon.() -> Unit): Config {
     val logger = getMonsteraLogger("Monstera")
     logger.info("Building Addon ...")
     val buildTime = measureTimeMillis {
-        BasicAddon(config).apply(addon).build()
+        BasicAddon(config, args).apply(addon).build()
     }
     logger.info("Finished building Addon in ${buildTime / 1000}.${buildTime % 1000}s")
     return config
 }
 
 @AddonEntry
-fun addon(projectName: String, conf: Config.() -> Unit = {}, addon: Addon.() -> Unit): Config {
-    return addon(Config(projectName).apply(conf), addon)
+fun addon(projectName: String, args: Array<String> = arrayOf(), conf: Config.() -> Unit = {}, addon: Addon.() -> Unit): Config {
+    return addon(Config(projectName).apply(conf), args, addon)
 }
 
 @AddonEntry
 fun testAddon(addon: Addon.() -> Unit) {
-    (Addon.active ?: BasicAddon(Config("test_prj"))).apply { buildToMcFolder = false }.apply(addon)
+    (Addon.active ?: BasicAddon(Config("test_prj"), arrayOf())).apply { buildToMcFolder = false }.apply(addon)
 }
 
 fun buildTestAddon() {

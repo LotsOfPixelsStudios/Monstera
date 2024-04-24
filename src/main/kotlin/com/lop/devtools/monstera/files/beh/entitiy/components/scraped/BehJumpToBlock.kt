@@ -2,45 +2,37 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.files.beh.entitiy.components.Components
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class BehJumpToBlock {
+class BehJumpToBlock : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("search_width")
     @Expose
     var searchWidth: Number? = null
         
-
     @SerializedName("search_height")
     @Expose
     var searchHeight: Number? = null
         
-
     @SerializedName("minimum_path_length")
     @Expose
     var minimumPathLength: Number? = null
         
-
     @SerializedName("minimum_distance")
     @Expose
     var minimumDistance: Number? = null
         
-
     @SerializedName("scale_factor")
     @Expose
     var scaleFactor: Number? = null
         
-
     @SerializedName("max_velocity")
     @Expose
     var maxVelocity: Number? = null
         
-
     @SerializedName("cooldown_range")
     @Expose
     var cooldownRangeData: MutableList<Number>? = null

@@ -3,16 +3,21 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.DamageType
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class DamageSensor {
+class DamageSensor : MonsteraRawFile() {
     @SerializedName("triggers")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var triggersData: MutableList<Trigger>? = null
         @MonsteraBuildSetter set
 
@@ -33,11 +38,12 @@ class DamageSensor {
         triggersData = (triggersData ?: mutableListOf()).also { it.add(Trigger().apply(value)) }
     }
 
-    class Trigger {
+    class Trigger : MonsteraRawFile() {
         @SerializedName("on_damage")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var onDamageData: OnDamage? = null
-            
+            @MonsteraBuildSetter set
 
         /**
          *
@@ -69,8 +75,7 @@ class DamageSensor {
         var onDamageSoundEvent: String? = null
     }
 
-    class OnDamage {
-
+    class OnDamage : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null

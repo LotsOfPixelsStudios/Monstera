@@ -9,6 +9,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraUnsafeField
 import com.lop.devtools.monstera.addon.api.PackageInvoke
 import com.lop.devtools.monstera.addon.block.Block
 import com.lop.devtools.monstera.addon.dev.buildToMcFolder
+import com.lop.devtools.monstera.addon.dev.overwriteResourceInMcFolder
 import com.lop.devtools.monstera.addon.dev.validateTextures
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.item.Item
@@ -30,7 +31,7 @@ import java.lang.Integer.max
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-open class Addon(val config: Config) {
+open class Addon(val config: Config, val args: Array<String>) {
     @DslMarker
     annotation class AddonTopLevel
 
@@ -251,6 +252,16 @@ open class Addon(val config: Config) {
     }
 
     fun build() {
+        val argParsed = args
+            .map { it.lowercase() }
+            .map { it.split("=") }
+            .associate {
+                if (it.size == 1)
+                    it[0] to null
+                else
+                    it[0] to it[1]
+            }
+
         //entities
         entities.forEach { (name, body) ->
             MonsteraLoggerContext.setEntity(name)
@@ -300,8 +311,10 @@ open class Addon(val config: Config) {
         config.langFileBuilder.addonBeh.sort().build()
 
         validateTextures(this)
-        if (buildToMcFolder)
-            buildToMcFolder(config)
+        when (argParsed["buildtomcfolder"]) {
+            null, "true" -> if (buildToMcFolder) buildToMcFolder(config)
+            "resourcepack", "resource" -> overwriteResourceInMcFolder(config)
+        }
 
         onPackage.forEach {
             it.invoke(this)

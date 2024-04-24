@@ -1,12 +1,15 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class Ageable {
+class Ageable : MonsteraRawFile() {
 
     @SerializedName("duration")
     @Expose
@@ -22,6 +25,7 @@ class Ageable {
 
     @SerializedName("grow_up")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var growUpData: GrowUp? = null
         @MonsteraBuildSetter set
 
@@ -49,7 +53,7 @@ class Ageable {
         dropItemsData = (dropItemsData ?: mutableListOf()).also { it.addAll(value.toList()) }
     }
 
-    class GrowUp {
+    class GrowUp : MonsteraRawFile() {
 
         @SerializedName("event")
         @Expose

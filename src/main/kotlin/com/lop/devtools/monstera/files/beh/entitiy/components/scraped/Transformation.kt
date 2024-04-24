@@ -1,33 +1,33 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class Transformation {
+class Transformation : MonsteraRawFile() {
     @SerializedName("into")
     @Expose
     var into: String? = null
         
-
     @SerializedName("transformation_sound")
     @Expose
     var transformationSound: String? = null
         
-
     @SerializedName("keep_level")
     @Expose
     var keepLevel: Boolean? = null
         
-
     @SerializedName("drop_equipment")
     @Expose
     var dropEquipment: Boolean? = null
         
-
     @SerializedName("delay")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var delayData: Delay? = null
         @MonsteraBuildSetter set
 
@@ -49,18 +49,15 @@ class Transformation {
     @Expose
     var dropInventory: Boolean? = null
         
-
     @SerializedName("preserve_equipment")
     @Expose
     var preserveEquipment: Boolean? = null
         
-
     @SerializedName("begin_transform_sound")
     @Expose
     var beginTransformSound: String? = null
         
-
-    class Delay {
+    class Delay : MonsteraRawFile() {
         @SerializedName("value")
         @Expose
         var value: Number? = null

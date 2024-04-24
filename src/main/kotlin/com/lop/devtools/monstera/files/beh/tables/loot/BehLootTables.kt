@@ -3,11 +3,13 @@
 package com.lop.devtools.monstera.files.beh.tables.loot
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
 import com.lop.devtools.monstera.files.sanetiseFilename
@@ -20,11 +22,12 @@ class BehLootTables: MonsteraRawFile() {
             val sub = path.toString().split("loot_tables").last().replace("\\", "/")
             return "loot_tables$sub"
         }
+        private val logger = getMonsteraLogger(this::class.simpleName ?: "BehLootTables")
     }
     class Block(val data: BehLootTables) : MonsteraBuildableFile {
         override fun build(filename: String, path: Path?, version: String?): Result<Path> {
             val selPath = path ?: Addon.active?.config?.paths?.lootTableBlock ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!")
+                logger.error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!")
                 return Result.failure(Error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!"))
             }
             val target = MonsteraBuilder.buildTo(
@@ -43,7 +46,7 @@ class BehLootTables: MonsteraRawFile() {
                 .replace("-", "_")
                 .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableEntity ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
+                logger.error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
                 return Result.failure(Error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!"))
             }
 
@@ -61,9 +64,9 @@ class BehLootTables: MonsteraRawFile() {
      */
     fun isEmpty() = poolsData.isNullOrEmpty()
 
-
     @SerializedName("pools")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var poolsData: MutableList<Pool>? = null
         @MonsteraBuildSetter set
 
@@ -85,7 +88,7 @@ class BehLootTables: MonsteraRawFile() {
         poolsData = (poolsData ?: mutableListOf()).apply { add(Pool().apply(data)) }
     }
 
-    open class Pool {
+    open class Pool : MonsteraRawFile() {
         @SerializedName("rolls")
         @Expose
         var rollsData: Any? = null
@@ -106,6 +109,7 @@ class BehLootTables: MonsteraRawFile() {
 
         @SerializedName("entries")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var entryData: MutableList<Entry>? = null
             @MonsteraBuildSetter set
 
@@ -137,7 +141,7 @@ class BehLootTables: MonsteraRawFile() {
         var max: Int? = null
     }
 
-    open class Entry {
+    open class Entry : MonsteraRawFile() {
         @SerializedName("type")
         @Expose
         var type: String? = null
@@ -154,6 +158,12 @@ class BehLootTables: MonsteraRawFile() {
         @Expose
         var functionData: MutableList<Any>? = null
             @MonsteraBuildSetter set
+
+        /**
+         * in older monstera version the identifier field was known as "name"
+         */
+        @Deprecated("", ReplaceWith("identifier"))
+        var name: String? = null
 
         /**
          * ```

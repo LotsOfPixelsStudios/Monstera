@@ -1,18 +1,22 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class Interact {
-
+class Interact : MonsteraRawFile() {
     @SerializedName("interactions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var interactionsData: MutableList<Interaction>? = null
         @MonsteraBuildSetter set
 
@@ -39,10 +43,11 @@ class Interact {
         interactionsData = (interactionsData ?: mutableListOf()).also { it.add(Interaction().apply(value)) }
     }
 
-    class Interaction {
+    class Interaction : MonsteraRawFile() {
 
         @SerializedName("on_interact")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var onInteractData: OnInteract? = null
             @MonsteraBuildSetter set
 
@@ -139,8 +144,7 @@ class Interact {
         }
     }
 
-    class OnInteract {
-
+    class OnInteract : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null
