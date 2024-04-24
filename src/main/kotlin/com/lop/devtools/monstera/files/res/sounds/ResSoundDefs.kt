@@ -8,6 +8,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
@@ -41,7 +42,7 @@ class ResSoundDefs : MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("sound_definitions")
     @Expose
-    @JsonAdapter(MonsteraListFileTypeAdapter::class)
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var soundDefinitions: MutableMap<String, ResSoundDef> = mutableMapOf()
         @MonsteraBuildSetter set
 
