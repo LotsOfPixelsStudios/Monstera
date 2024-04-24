@@ -4,11 +4,12 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
 @Suppress("unused")
-open class ResSoundDef {
+open class ResSoundDef : MonsteraRawFile() {
     @SerializedName("sounds")
     @Expose
     var soundsData: MutableList<Any>? = null

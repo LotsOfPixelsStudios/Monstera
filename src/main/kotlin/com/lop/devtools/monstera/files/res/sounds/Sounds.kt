@@ -7,6 +7,7 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.getMonsteraLogger
@@ -33,6 +34,7 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("block_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var blockSoundsData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
@@ -44,22 +46,26 @@ class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("individual_event_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var individualEventSoundData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("interactive_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var interactiveSoundData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
     class EntitySpecSound : MonsteraRawFile() {
         @SerializedName("entities")
         @Expose
+        @JsonAdapter(MonsteraMapFileTypeAdapter::class)
         var entitiesData: MutableMap<String, SoundEvents>? = null
             @MonsteraBuildSetter set
 
         @SerializedName("defaults")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var defaultsData: SoundEvents? = null
             @MonsteraBuildSetter set
     }
@@ -179,9 +185,10 @@ open class SpecSounds {
     }
 }
 
-open class SoundEvents {
+open class SoundEvents : MonsteraRawFile() {
     @SerializedName("events")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var eventsData: MutableMap<String, SoundEventSettings>? = null
         @MonsteraBuildSetter set
 
@@ -199,7 +206,7 @@ open class SoundEvents {
     }
 }
 
-open class SoundEventSettings {
+open class SoundEventSettings : MonsteraRawFile() {
     @SerializedName("volume")
     @Expose
     var volumeData: Any? = null

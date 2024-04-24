@@ -1,11 +1,13 @@
 package com.lop.devtools.monstera.files.res.sounds
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
@@ -39,6 +41,7 @@ class ResSoundDefs : MonsteraBuildableFile, MonsteraRawFile() {
 
     @SerializedName("sound_definitions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var soundDefinitions: MutableMap<String, ResSoundDef> = mutableMapOf()
         @MonsteraBuildSetter set
 

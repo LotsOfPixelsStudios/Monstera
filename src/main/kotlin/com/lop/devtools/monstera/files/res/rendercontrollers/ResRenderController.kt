@@ -7,11 +7,12 @@ import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import java.awt.Color
 
 @OptIn(MonsteraBuildSetter::class)
-open class ResRenderController {
+open class ResRenderController : MonsteraRawFile() {
     @SerializedName("textures")
     @Expose
     var texturesData: MutableList<String>? = null
