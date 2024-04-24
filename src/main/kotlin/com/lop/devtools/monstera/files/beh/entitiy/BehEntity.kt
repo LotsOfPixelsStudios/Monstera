@@ -13,6 +13,7 @@ import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
