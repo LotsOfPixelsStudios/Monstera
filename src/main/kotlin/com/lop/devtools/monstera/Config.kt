@@ -61,7 +61,7 @@ fun loadConfig(
             System.getProperty("user.dir"),
             monsteraLocalConfig.buildPath,
             "development_resource_packs",
-            monsteraConfig.projectShort.uppercase() + "_BP"
+            monsteraConfig.projectShort.uppercase() + "_RP"
         )
 
         val config = Config(
