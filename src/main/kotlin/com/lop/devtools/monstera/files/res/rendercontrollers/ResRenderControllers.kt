@@ -30,6 +30,8 @@ class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
         return Result.success(target)
     }
 
+    fun isEmpty() : Boolean = renderControllers?.isEmpty() ?: true
+
     @SerializedName("format_version")
     @Expose
     var formatVersion: String = "1.10.0"

@@ -356,7 +356,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
             renderParts.forEach { it.build() }
         }
 
-        if (!disableRender) {
+        if (!disableRender && !unsafeRenderController.isEmpty()) {
             unsafeRenderController.build(unsafeParent.name, unsafeParent.addon.config.paths.resRenderControllers)
         }
 

@@ -13,7 +13,6 @@ import com.lop.devtools.monstera.files.lang.langKey
 import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.TextureIndex
 import com.lop.devtools.monstera.files.res.attachables.ResAttachable
-import com.lop.devtools.monstera.files.res.items.ResItem
 import java.io.File
 
 class Item(val name: String, val displayName: String, val addon: Addon) {
