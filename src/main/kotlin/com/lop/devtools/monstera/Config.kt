@@ -252,7 +252,11 @@ class Config(
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
     var scriptingVersion: String = "1.8.0",
-    var hashFileNames: Boolean = false
+    var hashFileNames: Boolean = false,
+    /**
+     * don't hash or modify these file names on build
+     */
+    var vanillaFileNames: List<String> = listOf("player", "humanoid")
 ) {
     init {
         behPath.toFile().deleteRecursively()

@@ -69,7 +69,8 @@ fun sanetiseFilename(filename: String, fileSuffix: String): String {
         .removeSuffix(".$fileSuffix")
         .replace("-", "_")
         .replace(" ", "_")
-    if(Addon.active?.config?.hashFileNames == true) {
+    val vanillaName = (Addon.active?.config?.vanillaFileNames ?: listOf("player", "humanoid")).contains(sanFile)
+    if(Addon.active?.config?.hashFileNames == true && !vanillaName) {
         sanFile = getUniqueBuildFileName(Addon.active!!.config.namespace, sanFile)
     }
     return "${sanFile}.$fileSuffix"
