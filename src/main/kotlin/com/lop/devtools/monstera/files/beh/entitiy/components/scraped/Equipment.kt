@@ -24,6 +24,7 @@ class Equipment : MonsteraRawFile() {
      */
     fun table(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
+        lootTables.debug(tableName)
         val target = BehLootTables.Entity(lootTables).build(tableName)
         target.fold({
             table = BehLootTables.resolveRelative(it)

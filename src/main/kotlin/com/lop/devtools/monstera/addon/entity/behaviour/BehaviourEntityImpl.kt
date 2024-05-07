@@ -254,6 +254,7 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      *
      * @return a valid table that can be used in the loot table component
      */
+    @Deprecated("Use in component table() call", ReplaceWith("table()"))
     fun generateLootTable(data: BehLootTables.() -> Unit): String {
         unsafeLootTable.apply(data)
         return unsafeParent.addon.config.paths.lootTableEntity.toString() + "/${unsafeParent.name}"
@@ -295,6 +296,7 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
         }
 
         if(!unsafeLootTable.isEmpty()) {
+            unsafeLootTable.debug(unsafeParent.name)
             BehLootTables.Entity(unsafeLootTable).build(unsafeParent.name)
         }
     }
