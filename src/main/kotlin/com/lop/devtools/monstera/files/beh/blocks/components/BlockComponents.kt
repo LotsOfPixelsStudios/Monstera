@@ -161,6 +161,7 @@ class BlockComponents : MonsteraRawFile() {
      */
     fun table(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
+        lootTables.debug(tableName)
         val target = BehLootTables.Block(lootTables).build(tableName)
         target.fold({
             loot = BehLootTables.resolveRelative(it)

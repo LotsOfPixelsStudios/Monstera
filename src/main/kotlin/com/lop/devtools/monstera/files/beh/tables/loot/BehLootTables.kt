@@ -64,6 +64,15 @@ class BehLootTables: MonsteraRawFile() {
      */
     fun isEmpty() = poolsData.isNullOrEmpty()
 
+    /**
+     * debug print infos and warnings
+     */
+    fun debug(idInfo: String) {
+        poolsData?.firstOrNull { it.rollsData == null }?.run {
+            logger.warn("($idInfo) rolls not set - handled as implicit 0")
+        }
+    }
+
     @SerializedName("pools")
     @Expose
     @JsonAdapter(MonsteraListFileTypeAdapter::class)

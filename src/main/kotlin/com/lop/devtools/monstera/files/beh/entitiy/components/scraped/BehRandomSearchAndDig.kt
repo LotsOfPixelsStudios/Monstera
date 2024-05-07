@@ -69,6 +69,7 @@ class BehRandomSearchAndDig : MonsteraRawFile() {
      */
     fun itemTable(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
+        lootTables.debug(tableName)
         val target = BehLootTables.Entity(lootTables).build(tableName)
         target.fold({
             itemTable = BehLootTables.resolveRelative(it)
