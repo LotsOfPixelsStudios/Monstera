@@ -55,10 +55,10 @@
         "resTexts": "texts"
     },
     "minecraftFormatVersions": {
-        "behEntitty": "1.20.70",
+        "behEntity": "1.20.81",
         "behItem": "1.10.0",
         "behAnim": "1.8.0",
-        "behBlock": "1.20.70",
+        "behBlock": "1.20.81",
         "behRecipe": "1.17.41",
         "behSpawnRule": "1.8.0",
         "behAnimController": "1.10.0",
