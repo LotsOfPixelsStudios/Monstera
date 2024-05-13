@@ -120,7 +120,7 @@ fun loadConfig(
             ),
             formatVersions = Config.FormatVersions(
                 getVersionAsString(monsteraConfig.targetMcVersion),
-                behEntity = monsteraConfig.minecraftFormatVersions.behEntitty,
+                behEntity = monsteraConfig.minecraftFormatVersions.behEntity,
                 resEntity = monsteraConfig.minecraftFormatVersions.resEntity,
                 resItem = monsteraConfig.minecraftFormatVersions.resItem,
                 behItem = monsteraConfig.minecraftFormatVersions.behItem,
@@ -199,7 +199,7 @@ class MinecraftAddonPaths(
 )
 
 class MinecraftFormatVersions(
-    var behEntitty: String,
+    var behEntity: String,
     var behItem: String,
     var behAnim: String,
     var behBlock: String,

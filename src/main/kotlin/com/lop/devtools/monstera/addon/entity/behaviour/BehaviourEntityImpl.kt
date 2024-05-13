@@ -19,7 +19,7 @@ import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.getMonsteraLogger
 
-open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafeParent) {
+open class BehaviourEntity(val unsafeParent: Entity) : OverwriteComponents(unsafeParent) {
     private fun logger() = getMonsteraLogger("Behaviour")
 
     val unsafeRawEntity: BehEntity = BehEntity()
@@ -27,6 +27,9 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
     val unsafeRawControllers: AnimationControllers = AnimationControllers()
     val unsafeRawCraftingRecipe: CraftingRecipe = CraftingRecipe()
     val unsafeLootTable = BehLootTables()
+    var unsafeBehEntityVersion: String? = null
+    var unsafeAnimVersion: String? = null
+    var unsafeAnimControllerVersion: String? = null
 
     /**
      * add a runtimeIdentifier like guardian
@@ -65,14 +68,14 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
     fun addSharedAnimation(animIdentifier: String, name: String = animIdentifier.split(".").last()) {
         unsafeRawEntity.apply {
             description {
-                if(animationData?.containsKey(name) == true) {
+                if (animationData?.containsKey(name) == true) {
                     logger().warn(
                         "(${unsafeParent.name}) Animation '${
                             name.split(".").last()
                         }' already exists (overwriting)"
                     )
                 }
-                addAnimation(name ,animIdentifier)
+                addAnimation(name, animIdentifier)
             }
         }
     }
@@ -274,20 +277,22 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
         unsafeRawEntity.build(
             unsafeParent.name,
             unsafeParent.addon.config.paths.behEntity,
-            getVersionAsString(unsafeParent.addon.config.targetMcVersion)
+            unsafeBehEntityVersion
         )
         if (!unsafeRawAnimations.isEmpty())
             unsafeRawAnimations.build(
                 unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnim
+                unsafeParent.addon.config.paths.behAnim,
+                unsafeAnimVersion
             )
         if (!unsafeRawControllers.isEmpty())
             unsafeRawControllers.build(
                 unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnimController
+                unsafeParent.addon.config.paths.behAnimController,
+                unsafeAnimControllerVersion
             )
 
-        if(!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
+        if (!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
             unsafeRawCraftingRecipe.unsafe.build(
                 unsafeParent.name,
                 unsafeParent.getIdentifier() + "_spawn_egg",
@@ -295,7 +300,7 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
             )
         }
 
-        if(!unsafeLootTable.isEmpty()) {
+        if (!unsafeLootTable.isEmpty()) {
             unsafeLootTable.debug(unsafeParent.name)
             BehLootTables.Entity(unsafeLootTable).build(unsafeParent.name)
         }
