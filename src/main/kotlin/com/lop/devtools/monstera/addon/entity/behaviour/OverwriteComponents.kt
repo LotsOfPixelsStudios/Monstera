@@ -11,11 +11,11 @@ import com.lop.devtools.monstera.files.res.sounds.SoundCategory
 
 
 open class OverwriteComponents(private val entityData: Entity.Data) {
-    fun Rideable.exitText(displayText: String, key: String) {
+    open fun Rideable.exitText(displayText: String, key: String) {
         exitText(displayText, key, entityData.addon.config)
     }
 
-    fun Rideable.interactText(
+    open fun Rideable.interactText(
         displayName: String?,
         key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase()
     ) {
@@ -52,7 +52,7 @@ open class OverwriteComponents(private val entityData: Entity.Data) {
      * @return the sound identifier
      */
     @MonsteraApi
-    fun sound(identifier: String, data: Sound.() -> Unit): String {
+    open fun sound(identifier: String, data: Sound.() -> Unit): String {
         val soundData = Sound(entityData.addon)
         soundData.identifier = identifier
         soundData.category = SoundCategory.NEUTRAL
@@ -64,12 +64,12 @@ open class OverwriteComponents(private val entityData: Entity.Data) {
     /**
      * overwrites the name of the entity (not the item)
      */
-    fun Inventory.containerName(displayName: String) {
+    open fun Inventory.containerName(displayName: String) {
         val langKey = "entity.${entityData.name}.name"
         entityData.addon.config.langFileBuilder.addonRes.addOrReplace(langKey, displayName)
     }
 
-    fun BehEntityEvent.setProperty(property: String, value: Any) {
+    open fun BehEntityEvent.setProperty(property: String, value: Any) {
         setProperty(property, value, entityData.addon)
     }
 }

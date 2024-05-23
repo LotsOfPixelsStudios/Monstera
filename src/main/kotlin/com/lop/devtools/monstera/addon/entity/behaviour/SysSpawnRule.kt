@@ -7,18 +7,18 @@ import com.lop.devtools.monstera.files.beh.spawnrules.PopulationControl
 open class SysSpawnRule(private val entityId: String, private val entityName: String, val addon: Addon) {
     private val file = BehSpawnRules()
 
-    fun populationControl(value: PopulationControl = PopulationControl.MONSTER) {
+    open fun populationControl(value: PopulationControl = PopulationControl.MONSTER) {
         file.description {
             identifier = entityId
             populationControl = value
         }
     }
 
-    fun condition(condition: BehSpawnRules.Condition.() -> Unit) {
+    open fun condition(condition: BehSpawnRules.Condition.() -> Unit) {
         file.condition(condition)
     }
 
-    fun build() {
+    open fun build() {
         if(file.descriptionData == null)
             populationControl()
         file.build(entityName, addon.config.paths.behSpawnRules)
