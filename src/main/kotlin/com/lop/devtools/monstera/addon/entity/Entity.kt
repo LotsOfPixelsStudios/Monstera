@@ -31,8 +31,8 @@ open class Entity(
         sounds = mutableListOf()
     )
 
-    val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(data)
-    val unsafeResourceEntity: ResourceEntity = ResourceEntity(data)
+    open val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(data)
+    open val unsafeResourceEntity: ResourceEntity = ResourceEntity(data)
 
     /**
      * @return the identifier of the entity as it is defined in the final beh/res pack
@@ -57,7 +57,7 @@ open class Entity(
      * }
      * ```
      */
-    fun resource(entity: ResourceEntity.() -> Unit) {
+    open fun resource(entity: ResourceEntity.() -> Unit) {
         unsafeResourceEntity.apply(entity)
     }
 
@@ -87,11 +87,11 @@ open class Entity(
      *  }
      * ````
      */
-    fun behaviour(entity: BehaviourEntity.() -> Unit) {
+    open fun behaviour(entity: BehaviourEntity.() -> Unit) {
         unsafeBehaviourEntity.apply(entity)
     }
 
-    fun build() {
+    open fun build() {
         unsafeBehaviourEntity.build()
         unsafeResourceEntity.build()
 

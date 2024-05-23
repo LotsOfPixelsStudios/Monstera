@@ -15,14 +15,14 @@ import java.awt.Color
 import java.io.File
 
 open class RenderPart(val partName: String, query: Molang, val entityData: Entity.Data, val resEntity: ResourceEntity) {
-    val query: String = query.data
-    val unsafeRenderController: ResRenderControllers = resEntity.unsafeRenderController
-    val unsafeRawEntity: ResEntity = resEntity.unsafeRawEntity
+    open val query: String = query.data
+    open val unsafeRenderController: ResRenderControllers = resEntity.unsafeRenderController
+    open val unsafeRawEntity: ResEntity = resEntity.unsafeRawEntity
 
-    var material: String = "parrot"
-    var hasTextureLayer = false
+    open var material: String = "parrot"
+    open var hasTextureLayer = false
 
-    private fun getRenderControllerId() = "${entityData.name}.$partName"
+    open fun getRenderControllerId() = "${entityData.name}.$partName"
 
     /**
      * CAUTION, path refers to the path within the build file, you probably want to give a File as a texture
@@ -34,7 +34,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param layerName used for multiple textures within the render controller, use textures() if you don't know what this is doing
      * @return the path that can be used in other entities when calling texture(<TexturePath>, <State>)
      */
-    fun textureLayer(texturePath: String, layerName: String = "default") {
+    open fun textureLayer(texturePath: String, layerName: String = "default") {
         hasTextureLayer = true
         val id = "${partName}_$layerName"
         unsafeRawEntity.apply {
@@ -57,7 +57,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param layerName used for multiple textures within the render controller, use textures() if you don't know what this is doing
      * @return the path that can be used in other entities when calling texture(<TexturePath>, <State>)
      */
-    fun textureLayer(texture: File, layerName: String = "default"): String {
+    open fun textureLayer(texture: File, layerName: String = "default"): String {
         val uniqueFilename = getUniqueFileName(texture)
         val path = "textures/monstera/${uniqueFilename.removeSuffix(".png")}"
         val target = entityData.addon.config.paths.resTextures.resolve("monstera").resolve(uniqueFilename)
@@ -73,7 +73,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    fun textureLayer(
+    open fun textureLayer(
         textures: ArrayList<File>,
         query: Molang,
         layerName: String = hashLayerName(textures, query.data)
@@ -88,7 +88,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    fun textureLayer(
+    open fun textureLayer(
         textures: ArrayList<File>,
         query: () -> Molang,
         layerName: String = hashLayerName(textures, query().data)
@@ -101,7 +101,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    fun textureLayer(textures: ArrayList<File>, query: String, layerName: String = hashLayerName(textures, query)) {
+    open fun textureLayer(textures: ArrayList<File>, query: String, layerName: String = hashLayerName(textures, query)) {
         hasTextureLayer = true
         val id = "${partName}_$layerName"
 
@@ -129,7 +129,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param geoId the geometry identifier like: geometry.pig
      * @param layerName the name of the layer to prevent overwriting
      */
-    fun geometryLayer(geoId: String, layerName: String = "default") {
+    open fun geometryLayer(geoId: String, layerName: String = "default") {
         val id = "${partName}_$layerName"
         unsafeRawEntity.apply {
             description {
@@ -149,7 +149,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param file the geometry file
      * @param layerName the name of the layer to prevent overwriting
      */
-    fun geometryLayer(file: File, layerName: String = "default") {
+    open fun geometryLayer(file: File, layerName: String = "default") {
         val uniqueFilename = getUniqueFileName(file)
         val id = getGeoId(file)
         val target = entityData.addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
@@ -163,7 +163,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    fun geometryLayer(files: ArrayList<File>, query: Molang, layerName: String = hashLayerName(files, query.data)) {
+    open fun geometryLayer(files: ArrayList<File>, query: Molang, layerName: String = hashLayerName(files, query.data)) {
         geometryLayer(files, query.data, layerName)
     }
 
@@ -173,7 +173,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    fun geometryLayer(
+    open fun geometryLayer(
         files: ArrayList<File>,
         query: () -> Molang,
         layerName: String = hashLayerName(files, query().data)
@@ -187,7 +187,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    fun geometryLayerByIds(geoIds: ArrayList<String>, query: Molang, layerName: String) {
+    open fun geometryLayerByIds(geoIds: ArrayList<String>, query: Molang, layerName: String) {
         geometryLayerByIds(geoIds, query.data, layerName)
     }
 
@@ -197,7 +197,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    fun geometryLayer(files: ArrayList<File>, query: String, layerName: String = hashLayerName(files, query)) {
+    open fun geometryLayer(files: ArrayList<File>, query: String, layerName: String = hashLayerName(files, query)) {
         val id = "${partName}_$layerName"
 
         files.forEachIndexed { index, file ->
@@ -223,19 +223,19 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
         }
     }
 
-    fun onHurtColor(color: Color) {
+    open fun onHurtColor(color: Color) {
         unsafeRenderController.controllers(getRenderControllerId()) {
             this.onHurtColor(color)
         }
     }
 
-    fun onFireColor(color: Color) {
+    open fun onFireColor(color: Color) {
         unsafeRenderController.controllers(getRenderControllerId()) {
             this.onFireColor(color)
         }
     }
 
-    fun overlayColor(color: Color) {
+    open fun overlayColor(color: Color) {
         unsafeRenderController.controllers(getRenderControllerId()) {
             this.overlayColor(color)
         }
@@ -247,7 +247,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    fun geometryLayerByIds(geoIds: ArrayList<String>, query: String, layerName: String= hashLayerNameByIds(geoIds, query)) {
+    open fun geometryLayerByIds(geoIds: ArrayList<String>, query: String, layerName: String= hashLayerNameByIds(geoIds, query)) {
         val id = "${partName}_$layerName"
 
         geoIds.forEachIndexed { index, geoId ->
@@ -268,7 +268,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
         }
     }
 
-    fun build() {
+    open fun build() {
         unsafeRenderController.apply {
             controllers("${entityData.name}.$partName") {
                 materials("Material.$partName")
