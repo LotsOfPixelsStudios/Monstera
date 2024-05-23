@@ -11,7 +11,7 @@ import com.lop.devtools.monstera.files.res.entities.comp.ResEntitySpawnEgg
 import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderControllers
 
 open class ResourceEntityComponents(
-    val unsafeParent: Entity,
+    val entityData: Entity.Data,
     val unsafeRawEntity: ResEntity,
     val unsafeRenderController: ResRenderControllers
 ) {
@@ -23,16 +23,16 @@ open class ResourceEntityComponents(
         }
     var disableMaterial: Boolean = false
 
-    fun spawnEgg(displayText: String = "Spawn ${unsafeParent.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
+    fun spawnEgg(displayText: String = "Spawn ${entityData.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
         unsafeRawEntity.description {
             this.spawnEgg(data)
             langKey(
-                "item.spawn_egg.entity.${unsafeParent.getIdentifier()}.name",
+                "item.spawn_egg.entity.${entityData.identifier}.name",
                 displayText
             )
         }
         //tells the behaviour to set the entity as spawnAble so the spawnegg is displayed in the creative inventory
-        unsafeParent.unsafeSpawnAble = true
+        entityData.spawnAble = true
     }
 
     /**
@@ -65,12 +65,5 @@ open class ResourceEntityComponents(
 
     fun build() {
         enableAttachment?.let { unsafeRawEntity.description { enableAttachment = it } }
-        if (!disableMaterial) {
-            unsafeParent.resource {
-                renderPart("default") {
-                    material = this@ResourceEntityComponents.material
-                }
-            }
-        }
     }
 }

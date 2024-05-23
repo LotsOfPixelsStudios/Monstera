@@ -11,15 +11,18 @@ import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.res.entities.ResEntity
 import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderControllers
+import java.awt.Color
 import java.io.File
 
-open class RenderPart(val partName: String, query: Molang, val unsafeParent: Entity) {
+open class RenderPart(val partName: String, query: Molang, val entityData: Entity.Data, val resEntity: ResourceEntity) {
     val query: String = query.data
-    val unsafeRenderController: ResRenderControllers = unsafeParent.unsafeResourceEntity.unsafeRenderController
-    val unsafeRawEntity: ResEntity = unsafeParent.unsafeResourceEntity.unsafeRawEntity
+    val unsafeRenderController: ResRenderControllers = resEntity.unsafeRenderController
+    val unsafeRawEntity: ResEntity = resEntity.unsafeRawEntity
 
     var material: String = "parrot"
     var hasTextureLayer = false
+
+    private fun getRenderControllerId() = "${entityData.name}.$partName"
 
     /**
      * CAUTION, path refers to the path within the build file, you probably want to give a File as a texture
@@ -40,7 +43,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
             }
         }
         unsafeRenderController.apply {
-            controllers("${unsafeParent.name}.$partName") {
+            controllers(getRenderControllerId()) {
                 texture("Texture.$id")
             }
         }
@@ -57,7 +60,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
     fun textureLayer(texture: File, layerName: String = "default"): String {
         val uniqueFilename = getUniqueFileName(texture)
         val path = "textures/monstera/${uniqueFilename.removeSuffix(".png")}"
-        val target = unsafeParent.addon.config.paths.resTextures.resolve("monstera").resolve(uniqueFilename)
+        val target = entityData.addon.config.paths.resTextures.resolve("monstera").resolve(uniqueFilename)
         texture.copyTo(target.toFile(), true)
         textureLayer(path, layerName)
         return path
@@ -106,11 +109,11 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
         textures.forEachIndexed { index, file ->
             unsafeRawEntity.apply {
                 description {
-                    texture("${noInvalidateLayerName}_v$index", file, unsafeParent.addon)
+                    texture("${noInvalidateLayerName}_v$index", file, entityData.addon)
                 }
             }
             unsafeRenderController.apply {
-                controllers("${unsafeParent.name}.$partName") {
+                controllers(getRenderControllerId()) {
                     arrays {
                         textures(noInvalidateLayerName, query) {
                             add("Texture.${noInvalidateLayerName}_v$index")
@@ -134,7 +137,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
             }
         }
         unsafeRenderController.apply {
-            controllers("${unsafeParent.name}.$partName") {
+            controllers(getRenderControllerId()) {
                 geometry = "Geometry.$id"
             }
         }
@@ -149,7 +152,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
     fun geometryLayer(file: File, layerName: String = "default") {
         val uniqueFilename = getUniqueFileName(file)
         val id = getGeoId(file)
-        val target = unsafeParent.addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
+        val target = entityData.addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
         file.copyTo(target.toFile(), true)
         geometryLayer(id, layerName)
     }
@@ -200,7 +203,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
         files.forEachIndexed { index, file ->
             val uniqueFilename = getUniqueFileName(file)
             val geoId = getGeoId(file)
-            val target = unsafeParent.addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
+            val target = entityData.addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
             file.copyTo(target.toFile(), true)
 
             unsafeRawEntity.apply {
@@ -209,7 +212,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                 }
             }
             unsafeRenderController.apply {
-                controllers("${unsafeParent.name}.$partName") {
+                controllers(getRenderControllerId()) {
                     arrays {
                         geometries(layerName, query) {
                             add("Geometry.${id}_v$index")
@@ -217,6 +220,24 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                     }
                 }
             }
+        }
+    }
+
+    fun onHurtColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.onHurtColor(color)
+        }
+    }
+
+    fun onFireColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.onFireColor(color)
+        }
+    }
+
+    fun overlayColor(color: Color) {
+        unsafeRenderController.controllers(getRenderControllerId()) {
+            this.overlayColor(color)
         }
     }
 
@@ -236,7 +257,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
                 }
             }
             unsafeRenderController.apply {
-                controllers("${unsafeParent.name}.$partName") {
+                controllers("${entityData.name}.$partName") {
                     arrays {
                         geometries(layerName, query) {
                             add("Geometry.${id}_v$index")
@@ -249,20 +270,19 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
 
     fun build() {
         unsafeRenderController.apply {
-            controllers("${unsafeParent.name}.$partName") {
+            controllers("${entityData.name}.$partName") {
                 materials("Material.$partName")
             }
         }
-        val unsafeResEntity = unsafeParent.unsafeResourceEntity
         if (!hasTextureLayer && partName != "default") {
-            if (!unsafeResEntity.hasDefaultTexture && !unsafeResEntity.unsafeApplyDefaultTexture || unsafeResEntity.disableRender) {
+            if (!resEntity.hasDefaultTexture && !resEntity.unsafeApplyDefaultTexture || resEntity.disableRender) {
                 throw IllegalArgumentException(
                     "No default texture! " +
                             "You either need to assign a default texture or add a part texture"
                 )
             } else {
                 unsafeRenderController.apply {
-                    controllers("${unsafeParent.name}.$partName") {
+                    controllers("${entityData.name}.$partName") {
                         texture("Texture.default")
                     }
                 }
@@ -271,7 +291,7 @@ open class RenderPart(val partName: String, query: Molang, val unsafeParent: Ent
         unsafeRawEntity.apply {
             description {
                 material(partName, material)
-                renderController("controller.render.${unsafeParent.name}.$partName", Query(query))
+                renderController("controller.render.${entityData.name}.$partName", Query(query))
             }
         }
     }

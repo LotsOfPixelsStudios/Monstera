@@ -10,24 +10,23 @@ import com.lop.devtools.monstera.files.res.sounds.CategorySound
 import com.lop.devtools.monstera.files.res.sounds.SoundCategory
 
 
-open class OverwriteComponents(private val unsafeParent: Entity) {
+open class OverwriteComponents(private val entityData: Entity.Data) {
     fun Rideable.exitText(displayText: String, key: String) {
-        exitText(displayText, key, unsafeParent.addon.config)
+        exitText(displayText, key, entityData.addon.config)
     }
 
     fun Rideable.interactText(
         displayName: String?,
         key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase()
     ) {
-        interactText(displayName, key, unsafeParent.addon.config)
+        interactText(displayName, key, entityData.addon.config)
     }
 
     /**
      * add a sound to a component
      *
      * ```
-     * sound {
-     *     identifier = "block.sand.fall"
+     * sound(identifier = "block.sand.fall") {
      *     pitch = 1f to 1.2f   //default 1 to 1
      *     volume = 0.7f to 1f  //default 1 to 1
      *     maxDistance = 16
@@ -52,11 +51,12 @@ open class OverwriteComponents(private val unsafeParent: Entity) {
      *
      * @return the sound identifier
      */
-    fun sound(data: Sound.() -> Unit): String {
-        val soundData = SoundData(unsafeParent.addon)
+    fun sound(identifier: String, data: SoundData.() -> Unit): String {
+        val soundData = SoundData(entityData.addon)
+        soundData.identifier = identifier
         soundData.category = SoundCategory.NEUTRAL
         soundData.categorySound = CategorySound.ENTITY
-        unsafeParent.unsafeSoundData.add(soundData.apply(data))
+        entityData.sounds.add(soundData.apply(data))
         return soundData.identifier
     }
 
@@ -64,11 +64,11 @@ open class OverwriteComponents(private val unsafeParent: Entity) {
      * overwrites the name of the entity (not the item)
      */
     fun Inventory.containerName(displayName: String) {
-        val langKey = "entity.${unsafeParent.name}.name"
-        unsafeParent.addon.config.langFileBuilder.addonRes.addOrReplace(langKey, displayName)
+        val langKey = "entity.${entityData.name}.name"
+        entityData.addon.config.langFileBuilder.addonRes.addOrReplace(langKey, displayName)
     }
 
     fun BehEntityEvent.setProperty(property: String, value: Any) {
-        setProperty(property, value, unsafeParent.addon)
+        setProperty(property, value, entityData.addon)
     }
 }

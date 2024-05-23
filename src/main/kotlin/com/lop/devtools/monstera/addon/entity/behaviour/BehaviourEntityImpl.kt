@@ -19,7 +19,7 @@ import com.lop.devtools.monstera.files.getVersionAsString
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.getMonsteraLogger
 
-open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafeParent) {
+open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(entityData) {
     private fun logger() = getMonsteraLogger("Behaviour")
 
     val unsafeRawEntity: BehEntity = BehEntity()
@@ -27,6 +27,9 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
     val unsafeRawControllers: AnimationControllers = AnimationControllers()
     val unsafeRawCraftingRecipe: CraftingRecipe = CraftingRecipe()
     val unsafeLootTable = BehLootTables()
+    var unsafeBehEntityVersion: String? = null
+    var unsafeAnimVersion: String? = null
+    var unsafeAnimControllerVersion: String? = null
 
     /**
      * add a runtimeIdentifier like guardian
@@ -52,8 +55,8 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      * ```
      */
     fun animation(name: String, settings: BehAnimation.() -> Unit) {
-        unsafeRawAnimations.animation("animation.${unsafeParent.name}.$name", settings)
-        addSharedAnimation("animation.${unsafeParent.name}.$name", name)
+        unsafeRawAnimations.animation("animation.${entityData.name}.$name", settings)
+        addSharedAnimation("animation.${entityData.name}.$name", name)
     }
 
     /**
@@ -65,14 +68,14 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
     fun addSharedAnimation(animIdentifier: String, name: String = animIdentifier.split(".").last()) {
         unsafeRawEntity.apply {
             description {
-                if(animationData?.containsKey(name) == true) {
+                if (animationData?.containsKey(name) == true) {
                     logger().warn(
-                        "(${unsafeParent.name}) Animation '${
+                        "(${entityData.name}) Animation '${
                             name.split(".").last()
                         }' already exists (overwriting)"
                     )
                 }
-                addAnimation(name ,animIdentifier)
+                addAnimation(name, animIdentifier)
             }
         }
     }
@@ -105,7 +108,7 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      * @param data the controller
      */
     fun animController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
-        val id = "controller.animation.${unsafeParent.name}.$name"
+        val id = "controller.animation.${entityData.name}.$name"
         unsafeRawControllers.animController(id, data)
         addSharedController(id, query, name)
     }
@@ -123,10 +126,10 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
                 scripts {
                     animate(name, query)
                 }
-                //controllers are loaded the same way as animations
-                addSharedAnimation(controllerIdentifier, name)
             }
         }
+        //controllers are loaded the same way as animations
+        addSharedAnimation(controllerIdentifier, name)
     }
 
     /**
@@ -207,7 +210,7 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      * ```
      */
     fun spawnRule(value: SysSpawnRule.() -> Unit) {
-        SysSpawnRule(unsafeParent.getIdentifier(), unsafeParent.name, addon = unsafeParent.addon).apply(value).build()
+        SysSpawnRule(entityData.identifier, entityData.name, addon = entityData.addon).apply(value).build()
     }
 
     /**
@@ -254,16 +257,17 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
      *
      * @return a valid table that can be used in the loot table component
      */
+    @Deprecated("Use in component table() call", ReplaceWith("table()"))
     fun generateLootTable(data: BehLootTables.() -> Unit): String {
         unsafeLootTable.apply(data)
-        return unsafeParent.addon.config.paths.lootTableEntity.toString() + "/${unsafeParent.name}"
+        return entityData.addon.config.paths.lootTableEntity.toString() + "/${entityData.name}"
     }
 
     @OptIn(DebugMarker::class)
     fun build() {
         unsafeRawEntity.description {
-            identifier = unsafeParent.getIdentifier()
-            isSpawnable = unsafeParent.unsafeSpawnAble
+            identifier = entityData.identifier
+            isSpawnable = entityData.spawnAble
             isSummonable = true
             isExperimental = false
         }
@@ -271,31 +275,34 @@ open class BehaviourEntity(val unsafeParent: Entity): OverwriteComponents(unsafe
         unsafeRawEntity.debugEntity()
 
         unsafeRawEntity.build(
-            unsafeParent.name,
-            unsafeParent.addon.config.paths.behEntity,
-            getVersionAsString(unsafeParent.addon.config.targetMcVersion)
+            entityData.name,
+            entityData.addon.config.paths.behEntity,
+            unsafeBehEntityVersion
         )
         if (!unsafeRawAnimations.isEmpty())
             unsafeRawAnimations.build(
-                unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnim
+                entityData.name,
+                entityData.addon.config.paths.behAnim,
+                unsafeAnimVersion
             )
         if (!unsafeRawControllers.isEmpty())
             unsafeRawControllers.build(
-                unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnimController
+                entityData.name,
+                entityData.addon.config.paths.behAnimController,
+                unsafeAnimControllerVersion
             )
 
-        if(!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
+        if (!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
             unsafeRawCraftingRecipe.unsafe.build(
-                unsafeParent.name,
-                unsafeParent.getIdentifier() + "_spawn_egg",
-                unsafeParent.addon
+                entityData.name,
+                entityData.identifier + "_spawn_egg",
+                entityData.addon
             )
         }
 
-        if(!unsafeLootTable.isEmpty()) {
-            BehLootTables.Entity(unsafeLootTable).build(unsafeParent.name)
+        if (!unsafeLootTable.isEmpty()) {
+            unsafeLootTable.debug(entityData.name)
+            BehLootTables.Entity(unsafeLootTable).build(entityData.name)
         }
     }
 }

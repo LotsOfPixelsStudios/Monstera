@@ -19,6 +19,7 @@ class BehLootTables {
             return "loot_tables$sub"
         }
     }
+
     class Block(val data: BehLootTables) : MonsteraBuildableFile {
         override fun build(filename: String, path: Path?, version: String?): Result<Path> {
             val sanFile = filename
@@ -62,6 +63,12 @@ class BehLootTables {
      * returns true if no pool is defined
      */
     fun isEmpty() = poolsData.isNullOrEmpty()
+
+    fun debug(name: String) {
+        poolsData?.find { it.rollsData == null }?.let {
+            getMonsteraLogger("BehLootTables").debug("($name) rolls in loot table are empty, entry will be skipped!")
+        }
+    }
 
 
     @SerializedName("pools")

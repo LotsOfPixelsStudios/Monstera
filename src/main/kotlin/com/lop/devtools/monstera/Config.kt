@@ -2,6 +2,8 @@
 
 package com.lop.devtools.monstera
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.lop.devtools.monstera.addon.dev.ResourceLoader
 import com.lop.devtools.monstera.addon.entity.resource.copyDefaultTextureTo
 import com.lop.devtools.monstera.addon.entity.resource.generateDefaultGeo
@@ -13,14 +15,223 @@ import java.nio.file.Path
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
+import kotlin.io.path.absolutePathString
 
 @DslMarker
 annotation class ConfigDSL
 
 @ConfigDSL
+@Deprecated(
+    "Use a config file, this function does not correcly apply config data!",
+    ReplaceWith("loadConfig()", "com.lop.devtools.monstera.Config")
+)
 fun config(projectName: String, data: Config.() -> Unit): Config {
     return Config(projectName).apply(data)
 }
+
+@ConfigDSL
+fun loadConfig(
+    conf: String = "${System.getProperty("user.dir")}/monstera.json",
+    local: String = "${System.getProperty("user.dir")}/monstera-local.json"
+) = loadConfig(File(conf), File(local))
+
+@ConfigDSL
+fun loadConfig(
+    conf: File,
+    local: File
+): Result<Config> {
+    if (!conf.exists()) {
+        interactiveConfig(conf)
+    }
+    if(!local.exists()) {
+        createLocalFile(local)
+    }
+
+    try {
+        val gson = Gson()
+        val monsteraConfig: MonsteraConfig = gson.fromJson(conf.readText(), MonsteraConfig::class.java)
+        val monsteraLocalConfig: MonsteraLocalConfig =
+            if (local.exists())
+                gson.fromJson(local.readText(), MonsteraLocalConfig::class.java)
+            else
+                MonsteraLocalConfig()
+
+        val behPath = Path(
+            System.getProperty("user.dir"),
+            monsteraLocalConfig.buildPath,
+            "development_behavior_packs",
+            monsteraConfig.projectShort.uppercase() + "_BP"
+        )
+        val resPath = Path(
+            System.getProperty("user.dir"),
+            monsteraLocalConfig.buildPath,
+            "development_resource_packs",
+            monsteraConfig.projectShort.uppercase() + "_RP"
+        )
+
+        val config = Config(
+            projectName = monsteraConfig.name,
+            namespace = monsteraConfig.namespace,
+            projectShort = monsteraConfig.projectShort,
+            description = monsteraConfig.description,
+            version = monsteraConfig.version,
+            authors = monsteraConfig.authors,
+            world = monsteraConfig.world?.let { File(System.getProperty("user.dir"), it) } ?: File(),
+            worldUUID = UUID.fromString(monsteraConfig.worldUUID),
+            worldModuleUUID = UUID.fromString(monsteraConfig.worldModuleUUID),
+            behUUID = UUID.fromString(monsteraConfig.behUUID),
+            behModUUID = UUID.fromString(monsteraConfig.behModuleUUID),
+            behScriptUUID = UUID.fromString(monsteraConfig.scriptUUID),
+            resUUID = UUID.fromString(monsteraConfig.resUUID),
+            resModUUID = UUID.fromString(monsteraConfig.resModuleUUID),
+            targetMcVersion = monsteraConfig.targetMcVersion,
+            hashFileNames = monsteraConfig.hashFileNames,
+            behPath = behPath,
+            resPath = resPath,
+            scriptingVersion = monsteraConfig.scriptingVersion ?: "1.8.0",
+
+            comMojangPath = monsteraLocalConfig.minecraftDir?.let { Path(it) }
+                ?: Path(
+                    System.getenv("LOCALAPPDATA") ?: "",
+                    "Packages",
+                    "Microsoft.MinecraftUWP_8wekyb3d8bbwe",
+                    "LocalState",
+                    "games",
+                    "com.mojang"
+                ),
+            paths = Config.AddonPaths(
+                behBase = behPath,
+                resBase = resPath,
+                behEntity = behPath.resolve(monsteraConfig.minecraftPaths.behEntity),
+                behAnimController = behPath.resolve(monsteraConfig.minecraftPaths.behAnimController),
+                behAnim = behPath.resolve(monsteraConfig.minecraftPaths.behAnim),
+                behRecipe = behPath.resolve(monsteraConfig.minecraftPaths.behRecipes),
+                behBlocks = behPath.resolve(monsteraConfig.minecraftPaths.behBlocks),
+                behItems = behPath.resolve(monsteraConfig.minecraftPaths.behItems),
+                behSpawnRules = behPath.resolve(monsteraConfig.minecraftPaths.behSpawnRules),
+                behTrading = behPath.resolve(monsteraConfig.minecraftPaths.behTrading),
+                behTexts = behPath.resolve(monsteraConfig.minecraftPaths.behTexts),
+                behScripts = behPath.resolve(monsteraConfig.minecraftPaths.behScripts),
+                behMcFunction = behPath.resolve(monsteraConfig.minecraftPaths.behMcFunction),
+                resAnim = resPath.resolve(monsteraConfig.minecraftPaths.resAnim),
+                resItem = resPath.resolve(monsteraConfig.minecraftPaths.resItem),
+                resModels = resPath.resolve(monsteraConfig.minecraftPaths.resModels),
+                resMaterials = resPath.resolve(monsteraConfig.minecraftPaths.resMaterials),
+                resParticles = resPath.resolve(monsteraConfig.minecraftPaths.resParticles),
+                resRenderControllers = resPath.resolve(monsteraConfig.minecraftPaths.resRenderControllers),
+                resSounds = resPath.resolve(monsteraConfig.minecraftPaths.resSounds),
+                resTextures = resPath.resolve(monsteraConfig.minecraftPaths.resTextures),
+                resAttachable = resPath.resolve(monsteraConfig.minecraftPaths.resAttachable),
+                resTexts = resPath.resolve(monsteraConfig.minecraftPaths.resTexts),
+            ),
+            formatVersions = Config.FormatVersions(
+                getVersionAsString(monsteraConfig.targetMcVersion),
+                behEntity = monsteraConfig.minecraftFormatVersions.behEntity,
+                resEntity = monsteraConfig.minecraftFormatVersions.resEntity,
+                resItem = monsteraConfig.minecraftFormatVersions.resItem,
+                behItem = monsteraConfig.minecraftFormatVersions.behItem,
+                behAnimation = monsteraConfig.minecraftFormatVersions.behAnim,
+                behBlock = monsteraConfig.minecraftFormatVersions.behBlock,
+                behRecipe = monsteraConfig.minecraftFormatVersions.behRecipe,
+                behSpawnRules = monsteraConfig.minecraftFormatVersions.behSpawnRule,
+                behAnimController = monsteraConfig.minecraftFormatVersions.behAnimController,
+                resAnimController = monsteraConfig.minecraftFormatVersions.resAnimController,
+                resAttachable = monsteraConfig.minecraftFormatVersions.resAttachable,
+                resSoundDefs = monsteraConfig.minecraftFormatVersions.resSoundDefs,
+                resRendercontroller = monsteraConfig.minecraftFormatVersions.resRenderController,
+            ),
+            langFileBuilder = Config.AddonLangFileBuilders(behPath, resPath)
+        )
+        monsteraConfig.packIcon?.let {
+            config.packIcon = File(System.getProperty("user.dir"), it)
+        }
+
+        return Result.success(config)
+    } catch (e: Exception) {
+        return Result.failure(e)
+    }
+}
+
+class MonsteraConfig(
+    var name: String,
+    var projectShort: String,
+    var description: String = "",
+    var namespace: String = "monstera",
+    var version: MutableList<Int> = mutableListOf(0, 1, 0),
+    var authors: MutableList<String> = mutableListOf(),
+    var world: String? = null,
+    var worldUUID: String = UUID.randomUUID().toString(),
+    var worldModuleUUID: String = UUID.randomUUID().toString(),
+    var behUUID: String = UUID.randomUUID().toString(),
+    var behModuleUUID: String = UUID.randomUUID().toString(),
+    var scriptUUID: String = UUID.randomUUID().toString(),
+    var resUUID: String = UUID.randomUUID().toString(),
+    var resModuleUUID: String = UUID.randomUUID().toString(),
+    var targetMcVersion: MutableList<Int> = mutableListOf(1, 20, 81),
+    var scriptingVersion: String? = null,
+    var scriptEntryFile: String? = null,
+    var packIcon: String? = null,
+    var hashFileNames: Boolean = false,
+    var minecraftPaths: MinecraftAddonPaths = MinecraftAddonPaths(),
+    var minecraftFormatVersions: MinecraftFormatVersions = MinecraftFormatVersions(),
+)
+
+class MinecraftAddonPaths(
+    var behEntity: String = "entities",
+    var behAnimController: String = "animation_controllers",
+    var behAnim: String = "animations",
+    var behBlocks: String = "blocks",
+    var behItems: String = "items",
+    var lootTableEntity: String = "loot_tables/entities",
+    var lootTableBlock: String = "loot_tables/blocks",
+    var behSpawnRules: String = "spawn_rules",
+    var behTrading: String = "trading/economy_trades",
+    var behRecipes: String = "recipes",
+    var behTexts: String = "texts",
+    var behScripts: String = "scripts",
+    var behMcFunction: String = "functions",
+    var resAnim: String = "animations",
+    var resAnimController: String = "animation_controllers",
+    var resEntity: String = "entity",
+    var resItem: String = "items",
+    var resModels: String = "models",
+    var resMaterials: String = "materials",
+    var resParticles: String = "particles",
+    var resRenderControllers: String = "render_controllers",
+    var resSounds: String = "sounds",
+    var resTextures: String = "textures",
+    var resAttachable: String = "attachables",
+    var resTexts: String = "texts"
+)
+
+class MinecraftFormatVersions(
+    var behEntity: String = "1.20.81",
+    var behItem: String = "1.10.0",
+    var behAnim: String = "1.8.0",
+    var behBlock: String = "1.20.81",
+    var behRecipe: String = "1.17.41",
+    var behSpawnRule: String = "1.8.0",
+    var behAnimController: String = "1.10.0",
+    var resEntity: String = "1.10.0",
+    var resItem: String = "1.10.0",
+    var resAnimController: String = "1.10.0",
+    var resAttachable: String = "1.10.0",
+    var resSoundDefs: String = "1.14.0",
+    var resRenderController: String = "1.10.0"
+)
+
+class MonsteraLocalConfig(
+    var projectPath: String? = null,
+    var buildPath: String = "build",
+    var minecraftDir: String? = Path(
+        System.getenv("LOCALAPPDATA") ?: "",
+        "Packages",
+        "Microsoft.MinecraftUWP_8wekyb3d8bbwe",
+        "LocalState",
+        "games",
+        "com.mojang"
+    ).absolutePathString()
+)
 
 class Config(
     val projectName: String,
@@ -49,11 +260,16 @@ class Config(
         "com.mojang"
     ),
     var paths: AddonPaths = AddonPaths(behPath, resPath),
-    var targetMcVersion: ArrayList<Int> = arrayListOf(1, 19, 40),
+    var targetMcVersion: MutableList<Int> = arrayListOf(1, 20, 70),
     var formatVersions: FormatVersions = FormatVersions(getVersionAsString(targetMcVersion)),
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
-    var scriptingVersion: String = "1.6.0"
+    var scriptingVersion: String = "1.8.0",
+    var hashFileNames: Boolean = false,
+    /**
+     * don't hash or modify these file names on build
+     */
+    var vanillaFileNames: List<String> = listOf("player", "humanoid")
 ) {
     init {
         behPath.toFile().deleteRecursively()
@@ -139,7 +355,7 @@ class Config(
         var behEntity: String = targetMcVersion,
         var resEntity: String = "1.10.0",
         var resItem: String = "1.10.0",
-        var behItem: String = targetMcVersion,
+        var behItem: String = "1.20.50",
         var behAnimation: String = "1.8.0",
         var behBlock: String = targetMcVersion,
         var behRecipe: String = "1.17.41",
@@ -152,3 +368,35 @@ class Config(
     )
 }
 
+private fun interactiveConfig(confFile: File) {
+    val projectName: String
+    var projectShort: String
+    val scanner = Scanner(System.`in`)
+    val gson = GsonBuilder().setPrettyPrinting().create()
+
+    print("Project Name: ")
+    projectName = scanner.nextLine().trim()
+    print("Project Short: ")
+    scanner.nextLine().trim().let {
+        projectShort = if (it == "") projectName.take(2) else it
+    }
+
+    val config = Config(projectName, projectShort = projectShort)
+
+    val monsteraConfig = MonsteraConfig(
+        config.projectName,
+        config.projectShort
+    )
+
+    if (!confFile.exists())
+        confFile.createNewFile()
+    confFile.writeText(gson.toJson(monsteraConfig))
+}
+
+fun createLocalFile(local: File) {
+    val gson = GsonBuilder().setPrettyPrinting().create()
+    if (!local.exists())
+        local.createNewFile()
+
+    local.writeText(gson.toJson(MonsteraLocalConfig()))
+}

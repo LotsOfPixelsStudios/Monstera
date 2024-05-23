@@ -112,11 +112,14 @@ class Rideable {
         @SerializedName("max_rider_count")
         @Expose
         var maxRiderCount: Number? = null
-            
+
+        /**
+         * rotate the rider, can be a query or Number
+         */
 
         @SerializedName("rotate_rider_by")
         @Expose
-        var rotateRiderBy: Number? = null
+        var rotateRiderBy: Any? = null
             
 
         @SerializedName("lock_rider_rotation")
