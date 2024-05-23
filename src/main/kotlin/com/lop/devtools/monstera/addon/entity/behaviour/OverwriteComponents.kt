@@ -57,7 +57,7 @@ open class OverwriteComponents(private val entityData: Entity.Data) {
         soundData.identifier = identifier
         soundData.category = SoundCategory.NEUTRAL
         soundData.categorySound = CategorySound.ENTITY
-        unsafeParent.unsafeSoundData.add(soundData.apply(data))
+        entityData.sounds.add(soundData.apply(data))
         return soundData.identifier
     }
 

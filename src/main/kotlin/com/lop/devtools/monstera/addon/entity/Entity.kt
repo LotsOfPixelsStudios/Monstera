@@ -6,7 +6,6 @@ import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.behaviour.BehaviourEntity
 import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
 import com.lop.devtools.monstera.addon.sound.Sound
-import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
 open class Entity(
@@ -20,7 +19,7 @@ open class Entity(
         var displayName: String,
         var identifier: String,
         var spawnAble: Boolean,
-        var sounds: MutableList<SoundData> = mutableListOf()
+        var sounds: MutableList<Sound> = mutableListOf()
     )
 
     val data = Data(
