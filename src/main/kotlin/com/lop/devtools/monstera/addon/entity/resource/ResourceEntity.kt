@@ -17,13 +17,13 @@ import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderController
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 
-open class ResourceEntity(val unsafeParent: Entity) {
+open class ResourceEntity(val entityData: Entity.Data) {
     val unsafeRawEntity: ResEntity = ResEntity()
     val unsafeRenderController: ResRenderControllers = ResRenderControllers()
     val unsafeControllers: AnimationControllers = AnimationControllers()
     val unsafeComponents: ResourceEntityComponents =
-        ResourceEntityComponents(unsafeParent, unsafeRawEntity, unsafeRenderController)
-    val unsafeMaterials: Materials = Materials.instance(unsafeParent.addon)
+        ResourceEntityComponents(entityData, unsafeRawEntity, unsafeRenderController)
+    val unsafeMaterials: Materials = Materials.instance(entityData.addon)
     var unsafeApplyDefaultTexture: Boolean = true
     var unsafeApplyDefaultGeometry: Boolean = true
 
@@ -61,8 +61,12 @@ open class ResourceEntity(val unsafeParent: Entity) {
      */
     fun textureLayer(texture: File, layerName: String = "default") {
         hasDefaultTexture = true
-        renderPart("default") {
-            textureLayer(texture, layerName)
+        unsafeRawEntity.apply {
+            description {
+                renderPart("default") {
+                    textureLayer(texture, layerName)
+                }
+            }
         }
         unsafeApplyDefaultTexture = false
     }
@@ -75,8 +79,12 @@ open class ResourceEntity(val unsafeParent: Entity) {
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
     fun textureLayer(textures: ArrayList<File>, query: Molang, layerName: String= hashLayerName(textures, query.data)) {
-        renderPart("default") {
-            textureLayer(textures, query, layerName)
+        unsafeRawEntity.apply {
+            description {
+                renderPart("default") {
+                    textureLayer(textures, query, layerName)
+                }
+            }
         }
         unsafeApplyDefaultTexture = false
     }
@@ -225,7 +233,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
             return
         }
         val uniqueFilename = getUniqueFileName(file)
-        val target = unsafeParent.addon.config.paths.resAnim.resolve(uniqueFilename)
+        val target = entityData.addon.config.paths.resAnim.resolve(uniqueFilename)
         file.copyTo(
             target.toFile(),
             overwrite = true
@@ -246,7 +254,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
      * @param name the name of the controller
      */
     fun animationController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
-        val idName = "controller.animation.${unsafeParent.name}.${name.removePrefix("controller.animation.")}"
+        val idName = "controller.animation.${entityData.name}.${name.removePrefix("controller.animation.")}"
         unsafeControllers.animController(idName, data)
 
         unsafeRawEntity.apply {
@@ -288,7 +296,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
     fun renderPart(partName: String, query: Molang, data: RenderPart.() -> Unit) {
         val part = renderParts.firstOrNull { it.partName == partName }?.apply(data) // eventually add a warning
         if (part == null) {
-            val renderPart = RenderPart(partName, query, unsafeParent).apply(data)
+            val renderPart = RenderPart(partName, query, entityData, this).apply(data)
             renderParts.add(renderPart)
         }
     }
@@ -322,24 +330,29 @@ open class ResourceEntity(val unsafeParent: Entity) {
         val query = Query.True
         val part = renderParts.firstOrNull { it.partName == partName }?.apply(data) // eventually add a warning
         if (part == null) {
-            val renderPart = RenderPart(partName, query, unsafeParent).apply(data)
+            val renderPart = RenderPart(partName, query, entityData, this).apply(data)
             renderParts.add(renderPart)
         }
     }
 
     fun build() {
         unsafeComponents.build()
+        if (!unsafeComponents.disableMaterial) {
+            renderPart("default") {
+                material = unsafeComponents.material
+            }
+        }
 
         unsafeRawEntity.description {
-            identifier = unsafeParent.getIdentifier()
-            langKey("entity.$identifier.name", unsafeParent.displayName)
+            identifier = entityData.identifier
+            langKey("entity.$identifier.name", entityData.displayName)
         }
         if (!disableRender) {
             if (unsafeApplyDefaultTexture) {
                 unsafeRawEntity.apply {
                     description {
                         renderPart("default") {
-                            textureLayer(unsafeParent.addon.config.defaultResource.defaultTexturePath)
+                            textureLayer(entityData.addon.config.defaultResource.defaultTexturePath)
                         }
                     }
                 }
@@ -349,7 +362,7 @@ open class ResourceEntity(val unsafeParent: Entity) {
                 unsafeRawEntity.apply {
                     description {
                         renderPart("default") {
-                            geometryLayer(unsafeParent.addon.config.defaultResource.defaultGeo)
+                            geometryLayer(entityData.addon.config.defaultResource.defaultGeo)
                         }
                     }
                 }
@@ -357,15 +370,15 @@ open class ResourceEntity(val unsafeParent: Entity) {
         }
 
         if (!disableRender && !unsafeRenderController.isEmpty()) {
-            unsafeRenderController.build(unsafeParent.name, unsafeParent.addon.config.paths.resRenderControllers)
+            unsafeRenderController.build(entityData.name, entityData.addon.config.paths.resRenderControllers)
         }
 
-        unsafeRawEntity.build(unsafeParent.name, unsafeParent.addon.config.paths.resEntity)
+        unsafeRawEntity.build(entityData.name, entityData.addon.config.paths.resEntity)
 
         //controllers check themselves if they should be build
         unsafeControllers.build(
-            unsafeParent.name,
-            unsafeParent.addon.config.paths.resAnimController
+            entityData.name,
+            entityData.addon.config.paths.resAnimController
         )
     }
 }

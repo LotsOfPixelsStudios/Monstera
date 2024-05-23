@@ -3,6 +3,7 @@
 package com.lop.devtools.monstera
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.lop.devtools.monstera.addon.dev.ResourceLoader
 import com.lop.devtools.monstera.addon.entity.resource.copyDefaultTextureTo
 import com.lop.devtools.monstera.addon.entity.resource.generateDefaultGeo
@@ -14,6 +15,7 @@ import java.nio.file.Path
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
+import kotlin.io.path.absolutePathString
 
 @DslMarker
 annotation class ConfigDSL
@@ -39,7 +41,10 @@ fun loadConfig(
     local: File
 ): Result<Config> {
     if (!conf.exists()) {
-        return Result.failure(Error("Could not find monstera config file!"))
+        interactiveConfig(conf)
+    }
+    if(!local.exists()) {
+        createLocalFile(local)
     }
 
     try {
@@ -71,7 +76,7 @@ fun loadConfig(
             description = monsteraConfig.description,
             version = monsteraConfig.version,
             authors = monsteraConfig.authors,
-            world = monsteraConfig.world?.let{ File(System.getProperty("user.dir"), it) } ?: File(),
+            world = monsteraConfig.world?.let { File(System.getProperty("user.dir"), it) } ?: File(),
             worldUUID = UUID.fromString(monsteraConfig.worldUUID),
             worldModuleUUID = UUID.fromString(monsteraConfig.worldModuleUUID),
             behUUID = UUID.fromString(monsteraConfig.behUUID),
@@ -83,6 +88,7 @@ fun loadConfig(
             hashFileNames = monsteraConfig.hashFileNames,
             behPath = behPath,
             resPath = resPath,
+            scriptingVersion = monsteraConfig.scriptingVersion ?: "1.8.0",
 
             comMojangPath = monsteraLocalConfig.minecraftDir?.let { Path(it) }
                 ?: Path(
@@ -149,75 +155,82 @@ fun loadConfig(
 class MonsteraConfig(
     var name: String,
     var projectShort: String,
-    var description: String,
-    var namespace: String,
-    var version: MutableList<Int>,
-    var authors: MutableList<String>,
-    var world: String?,
-    var worldUUID: String,
-    var worldModuleUUID: String,
-    var behUUID: String,
-    var behModuleUUID: String,
-    var scriptUUID: String,
-    var resUUID: String,
-    var resModuleUUID: String,
-    var targetMcVersion: MutableList<Int>,
-    var scriptingVersion: String,
-    var scriptEntryFile: String?,
-    var packIcon: String?,
+    var description: String = "",
+    var namespace: String = "monstera",
+    var version: MutableList<Int> = mutableListOf(0, 1, 0),
+    var authors: MutableList<String> = mutableListOf(),
+    var world: String? = null,
+    var worldUUID: String = UUID.randomUUID().toString(),
+    var worldModuleUUID: String = UUID.randomUUID().toString(),
+    var behUUID: String = UUID.randomUUID().toString(),
+    var behModuleUUID: String = UUID.randomUUID().toString(),
+    var scriptUUID: String = UUID.randomUUID().toString(),
+    var resUUID: String = UUID.randomUUID().toString(),
+    var resModuleUUID: String = UUID.randomUUID().toString(),
+    var targetMcVersion: MutableList<Int> = mutableListOf(1, 20, 81),
+    var scriptingVersion: String? = null,
+    var scriptEntryFile: String? = null,
+    var packIcon: String? = null,
     var hashFileNames: Boolean = false,
-    var minecraftPaths: MinecraftAddonPaths,
-    var minecraftFormatVersions: MinecraftFormatVersions,
+    var minecraftPaths: MinecraftAddonPaths = MinecraftAddonPaths(),
+    var minecraftFormatVersions: MinecraftFormatVersions = MinecraftFormatVersions(),
 )
 
 class MinecraftAddonPaths(
-    var behEntity: String,
-    var behAnimController: String,
-    var behAnim: String,
-    var behBlocks: String,
-    var behItems: String,
-    var lootTableEntity: String,
-    var lootTableBlock: String,
-    var behSpawnRules: String,
-    var behTrading: String,
-    var behRecipes: String,
-    var behTexts: String,
-    var behScripts: String,
-    var behMcFunction: String,
-    var resAnim: String,
-    var resAnimController: String,
-    var resEntity: String,
-    var resItem: String,
-    var resModels: String,
-    var resMaterials: String,
-    var resParticles: String,
-    var resRenderControllers: String,
-    var resSounds: String,
-    var resTextures: String,
-    var resAttachable: String,
-    var resTexts: String,
+    var behEntity: String = "entities",
+    var behAnimController: String = "animation_controllers",
+    var behAnim: String = "animations",
+    var behBlocks: String = "blocks",
+    var behItems: String = "items",
+    var lootTableEntity: String = "loot_tables/entities",
+    var lootTableBlock: String = "loot_tables/blocks",
+    var behSpawnRules: String = "spawn_rules",
+    var behTrading: String = "trading/economy_trades",
+    var behRecipes: String = "recipes",
+    var behTexts: String = "texts",
+    var behScripts: String = "scripts",
+    var behMcFunction: String = "functions",
+    var resAnim: String = "animations",
+    var resAnimController: String = "animation_controllers",
+    var resEntity: String = "entity",
+    var resItem: String = "items",
+    var resModels: String = "models",
+    var resMaterials: String = "materials",
+    var resParticles: String = "particles",
+    var resRenderControllers: String = "render_controllers",
+    var resSounds: String = "sounds",
+    var resTextures: String = "textures",
+    var resAttachable: String = "attachables",
+    var resTexts: String = "texts"
 )
 
 class MinecraftFormatVersions(
-    var behEntity: String,
-    var behItem: String,
-    var behAnim: String,
-    var behBlock: String,
-    var behRecipe: String,
-    var behSpawnRule: String,
-    var behAnimController: String,
-    var resEntity: String,
-    var resItem: String,
-    var resAnimController: String,
-    var resAttachable: String,
-    var resSoundDefs: String,
-    var resRenderController: String,
+    var behEntity: String = "1.20.81",
+    var behItem: String = "1.10.0",
+    var behAnim: String = "1.8.0",
+    var behBlock: String = "1.20.81",
+    var behRecipe: String = "1.17.41",
+    var behSpawnRule: String = "1.8.0",
+    var behAnimController: String = "1.10.0",
+    var resEntity: String = "1.10.0",
+    var resItem: String = "1.10.0",
+    var resAnimController: String = "1.10.0",
+    var resAttachable: String = "1.10.0",
+    var resSoundDefs: String = "1.14.0",
+    var resRenderController: String = "1.10.0"
 )
 
 class MonsteraLocalConfig(
     var projectPath: String? = null,
     var buildPath: String = "build",
-    var minecraftDir: String? = null
+    var minecraftDir: String? = Path(
+        System.getenv("LOCALAPPDATA") ?: "",
+        "Packages",
+        "Microsoft.MinecraftUWP_8wekyb3d8bbwe",
+        "LocalState",
+        "games",
+        "com.mojang"
+    ).absolutePathString()
 )
 
 class Config(
@@ -353,4 +366,37 @@ class Config(
         var resSoundDefs: String = "1.14.0",
         var resRendercontroller: String = "1.10.0"
     )
+}
+
+private fun interactiveConfig(confFile: File) {
+    val projectName: String
+    var projectShort: String
+    val scanner = Scanner(System.`in`)
+    val gson = GsonBuilder().setPrettyPrinting().create()
+
+    print("Project Name: ")
+    projectName = scanner.nextLine().trim()
+    print("Project Short: ")
+    scanner.nextLine().trim().let {
+        projectShort = if (it == "") projectName.take(2) else it
+    }
+
+    val config = Config(projectName, projectShort = projectShort)
+
+    val monsteraConfig = MonsteraConfig(
+        config.projectName,
+        config.projectShort
+    )
+
+    if (!confFile.exists())
+        confFile.createNewFile()
+    confFile.writeText(gson.toJson(monsteraConfig))
+}
+
+fun createLocalFile(local: File) {
+    val gson = GsonBuilder().setPrettyPrinting().create()
+    if (!local.exists())
+        local.createNewFile()
+
+    local.writeText(gson.toJson(MonsteraLocalConfig()))
 }

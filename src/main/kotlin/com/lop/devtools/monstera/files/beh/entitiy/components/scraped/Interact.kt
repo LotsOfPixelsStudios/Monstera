@@ -14,6 +14,7 @@ import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.getMonsteraLogger
 
 class Interact : MonsteraRawFile() {
+
     @SerializedName("interactions")
     @Expose
     @JsonAdapter(MonsteraListFileTypeAdapter::class)
@@ -44,7 +45,6 @@ class Interact : MonsteraRawFile() {
     }
 
     class Interaction : MonsteraRawFile() {
-
         @SerializedName("on_interact")
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
@@ -145,6 +145,7 @@ class Interact : MonsteraRawFile() {
     }
 
     class OnInteract : MonsteraRawFile() {
+
         @SerializedName("filters")
         @Expose
         var filtersData: BehEntityFilter? = null
