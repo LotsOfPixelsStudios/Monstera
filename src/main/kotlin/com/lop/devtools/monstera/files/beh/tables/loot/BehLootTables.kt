@@ -3,36 +3,36 @@
 package com.lop.devtools.monstera.files.beh.tables.loot
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehLootTables {
+class BehLootTables: MonsteraRawFile() {
     companion object {
         fun resolveRelative(path: Path): String {
             val sub = path.toString().split("loot_tables").last().replace("\\", "/")
             return "loot_tables$sub"
         }
+        private val logger = getMonsteraLogger(this::class.simpleName ?: "BehLootTables")
     }
-
     class Block(val data: BehLootTables) : MonsteraBuildableFile {
         override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableBlock ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for block loot file '$sanFile' as no addon was initialized!")
-                return Result.failure(Error("Could not Resolve a path for block loot file '$sanFile' as no addon was initialized!"))
+                logger.error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!")
+                return Result.failure(Error("Could not Resolve a path for block loot file '$filename' as no addon was initialized!"))
             }
             val target = MonsteraBuilder.buildTo(
                 selPath,
-                "$sanFile.json",
+                sanetiseFilename(filename, "json"),
                 data
             )
             return Result.success(target)
@@ -46,7 +46,7 @@ class BehLootTables {
                 .replace("-", "_")
                 .replace(" ", "_")
             val selPath = path ?: Addon.active?.config?.paths?.lootTableEntity ?: run {
-                getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
+                logger.error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!")
                 return Result.failure(Error("Could not Resolve a path for entity loot file '$sanFile' as no addon was initialized!"))
             }
 
@@ -64,15 +64,18 @@ class BehLootTables {
      */
     fun isEmpty() = poolsData.isNullOrEmpty()
 
-    fun debug(name: String) {
-        poolsData?.find { it.rollsData == null }?.let {
-            getMonsteraLogger("BehLootTables").debug("($name) rolls in loot table are empty, entry will be skipped!")
+    /**
+     * debug print infos and warnings
+     */
+    fun debug(idInfo: String) {
+        poolsData?.firstOrNull { it.rollsData == null }?.run {
+            logger.warn("($idInfo) rolls not set - handled as implicit 0")
         }
     }
 
-
     @SerializedName("pools")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var poolsData: MutableList<Pool>? = null
         @MonsteraBuildSetter set
 
@@ -94,7 +97,7 @@ class BehLootTables {
         poolsData = (poolsData ?: mutableListOf()).apply { add(Pool().apply(data)) }
     }
 
-    class Pool {
+    open class Pool : MonsteraRawFile() {
         @SerializedName("rolls")
         @Expose
         var rollsData: Any? = null
@@ -115,6 +118,7 @@ class BehLootTables {
 
         @SerializedName("entries")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var entryData: MutableList<Entry>? = null
             @MonsteraBuildSetter set
 
@@ -146,7 +150,7 @@ class BehLootTables {
         var max: Int? = null
     }
 
-    class Entry {
+    open class Entry : MonsteraRawFile() {
         @SerializedName("type")
         @Expose
         var type: String? = null
@@ -163,6 +167,12 @@ class BehLootTables {
         @Expose
         var functionData: MutableList<Any>? = null
             @MonsteraBuildSetter set
+
+        /**
+         * in older monstera version the identifier field was known as "name"
+         */
+        @Deprecated("", ReplaceWith("identifier"))
+        var name: String? = null
 
         /**
          * ```

@@ -8,7 +8,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.files.getUniqueFileName
 import java.io.File
 
-class ResSoundComp {
+open class ResSoundComp {
     @SerializedName("is3D")
     @Expose
     var is3D: Boolean? = null
@@ -67,5 +67,14 @@ class ResSoundComp {
     @Deprecated("use field", ReplaceWith("volume = value"))
     fun volume(value: Float = 1.0f) {
         volume = value
+    }
+
+    /**
+     * 0..1
+     *
+     * @param value The pitch of the sound (how low/high it sounds). Ranges from 0.0 to 1.0 (standard), but can be higher, such as 1.48.
+     */
+    fun pitch(value: Float = 1.0f) {
+        pitch = value
     }
 }

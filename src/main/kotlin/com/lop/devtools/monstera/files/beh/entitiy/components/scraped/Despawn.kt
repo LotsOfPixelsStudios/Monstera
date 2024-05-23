@@ -1,14 +1,18 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Despawn {
+class Despawn : MonsteraRawFile() {
     @SerializedName("despawn_from_distance")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var despawnFromDistanceData: DespawnFromDistance? = null
         @MonsteraBuildSetter set
 
@@ -46,7 +50,6 @@ class Despawn {
     @SerializedName("remove_child_entities")
     @Expose
     var removeChildEntities: Boolean? = null
-        
 
-    class DespawnFromDistance
+    class DespawnFromDistance : MonsteraRawFile()
 }

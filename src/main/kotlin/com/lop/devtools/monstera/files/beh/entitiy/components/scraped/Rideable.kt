@@ -1,34 +1,34 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.Config
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class Rideable {
+class Rideable : MonsteraRawFile() {
     @SerializedName("seat_count")
     @Expose
     var seatCount: Number? = null
         
-
     @SerializedName("passenger_max_width")
     @Expose
     var passengerMaxWidth: Number? = null
         
-
     @SerializedName("interact_text")
     @Expose
     var interactText: String? = null
         
-
     @SerializedName("pull_in_entities")
     @Expose
     var pullInEntities: Boolean? = null
         
-
     @SerializedName("seats")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var seatsData: MutableList<Seats>? = null
         @MonsteraBuildSetter set
 
@@ -53,7 +53,6 @@ class Rideable {
     @Expose
     var crouchingSkipInteract: Boolean? = null
         
-
     @SerializedName("family_types")
     @Expose
     var familyTypesData: MutableList<String>? = null
@@ -93,12 +92,11 @@ class Rideable {
         config?.langFileBuilder?.addonRes?.add(key, displayText)
     }
 
-    class Seats {
+    class Seats : MonsteraRawFile() {
         @SerializedName("position")
         @Expose
         var positionData: MutableList<Number>? = null
             
-
         @Components.VanillaComponentMarker
         fun position(vararg value: Number) {
             positionData = (positionData ?: mutableListOf()).also { it.addAll(value.toList()) }
@@ -108,20 +106,14 @@ class Rideable {
         @Expose
         var minRiderCount: Number? = null
             
-
         @SerializedName("max_rider_count")
         @Expose
         var maxRiderCount: Number? = null
-
-        /**
-         * rotate the rider, can be a query or Number
-         */
-
+            
         @SerializedName("rotate_rider_by")
         @Expose
-        var rotateRiderBy: Any? = null
+        var rotateRiderBy: Number? = null
             
-
         @SerializedName("lock_rider_rotation")
         @Expose
         var lockRiderRotation: Number? = null

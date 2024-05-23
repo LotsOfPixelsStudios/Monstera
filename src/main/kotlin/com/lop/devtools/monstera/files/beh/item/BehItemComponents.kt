@@ -1,14 +1,18 @@
 package com.lop.devtools.monstera.files.beh.item
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.item.Item
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.item.comp.*
 
-class BehItemComponents {
+class BehItemComponents : MonsteraRawFile() {
     @SerializedName("minecraft:icon")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var itemIconData: ItemIcon? = null
         @MonsteraBuildSetter set
 
@@ -24,6 +28,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:allow_off_hand")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var allowOffHandData: ItemAllowOffHand? = null
         @MonsteraBuildSetter set
 
@@ -32,8 +37,20 @@ class BehItemComponents {
         allowOffHandData = ItemAllowOffHand().apply { this.value = value }
     }
 
+    @SerializedName("minecraft:armor")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var armorData: ItemArmor? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun armor(data: ItemArmor.() -> Unit) {
+        armorData = (armorData ?: ItemArmor()).apply(data)
+    }
+
     @SerializedName("minecraft:block_placer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var blockPlaceData: ItemBlockPlacer? = null
         @MonsteraBuildSetter set
 
@@ -55,6 +72,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:can_destroy_in_creative")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canDestroyInCreativeData: ItemCanDestroyInCreative? = null
         @MonsteraBuildSetter set
 
@@ -68,6 +86,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:cooldown")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var cooldownData: ItemCooldown? = null
         @MonsteraBuildSetter set
 
@@ -87,6 +106,17 @@ class BehItemComponents {
         cooldownData = (cooldownData ?: ItemCooldown()).apply(data)
     }
 
+    @SerializedName("minecraft:creative_category")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var creativeCategoryData: ItemCreativeCategory? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun creativeCategory(data: ItemCreativeCategory.() -> Unit) {
+        creativeCategoryData = (creativeCategoryData ?: ItemCreativeCategory()).apply(data)
+    }
+
     /**
      * Sets an items "Cool down" time. After using an item, it becomes unusable for the duration specified by the
      * 'duration' setting of this component.
@@ -101,6 +131,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:damage")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var damageData: ItemDamage? = null
         @MonsteraBuildSetter set
 
@@ -114,6 +145,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:digger")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var diggerData: ItemDigger? = null
         @MonsteraBuildSetter set
 
@@ -138,6 +170,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:display_name")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var displayNameData: ItemDisplayName? = null
         @MonsteraBuildSetter set
 
@@ -169,6 +202,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:durability")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var durabilityData: ItemDurability? = null
         @MonsteraBuildSetter set
 
@@ -189,6 +223,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:enchantable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var enchantableData: ItemEnchantable? = null
         @MonsteraBuildSetter set
 
@@ -209,6 +244,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:entity_placer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var entityPlacerData: ItemEntityPlacer? = null
         @MonsteraBuildSetter set
 
@@ -230,6 +266,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:food")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var foodData: ItemFood? = null
         @MonsteraBuildSetter set
 
@@ -261,6 +298,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:fuel")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var fuelData: ItemFuel? = null
         @MonsteraBuildSetter set
 
@@ -287,6 +325,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:hand_equipped")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var handEquippedData: ItemHandEquipped? = null
         @MonsteraBuildSetter set
 
@@ -315,6 +354,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:liquid_clipped")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var liquidClippedData: ItemLiquidClipped? = null
         @MonsteraBuildSetter set
 
@@ -329,6 +369,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:max_stack_size")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var maxStackSizeData: ItemMaxStackSize? = null
         @MonsteraBuildSetter set
 
@@ -342,6 +383,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:projectile")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var projectileData: ItemProjectile? = null
         @MonsteraBuildSetter set
 
@@ -364,6 +406,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:record")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var recordData: ItemRecord? = null
         @MonsteraBuildSetter set
 
@@ -388,6 +431,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:repairable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var repairableData: ItemRepairable? = null
         @MonsteraBuildSetter set
 
@@ -410,6 +454,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:shooter")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var shooterData: ItemShooter? = null
         @MonsteraBuildSetter set
 
@@ -440,6 +485,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:should_despawn")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var shouldDespawnData: ItemShouldDespawn? = null
         @MonsteraBuildSetter set
 
@@ -453,6 +499,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:stacked_by_data")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var stackedByDataData: ItemStackedByData? = null
         @MonsteraBuildSetter set
 
@@ -465,21 +512,9 @@ class BehItemComponents {
         stackedByDataData = ItemStackedByData().apply { this.value = value }
     }
 
-    @SerializedName("minecraft:tags")
-    @Expose
-    var tagsData: ItemTags? = null
-        @MonsteraBuildSetter set
-
-    /**
-     * Determines which tags are included on a given item.
-     */
-    @OptIn(MonsteraBuildSetter::class)
-    fun tags(vararg value: String) {
-        tagsData = (tagsData ?: ItemTags()).apply { this.tags(value.toList()) }
-    }
-
     @SerializedName("minecraft:throwable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var throwableData: ItemThrowable? = null
         @MonsteraBuildSetter set
 
@@ -500,6 +535,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:use_modifiers")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var useModifiersData: ItemUseModifiers? = null
         @MonsteraBuildSetter set
 
@@ -520,6 +556,7 @@ class BehItemComponents {
 
     @SerializedName("minecraft:wearable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var wearableData: ItemWearable? = null
         @MonsteraBuildSetter set
 
@@ -536,5 +573,17 @@ class BehItemComponents {
     @OptIn(MonsteraBuildSetter::class)
     fun wearable(data: ItemWearable.() -> Unit) {
         wearableData = (wearableData ?: ItemWearable()).apply(data)
+    }
+
+    @SerializedName("tags")
+    @Expose
+    var tags: MutableList<String>? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun tags(vararg tag: String) {
+        tags = (tags ?: mutableListOf()).apply {
+            addAll(tag)
+        }
     }
 }

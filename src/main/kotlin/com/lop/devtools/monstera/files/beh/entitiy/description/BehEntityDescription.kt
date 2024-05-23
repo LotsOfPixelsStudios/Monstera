@@ -1,16 +1,17 @@
 package com.lop.devtools.monstera.files.beh.entitiy.description
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.files.properties.types.GenericProperty
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class BehEntityDescription {
+open class BehEntityDescription: MonsteraRawFile() {
     @SerializedName("identifier")
     @Expose
     var identifier: String? = null
@@ -33,6 +34,7 @@ class BehEntityDescription {
 
     @SerializedName("scripts")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var scriptsData: BehEntityDescScripts? = null
         @MonsteraBuildSetter set
 
@@ -61,7 +63,7 @@ class BehEntityDescription {
 
     @SerializedName("properties")
     @Expose
-    var propertyData: MutableMap<String, GenericProperty<*>>? = null
+    var propertyData: MutableMap<String, Any>? = null
         @MonsteraBuildSetter set
 
     /**
@@ -87,11 +89,13 @@ class BehEntityDescription {
 
     @DebugMarker
     fun debugLogProperties() {
-        propertyData?.filter { it.value.default == null }?.forEach { (k, _) ->
+        propertyData?.filter {
+            (it.value as GenericProperty<*>).default == null
+        }?.forEach { (k, _) ->
             getMonsteraLogger(this.javaClass.name).warn("No default value for property '$k' given!")
         }
         propertyData?.forEach {
-            it.value.propertySpecificDebug()
+            (it.value as GenericProperty<*>).propertySpecificDebug()
         }
     }
 }

@@ -1,14 +1,16 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class Angry {
-
+class Angry : MonsteraRawFile() {
     @SerializedName("duration")
     @Expose
     var duration: Number? = null
@@ -20,7 +22,6 @@ class Angry {
     @SerializedName("broadcastRange")
     @Expose
     var broadcastRange: Number? = null
-
 
     @SerializedName("broadcast_filters")
     @Expose
@@ -45,6 +46,7 @@ class Angry {
 
     @SerializedName("calm_event")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var calmEventData: CalmEvent? = null
         @MonsteraBuildSetter set
 
@@ -67,14 +69,13 @@ class Angry {
     @Expose
     var durationDelta: Number? = null
 
-
     @SerializedName("angry_sound")
     @Expose
     var angrySound: String? = null
 
-
     @SerializedName("sound_interval")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var soundIntervalData: SoundInterval? = null
         @MonsteraBuildSetter set
 
@@ -97,16 +98,13 @@ class Angry {
     @Expose
     var broadcastAngerOnAttack: Boolean? = null
 
-
     @SerializedName("broadcast_anger_on_being_attacked")
     @Expose
     var broadcastAngerOnBeingAttacked: Boolean? = null
 
-
     @SerializedName("broadcast_targets")
     @Expose
     var broadcastTargetsData: MutableList<String>? = null
-
 
     @OptIn(MonsteraBuildSetter::class)
     @Components.VanillaComponentMarker
@@ -132,29 +130,23 @@ class Angry {
         filtersData = (filtersData ?: BehEntityFilter()).apply(value)
     }
 
-    class CalmEvent {
-
+    class CalmEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
 
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-
     }
 
-    class SoundInterval {
-
+    class SoundInterval : MonsteraRawFile() {
         @SerializedName("range_min")
         @Expose
         var rangeMin: Number? = null
 
-
         @SerializedName("range_max")
         @Expose
         var rangeMax: Number? = null
-
     }
 }

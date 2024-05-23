@@ -1,14 +1,18 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Healable {
+class Healable : MonsteraRawFile() {
     @SerializedName("items")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var itemsData: MutableList<Items>? = null
         @MonsteraBuildSetter set
 
@@ -53,15 +57,13 @@ class Healable {
         filtersData = (filtersData ?: BehEntityFilter()).apply(value)
     }
 
-    class Items {
+    class Items : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null
             
-
         @SerializedName("heal_amount")
         @Expose
         var healAmount: Number? = null
-            
     }
 }

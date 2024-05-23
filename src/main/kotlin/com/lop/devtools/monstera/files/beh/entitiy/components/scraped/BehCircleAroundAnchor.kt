@@ -2,40 +2,33 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
-import com.lop.devtools.monstera.files.beh.entitiy.components.Components
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class BehCircleAroundAnchor {
+class BehCircleAroundAnchor : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("radius_change")
     @Expose
     var radiusChange: Number? = null
         
-
     @SerializedName("radius_adjustment_chance")
     @Expose
     var radiusAdjustmentChance: Number? = null
         
-
     @SerializedName("height_adjustment_chance")
     @Expose
     var heightAdjustmentChance: Number? = null
         
-
     @SerializedName("goal_radius")
     @Expose
     var goalRadius: Number? = null
         
-
     @SerializedName("angle_change")
     @Expose
     var angleChange: Number? = null
         
-
     @SerializedName("radius_range")
     @Expose
     var radiusRangeData: MutableList<Number>? = null

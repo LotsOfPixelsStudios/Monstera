@@ -1,19 +1,23 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class Genetics {
+class Genetics : MonsteraRawFile() {
     @SerializedName("mutation_rate")
     @Expose
     var mutationRate: Number? = null
         
-
     @SerializedName("genes")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var genesData: MutableList<Genes>? = null
         @MonsteraBuildSetter set
 
@@ -32,19 +36,18 @@ class Genetics {
         genesData = (genesData ?: mutableListOf()).also { it.add(Genes().apply(value)) }
     }
 
-    class Genes {
+    class Genes : MonsteraRawFile() {
         @SerializedName("name")
         @Expose
         var name: String? = null
             
-
         @SerializedName("use_simplified_breeding")
         @Expose
         var useSimplifiedBreeding: Boolean? = null
             
-
         @SerializedName("allele_range")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var alleleRangeData: AlleleRange? = null
             @MonsteraBuildSetter set
 
@@ -65,6 +68,7 @@ class Genetics {
 
         @SerializedName("genetic_variants")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var geneticVariantsData: MutableList<GeneticVariants>? = null
             @MonsteraBuildSetter set
 
@@ -83,23 +87,20 @@ class Genetics {
         }
     }
 
-    class AlleleRange {
-
+    class AlleleRange : MonsteraRawFile() {
         @SerializedName("range_min")
         @Expose
         var rangeMin: Number? = null
-            
 
         @SerializedName("range_max")
         @Expose
         var rangeMax: Number? = null
-            
     }
 
     class GeneticVariants {
-
         @SerializedName("main_allele")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var mainAlleleData: MainAllele? = null
             @MonsteraBuildSetter set
 
@@ -120,6 +121,7 @@ class Genetics {
 
         @SerializedName("birth_event")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var birthEventData: BirthEvent? = null
             
 
@@ -139,29 +141,24 @@ class Genetics {
         }
     }
 
-    class MainAllele {
+    class MainAllele : MonsteraRawFile() {
 
         @SerializedName("range_min")
         @Expose
         var rangeMin: Number? = null
             
-
         @SerializedName("range_max")
         @Expose
         var rangeMax: Number? = null
-            
     }
 
-    class BirthEvent {
-
+    class BirthEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

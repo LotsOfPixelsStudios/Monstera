@@ -3,25 +3,23 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Lookat {
+class Lookat : MonsteraRawFile() {
     @SerializedName("search_radius")
     @Expose
     var searchRadius: Number? = null
         
-
     @SerializedName("set_target")
     @Expose
     var setTarget: Boolean? = null
         
-
     @SerializedName("look_cooldown")
     @Expose
     var lookCooldown: Number? = null
         
-
     @SerializedName("filters")
     @Expose
     var filtersData: BehEntityFilter? = null

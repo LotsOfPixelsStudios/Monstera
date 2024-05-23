@@ -1,3 +1,5 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
-class CanClimb
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class CanClimb : MonsteraRawFile()

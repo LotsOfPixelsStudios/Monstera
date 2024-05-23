@@ -1,16 +1,20 @@
 package com.lop.devtools.monstera.files.res.sounds
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class ResSoundDefs : MonsteraBuildableFile {
+class ResSoundDefs : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
         val selPath = path ?: Addon.active?.config?.paths?.resSounds ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for sound def file as no addon was initialized!")
@@ -38,6 +42,7 @@ class ResSoundDefs : MonsteraBuildableFile {
 
     @SerializedName("sound_definitions")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var soundDefinitions: MutableMap<String, ResSoundDef> = mutableMapOf()
         @MonsteraBuildSetter set
 

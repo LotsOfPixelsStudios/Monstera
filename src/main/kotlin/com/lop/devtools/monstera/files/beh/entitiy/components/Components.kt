@@ -2,12 +2,17 @@ package com.lop.devtools.monstera.files.beh.entitiy.components
 
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.*
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 
-class Components {
+open class Components : MonsteraRawFile() {
     @SerializedName("minecraft:is_hidden_when_invisible")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isHiddenWhenInvisibleData: IsHiddenWhenInvisible? = null
         @MonsteraBuildSetter set
 
@@ -26,6 +31,7 @@ class Components {
 
     @SerializedName("minecraft:type_family")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var typeFamilyData: TypeFamily? = null
         @MonsteraBuildSetter set
 
@@ -42,8 +48,21 @@ class Components {
         typeFamilyData = (typeFamilyData ?: TypeFamily()).apply(value)
     }
 
+    fun typeFamily(vararg values: String) {
+        typeFamily {
+            family(values.toList())
+        }
+    }
+
+    fun familyType(vararg values: String) {
+        typeFamily {
+            family(values.toList())
+        }
+    }
+
     @SerializedName("minecraft:collision_box")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var collisionBoxData: CollisionBox? = null
         @MonsteraBuildSetter set
 
@@ -64,6 +83,7 @@ class Components {
 
     @SerializedName("minecraft:balloonable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var balloonableData: Balloonable? = null
         @MonsteraBuildSetter set
 
@@ -83,6 +103,7 @@ class Components {
 
     @SerializedName("minecraft:breathable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var breathableData: Breathable? = null
         @MonsteraBuildSetter set
 
@@ -108,6 +129,7 @@ class Components {
 
     @SerializedName("minecraft:nameable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var nameableData: Nameable? = null
         @MonsteraBuildSetter set
 
@@ -128,6 +150,7 @@ class Components {
 
     @SerializedName("minecraft:leashable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var leashableData: Leashable? = null
         @MonsteraBuildSetter set
 
@@ -150,6 +173,7 @@ class Components {
 
     @SerializedName("minecraft:health")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var healthData: Health? = null
         @MonsteraBuildSetter set
 
@@ -170,6 +194,7 @@ class Components {
 
     @SerializedName("minecraft:hurt_on_condition")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var hurtOnConditionData: HurtOnCondition? = null
         @MonsteraBuildSetter set
 
@@ -188,6 +213,7 @@ class Components {
 
     @SerializedName("minecraft:damage_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var damageSensorData: DamageSensor? = null
         @MonsteraBuildSetter set
 
@@ -206,6 +232,7 @@ class Components {
 
     @SerializedName("minecraft:movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -224,6 +251,7 @@ class Components {
 
     @SerializedName("minecraft:flying_speed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var flyingSpeedData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -242,7 +270,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.hover")
     @Expose
-    var navigationHoverData: NavigationHover? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationHoverData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -261,12 +290,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationHover(value: NavigationHover.() -> Unit) {
-        navigationHoverData = (navigationHoverData ?: NavigationHover()).apply(value)
+    fun navigationHover(value: NavigationComp.() -> Unit) {
+        navigationHoverData = (navigationHoverData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.hover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementHoverData: MovementHover? = null
         @MonsteraBuildSetter set
 
@@ -285,6 +315,7 @@ class Components {
 
     @SerializedName("minecraft:follow_range")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var followRangeData: FollowRange? = null
         @MonsteraBuildSetter set
 
@@ -305,6 +336,7 @@ class Components {
 
     @SerializedName("minecraft:ambient_sound_interval")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var ambientSoundIntervalData: AmbientSoundInterval? = null
         @MonsteraBuildSetter set
 
@@ -326,6 +358,7 @@ class Components {
 
     @SerializedName("minecraft:jump.static")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var jumpStaticData: JumpStatic? = null
         @MonsteraBuildSetter set
 
@@ -345,6 +378,7 @@ class Components {
 
     @SerializedName("minecraft:can_fly")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canFlyData: CanFly? = null
         @MonsteraBuildSetter set
 
@@ -363,6 +397,7 @@ class Components {
 
     @SerializedName("minecraft:physics")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var physicsData: Physics? = null
         @MonsteraBuildSetter set
 
@@ -384,6 +419,7 @@ class Components {
 
     @SerializedName("minecraft:pushable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var pushableData: Pushable? = null
         @MonsteraBuildSetter set
 
@@ -404,6 +440,7 @@ class Components {
 
     @SerializedName("minecraft:vibration_listener")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var vibrationListenerData: VibrationListener? = null
         @MonsteraBuildSetter set
 
@@ -422,6 +459,7 @@ class Components {
 
     @SerializedName("minecraft:conditional_bandwidth_optimization")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var conditionalBandwidthOptimizationData: ConditionalBandwidthOptimization? = null
         @MonsteraBuildSetter set
 
@@ -441,6 +479,7 @@ class Components {
 
     @SerializedName("minecraft:game_event_movement_tracking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var gameEventMovementTrackingData: GameEventMovementTracking? = null
         @MonsteraBuildSetter set
 
@@ -462,6 +501,7 @@ class Components {
 
     @SerializedName("minecraft:inventory")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var inventoryData: Inventory? = null
         @MonsteraBuildSetter set
 
@@ -485,6 +525,7 @@ class Components {
 
     @SerializedName("minecraft:interact")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var interactData: Interact? = null
         @MonsteraBuildSetter set
 
@@ -492,6 +533,18 @@ class Components {
      * Defines interactions with this entity.
      * ```
      * interact {
+     *     interaction {
+     *         giveItem = true
+     *         takeItem = true
+     *         interactText = action.interact.allay
+     *         useItem = true
+     *         swing = true
+     *         playSound = "ignite"
+     *         equipItemSlot = 1
+     *         spawnEntities = ""
+     *         spawnItems("table_name") { pool { } }
+     *         onInteract { }
+     *     }
      * }
      *```
      */
@@ -503,6 +556,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.panic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPanicData: BehPanic? = null
         @MonsteraBuildSetter set
 
@@ -527,6 +581,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.go_and_give_items_to_noteblock")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGoAndGiveItemsToNoteblockData: BehGoAndGiveItemsToNoteblock? = null
         @MonsteraBuildSetter set
 
@@ -549,6 +604,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.go_and_give_items_to_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGoAndGiveItemsToOwnerData: BehGoAndGiveItemsToOwner? = null
         @MonsteraBuildSetter set
 
@@ -570,6 +626,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stay_near_noteblock")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStayNearNoteblockData: BehStayNearNoteblock? = null
         @MonsteraBuildSetter set
 
@@ -592,6 +649,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.follow_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowOwnerData: BehFollowOwner? = null
         @MonsteraBuildSetter set
 
@@ -616,6 +674,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.float")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFloatData: BehFloat? = null
         @MonsteraBuildSetter set
 
@@ -636,6 +695,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.look_at_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLookAtPlayerData: BehLookAtPlayer? = null
         @MonsteraBuildSetter set
 
@@ -659,6 +719,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_look_around")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomLookAroundData: BehRandomLookAround? = null
         @MonsteraBuildSetter set
 
@@ -679,6 +740,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_hover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomHoverData: BehRandomHover? = null
         @MonsteraBuildSetter set
 
@@ -702,6 +764,7 @@ class Components {
 
     @SerializedName("minecraft:timer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var timerData: Timer? = null
         @MonsteraBuildSetter set
 
@@ -723,6 +786,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.pickup_items")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPickupItemsData: BehPickupItems? = null
         @MonsteraBuildSetter set
 
@@ -751,6 +815,7 @@ class Components {
 
     @SerializedName("minecraft:knockback_resistance")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var knockbackResistanceData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -769,6 +834,7 @@ class Components {
 
     @SerializedName("minecraft:loot")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var lootData: Loot? = null
         @MonsteraBuildSetter set
 
@@ -788,6 +854,7 @@ class Components {
 
     @SerializedName("minecraft:persistent")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var persistentData: Persistent? = null
         @MonsteraBuildSetter set
 
@@ -806,6 +873,7 @@ class Components {
 
     @SerializedName("minecraft:projectile")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var projectileData: Projectile? = null
         @MonsteraBuildSetter set
 
@@ -846,7 +914,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.generic")
     @Expose
-    var navigationGenericData: NavigationGeneric? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationGenericData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -868,12 +937,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationGeneric(value: NavigationGeneric.() -> Unit) {
-        navigationGenericData = (navigationGenericData ?: NavigationGeneric()).apply(value)
+    fun navigationGeneric(value: NavigationComp.() -> Unit) {
+        navigationGenericData = (navigationGenericData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.amphibious")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementAmphibiousData: MovementAmphibious? = null
         @MonsteraBuildSetter set
 
@@ -893,6 +963,7 @@ class Components {
 
     @SerializedName("minecraft:underwater_movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var underwaterMovementData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -911,6 +982,7 @@ class Components {
 
     @SerializedName("minecraft:despawn")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var despawnData: Despawn? = null
         @MonsteraBuildSetter set
 
@@ -930,6 +1002,7 @@ class Components {
 
     @SerializedName("minecraft:attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var attackData: Attack? = null
         @MonsteraBuildSetter set
 
@@ -951,6 +1024,7 @@ class Components {
 
     @SerializedName("minecraft:combat_regeneration")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var combatRegenerationData: CombatRegeneration? = null
         @MonsteraBuildSetter set
 
@@ -969,6 +1043,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.play_dead")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPlayDeadData: BehPlayDead? = null
         @MonsteraBuildSetter set
 
@@ -992,6 +1067,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.tempt")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTemptData: BehTempt? = null
         @MonsteraBuildSetter set
 
@@ -1017,6 +1093,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.nearest_attackable_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behNearestAttackableTargetData: BehNearestAttackableTarget? = null
         @MonsteraBuildSetter set
 
@@ -1046,6 +1123,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.melee_box_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMeleeBoxAttackData: BehMeleeBoxAttack? = null
         @MonsteraBuildSetter set
 
@@ -1073,6 +1151,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_water")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToWaterData: BehMoveToWater? = null
         @MonsteraBuildSetter set
 
@@ -1096,6 +1175,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.swim_idle")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwimIdleData: BehSwimIdle? = null
         @MonsteraBuildSetter set
 
@@ -1117,6 +1197,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_swim")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomSwimData: BehRandomSwim? = null
         @MonsteraBuildSetter set
 
@@ -1141,6 +1222,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_stroll")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomStrollData: BehRandomStroll? = null
         @MonsteraBuildSetter set
 
@@ -1164,6 +1246,7 @@ class Components {
 
     @SerializedName("minecraft:attack_cooldown")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var attackCooldownData: AttackCooldown? = null
         @MonsteraBuildSetter set
 
@@ -1183,6 +1266,7 @@ class Components {
 
     @SerializedName("minecraft:variant")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var variantData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1201,6 +1285,7 @@ class Components {
 
     @SerializedName("minecraft:is_baby")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isBabyData: IsBaby? = null
         @MonsteraBuildSetter set
 
@@ -1219,6 +1304,7 @@ class Components {
 
     @SerializedName("minecraft:scale")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var scaleData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1237,6 +1323,7 @@ class Components {
 
     @SerializedName("minecraft:ageable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var ageableData: Ageable? = null
         @MonsteraBuildSetter set
 
@@ -1258,6 +1345,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.follow_parent")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowParentData: BehFollowParent? = null
         @MonsteraBuildSetter set
 
@@ -1278,6 +1366,7 @@ class Components {
 
     @SerializedName("minecraft:experience_reward")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var experienceRewardData: ExperienceReward? = null
         @MonsteraBuildSetter set
 
@@ -1298,6 +1387,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.breed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behBreedData: BehBreed? = null
         @MonsteraBuildSetter set
 
@@ -1318,6 +1408,7 @@ class Components {
 
     @SerializedName("minecraft:breedable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var breedableData: Breedable? = null
         @MonsteraBuildSetter set
 
@@ -1345,6 +1436,7 @@ class Components {
 
     @SerializedName("minecraft:environment_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var environmentSensorData: EnvironmentSensor? = null
         @MonsteraBuildSetter set
 
@@ -1363,6 +1455,7 @@ class Components {
 
     @SerializedName("minecraft:damage_over_time")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var damageOverTimeData: DamageOverTime? = null
         @MonsteraBuildSetter set
 
@@ -1383,6 +1476,7 @@ class Components {
 
     @SerializedName("minecraft:drying_out_timer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var dryingOutTimerData: DryingOutTimer? = null
         @MonsteraBuildSetter set
 
@@ -1403,7 +1497,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.float")
     @Expose
-    var navigationFloatData: NavigationFloat? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationFloatData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -1416,12 +1511,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationFloat(value: NavigationFloat.() -> Unit) {
-        navigationFloatData = (navigationFloatData ?: NavigationFloat()).apply(value)
+    fun navigationFloat(value: NavigationComp.() -> Unit) {
+        navigationFloatData = (navigationFloatData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.basic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementBasicData: MovementBasic? = null
         @MonsteraBuildSetter set
 
@@ -1441,6 +1537,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.float_wander")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFloatWanderData: BehFloatWander? = null
         @MonsteraBuildSetter set
 
@@ -1465,6 +1562,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_towards_home_restriction")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveTowardsHomeRestrictionData: BehMoveTowardsHomeRestriction? = null
         @MonsteraBuildSetter set
 
@@ -1486,6 +1584,7 @@ class Components {
 
     @SerializedName("minecraft:on_target_acquired")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onTargetAcquiredData: OnTargetAcquired? = null
         @MonsteraBuildSetter set
 
@@ -1506,6 +1605,7 @@ class Components {
 
     @SerializedName("minecraft:home")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var homeData: Home? = null
         @MonsteraBuildSetter set
 
@@ -1525,6 +1625,7 @@ class Components {
 
     @SerializedName("minecraft:block_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var blockSensorData: BlockSensor? = null
         @MonsteraBuildSetter set
 
@@ -1544,6 +1645,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.hurt_by_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behHurtByTargetData: BehHurtByTarget? = null
         @MonsteraBuildSetter set
 
@@ -1565,6 +1667,7 @@ class Components {
 
     @SerializedName("minecraft:angry")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var angryData: Angry? = null
         @MonsteraBuildSetter set
 
@@ -1590,6 +1693,7 @@ class Components {
 
     @SerializedName("minecraft:mark_variant")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var markVariantData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1608,6 +1712,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToBlockData: BehMoveToBlock? = null
         @MonsteraBuildSetter set
 
@@ -1634,6 +1739,7 @@ class Components {
 
     @SerializedName("minecraft:grows_crop")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var growsCropData: GrowsCrop? = null
         @MonsteraBuildSetter set
 
@@ -1654,6 +1760,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.go_home")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGoHomeData: BehGoHome? = null
         @MonsteraBuildSetter set
 
@@ -1676,7 +1783,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.walk")
     @Expose
-    var navigationWalkData: NavigationWalk? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationWalkData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -1702,12 +1810,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationWalk(value: NavigationWalk.() -> Unit) {
-        navigationWalkData = (navigationWalkData ?: NavigationWalk()).apply(value)
+    fun navigationWalk(value: NavigationComp.() -> Unit) {
+        navigationWalkData = (navigationWalkData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:can_climb")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canClimbData: CanClimb? = null
         @MonsteraBuildSetter set
 
@@ -1726,6 +1835,7 @@ class Components {
 
     @SerializedName("minecraft:fire_immune")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var fireImmuneData: FireImmune? = null
         @MonsteraBuildSetter set
 
@@ -1744,6 +1854,7 @@ class Components {
 
     @SerializedName("minecraft:on_hurt")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onHurtData: OnHurt? = null
         @MonsteraBuildSetter set
 
@@ -1764,6 +1875,7 @@ class Components {
 
     @SerializedName("minecraft:on_hurt_by_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onHurtByPlayerData: OnHurtByPlayer? = null
         @MonsteraBuildSetter set
 
@@ -1784,6 +1896,7 @@ class Components {
 
     @SerializedName("minecraft:target_nearby_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var targetNearbySensorData: TargetNearbySensor? = null
         @MonsteraBuildSetter set
 
@@ -1805,6 +1918,7 @@ class Components {
 
     @SerializedName("minecraft:shooter")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var shooterData: Shooter? = null
         @MonsteraBuildSetter set
 
@@ -1829,6 +1943,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.ranged_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRangedAttackData: BehRangedAttack? = null
         @MonsteraBuildSetter set
 
@@ -1852,14 +1967,16 @@ class Components {
      * }
      *```
      */
-    @OptIn(MonsteraBuildSetter::class)
+    @OptIn(MonsteraBuildSetter::class, DebugMarker::class)
     @VanillaComponentMarker
     fun behRangedAttack(value: BehRangedAttack.() -> Unit) {
         behRangedAttackData = (behRangedAttackData ?: BehRangedAttack()).apply(value)
+        behRangedAttackData?.verify()
     }
 
     @SerializedName("minecraft:is_stackable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isStackableData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -1878,6 +1995,7 @@ class Components {
 
     @SerializedName("minecraft:buoyant")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var buoyantData: Buoyant? = null
         @MonsteraBuildSetter set
 
@@ -1902,6 +2020,7 @@ class Components {
 
     @SerializedName("minecraft:inside_block_notifier")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var insideBlockNotifierData: InsideBlockNotifier? = null
         @MonsteraBuildSetter set
 
@@ -1920,6 +2039,7 @@ class Components {
 
     @SerializedName("minecraft:rideable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var rideableData: Rideable? = null
         @MonsteraBuildSetter set
 
@@ -1943,6 +2063,7 @@ class Components {
 
     @SerializedName("minecraft:out_of_control")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var outOfControlData: OutOfControl? = null
         @MonsteraBuildSetter set
 
@@ -1961,6 +2082,7 @@ class Components {
 
     @SerializedName("minecraft:is_tamed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isTamedData: IsTamed? = null
         @MonsteraBuildSetter set
 
@@ -1979,6 +2101,7 @@ class Components {
 
     @SerializedName("minecraft:healable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var healableData: Healable? = null
         @MonsteraBuildSetter set
 
@@ -1998,6 +2121,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_look_around_and_sit")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomLookAroundAndSitData: BehRandomLookAroundAndSit? = null
         @MonsteraBuildSetter set
 
@@ -2027,6 +2151,7 @@ class Components {
 
     @SerializedName("minecraft:variable_max_auto_step")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var variableMaxAutoStepData: VariableMaxAutoStep? = null
         @MonsteraBuildSetter set
 
@@ -2048,6 +2173,7 @@ class Components {
 
     @SerializedName("minecraft:is_saddled")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isSaddledData: IsSaddled? = null
         @MonsteraBuildSetter set
 
@@ -2066,6 +2192,7 @@ class Components {
 
     @SerializedName("minecraft:input_ground_controlled")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var inputGroundControlledData: InputGroundControlled? = null
         @MonsteraBuildSetter set
 
@@ -2084,6 +2211,7 @@ class Components {
 
     @SerializedName("minecraft:dash")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var dashData: Dash? = null
         @MonsteraBuildSetter set
 
@@ -2105,6 +2233,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.player_ride_tamed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPlayerRideTamedData: BehPlayerRideTamed? = null
         @MonsteraBuildSetter set
 
@@ -2123,6 +2252,7 @@ class Components {
 
     @SerializedName("minecraft:equippable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var equippableData: Equippable? = null
         @MonsteraBuildSetter set
 
@@ -2141,6 +2271,7 @@ class Components {
 
     @SerializedName("minecraft:attack_damage")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var attackDamageData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -2159,6 +2290,7 @@ class Components {
 
     @SerializedName("minecraft:dweller")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var dwellerData: Dweller? = null
         @MonsteraBuildSetter set
 
@@ -2185,6 +2317,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.mount_pathing")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMountPathingData: BehMountPathing? = null
         @MonsteraBuildSetter set
 
@@ -2207,6 +2340,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.leap_at_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLeapAtTargetData: BehLeapAtTarget? = null
         @MonsteraBuildSetter set
 
@@ -2229,6 +2363,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.ocelotattack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOcelotattackData: BehOcelotattack? = null
         @MonsteraBuildSetter set
 
@@ -2258,6 +2393,7 @@ class Components {
 
     @SerializedName("minecraft:tameable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var tameableData: Tameable? = null
         @MonsteraBuildSetter set
 
@@ -2277,6 +2413,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.avoid_mob_type")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behAvoidMobTypeData: BehAvoidMobType? = null
         @MonsteraBuildSetter set
 
@@ -2302,6 +2439,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_towards_dwelling_restriction")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveTowardsDwellingRestrictionData: BehMoveTowardsDwellingRestriction? = null
         @MonsteraBuildSetter set
 
@@ -2323,6 +2461,7 @@ class Components {
 
     @SerializedName("minecraft:color")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var colorData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -2341,6 +2480,7 @@ class Components {
 
     @SerializedName("minecraft:sittable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var sittableData: Sittable? = null
         @MonsteraBuildSetter set
 
@@ -2359,6 +2499,7 @@ class Components {
 
     @SerializedName("minecraft:is_dyeable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isDyeableData: IsDyeable? = null
         @MonsteraBuildSetter set
 
@@ -2378,6 +2519,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stay_while_sitting")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStayWhileSittingData: BehStayWhileSitting? = null
         @MonsteraBuildSetter set
 
@@ -2397,6 +2539,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.ocelot_sit_on_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOcelotSitOnBlockData: BehOcelotSitOnBlock? = null
         @MonsteraBuildSetter set
 
@@ -2417,6 +2560,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.pet_sleep_with_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPetSleepWithOwnerData: BehPetSleepWithOwner? = null
         @MonsteraBuildSetter set
 
@@ -2440,6 +2584,7 @@ class Components {
 
     @SerializedName("minecraft:on_wake_with_owner")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onWakeWithOwnerData: OnWakeWithOwner? = null
         @MonsteraBuildSetter set
 
@@ -2460,6 +2605,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.drop_item_for")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDropItemForData: BehDropItemFor? = null
         @MonsteraBuildSetter set
 
@@ -2491,7 +2637,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.climb")
     @Expose
-    var navigationClimbData: NavigationClimb? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationClimbData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -2504,12 +2651,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationClimb(value: NavigationClimb.() -> Unit) {
-        navigationClimbData = (navigationClimbData ?: NavigationClimb()).apply(value)
+    fun navigationClimb(value: NavigationComp.() -> Unit) {
+        navigationClimbData = (navigationClimbData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:addrider")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var addriderData: Addrider? = null
         @MonsteraBuildSetter set
 
@@ -2530,6 +2678,7 @@ class Components {
 
     @SerializedName("minecraft:rail_movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var railMovementData: RailMovement? = null
         @MonsteraBuildSetter set
 
@@ -2548,6 +2697,7 @@ class Components {
 
     @SerializedName("minecraft:spawn_entity")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var spawnEntityData: SpawnEntity? = null
         @MonsteraBuildSetter set
 
@@ -2566,6 +2716,7 @@ class Components {
 
     @SerializedName("minecraft:rail_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var railSensorData: RailSensor? = null
         @MonsteraBuildSetter set
 
@@ -2589,6 +2740,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.swell")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwellData: BehSwell? = null
         @MonsteraBuildSetter set
 
@@ -2610,6 +2762,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.melee_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMeleeAttackData: BehMeleeAttack? = null
         @MonsteraBuildSetter set
 
@@ -2632,6 +2785,7 @@ class Components {
 
     @SerializedName("minecraft:on_target_escape")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onTargetEscapeData: OnTargetEscape? = null
         @MonsteraBuildSetter set
 
@@ -2652,6 +2806,7 @@ class Components {
 
     @SerializedName("minecraft:explode")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var explodeData: Explode? = null
         @MonsteraBuildSetter set
 
@@ -2677,6 +2832,7 @@ class Components {
 
     @SerializedName("minecraft:is_charged")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isChargedData: IsCharged? = null
         @MonsteraBuildSetter set
 
@@ -2695,6 +2851,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.swim_with_entity")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwimWithEntityData: BehSwimWithEntity? = null
         @MonsteraBuildSetter set
 
@@ -2723,6 +2880,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_breach")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomBreachData: BehRandomBreach? = null
         @MonsteraBuildSetter set
 
@@ -2745,6 +2903,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.find_underwater_treasure")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFindUnderwaterTreasureData: BehFindUnderwaterTreasure? = null
         @MonsteraBuildSetter set
 
@@ -2767,6 +2926,7 @@ class Components {
 
     @SerializedName("minecraft:flocking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var flockingData: Flocking? = null
         @MonsteraBuildSetter set
 
@@ -2803,6 +2963,7 @@ class Components {
 
     @SerializedName("minecraft:bribeable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var bribeableData: Bribeable? = null
         @MonsteraBuildSetter set
 
@@ -2821,6 +2982,7 @@ class Components {
 
     @SerializedName("minecraft:horse.jump_strength")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var horseJumpStrengthData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -2839,6 +3001,7 @@ class Components {
 
     @SerializedName("minecraft:scale_by_age")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var scaleByAgeData: ScaleByAge? = null
         @MonsteraBuildSetter set
 
@@ -2859,6 +3022,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.run_around_like_crazy")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRunAroundLikeCrazyData: BehRunAroundLikeCrazy? = null
         @MonsteraBuildSetter set
 
@@ -2879,6 +3043,7 @@ class Components {
 
     @SerializedName("minecraft:tamemount")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var tamemountData: Tamemount? = null
         @MonsteraBuildSetter set
 
@@ -2901,6 +3066,7 @@ class Components {
 
     @SerializedName("minecraft:is_chested")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isChestedData: IsChested? = null
         @MonsteraBuildSetter set
 
@@ -2919,6 +3085,7 @@ class Components {
 
     @SerializedName("minecraft:can_power_jump")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canPowerJumpData: CanPowerJump? = null
         @MonsteraBuildSetter set
 
@@ -2937,6 +3104,7 @@ class Components {
 
     @SerializedName("minecraft:equip_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var equipItemData: EquipItem? = null
         @MonsteraBuildSetter set
 
@@ -2955,6 +3123,7 @@ class Components {
 
     @SerializedName("minecraft:movement.generic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementGenericData: MovementGeneric? = null
         @MonsteraBuildSetter set
 
@@ -2973,6 +3142,7 @@ class Components {
 
     @SerializedName("minecraft:burns_in_daylight")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var burnsInDaylightData: BurnsInDaylight? = null
         @MonsteraBuildSetter set
 
@@ -2991,6 +3161,7 @@ class Components {
 
     @SerializedName("minecraft:shareables")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var shareablesData: Shareables? = null
         @MonsteraBuildSetter set
 
@@ -3012,6 +3183,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.flee_sun")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFleeSunData: BehFleeSun? = null
         @MonsteraBuildSetter set
 
@@ -3032,6 +3204,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.equip_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEquipItemData: BehEquipItem? = null
         @MonsteraBuildSetter set
 
@@ -3051,6 +3224,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stomp_turtle_egg")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStompTurtleEggData: BehStompTurtleEgg? = null
         @MonsteraBuildSetter set
 
@@ -3075,6 +3249,7 @@ class Components {
 
     @SerializedName("minecraft:equipment")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var equipmentData: Equipment? = null
         @MonsteraBuildSetter set
 
@@ -3094,6 +3269,7 @@ class Components {
 
     @SerializedName("minecraft:annotation.break_door")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var annotationBreakDoorData: AnnotationBreakDoor? = null
         @MonsteraBuildSetter set
 
@@ -3114,6 +3290,7 @@ class Components {
 
     @SerializedName("minecraft:movement.sway")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementSwayData: MovementSway? = null
         @MonsteraBuildSetter set
 
@@ -3133,6 +3310,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.guardian_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behGuardianAttackData: BehGuardianAttack? = null
         @MonsteraBuildSetter set
 
@@ -3152,6 +3330,7 @@ class Components {
 
     @SerializedName("minecraft:teleport")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var teleportData: Teleport? = null
         @MonsteraBuildSetter set
 
@@ -3175,6 +3354,7 @@ class Components {
 
     @SerializedName("minecraft:lookat")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var lookatData: Lookat? = null
         @MonsteraBuildSetter set
 
@@ -3196,6 +3376,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.enderman_leave_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEndermanLeaveBlockData: BehEndermanLeaveBlock? = null
         @MonsteraBuildSetter set
 
@@ -3215,6 +3396,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.enderman_take_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEndermanTakeBlockData: BehEndermanTakeBlock? = null
         @MonsteraBuildSetter set
 
@@ -3234,6 +3416,7 @@ class Components {
 
     @SerializedName("minecraft:block_climber")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var blockClimberData: BlockClimber? = null
         @MonsteraBuildSetter set
 
@@ -3252,6 +3435,7 @@ class Components {
 
     @SerializedName("minecraft:boss")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var bossData: Boss? = null
         @MonsteraBuildSetter set
 
@@ -3272,6 +3456,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonlanding")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonlandingData: BehDragonlanding? = null
         @MonsteraBuildSetter set
 
@@ -3291,6 +3476,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonflaming")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonflamingData: BehDragonflaming? = null
         @MonsteraBuildSetter set
 
@@ -3310,6 +3496,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonscanning")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonscanningData: BehDragonscanning? = null
         @MonsteraBuildSetter set
 
@@ -3329,6 +3516,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragontakeoff")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragontakeoffData: BehDragontakeoff? = null
         @MonsteraBuildSetter set
 
@@ -3348,6 +3536,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonchargeplayer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonchargeplayerData: BehDragonchargeplayer? = null
         @MonsteraBuildSetter set
 
@@ -3367,6 +3556,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonstrafeplayer")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonstrafeplayerData: BehDragonstrafeplayer? = null
         @MonsteraBuildSetter set
 
@@ -3386,6 +3576,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragonholdingpattern")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragonholdingpatternData: BehDragonholdingpattern? = null
         @MonsteraBuildSetter set
 
@@ -3405,6 +3596,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dragondeath")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDragondeathData: BehDragondeath? = null
         @MonsteraBuildSetter set
 
@@ -3424,6 +3616,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.summon_entity")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSummonEntityData: BehSummonEntity? = null
         @MonsteraBuildSetter set
 
@@ -3443,6 +3636,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.send_event")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSendEventData: BehSendEvent? = null
         @MonsteraBuildSetter set
 
@@ -3462,6 +3656,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.look_at_entity")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLookAtEntityData: BehLookAtEntity? = null
         @MonsteraBuildSetter set
 
@@ -3484,6 +3679,7 @@ class Components {
 
     @SerializedName("minecraft:can_join_raid")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var canJoinRaidData: CanJoinRaid? = null
         @MonsteraBuildSetter set
 
@@ -3502,6 +3698,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.celebrate")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behCelebrateData: BehCelebrate? = null
         @MonsteraBuildSetter set
 
@@ -3523,6 +3720,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_village")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToVillageData: BehMoveToVillage? = null
         @MonsteraBuildSetter set
 
@@ -3544,6 +3742,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.swim_wander")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwimWanderData: BehSwimWander? = null
         @MonsteraBuildSetter set
 
@@ -3567,6 +3766,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stalk_and_pounce_on_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStalkAndPounceOnTargetData: BehStalkAndPounceOnTarget? = null
         @MonsteraBuildSetter set
 
@@ -3594,6 +3794,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.eat_carried_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEatCarriedItemData: BehEatCarriedItem? = null
         @MonsteraBuildSetter set
 
@@ -3614,6 +3815,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.raid_garden")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRaidGardenData: BehRaidGarden? = null
         @MonsteraBuildSetter set
 
@@ -3639,6 +3841,7 @@ class Components {
 
     @SerializedName("minecraft:scheduler")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var schedulerData: Scheduler? = null
         @MonsteraBuildSetter set
 
@@ -3659,6 +3862,7 @@ class Components {
 
     @SerializedName("minecraft:trust")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var trustData: Trust? = null
         @MonsteraBuildSetter set
 
@@ -3677,6 +3881,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.defend_trusted_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDefendTrustedTargetData: BehDefendTrustedTarget? = null
         @MonsteraBuildSetter set
 
@@ -3700,6 +3905,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.nearest_prioritized_attackable_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behNearestPrioritizedAttackableTargetData: BehNearestPrioritizedAttackableTarget? = null
         @MonsteraBuildSetter set
 
@@ -3727,6 +3933,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.find_cover")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFindCoverData: BehFindCover? = null
         @MonsteraBuildSetter set
 
@@ -3748,6 +3955,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.nap")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behNapData: BehNap? = null
         @MonsteraBuildSetter set
 
@@ -3771,6 +3979,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stroll_towards_village")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStrollTowardsVillageData: BehStrollTowardsVillage? = null
         @MonsteraBuildSetter set
 
@@ -3795,6 +4004,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_land")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToLandData: BehMoveToLand? = null
         @MonsteraBuildSetter set
 
@@ -3818,6 +4028,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.eat_mob")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEatMobData: BehEatMob? = null
         @MonsteraBuildSetter set
 
@@ -3843,6 +4054,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.croak")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behCroakData: BehCroak? = null
         @MonsteraBuildSetter set
 
@@ -3863,6 +4075,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.jump_to_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behJumpToBlockData: BehJumpToBlock? = null
         @MonsteraBuildSetter set
 
@@ -3889,6 +4102,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.lay_egg")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLayEggData: BehLayEgg? = null
         @MonsteraBuildSetter set
 
@@ -3917,6 +4131,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.squid_move_away_from_ground")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSquidMoveAwayFromGroundData: BehSquidMoveAwayFromGround? = null
         @MonsteraBuildSetter set
 
@@ -3936,6 +4151,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.squid_flee")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSquidFleeData: BehSquidFlee? = null
         @MonsteraBuildSetter set
 
@@ -3955,6 +4171,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.squid_idle")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSquidIdleData: BehSquidIdle? = null
         @MonsteraBuildSetter set
 
@@ -3974,6 +4191,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.squid_dive")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSquidDiveData: BehSquidDive? = null
         @MonsteraBuildSetter set
 
@@ -3993,6 +4211,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.squid_out_of_water")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSquidOutOfWaterData: BehSquidOutOfWater? = null
         @MonsteraBuildSetter set
 
@@ -4012,6 +4231,7 @@ class Components {
 
     @SerializedName("minecraft:genetics")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var geneticsData: Genetics? = null
         @MonsteraBuildSetter set
 
@@ -4031,6 +4251,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.ram_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRamAttackData: BehRamAttack? = null
         @MonsteraBuildSetter set
 
@@ -4058,6 +4279,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.avoid_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behAvoidBlockData: BehAvoidBlock? = null
         @MonsteraBuildSetter set
 
@@ -4084,6 +4306,7 @@ class Components {
 
     @SerializedName("minecraft:is_shaking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isShakingData: IsShaking? = null
         @MonsteraBuildSetter set
 
@@ -4102,6 +4325,7 @@ class Components {
 
     @SerializedName("minecraft:transformation")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var transformationData: Transformation? = null
         @MonsteraBuildSetter set
 
@@ -4127,6 +4351,7 @@ class Components {
 
     @SerializedName("minecraft:custom_hit_test")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var customHitTestData: CustomHitTest? = null
         @MonsteraBuildSetter set
 
@@ -4145,6 +4370,7 @@ class Components {
 
     @SerializedName("minecraft:group_size")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var groupSizeData: GroupSize? = null
         @MonsteraBuildSetter set
 
@@ -4164,6 +4390,7 @@ class Components {
 
     @SerializedName("minecraft:item_hopper")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var itemHopperData: ItemHopper? = null
         @MonsteraBuildSetter set
 
@@ -4182,6 +4409,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.find_mount")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFindMountData: BehFindMount? = null
         @MonsteraBuildSetter set
 
@@ -4207,6 +4435,7 @@ class Components {
 
     @SerializedName("minecraft:preferred_path")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var preferredPathData: PreferredPath? = null
         @MonsteraBuildSetter set
 
@@ -4228,6 +4457,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.target_when_pushed")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTargetWhenPushedData: BehTargetWhenPushed? = null
         @MonsteraBuildSetter set
 
@@ -4248,6 +4478,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_towards_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveTowardsTargetData: BehMoveTowardsTarget? = null
         @MonsteraBuildSetter set
 
@@ -4269,6 +4500,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_through_village")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveThroughVillageData: BehMoveThroughVillage? = null
         @MonsteraBuildSetter set
 
@@ -4290,6 +4522,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.offer_flower")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOfferFlowerData: BehOfferFlower? = null
         @MonsteraBuildSetter set
 
@@ -4309,6 +4542,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.defend_village_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDefendVillageTargetData: BehDefendVillageTarget? = null
         @MonsteraBuildSetter set
 
@@ -4330,6 +4564,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.follow_caravan")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowCaravanData: BehFollowCaravan? = null
         @MonsteraBuildSetter set
 
@@ -4351,6 +4586,7 @@ class Components {
 
     @SerializedName("minecraft:strength")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var strengthData: Strength? = null
         @MonsteraBuildSetter set
 
@@ -4371,6 +4607,7 @@ class Components {
 
     @SerializedName("minecraft:area_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var areaAttackData: AreaAttack? = null
         @MonsteraBuildSetter set
 
@@ -4393,6 +4630,7 @@ class Components {
 
     @SerializedName("minecraft:movement.jump")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementJumpData: MovementJump? = null
         @MonsteraBuildSetter set
 
@@ -4411,6 +4649,7 @@ class Components {
 
     @SerializedName("minecraft:trusting")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var trustingData: Trusting? = null
         @MonsteraBuildSetter set
 
@@ -4430,6 +4669,7 @@ class Components {
 
     @SerializedName("minecraft:giveable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var giveableData: Giveable? = null
         @MonsteraBuildSetter set
 
@@ -4448,6 +4688,7 @@ class Components {
 
     @SerializedName("minecraft:water_movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var waterMovementData: WaterMovement? = null
         @MonsteraBuildSetter set
 
@@ -4467,6 +4708,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_sitting")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomSittingData: BehRandomSitting? = null
         @MonsteraBuildSetter set
 
@@ -4490,6 +4732,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.snacking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSnackingData: BehSnacking? = null
         @MonsteraBuildSetter set
 
@@ -4512,6 +4755,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.roll")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRollData: BehRoll? = null
         @MonsteraBuildSetter set
 
@@ -4532,6 +4776,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.sneeze")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSneezeData: BehSneeze? = null
         @MonsteraBuildSetter set
 
@@ -4559,6 +4804,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.lay_down")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLayDownData: BehLayDown? = null
         @MonsteraBuildSetter set
 
@@ -4580,6 +4826,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.scared")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behScaredData: BehScared? = null
         @MonsteraBuildSetter set
 
@@ -4600,6 +4847,7 @@ class Components {
 
     @SerializedName("minecraft:on_friendly_anger")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onFriendlyAngerData: OnFriendlyAnger? = null
         @MonsteraBuildSetter set
 
@@ -4620,7 +4868,8 @@ class Components {
 
     @SerializedName("minecraft:navigation.fly")
     @Expose
-    var navigationFlyData: NavigationFly? = null
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var navigationFlyData: NavigationComp? = null
         @MonsteraBuildSetter set
 
     /**
@@ -4634,12 +4883,13 @@ class Components {
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
-    fun navigationFly(value: NavigationFly.() -> Unit) {
-        navigationFlyData = (navigationFlyData ?: NavigationFly()).apply(value)
+    fun navigationFly(value: NavigationComp.() -> Unit) {
+        navigationFlyData = (navigationFlyData ?: NavigationComp()).apply(value)
     }
 
     @SerializedName("minecraft:movement.fly")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementFlyData: MovementFly? = null
         @MonsteraBuildSetter set
 
@@ -4658,6 +4908,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_fly")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomFlyData: BehRandomFly? = null
         @MonsteraBuildSetter set
 
@@ -4683,6 +4934,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.follow_mob")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowMobData: BehFollowMob? = null
         @MonsteraBuildSetter set
 
@@ -4705,6 +4957,7 @@ class Components {
 
     @SerializedName("minecraft:entity_sensor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var entitySensorData: EntitySensor? = null
         @MonsteraBuildSetter set
 
@@ -4728,6 +4981,7 @@ class Components {
 
     @SerializedName("minecraft:movement.glide")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementGlideData: MovementGlide? = null
         @MonsteraBuildSetter set
 
@@ -4748,6 +5002,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.swoop_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSwoopAttackData: BehSwoopAttack? = null
         @MonsteraBuildSetter set
 
@@ -4769,6 +5024,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.circle_around_anchor")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behCircleAroundAnchorData: BehCircleAroundAnchor? = null
         @MonsteraBuildSetter set
 
@@ -4793,6 +5049,7 @@ class Components {
 
     @SerializedName("minecraft:boostable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var boostableData: Boostable? = null
         @MonsteraBuildSetter set
 
@@ -4813,6 +5070,7 @@ class Components {
 
     @SerializedName("minecraft:item_controllable")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var itemControllableData: ItemControllable? = null
         @MonsteraBuildSetter set
 
@@ -4832,6 +5090,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.controlled_by_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behControlledByPlayerData: BehControlledByPlayer? = null
         @MonsteraBuildSetter set
 
@@ -4852,6 +5111,7 @@ class Components {
 
     @SerializedName("minecraft:admire_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var admireItemData: AdmireItem? = null
         @MonsteraBuildSetter set
 
@@ -4872,6 +5132,7 @@ class Components {
 
     @SerializedName("minecraft:annotation.open_door")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var annotationOpenDoorData: AnnotationOpenDoor? = null
         @MonsteraBuildSetter set
 
@@ -4890,6 +5151,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.admire_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behAdmireItemData: BehAdmireItem? = null
         @MonsteraBuildSetter set
 
@@ -4910,6 +5172,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.barter")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behBarterData: BehBarter? = null
         @MonsteraBuildSetter set
 
@@ -4929,6 +5192,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.charge_held_item")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behChargeHeldItemData: BehChargeHeldItem? = null
         @MonsteraBuildSetter set
 
@@ -4948,6 +5212,7 @@ class Components {
 
     @SerializedName("minecraft:barter")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var barterData: Barter? = null
         @MonsteraBuildSetter set
 
@@ -4969,6 +5234,7 @@ class Components {
 
     @SerializedName("minecraft:celebrate_hunt")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var celebrateHuntData: CelebrateHunt? = null
         @MonsteraBuildSetter set
 
@@ -4991,6 +5257,7 @@ class Components {
 
     @SerializedName("minecraft:is_illager_captain")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isIllagerCaptainData: IsIllagerCaptain? = null
         @MonsteraBuildSetter set
 
@@ -5009,6 +5276,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.hold_ground")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behHoldGroundData: BehHoldGround? = null
         @MonsteraBuildSetter set
 
@@ -5031,6 +5299,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_random_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToRandomBlockData: BehMoveToRandomBlock? = null
         @MonsteraBuildSetter set
 
@@ -5053,6 +5322,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.follow_target_captain")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFollowTargetCaptainData: BehFollowTargetCaptain? = null
         @MonsteraBuildSetter set
 
@@ -5075,6 +5345,7 @@ class Components {
 
     @SerializedName("minecraft:exhaustion_values")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var exhaustionValuesData: ExhaustionValues? = null
         @MonsteraBuildSetter set
 
@@ -5102,6 +5373,7 @@ class Components {
 
     @SerializedName("minecraft:player.saturation")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var playerSaturationData: PlayerSaturation? = null
         @MonsteraBuildSetter set
 
@@ -5122,6 +5394,7 @@ class Components {
 
     @SerializedName("minecraft:player.exhaustion")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var playerExhaustionData: PlayerExhaustion? = null
         @MonsteraBuildSetter set
 
@@ -5142,6 +5415,7 @@ class Components {
 
     @SerializedName("minecraft:player.level")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var playerLevelData: PlayerLevel? = null
         @MonsteraBuildSetter set
 
@@ -5162,6 +5436,7 @@ class Components {
 
     @SerializedName("minecraft:player.experience")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var playerExperienceData: PlayerExperience? = null
         @MonsteraBuildSetter set
 
@@ -5182,6 +5457,7 @@ class Components {
 
     @SerializedName("minecraft:insomnia")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var insomniaData: Insomnia? = null
         @MonsteraBuildSetter set
 
@@ -5201,6 +5477,7 @@ class Components {
 
     @SerializedName("minecraft:spell_effects")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var spellEffectsData: SpellEffects? = null
         @MonsteraBuildSetter set
 
@@ -5220,6 +5497,7 @@ class Components {
 
     @SerializedName("minecraft:raid_trigger")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var raidTriggerData: RaidTrigger? = null
         @MonsteraBuildSetter set
 
@@ -5238,6 +5516,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.stomp_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behStompAttackData: BehStompAttack? = null
         @MonsteraBuildSetter set
 
@@ -5261,6 +5540,7 @@ class Components {
 
     @SerializedName("minecraft:mob_effect")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var mobEffectData: MobEffect? = null
         @MonsteraBuildSetter set
 
@@ -5283,6 +5563,7 @@ class Components {
 
     @SerializedName("minecraft:movement.skip")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementSkipData: MovementSkip? = null
         @MonsteraBuildSetter set
 
@@ -5301,6 +5582,7 @@ class Components {
 
     @SerializedName("minecraft:jump.dynamic")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var jumpDynamicData: JumpDynamic? = null
         @MonsteraBuildSetter set
 
@@ -5319,6 +5601,7 @@ class Components {
 
     @SerializedName("minecraft:ravager_blocked")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var ravagerBlockedData: RavagerBlocked? = null
         @MonsteraBuildSetter set
 
@@ -5338,6 +5621,7 @@ class Components {
 
     @SerializedName("minecraft:break_blocks")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var breakBlocksData: BreakBlocks? = null
         @MonsteraBuildSetter set
 
@@ -5356,6 +5640,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.delayed_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDelayedAttackData: BehDelayedAttack? = null
         @MonsteraBuildSetter set
 
@@ -5383,6 +5668,7 @@ class Components {
 
     @SerializedName("minecraft:is_stunned")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isStunnedData: IsStunned? = null
         @MonsteraBuildSetter set
 
@@ -5401,6 +5687,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.knockback_roar")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behKnockbackRoarData: BehKnockbackRoar? = null
         @MonsteraBuildSetter set
 
@@ -5427,6 +5714,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.eat_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEatBlockData: BehEatBlock? = null
         @MonsteraBuildSetter set
 
@@ -5448,6 +5736,7 @@ class Components {
 
     @SerializedName("minecraft:is_sheared")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isShearedData: IsSheared? = null
         @MonsteraBuildSetter set
 
@@ -5466,6 +5755,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.silverfish_merge_with_stone")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSilverfishMergeWithStoneData: BehSilverfishMergeWithStone? = null
         @MonsteraBuildSetter set
 
@@ -5486,6 +5776,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.silverfish_wake_up_friends")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSilverfishWakeUpFriendsData: BehSilverfishWakeUpFriends? = null
         @MonsteraBuildSetter set
 
@@ -5505,6 +5796,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.skeleton_horse_trap")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSkeletonHorseTrapData: BehSkeletonHorseTrap? = null
         @MonsteraBuildSetter set
 
@@ -5526,6 +5818,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.slime_float")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSlimeFloatData: BehSlimeFloat? = null
         @MonsteraBuildSetter set
 
@@ -5547,6 +5840,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.slime_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSlimeAttackData: BehSlimeAttack? = null
         @MonsteraBuildSetter set
 
@@ -5566,6 +5860,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.slime_random_direction")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSlimeRandomDirectionData: BehSlimeRandomDirection? = null
         @MonsteraBuildSetter set
 
@@ -5588,6 +5883,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.slime_keep_on_jumping")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSlimeKeepOnJumpingData: BehSlimeKeepOnJumping? = null
         @MonsteraBuildSetter set
 
@@ -5608,6 +5904,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.timer_flag_1")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTimerFlag_1Data: BehTimerFlag_1? = null
         @MonsteraBuildSetter set
 
@@ -5628,6 +5925,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.timer_flag_3")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTimerFlag_3Data: BehTimerFlag_3? = null
         @MonsteraBuildSetter set
 
@@ -5648,6 +5946,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.timer_flag_2")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTimerFlag_2Data: BehTimerFlag_2? = null
         @MonsteraBuildSetter set
 
@@ -5668,6 +5967,7 @@ class Components {
 
     @SerializedName("minecraft:is_pregnant")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isPregnantData: IsPregnant? = null
         @MonsteraBuildSetter set
 
@@ -5686,6 +5986,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.random_search_and_dig")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRandomSearchAndDigData: BehRandomSearchAndDig? = null
         @MonsteraBuildSetter set
 
@@ -5714,6 +6015,7 @@ class Components {
 
     @SerializedName("minecraft:trail")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var trailData: Trail? = null
         @MonsteraBuildSetter set
 
@@ -5733,6 +6035,7 @@ class Components {
 
     @SerializedName("minecraft:lava_movement")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var lavaMovementData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -5751,6 +6054,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.rise_to_liquid_level")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRiseToLiquidLevelData: BehRiseToLiquidLevel? = null
         @MonsteraBuildSetter set
 
@@ -5773,6 +6077,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_to_liquid")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveToLiquidData: BehMoveToLiquid? = null
         @MonsteraBuildSetter set
 
@@ -5797,6 +6102,7 @@ class Components {
 
     @SerializedName("minecraft:is_ignited")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var isIgnitedData: IsIgnited? = null
         @MonsteraBuildSetter set
 
@@ -5815,6 +6121,7 @@ class Components {
 
     @SerializedName("minecraft:color2")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var color2Data: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -5833,6 +6140,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.charge_attack")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behChargeAttackData: BehChargeAttack? = null
         @MonsteraBuildSetter set
 
@@ -5852,6 +6160,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.trade_with_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTradeWithPlayerData: BehTradeWithPlayer? = null
         @MonsteraBuildSetter set
 
@@ -5871,6 +6180,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.look_at_trading_player")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behLookAtTradingPlayerData: BehLookAtTradingPlayer? = null
         @MonsteraBuildSetter set
 
@@ -5890,6 +6200,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_indoors")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveIndoorsData: BehMoveIndoors? = null
         @MonsteraBuildSetter set
 
@@ -5911,6 +6222,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.restrict_open_door")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRestrictOpenDoorData: BehRestrictOpenDoor? = null
         @MonsteraBuildSetter set
 
@@ -5930,6 +6242,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.open_door")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOpenDoorData: BehOpenDoor? = null
         @MonsteraBuildSetter set
 
@@ -5950,6 +6263,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.share_items")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behShareItemsData: BehShareItems? = null
         @MonsteraBuildSetter set
 
@@ -5972,6 +6286,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.celebrate_survive")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behCelebrateSurviveData: BehCelebrateSurvive? = null
         @MonsteraBuildSetter set
 
@@ -5992,6 +6307,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.move_outdoors")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMoveOutdoorsData: BehMoveOutdoors? = null
         @MonsteraBuildSetter set
 
@@ -6013,6 +6329,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.harvest_farm_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behHarvestFarmBlockData: BehHarvestFarmBlock? = null
         @MonsteraBuildSetter set
 
@@ -6033,6 +6350,7 @@ class Components {
 
     @SerializedName("minecraft:trade_table")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var tradeTableData: TradeTable? = null
         @MonsteraBuildSetter set
 
@@ -6054,6 +6372,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.take_flower")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTakeFlowerData: BehTakeFlower? = null
         @MonsteraBuildSetter set
 
@@ -6073,6 +6392,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.play")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behPlayData: BehPlay? = null
         @MonsteraBuildSetter set
 
@@ -6093,6 +6413,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.make_love")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMakeLoveData: BehMakeLove? = null
         @MonsteraBuildSetter set
 
@@ -6112,6 +6433,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.receive_love")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behReceiveLoveData: BehReceiveLove? = null
         @MonsteraBuildSetter set
 
@@ -6131,6 +6453,7 @@ class Components {
 
     @SerializedName("minecraft:hide")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var hideData: Hide? = null
         @MonsteraBuildSetter set
 
@@ -6149,6 +6472,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.hide")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behHideData: BehHide? = null
         @MonsteraBuildSetter set
 
@@ -6171,6 +6495,7 @@ class Components {
 
     @SerializedName("minecraft:trade_resupply")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var tradeResupplyData: TradeResupply? = null
         @MonsteraBuildSetter set
 
@@ -6189,6 +6514,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.inspect_bookshelf")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behInspectBookshelfData: BehInspectBookshelf? = null
         @MonsteraBuildSetter set
 
@@ -6213,6 +6539,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.explore_outskirts")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behExploreOutskirtsData: BehExploreOutskirts? = null
         @MonsteraBuildSetter set
 
@@ -6242,6 +6569,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.work")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behWorkData: BehWork? = null
         @MonsteraBuildSetter set
 
@@ -6268,6 +6596,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.work_composter")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behWorkComposterData: BehWorkComposter? = null
         @MonsteraBuildSetter set
 
@@ -6292,6 +6621,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.mingle")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behMingleData: BehMingle? = null
         @MonsteraBuildSetter set
 
@@ -6316,6 +6646,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.sleep")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSleepData: BehSleep? = null
         @MonsteraBuildSetter set
 
@@ -6341,6 +6672,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.fertilize_farm_block")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behFertilizeFarmBlockData: BehFertilizeFarmBlock? = null
         @MonsteraBuildSetter set
 
@@ -6360,6 +6692,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.trade_interest")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behTradeInterestData: BehTradeInterest? = null
         @MonsteraBuildSetter set
 
@@ -6384,6 +6717,7 @@ class Components {
 
     @SerializedName("minecraft:economy_trade_table")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var economyTradeTableData: EconomyTradeTable? = null
         @MonsteraBuildSetter set
 
@@ -6406,6 +6740,7 @@ class Components {
 
     @SerializedName("minecraft:skin_id")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var skinIdData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -6424,6 +6759,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.drink_potion")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDrinkPotionData: BehDrinkPotion? = null
         @MonsteraBuildSetter set
 
@@ -6444,6 +6780,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.drink_milk")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDrinkMilkData: BehDrinkMilk? = null
         @MonsteraBuildSetter set
 
@@ -6463,6 +6800,7 @@ class Components {
 
     @SerializedName("minecraft:managed_wandering_trader")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var managedWanderingTraderData: ManagedWanderingTrader? = null
         @MonsteraBuildSetter set
 
@@ -6481,6 +6819,7 @@ class Components {
 
     @SerializedName("minecraft:movement_sound_distance_offset")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var movementSoundDistanceOffsetData: ComponentValue? = null
         @MonsteraBuildSetter set
 
@@ -6499,6 +6838,7 @@ class Components {
 
     @SerializedName("minecraft:vibration_damper")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var vibrationDamperData: VibrationDamper? = null
         @MonsteraBuildSetter set
 
@@ -6517,6 +6857,7 @@ class Components {
 
     @SerializedName("minecraft:suspect_tracking")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var suspectTrackingData: SuspectTracking? = null
         @MonsteraBuildSetter set
 
@@ -6535,6 +6876,7 @@ class Components {
 
     @SerializedName("minecraft:anger_level")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var angerLevelData: AngerLevel? = null
         @MonsteraBuildSetter set
 
@@ -6560,6 +6902,7 @@ class Components {
 
     @SerializedName("minecraft:heartbeat")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var heartbeatData: Heartbeat? = null
         @MonsteraBuildSetter set
 
@@ -6579,6 +6922,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.dig")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behDigData: BehDig? = null
         @MonsteraBuildSetter set
 
@@ -6603,6 +6947,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.roar")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behRoarData: BehRoar? = null
         @MonsteraBuildSetter set
 
@@ -6623,6 +6968,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.sonic_boom")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSonicBoomData: BehSonicBoom? = null
         @MonsteraBuildSetter set
 
@@ -6654,6 +7000,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.investigate_suspicious_location")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behInvestigateSuspiciousLocationData: BehInvestigateSuspiciousLocation? = null
         @MonsteraBuildSetter set
 
@@ -6675,6 +7022,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.sniff")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behSniffData: BehSniff? = null
         @MonsteraBuildSetter set
 
@@ -6698,6 +7046,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.emerge")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behEmergeData: BehEmerge? = null
         @MonsteraBuildSetter set
 
@@ -6717,6 +7066,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.wither_random_attack_pos_goal")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behWitherRandomAttackPosGoalData: BehWitherRandomAttackPosGoal? = null
         @MonsteraBuildSetter set
 
@@ -6737,6 +7087,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.wither_target_highest_damage")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behWitherTargetHighestDamageData: BehWitherTargetHighestDamage? = null
         @MonsteraBuildSetter set
 
@@ -6776,6 +7127,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.beg")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behBegData: BehBeg? = null
         @MonsteraBuildSetter set
 
@@ -6796,6 +7148,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.owner_hurt_by_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOwnerHurtByTargetData: BehOwnerHurtByTarget? = null
         @MonsteraBuildSetter set
 
@@ -6815,6 +7168,7 @@ class Components {
 
     @SerializedName("minecraft:behavior.owner_hurt_target")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var behOwnerHurtTargetData: BehOwnerHurtTarget? = null
         @MonsteraBuildSetter set
 
@@ -6834,6 +7188,7 @@ class Components {
 
     @SerializedName("minecraft:instant_despawn")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var instantDespawnData: InstantDespawn? = null
         @MonsteraBuildSetter set
 
@@ -6866,7 +7221,7 @@ class Components {
      * - jump
      */
     @MonsteraComponentMarker
-    fun walkMovement(speed: Number, navData: NavigationWalk.() -> Unit) {
+    fun walkMovement(speed: Number, navData: NavigationComp.() -> Unit) {
         navigationWalk(navData)
         movement = speed
         movementBasic { }
@@ -6885,11 +7240,11 @@ class Components {
      * - fly
      */
     @MonsteraComponentMarker
-    fun ghastMovement(speed: Number, navData: NavigationFloat.() -> Unit) {
+    fun ghastMovement(speed: Number, navData: NavigationComp.() -> Unit) {
         behFloatWander { }
         navigationFloat(navData)
         movement = speed
-        canFly {  }
+        canFly { }
         physics { }
         jumpStatic { }
     }
@@ -6912,7 +7267,7 @@ class Components {
             mustSee = true
             mustReach = false
 
-            entityTypes(entityTypes)
+            entityType(entityTypes)
         }
 
         shooter {

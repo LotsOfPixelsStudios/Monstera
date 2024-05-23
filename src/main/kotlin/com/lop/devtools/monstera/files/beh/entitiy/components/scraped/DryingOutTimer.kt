@@ -1,23 +1,25 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class DryingOutTimer {
+class DryingOutTimer : MonsteraRawFile() {
     @SerializedName("total_time")
     @Expose
     var totalTime: Number? = null
         
-
     @SerializedName("water_bottle_refill_time")
     @Expose
     var waterBottleRefillTime: Number? = null
         
-
     @SerializedName("dried_out_event")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var driedOutEventData: DriedOutEvent? = null
         @MonsteraBuildSetter set
 
@@ -37,6 +39,7 @@ class DryingOutTimer {
 
     @SerializedName("stopped_drying_out_event")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var stoppedDryingOutEventData: StoppedDryingOutEvent? = null
         @MonsteraBuildSetter set
 
@@ -56,6 +59,7 @@ class DryingOutTimer {
 
     @SerializedName("recover_after_dried_out_event")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var recoverAfterDriedOutEventData: RecoverAfterDriedOutEvent? = null
         @MonsteraBuildSetter set
 
@@ -73,27 +77,21 @@ class DryingOutTimer {
         recoverAfterDriedOutEventData = (recoverAfterDriedOutEventData ?: RecoverAfterDriedOutEvent()).apply(value)
     }
 
-    class DriedOutEvent {
-
+    class DriedOutEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 
-    class StoppedDryingOutEvent {
-
+    class StoppedDryingOutEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 
-    class RecoverAfterDriedOutEvent {
-
+    class RecoverAfterDriedOutEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 }

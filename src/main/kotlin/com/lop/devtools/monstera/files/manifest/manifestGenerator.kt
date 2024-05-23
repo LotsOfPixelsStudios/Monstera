@@ -18,14 +18,14 @@ import java.util.*
 fun generateManifest(
     version: MutableList<Int> = arrayListOf(1, 0, 0),
     config: Config,
-    minEnginVersion: ArrayList<Int> = config.targetMcVersion,
+    minEnginVersion: MutableList<Int> = config.targetMcVersion,
     scriptEntryFile: File = File()
 ): Pair<UUID, UUID> {
     val logger = LoggerFactory.getLogger("Manifest")
     val enableScripting = scriptEntryFile.exists() && scriptEntryFile.isFile
 
     if (enableScripting && config.targetMcVersion[0] == 1 && config.targetMcVersion[1] < 20) {
-        logger.warn("Scripting is only available in version 1.20 or greater! Update your targetMcVersion!")
+        logger.warn("Scripting is only available in version 1.20 or higher! Update your targetMcVersion!")
     }
 
     //Manifest

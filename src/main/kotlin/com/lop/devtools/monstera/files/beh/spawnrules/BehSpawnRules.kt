@@ -3,30 +3,28 @@
 package com.lop.devtools.monstera.files.beh.spawnrules
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.beh.spawnrules.conditions.*
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class BehSpawnRules : MonsteraBuildableFile {
+class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behBlocks ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for spawn rule file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for spawn rule file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for spawn rule file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for spawn rule file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.behSpawnRules ?: "1.8.0",
                 this
@@ -42,11 +40,13 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawn_rules")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var block: BehSpawnRules
-    )
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
 
@@ -63,7 +63,7 @@ class BehSpawnRules : MonsteraBuildableFile {
         descriptionData = (descriptionData ?: Description()).apply(data)
     }
 
-    class Description {
+    class Description : MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
@@ -75,6 +75,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
     @SerializedName("conditions")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var conditionsData: MutableList<Condition>? = null
         @MonsteraBuildSetter set
 
@@ -106,9 +107,10 @@ class BehSpawnRules : MonsteraBuildableFile {
         conditionsData = (conditionsData ?: mutableListOf()).apply { add(Condition().apply(data)) }
     }
 
-    class Condition {
+    open class Condition : MonsteraRawFile() {
         @SerializedName("minecraft:weight")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var weightData: SpawnWeight? = null
             @MonsteraBuildSetter set
 
@@ -119,6 +121,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:density_limit")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var densityLimitData: SpawnDensityLimit? = null
             @MonsteraBuildSetter set
 
@@ -145,6 +148,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawns_above_block_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsAboveBlockFilterData: SpawnAboveBlockFilter? = null
             @MonsteraBuildSetter set
 
@@ -166,6 +170,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:herd")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var herdData: SpawnHerd? = null
             @MonsteraBuildSetter set
 
@@ -186,6 +191,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:permute_type")
         @Expose
+        @JsonAdapter(MonsteraListFileTypeAdapter::class)
         var permuteTypeData: MutableList<SpawnPermuteType>? = null
             @MonsteraBuildSetter set
 
@@ -203,11 +209,12 @@ class BehSpawnRules : MonsteraBuildableFile {
          */
         @OptIn(MonsteraBuildSetter::class)
         fun permuteType(data: SpawnPermuteType.() -> Unit) {
-            permuteTypeData = (permuteTypeData ?: mutableListOf()).apply { SpawnPermuteType().apply(data) }
+            permuteTypeData = (permuteTypeData ?: mutableListOf()).apply { add(SpawnPermuteType().apply(data)) }
         }
 
         @SerializedName("minecraft:brightness_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var brightnessFilterData: SpawnBrightnessFilter? = null
             @MonsteraBuildSetter set
 
@@ -227,6 +234,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:height_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var heightFilterData: SpawnHeightFilter? = null
             @MonsteraBuildSetter set
 
@@ -245,6 +253,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawns_on_surface")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsOnSurfaceData: SpawnsOnSurface? = null
             @MonsteraBuildSetter set
 
@@ -255,6 +264,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawns_underground")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsUndergroundData: SpawnsUnderground? = null
             @MonsteraBuildSetter set
 
@@ -265,6 +275,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawns_underwater")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsUnderwaterData: SpawnsUnderwater? = null
             @MonsteraBuildSetter set
 
@@ -275,6 +286,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:disallow_spawns_in_bubble")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var disallowSpawnsInBubbleData: SpawnDisallowSpawnsInBubble? = null
             @MonsteraBuildSetter set
 
@@ -285,6 +297,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:spawns_lava")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnsLavaData: SpawnsLava? = null
             @MonsteraBuildSetter set
 
@@ -295,6 +308,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:biome_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var biomeFilterData: SpawnBiomeFilter? = null
             @MonsteraBuildSetter set
 
@@ -315,6 +329,7 @@ class BehSpawnRules : MonsteraBuildableFile {
 
         @SerializedName("minecraft:difficulty_filter")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var difficultyFilterData: SpawnDifficultyFilter? = null
             @MonsteraBuildSetter set
 
@@ -368,10 +383,17 @@ class BehSpawnRules : MonsteraBuildableFile {
     }
 }
 
-enum class PopulationControl{
+enum class PopulationControl {
+    @SerializedName("animal")
     ANIMAL,
+
+    @SerializedName("monster")
     MONSTER,
+
+    @SerializedName("water_animal")
     WATER_ANIMAL,
+
+    @SerializedName("ambient")
     AMBIENT;
 
     override fun toString(): String {

@@ -1,19 +1,22 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BlockSensor {
+class BlockSensor : MonsteraRawFile() {
     @SerializedName("sensor_radius")
     @Expose
     var sensorRadius: Number? = null
         
-
     @SerializedName("sources")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var sourcesData: MutableList<Sources>? = null
         @MonsteraBuildSetter set
 
@@ -35,6 +38,7 @@ class BlockSensor {
 
     @SerializedName("on_break")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var onBreakData: MutableList<OnBreak>? = null
         @MonsteraBuildSetter set
 
@@ -52,24 +56,21 @@ class BlockSensor {
         onBreakData = (onBreakData ?: mutableListOf()).also { it.add(OnBreak().apply(value)) }
     }
 
-    class Sources {
+    class Sources : MonsteraRawFile() {
         @SerializedName("test")
         @Expose
         var test: String? = null
             
-
         @SerializedName("subject")
         @Expose
         var subject: Subject? = null
             
-
         @SerializedName("value")
         @Expose
         var value: Boolean? = null
-            
     }
 
-    class OnBreak {
+    class OnBreak : MonsteraRawFile() {
         @SerializedName("block_list")
         @Expose
         var blockListData: MutableList<String>? = null
@@ -81,6 +82,5 @@ class BlockSensor {
         @SerializedName("on_block_broken")
         @Expose
         var onBlockBroken: String? = null
-            
     }
 }

@@ -1,43 +1,58 @@
 package com.lop.devtools.monstera.addon.sound
 
-import com.lop.devtools.monstera.files.res.sounds.CategorySound
-import com.lop.devtools.monstera.files.res.sounds.SoundCategory
-import com.lop.devtools.monstera.files.res.sounds.SoundEvent
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.files.res.sounds.*
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
 
-interface Sound {
+class Sound(val addon: Addon) {
+    private fun logger() = getMonsteraLogger("Sound")
+
     /**
      * like `identifier = tp.test.drive`
      */
-    val identifier: String
+    var identifier: String = ""
+        set(value) {
+            if (value.contains(":")) {
+                logger().warn(
+                    "($identifier) Sound identifier should not contain a ':', follow the naming convention" +
+                            " '<projectShort>.<entity>.<sound>' like 'tp.test.drive'"
+                )
+            }
+            field = value
+        }
 
     /**
      * the pitch that should be applied, as a range (from, to)
      */
-    var pitch: Pair<Number, Number>
+    var pitch: Pair<Number, Number> = 1 to 1
 
     /**
      * the volume that should be applied, as a range (from, to)
      */
-    var volume: Pair<Number, Number>
+    var volume: Pair<Number, Number> = 1 to 1
 
     /**
      * the maximum distance the sound can be heard from
      */
-    var maxDistance: Number
+    var maxDistance: Number = -1
 
     /**
      * the minimum distance the sound can be heard from
      */
-    var minDistance: Number
+    var minDistance: Number = -1
 
     /**
      * the category gives some custom behaviour that one might want to use -> environment has no direction from where
      * the sound is coming from ...
      */
-    var category: SoundCategory
+    var category: SoundCategory = SoundCategory.BLOCK
+    var categorySound: CategorySound = CategorySound.BLOCK
 
-    var categorySound: CategorySound
+    private var files: MutableMap<File, Sound.SoundDefData> = mutableMapOf()
+    private var filePath: MutableMap<String, Sound.SoundDefData> = mutableMapOf()
+    var skipSoundDefComponent = false
+    val soundEvents = mutableMapOf<SoundEvent, SoundEventSettings>()
 
     /**
      * the sound as a .ogg file, can be called multiple times, but it will be randomised what file is played!
@@ -47,7 +62,9 @@ interface Sound {
      * @param pitch a custom pitch for that sound file
      * @param volume a custom volume for that sound file
      */
-    fun sound(file: File, is3D: Boolean = true, weight: Number = 1, pitch: Number = 1, volume: Number = 1)
+    fun sound(file: File, is3D: Boolean = true, weight: Number = 1, pitch: Number = 1, volume: Number = 1) {
+        files[file] = Sound.SoundDefData(is3D, volume, weight, pitch)
+    }
 
     /**
      * define a sound that will choose randomly form the sounds provided
@@ -59,7 +76,9 @@ interface Sound {
      * ))
      * ```
      */
-    fun sound(files: MutableList<Pair<File, SoundDefData>>)
+    fun sound(files: MutableList<Pair<File, Sound.SoundDefData>>) {
+        this.files.putAll(files)
+    }
 
     /**
      * generally not safe to use, use sound(file) unless one makes sure the File already exists in the build files
@@ -70,7 +89,9 @@ interface Sound {
      * @param pitch a custom pitch for that sound file
      * @param volume a custom volume for that sound file
      */
-    fun sound(path: String, is3D: Boolean = true, weight: Number = 1, pitch: Number = 1, volume: Number = 1)
+    fun sound(path: String, is3D: Boolean = true, weight: Number = 1, pitch: Number = 1, volume: Number = 1) {
+        filePath[path] = Sound.SoundDefData(is3D, volume, weight, pitch)
+    }
 
     /**
      * import a sound form an already defined sound like
@@ -83,7 +104,10 @@ interface Sound {
      *
      * Note: this will overwrite the identifier and some functions will not work such as: `is3D`, `weight`
      */
-    fun importSound(identifier: String)
+    fun importSound(identifier: String) {
+        skipSoundDefComponent = true
+        this.identifier = identifier
+    }
 
     /**
      * when to the sound should get triggered, optional
@@ -97,7 +121,47 @@ interface Sound {
         event: SoundEvent = SoundEvent.DEFAULT,
         pitch: Pair<Number, Number> = this.pitch,
         volume: Pair<Number, Number> = this.volume
-    )
+    ) {
+        if (soundEvents.containsKey(event))
+            soundEvents[event]!!.apply {
+                applyOwnSettings()
+            }
+        else
+            soundEvents[event] = SoundEventSettings().apply {
+                applyOwnSettings()
+            }
+    }
+
+    private fun SoundEventSettings.applyOwnSettings() {
+        pitch(pitch)
+        volume(volume)
+        this.sound = identifier
+    }
+
+    fun getAsSoundComponent(): List<ResSoundComp.() -> Unit> {
+        val ret = mutableListOf<ResSoundComp.() -> Unit>()
+
+        files.forEach { (file, settings) ->
+            ret.add {
+                weight = settings.weight
+                is3D = settings.is3D
+                name(file, addon = addon)
+                volume = settings.volume
+                pitch = settings.pitch
+            }
+        }
+
+        filePath.forEach { (file, settings) ->
+            ret.add {
+                weight = settings.weight
+                is3D = settings.is3D
+                name = file
+                volume = settings.volume
+                pitch = settings.pitch
+            }
+        }
+        return ret
+    }
 
     data class SoundDefData(
         var is3D: Boolean = true,

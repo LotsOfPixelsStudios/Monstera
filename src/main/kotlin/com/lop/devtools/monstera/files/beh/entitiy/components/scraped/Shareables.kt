@@ -1,18 +1,21 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 
-class Shareables {
+class Shareables : MonsteraRawFile() {
     @SerializedName("singular_pickup")
     @Expose
     var singularPickup: Boolean? = null
         
-
     @SerializedName("items")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var itemsData: MutableList<Items>? = null
         @MonsteraBuildSetter set
 
@@ -37,31 +40,25 @@ class Shareables {
     @Expose
     var allItems: Boolean? = null
         
-
     @SerializedName("all_items_max_amount")
     @Expose
     var allItemsMaxAmount: Number? = null
         
-
-    class Items {
+    class Items : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null
             
-
         @SerializedName("want_amount")
         @Expose
         var wantAmount: Number? = null
             
-
         @SerializedName("surplus_amount")
         @Expose
         var surplusAmount: Number? = null
             
-
         @SerializedName("priority")
         @Expose
         var priority: Number? = null
-            
     }
 }

@@ -1,16 +1,20 @@
 package com.lop.devtools.monstera.files.res.sounds
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class Sounds : MonsteraBuildableFile {
+class Sounds : MonsteraBuildableFile, MonsteraRawFile() {
     /**
      * @param filename ignored, is always sounds.json
      */
@@ -30,32 +34,38 @@ class Sounds : MonsteraBuildableFile {
 
     @SerializedName("block_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var blockSoundsData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("entity_sounds")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var entitySoundsData: EntitySpecSound? = null
         @MonsteraBuildSetter set
 
     @SerializedName("individual_event_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var individualEventSoundData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("interactive_sounds")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var interactiveSoundData: MutableMap<String, SoundEvents>? = null
         @MonsteraBuildSetter set
 
-    class EntitySpecSound {
+    class EntitySpecSound : MonsteraRawFile() {
         @SerializedName("entities")
         @Expose
+        @JsonAdapter(MonsteraMapFileTypeAdapter::class)
         var entitiesData: MutableMap<String, SoundEvents>? = null
             @MonsteraBuildSetter set
 
         @SerializedName("defaults")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var defaultsData: SoundEvents? = null
             @MonsteraBuildSetter set
     }
@@ -70,7 +80,9 @@ class Sounds : MonsteraBuildableFile {
     @OptIn(MonsteraBuildSetter::class)
     fun blockSounds(soundIdGroups: SpecSounds.() -> Unit) {
         blockSoundsData = (blockSoundsData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -85,7 +97,9 @@ class Sounds : MonsteraBuildableFile {
     fun entitySounds(soundIdGroups: SpecSounds.() -> Unit) {
         entitySoundsData = (entitySoundsData ?: EntitySpecSound()).apply {
             entitiesData = (entitiesData ?: mutableMapOf()).apply {
-                putAll(SpecSounds().apply(soundIdGroups).eventData)
+                SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                    get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+                }
             }
         }
     }
@@ -114,7 +128,9 @@ class Sounds : MonsteraBuildableFile {
     @OptIn(MonsteraBuildSetter::class)
     fun individualEventSounds(soundIdGroups: SpecSounds.() -> Unit) {
         individualEventSoundData = (individualEventSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -128,7 +144,9 @@ class Sounds : MonsteraBuildableFile {
     @OptIn(MonsteraBuildSetter::class)
     fun interactiveSounds(soundIdGroups: SpecSounds.() -> Unit) {
         interactiveSoundData = (interactiveSoundData ?: mutableMapOf()).apply {
-            putAll(SpecSounds().apply(soundIdGroups).eventData)
+            SpecSounds().apply(soundIdGroups).eventData.forEach { (name, setting) ->
+                get(name)?.apply(setting) ?: put(name, SoundEvents().apply(setting))
+            }
         }
     }
 
@@ -153,8 +171,8 @@ class Sounds : MonsteraBuildableFile {
 
 }
 
-class SpecSounds {
-    val eventData = mutableMapOf<String, SoundEvents>()
+open class SpecSounds {
+    val eventData = mutableMapOf<String, SoundEvents.() -> Unit>()
 
     /**
      * 0..1
@@ -163,17 +181,14 @@ class SpecSounds {
      * @param soundIdentifier like "ambient.candle" or "villager"
      */
     fun soundEventGroup(soundIdentifier: String, events: SoundEvents.() -> Unit) {
-        if (eventData.containsKey(soundIdentifier)) {
-            eventData[soundIdentifier]!!.apply(events)
-        } else {
-            eventData[soundIdentifier] = SoundEvents().apply(events)
-        }
+        eventData[soundIdentifier] = events
     }
 }
 
-class SoundEvents {
+open class SoundEvents : MonsteraRawFile() {
     @SerializedName("events")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var eventsData: MutableMap<String, SoundEventSettings>? = null
         @MonsteraBuildSetter set
 
@@ -184,14 +199,14 @@ class SoundEvents {
     @OptIn(MonsteraBuildSetter::class)
     fun event(event: String, settings: SoundEventSettings.() -> Unit) {
         eventsData = (eventsData ?: mutableMapOf()).also {
-            it[event]?.apply(settings) ?: kotlin.run {
+            it[event]?.apply(settings) ?: run {
                 it.put(event, SoundEventSettings().apply(settings))
             }
         }
     }
 }
 
-class SoundEventSettings {
+open class SoundEventSettings : MonsteraRawFile() {
     @SerializedName("volume")
     @Expose
     var volumeData: Any? = null

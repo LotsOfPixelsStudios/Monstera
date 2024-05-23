@@ -3,43 +3,37 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class BehPlayDead {
+class BehPlayDead : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
-        
 
     @SerializedName("duration")
     @Expose
     var duration: Number? = null
-        
 
     @SerializedName("force_below_health")
     @Expose
     var forceBelowHealth: Number? = null
-        
 
     @SerializedName("random_start_chance")
     @Expose
     var randomStartChance: Number? = null
-        
 
     @SerializedName("random_damage_range")
     @Expose
     var randomDamageRangeData: MutableList<Number>? = null
-        
 
     fun randomDamageRange(vararg value: Number) {
         randomDamageRangeData = (randomDamageRangeData ?: mutableListOf()).also { it.addAll(value.toList()) }
     }
-
     @SerializedName("damage_sources")
     @Expose
     var damageSourcesData: MutableList<String>? = null
-        
 
     fun damageSources(vararg value: String) {
         damageSourcesData = (damageSourcesData ?: mutableListOf()).also { it.addAll(value.toList()) }
@@ -48,7 +42,6 @@ class BehPlayDead {
     @SerializedName("apply_regeneration")
     @Expose
     var applyRegeneration: Boolean? = null
-        
 
     @SerializedName("filters")
     @Expose

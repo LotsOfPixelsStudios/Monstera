@@ -1,25 +1,26 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehAdmireItem {
-
+class BehAdmireItem : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("admire_item_sound")
     @Expose
     var admireItemSound: String? = null
         
-
     @SerializedName("sound_interval")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var soundIntervalData: SoundInterval? = null
         @MonsteraBuildSetter set
 
@@ -40,6 +41,7 @@ class BehAdmireItem {
 
     @SerializedName("on_admire_item_start")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onAdmireItemStartData: OnAdmireItemStart? = null
         @MonsteraBuildSetter set
 
@@ -60,6 +62,7 @@ class BehAdmireItem {
 
     @SerializedName("on_admire_item_stop")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var onAdmireItemStopData: OnAdmireItemStop? = null
         @MonsteraBuildSetter set
 
@@ -78,42 +81,33 @@ class BehAdmireItem {
         onAdmireItemStopData = (onAdmireItemStopData ?: OnAdmireItemStop()).apply(value)
     }
 
-    class SoundInterval {
-
+    class SoundInterval : MonsteraRawFile() {
         @SerializedName("range_min")
         @Expose
         var rangeMin: Number? = null
-            
 
         @SerializedName("range_max")
         @Expose
         var rangeMax: Number? = null
-            
     }
 
-    class OnAdmireItemStart {
-
+    class OnAdmireItemStart : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 
-    class OnAdmireItemStop {
-
+    class OnAdmireItemStop : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

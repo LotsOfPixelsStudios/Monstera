@@ -3,15 +3,15 @@ package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Trail {
+class Trail : MonsteraRawFile() {
     @SerializedName("block_type")
     @Expose
     var blockType: String? = null
         
-
     @SerializedName("spawn_filter")
     @Expose
     var spawnFilterData: BehEntityFilter? = null

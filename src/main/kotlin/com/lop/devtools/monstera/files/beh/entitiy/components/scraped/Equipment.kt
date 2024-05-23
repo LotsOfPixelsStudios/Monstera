@@ -1,13 +1,16 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.getMonsteraLogger
 
-class Equipment {
+class Equipment : MonsteraRawFile() {
     @SerializedName("table")
     @Expose
     var table: String? = null
@@ -21,6 +24,7 @@ class Equipment {
      */
     fun table(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
+        lootTables.debug(tableName)
         val target = BehLootTables.Entity(lootTables).build(tableName)
         target.fold({
             table = BehLootTables.resolveRelative(it)
@@ -32,6 +36,7 @@ class Equipment {
 
     @SerializedName("slot_drop_chance")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var slotDropChanceData: MutableList<SlotDropChance>? = null
         @MonsteraBuildSetter set
 
@@ -50,15 +55,13 @@ class Equipment {
         slotDropChanceData = (slotDropChanceData ?: mutableListOf()).also { it.add(SlotDropChance().apply(value)) }
     }
 
-    class SlotDropChance {
+    class SlotDropChance : MonsteraRawFile() {
         @SerializedName("slot")
         @Expose
         var slot: String? = null
             
-
         @SerializedName("drop_chance")
         @Expose
         var dropChance: Number? = null
-            
     }
 }

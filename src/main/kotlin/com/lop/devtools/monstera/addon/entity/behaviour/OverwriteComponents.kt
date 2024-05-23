@@ -1,8 +1,8 @@
 package com.lop.devtools.monstera.addon.entity.behaviour
 
+import com.lop.devtools.monstera.addon.api.MonsteraApi
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.sound.Sound
-import com.lop.devtools.monstera.addon.sound.SoundData
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Inventory
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.Rideable
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
@@ -51,12 +51,13 @@ open class OverwriteComponents(private val entityData: Entity.Data) {
      *
      * @return the sound identifier
      */
-    fun sound(identifier: String, data: SoundData.() -> Unit): String {
-        val soundData = SoundData(entityData.addon)
+    @MonsteraApi
+    fun sound(identifier: String, data: Sound.() -> Unit): String {
+        val soundData = Sound(entityData.addon)
         soundData.identifier = identifier
         soundData.category = SoundCategory.NEUTRAL
         soundData.categorySound = CategorySound.ENTITY
-        entityData.sounds.add(soundData.apply(data))
+        unsafeParent.unsafeSoundData.add(soundData.apply(data))
         return soundData.identifier
     }
 

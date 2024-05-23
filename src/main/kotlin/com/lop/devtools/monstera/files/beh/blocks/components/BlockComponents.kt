@@ -1,16 +1,20 @@
 package com.lop.devtools.monstera.files.beh.blocks.components
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.HolidayCreatorFeature
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.awt.Color
 
-class BlockComponents {
+class BlockComponents : MonsteraRawFile() {
     @SerializedName("minecraft:collision_box")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var collisionBoxData: Any? = null
         @MonsteraBuildSetter set
 
@@ -42,6 +46,7 @@ class BlockComponents {
     @HolidayCreatorFeature(till = "1.19.50")
     @SerializedName("minecraft:crafting_table")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var craftingTableData: CraftingTable? = null
         @MonsteraBuildSetter set
 
@@ -156,6 +161,7 @@ class BlockComponents {
      */
     fun table(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
+        lootTables.debug(tableName)
         val target = BehLootTables.Block(lootTables).build(tableName)
         target.fold({
             loot = BehLootTables.resolveRelative(it)
@@ -175,6 +181,7 @@ class BlockComponents {
     @SerializedName("minecraft:placement_filter")
     @Expose
     @HolidayCreatorFeature(till = "1.19.60")
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var placementFilterData: PlacementFilter? = null
         @MonsteraBuildSetter set
 
@@ -223,6 +230,7 @@ class BlockComponents {
 
     @SerializedName("minecraft:transformation")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var transformationData: Transformation? = null
         @MonsteraBuildSetter set
 

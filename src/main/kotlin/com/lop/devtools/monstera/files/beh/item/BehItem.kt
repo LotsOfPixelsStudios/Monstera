@@ -3,29 +3,29 @@
 package com.lop.devtools.monstera.files.beh.item
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class BehItem : MonsteraBuildableFile {
+class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behItems ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for item file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for item file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for item file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for item file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.behItem ?: "1.50.0",
                 this
@@ -42,13 +42,15 @@ class BehItem : MonsteraBuildableFile {
         @Expose
         var formatVersion: String = "",
 
-        @SerializedName("minecraft:block")
+        @SerializedName("minecraft:item")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var block: BehItem
-    )
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
 
@@ -67,6 +69,7 @@ class BehItem : MonsteraBuildableFile {
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var componentsData: BehItemComponents = BehItemComponents()
         @MonsteraBuildSetter set
 
@@ -135,13 +138,14 @@ class BehItem : MonsteraBuildableFile {
         componentsData.apply(data)
     }
 
-    class Description {
+    class Description : MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 
         @SerializedName("menu_category")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var menuCategoryData: CategoryData? = null
             @MonsteraBuildSetter set
 
@@ -152,14 +156,17 @@ class BehItem : MonsteraBuildableFile {
                 field = value
             }
 
-        class CategoryData {
+        class CategoryData : MonsteraRawFile() {
             @SerializedName("category")
             @Expose
             var category: Category? = null
         }
 
         enum class Category {
+            @SerializedName("items")
             ITEMS,
+
+            @SerializedName("construction")
             CONSTRUCTION;
 
             override fun toString(): String {

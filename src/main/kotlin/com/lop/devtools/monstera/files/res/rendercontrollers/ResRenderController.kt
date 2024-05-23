@@ -3,13 +3,16 @@
 package com.lop.devtools.monstera.files.res.rendercontrollers
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import java.awt.Color
 
 @OptIn(MonsteraBuildSetter::class)
-class ResRenderController {
+open class ResRenderController : MonsteraRawFile() {
     @SerializedName("textures")
     @Expose
     var texturesData: MutableList<String>? = null
@@ -60,6 +63,7 @@ class ResRenderController {
 
     @SerializedName("arrays")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var arraysData: ResRenderControllerArrays? = null
         @MonsteraBuildSetter set
 
@@ -72,6 +76,7 @@ class ResRenderController {
 
     @SerializedName("uv_anim")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var uvAnimData: ResRenConUvAnim? = null
         @MonsteraBuildSetter set
 

@@ -3,15 +3,17 @@
 package com.lop.devtools.monstera.files.beh.entitiy
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
-import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.BehEntityDescription
 import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
@@ -19,42 +21,42 @@ import java.nio.file.Path
 /**
  * Create an Entity with a description, componentGroups, components and events
  */
-class BehEntity : MonsteraBuildableFile {
+class BehEntity : MonsteraBuildableFile, MonsteraRawFile() {
     private fun logger() = getMonsteraLogger(this.javaClass.name)
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: BehEntityDescription? = null
         @MonsteraBuildSetter set
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var componentsData: Components? = null
         @MonsteraBuildSetter set
 
     @SerializedName("component_groups")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var componentGroupsData: MutableMap<String, Components>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("events")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var eventsData: MutableMap<String, BehEntityEvent>? = null
         @MonsteraBuildSetter set
 
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.behEntity ?: run {
-            logger().error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!"))
+            logger().error("Could not Resolve a path for entity file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for entity file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.behEntity ?: "1.20.50",
                 this
@@ -74,7 +76,7 @@ class BehEntity : MonsteraBuildableFile {
         @SerializedName("minecraft:entity")
         @Expose
         var entity: BehEntity
-    )
+    ): MonsteraRawFile()
 
     /**
      * 1 instance required

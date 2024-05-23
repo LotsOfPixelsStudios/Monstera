@@ -1,4 +1,5 @@
 package com.lop.devtools.monstera.files.beh.spawnrules.conditions
 
-class SpawnsUnderground {
-}
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class SpawnsUnderground : MonsteraRawFile()

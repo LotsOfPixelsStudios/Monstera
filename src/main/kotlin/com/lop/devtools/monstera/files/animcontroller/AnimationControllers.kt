@@ -3,29 +3,29 @@
 package com.lop.devtools.monstera.files.animcontroller
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
+import com.lop.devtools.monstera.addon.api.MonsteraExperimental
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
-class AnimationControllers: MonsteraBuildableFile {
+class AnimationControllers : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        if(animationControllersData.isEmpty())
+        if (animationControllersData.isEmpty())
             return Result.failure(Error("Animation Controller Data is empty, building does nothing!"))
 
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
-        if(path == null)
+        if (path == null)
             error("path may not be null! can't build anim controller when not clear if beh or res.")
 
-        val target = MonsteraBuilder.buildTo(path, "$sanFile.json", this)
+        val target = MonsteraBuilder.buildTo(path, sanetiseFilename(filename, "json"), this)
         return Result.success(target)
     }
 
@@ -40,6 +40,7 @@ class AnimationControllers: MonsteraBuildableFile {
 
     @SerializedName("animation_controllers")
     @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
     var animationControllersData: MutableMap<String, Controller> = mutableMapOf()
         @MonsteraBuildSetter set
 
@@ -61,13 +62,14 @@ class AnimationControllers: MonsteraBuildableFile {
         }
     }
 
-    class Controller {
+    open class Controller : MonsteraRawFile() {
         @SerializedName("initial_state")
         @Expose
         var initialState: String? = null
 
         @SerializedName("states")
         @Expose
+        @JsonAdapter(MonsteraMapFileTypeAdapter::class)
         var statesData: MutableMap<String, State>? = null
 
         fun state(name: String, data: State.() -> Unit) {
@@ -79,9 +81,53 @@ class AnimationControllers: MonsteraBuildableFile {
                 }
             }
         }
+
+        /**
+         * initialize variables to use in transitions, onEntry & onExit
+         *
+         * Note: this is a "legacy" feature it might work to just initialize the variables yourself, this is just a fallback
+         * option to create the states that try to initialize the variables
+         *
+         * ```
+         * variables {
+         *      set("my_var", Query.bodyYRotation(1))
+         *      set("my_var", "5")
+         *      set(Variable.new("my_var" to Query.headXRotation(2)))
+         * }
+         * ```
+         */
+        @MonsteraExperimental
+        fun variables(data: VariableApi.() -> Unit) {
+            if (initialState == null) {
+                getMonsteraLogger(this::class.simpleName ?: "Animation Controller")
+                    .warn("Variable initialisation 'variable { ... }' is only possible after 'initialState' is set!")
+            }
+
+            val vars = VariableApi().apply(data).variables
+            val normalIni = initialState ?: "default"
+
+            state("variable_init") {
+                onEntry = vars
+                transition("variable_init_2", Query.True)
+            }
+            state("variable_init_2") {
+                onEntry = vars
+                transition(normalIni, Query.True)
+            }
+
+            initialState = "variable_init"
+        }
     }
 
-    class State {
+    open class State : MonsteraRawFile() {
+
+        /**
+         * resource pack only!
+         */
+        @SerializedName("blend_transition")
+        @Expose
+        var blendTransition: Number? = null
+
         @SerializedName("animations")
         @Expose
         var animations: MutableList<Any>? = null

@@ -8,7 +8,7 @@ import com.lop.devtools.monstera.files.res.sounds.CategorySound
  * applies the sound data to the addon
  */
 @OptIn(MonsteraBuildSetter::class)
-fun Addon.unsafeApplySoundData(soundData: List<SoundData>, groupName: String) {
+fun Addon.unsafeApplySoundData(soundData: List<Sound>, groupName: String) {
     sounds {
         soundsDefinitions {
             soundData.forEach {

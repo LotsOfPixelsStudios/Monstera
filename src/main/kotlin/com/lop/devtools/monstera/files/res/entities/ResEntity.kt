@@ -3,14 +3,14 @@
 package com.lop.devtools.monstera.files.res.entities
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.getUniqueFileName
+import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.files.res.TextureIndex
 import com.lop.devtools.monstera.files.res.entities.comp.*
 import com.lop.devtools.monstera.files.res.materials.Material
@@ -19,20 +19,16 @@ import java.io.File
 import java.lang.Error
 import java.nio.file.Path
 
-class ResEntity: MonsteraBuildableFile {
+class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resEntity ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for entity file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for entity file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for entity file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.resEntity ?: "1.10.0",
                 this
@@ -51,11 +47,13 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("minecraft:client_entity")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var entity: ResEntity
-    )
+    ): MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var description: Description? = null
         @MonsteraBuildSetter set
 
@@ -78,8 +76,8 @@ class ResEntity: MonsteraBuildableFile {
         description = (description ?: Description()).apply(data)
     }
 
-    class Description {
-        @SerializedName("components")
+    class Description: MonsteraRawFile() {
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 
@@ -167,11 +165,11 @@ class ResEntity: MonsteraBuildableFile {
         }
 
         fun texture(state: String, file: File, addon: Addon) {
-            val targetName = getUniqueFileName(file)
-            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve("$targetName.png")
-            TextureIndex.instance(addon).textures.add("textures/monstera/$targetName")
+            val targetName = getUniqueFileName(file).removeSuffix(".png")
+            val targetPath = addon.config.paths.resTextures.resolve("monstera").resolve(addon.config.namespace).resolve("$targetName.png")
+            TextureIndex.instance(addon).textures.add("textures/monstera/${addon.config.namespace}/$targetName")
             file.copyTo(targetPath.toFile(), true)
-            texture(state,"textures/monstera/$targetName")
+            texture(state,"textures/monstera/${addon.config.namespace}/$targetName")
         }
 
         @SerializedName("animations")
@@ -186,10 +184,14 @@ class ResEntity: MonsteraBuildableFile {
          * @param animID the animation id e.g. animation.husk.walk
          */
         @OptIn(MonsteraBuildSetter::class)
-        fun animation(refIdentifier: String = "default", animID: String) {
-            val sanitisedAnimName = "animation.${animID.removePrefix("animation.")}"
+        fun animation(refIdentifier: String, animID: String) {
+            if(animationsData?.containsKey(refIdentifier) == true) {
+                getMonsteraLogger("Res Entity").warn(
+                    "Detected multiple definintions for animation (controller) name: '$refIdentifier'. Make sure animation names and controller names are unique!"
+                )
+            }
             animationsData = (animationsData ?: mutableMapOf()).apply {
-                put(refIdentifier, sanitisedAnimName)
+                put(refIdentifier, animID)
             }
         }
 
@@ -235,6 +237,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("locators")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var locatorsData: ResEntityLocators? = null
             @MonsteraBuildSetter set
 
@@ -248,6 +251,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("spawn_egg")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var spawnEggData: ResEntitySpawnEgg? = null
             @MonsteraBuildSetter set
 
@@ -304,6 +308,7 @@ class ResEntity: MonsteraBuildableFile {
 
         @SerializedName("scripts")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var scriptsData: ResEntityScripts? = null
             @MonsteraBuildSetter set
 

@@ -1,4 +1,5 @@
 package com.lop.devtools.monstera.files.beh.spawnrules.conditions
 
-class SpawnsOnSurface {
-}
+import com.lop.devtools.monstera.files.MonsteraRawFile
+
+class SpawnsOnSurface : MonsteraRawFile()

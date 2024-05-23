@@ -1,17 +1,19 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-class Scheduler {
+class Scheduler : MonsteraRawFile() {
     @SerializedName("min_delay_secs")
     @Expose
     var minDelaySecs: Number? = null
         
-
     @SerializedName("max_delay_secs")
     @Expose
     var maxDelaySecs: Number? = null
@@ -19,6 +21,7 @@ class Scheduler {
 
     @SerializedName("scheduled_events")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var scheduledEventsData: MutableList<ScheduledEvents>? = null
         @MonsteraBuildSetter set
 
@@ -36,8 +39,7 @@ class Scheduler {
         scheduledEventsData = (scheduledEventsData ?: mutableListOf()).also { it.add(ScheduledEvents().apply(value)) }
     }
 
-    class ScheduledEvents {
-
+    class ScheduledEvents : MonsteraRawFile() {
         @SerializedName("filters")
         @Expose
         var filtersData: MutableList<BehEntityFilter>? = null
@@ -61,6 +63,5 @@ class Scheduler {
         @SerializedName("event")
         @Expose
         var event: String? = null
-            
     }
 }

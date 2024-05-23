@@ -3,30 +3,32 @@
 package com.lop.devtools.monstera.files.res.attachables
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
 import java.nio.file.Path
 
-class ResAttachable : MonsteraBuildableFile {
+class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename
-            .removeSuffix(".json")
-            .replace("-", "_")
-            .replace(" ", "_")
+        if(isEmtpy())
+            return Result.failure(Error("File is empty!"))
         val selPath = path ?: Addon.active?.config?.paths?.resAttachable ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for attachable file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for attachable file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for attachable file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for attachable file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.resAttachable ?: "1.10.0",
                 this
@@ -34,6 +36,8 @@ class ResAttachable : MonsteraBuildableFile {
         )
         return Result.success(target)
     }
+
+    fun isEmtpy() = descriptionData == null
 
     /**
      * load json blocks with this class
@@ -45,11 +49,13 @@ class ResAttachable : MonsteraBuildableFile {
 
         @SerializedName("minecraft:attachable")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var attachable: ResAttachable
-    )
+    ): MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var descriptionData: Description? = null
         @MonsteraBuildSetter set
 
@@ -73,7 +79,9 @@ class ResAttachable : MonsteraBuildableFile {
      *      scripts {
      *          animate("hold_first_person", Query.isFirstPerson)
      *          animate("hold_third_person", !Query.isFirstPerson)
+     *          parentSetup = "v.chest_layer_visible = 0.0;"
      *      }
+     *      renderController("controller.render.armor")
      * }
      * ```
      */
@@ -82,13 +90,14 @@ class ResAttachable : MonsteraBuildableFile {
         descriptionData = (descriptionData ?: Description()).apply(data)
     }
 
-    class Description {
-        @SerializedName("components")
+    class Description: MonsteraRawFile() {
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 
         @SerializedName("materials")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var materialsData: Materials? = null
             @MonsteraBuildSetter set
 
@@ -107,6 +116,7 @@ class ResAttachable : MonsteraBuildableFile {
 
         @SerializedName("textures")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var texturesData: Textures? = null
             @MonsteraBuildSetter set
 
@@ -125,6 +135,7 @@ class ResAttachable : MonsteraBuildableFile {
 
         @SerializedName("geometry")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var geometryData: Geometry? = null
             @MonsteraBuildSetter set
 
@@ -155,6 +166,7 @@ class ResAttachable : MonsteraBuildableFile {
 
         @SerializedName("scripts")
         @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var scriptsData: Scripts? = null
             @MonsteraBuildSetter set
 
@@ -162,9 +174,28 @@ class ResAttachable : MonsteraBuildableFile {
         fun scripts(data: Scripts.() -> Unit) {
             scriptsData = (scriptsData ?: Scripts()).apply(data)
         }
+
+        @SerializedName("render_controllers")
+        @Expose
+        var renderControllerData: MutableList<Any>? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun renderController(vararg controller: String) {
+            renderControllerData = (renderControllerData ?: mutableListOf()).apply {
+                addAll(controller)
+            }
+        }
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun renderController(controller: List<String>) {
+            renderControllerData = (renderControllerData ?: mutableListOf()).apply {
+                addAll(controller)
+            }
+        }
     }
 
-    class Materials {
+    open class Materials: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
@@ -174,7 +205,7 @@ class ResAttachable : MonsteraBuildableFile {
         var enchanted: String? = null
     }
 
-    class Textures {
+    open class Textures: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
@@ -184,13 +215,13 @@ class ResAttachable : MonsteraBuildableFile {
         var enchanted: String? = null
     }
 
-    class Geometry {
+    open class Geometry: MonsteraRawFile() {
         @SerializedName("default")
         @Expose
         var default: String? = null
     }
 
-    class Scripts {
+    open class Scripts: MonsteraRawFile() {
         @SerializedName("animate")
         @Expose
         var animateData: MutableList<MutableMap<String, String>>? = null
@@ -203,5 +234,9 @@ class ResAttachable : MonsteraBuildableFile {
         fun animate(name: String, query: Molang) {
             animateData = (animateData ?: mutableListOf()).apply { add(mutableMapOf(name to query.data)) }
         }
+
+        @SerializedName("parent_setup")
+        @Expose
+        var parentSetup: String? = null
     }
 }

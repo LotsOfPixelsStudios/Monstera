@@ -23,7 +23,15 @@ open class ResourceEntityComponents(
         }
     var disableMaterial: Boolean = false
 
-    fun spawnEgg(displayText: String = "Spawn ${entityData.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
+    var hideArmor: Boolean = false
+        set(value) {
+            unsafeRawEntity.description {
+                hideArmor = value
+            }
+            field = value
+        }
+
+   fun spawnEgg(displayText: String = "Spawn ${entityData.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
         unsafeRawEntity.description {
             this.spawnEgg(data)
             langKey(

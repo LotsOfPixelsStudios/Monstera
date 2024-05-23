@@ -1,27 +1,30 @@
 package com.lop.devtools.monstera.files.res.items
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.res.ItemTextureIndex
 import com.lop.devtools.monstera.files.res.TextureIndex
+import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResItem: MonsteraBuildableFile {
+class ResItem : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        val sanFile = filename.removeSuffix(".json").replace("-", "_").replace(" ", "_")
         val selPath = path ?: Addon.active?.config?.paths?.resItem ?: run {
-            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for res item file '$sanFile' as no addon was initialized!")
-            return Result.failure(Error("Could not Resolve a path for res item file '$sanFile' as no addon was initialized!"))
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for res item file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for res item file '$filename' as no addon was initialized!"))
         }
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            "$sanFile.json",
+            sanetiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.resItem ?: "1.10.0",
                 this
@@ -38,13 +41,15 @@ class ResItem: MonsteraBuildableFile {
         @Expose
         var formatVersion: String = "1.10.0",
 
-        @SerializedName("minecraft:client_entity")
+        @SerializedName("minecraft:item")
         @Expose
-        var entity: ResItem
-    )
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+        var item: ResItem
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var description: Description? = null
         @MonsteraBuildSetter set
 
@@ -61,8 +66,8 @@ class ResItem: MonsteraBuildableFile {
         description = (description ?: Description()).apply(data)
     }
 
-    class Description {
-        @SerializedName("components")
+    class Description : MonsteraRawFile() {
+        @SerializedName("identifier")
         @Expose
         var identifier: String? = null
 
@@ -73,6 +78,7 @@ class ResItem: MonsteraBuildableFile {
 
     @SerializedName("components")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var components: Components? = null
         @MonsteraBuildSetter set
 
@@ -88,7 +94,7 @@ class ResItem: MonsteraBuildableFile {
         components = (components ?: Components()).apply(data)
     }
 
-    class Components {
+    class Components : MonsteraRawFile() {
 
         @SerializedName("minecraft:icon")
         @Expose

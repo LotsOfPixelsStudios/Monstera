@@ -1,14 +1,18 @@
 package com.lop.devtools.monstera.files.beh.entitiy.events
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.api.DebugMarker
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 
-open class BehEntityEvent {
+open class BehEntityEvent : MonsteraRawFile() {
     open class ContainsFilter : BehEntityEvent() {
         @SerializedName("filters")
         @Expose
@@ -29,21 +33,25 @@ open class BehEntityEvent {
 
     @SerializedName("add")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var addGroupsData: BehEntityAddRemove? = null
         @MonsteraBuildSetter set
 
     @SerializedName("remove")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var removeGroupsData: BehEntityAddRemove? = null
         @MonsteraBuildSetter set
 
     @SerializedName("sequence")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var sequenceData: MutableList<ContainsFilter>? = null
         @MonsteraBuildSetter set
 
     @SerializedName("randomize")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var randomizeData: MutableList<ContainsWeight>? = null
         @MonsteraBuildSetter set
 
@@ -51,6 +59,17 @@ open class BehEntityEvent {
     @Expose
     var setPropertyData: MutableMap<String, Any>? = null
         @MonsteraBuildSetter set
+
+    @SerializedName("queue_command")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var queueCommandData: QueueCommand? = null
+        @MonsteraBuildSetter set
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun queueCommand(command: String) {
+        queueCommandData = QueueCommand().apply { this.command = command }
+    }
 
 
     /**
@@ -142,7 +161,13 @@ open class BehEntityEvent {
         groups.addAll(addGroupsData?.componentGroups ?: listOf())
         groups.addAll(sequenceData?.flatMap { it.getAddedGroups() } ?: listOf())
         groups.addAll(randomizeData?.flatMap { it.getAddedGroups() } ?: listOf())
-        
+
         return groups
+    }
+
+    class QueueCommand : MonsteraRawFile() {
+        @SerializedName("command")
+        @Expose
+        var command: String? = null
     }
 }

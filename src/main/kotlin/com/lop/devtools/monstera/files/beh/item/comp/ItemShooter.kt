@@ -1,9 +1,12 @@
 package com.lop.devtools.monstera.files.beh.item.comp
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class ItemShooter {
+class ItemShooter : MonsteraRawFile() {
     @SerializedName("max_draw_duration")
     @Expose
     var maxDrawDuration: Number? = null
@@ -18,6 +21,7 @@ class ItemShooter {
 
     @SerializedName("ammunition")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var ammunitionData: MutableList<Ammunition>? = null
 
     /**
@@ -36,7 +40,7 @@ class ItemShooter {
         ammunitionData = (ammunitionData ?: mutableListOf()).apply { add(Ammunition().apply(data)) }
     }
 
-    class Ammunition {
+    class Ammunition : MonsteraRawFile() {
         @SerializedName("item")
         @Expose
         var item: String? = null

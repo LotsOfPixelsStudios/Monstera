@@ -1,21 +1,24 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components.scraped
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.entitiy.components.BehEntityTypes
 import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 
-class BehAvoidMobType {
-
+class BehAvoidMobType : MonsteraRawFile() {
     @SerializedName("priority")
     @Expose
     var priority: Number? = null
         
-
     @SerializedName("entity_types")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var entityTypesData: MutableList<BehEntityTypes>? = null
         @MonsteraBuildSetter set
 
@@ -39,19 +42,17 @@ class BehAvoidMobType {
     @Expose
     var probabilityPerStrength: Number? = null
         
-
     @SerializedName("remove_target")
     @Expose
     var removeTarget: Boolean? = null
         
-
     @SerializedName("avoid_mob_sound")
     @Expose
     var avoidMobSound: String? = null
         
-
     @SerializedName("sound_interval")
     @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
     var soundIntervalData: SoundInterval? = null
         @MonsteraBuildSetter set
 
@@ -105,27 +106,23 @@ class BehAvoidMobType {
         onEscapeEventData = (onEscapeEventData ?: OnEscapeEvent()).apply(value)
     }
 
-    class SoundInterval {
+    class SoundInterval : MonsteraRawFile() {
         @SerializedName("range_min")
         @Expose
         var rangeMin: Number? = null
             
-
         @SerializedName("range_max")
         @Expose
         var rangeMax: Number? = null
-            
     }
 
-    class OnEscapeEvent {
+    class OnEscapeEvent : MonsteraRawFile() {
         @SerializedName("event")
         @Expose
         var event: String? = null
             
-
         @SerializedName("target")
         @Expose
         var target: Subject? = null
-            
     }
 }

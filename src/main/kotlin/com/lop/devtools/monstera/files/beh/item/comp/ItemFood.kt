@@ -1,10 +1,13 @@
 package com.lop.devtools.monstera.files.beh.item.comp
 
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class ItemFood {
+class ItemFood : MonsteraRawFile() {
     @SerializedName("can_always_eat")
     @Expose
     var canAlwaysEat: Boolean? = null
@@ -23,6 +26,7 @@ class ItemFood {
 
     @SerializedName("effects")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var effects: MutableList<Effect>? = null
         @MonsteraBuildSetter set
 
@@ -34,7 +38,7 @@ class ItemFood {
         effects = (effects ?: mutableListOf()).apply { add(Effect().apply(data)) }
     }
 
-    class Effect {
+    class Effect : MonsteraRawFile() {
         @SerializedName("name")
         @Expose
         var name: String? = null
