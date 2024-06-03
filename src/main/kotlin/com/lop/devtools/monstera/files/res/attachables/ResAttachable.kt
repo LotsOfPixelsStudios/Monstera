@@ -19,7 +19,7 @@ import java.nio.file.Path
 
 class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
     override fun build(filename: String, path: Path?, version: String?): Result<Path> {
-        if(isEmtpy())
+        if(isEmpty())
             return Result.failure(Error("File is empty!"))
         val selPath = path ?: Addon.active?.config?.paths?.resAttachable ?: run {
             getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for attachable file '$filename' as no addon was initialized!")
@@ -37,7 +37,7 @@ class ResAttachable : MonsteraBuildableFile, MonsteraRawFile() {
         return Result.success(target)
     }
 
-    fun isEmtpy() = descriptionData == null
+    fun isEmpty() = descriptionData == null
 
     /**
      * load json blocks with this class

@@ -11,14 +11,6 @@ import java.io.File
 import java.nio.file.Path
 
 class AttachableApi(val identifier: String, val rawFile: ResAttachable, val addon: Addon) {
-    init {
-        rawFile.apply {
-            description {
-                this.identifier = this@AttachableApi.identifier
-            }
-        }
-    }
-    
     fun geometry(file: File) {
         val uniqueFilename = getUniqueFileName(file)
         val id = getGeoId(file)

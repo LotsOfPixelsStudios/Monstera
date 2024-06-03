@@ -18,6 +18,7 @@ import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.getMonsteraLogger
 
+
 open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(entityData) {
     private fun logger() = getMonsteraLogger("Behaviour")
 
