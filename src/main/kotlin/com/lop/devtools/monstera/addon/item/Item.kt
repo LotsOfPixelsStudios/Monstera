@@ -119,8 +119,14 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
 
         behItem.build(name, addon.config.paths.behItems)
 
-        if(!attachable.isEmtpy())
+        if(!attachable.isEmpty()) {
+            attachable.apply {
+                description {
+                    this.identifier = this@Item.identifier()
+                }
+            }
             attachable.build(name)
+        }
 
         //resItem.build(name)
 
