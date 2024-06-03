@@ -11,19 +11,19 @@ import com.lop.devtools.monstera.files.res.entities.comp.ResEntitySpawnEgg
 import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderControllers
 
 open class ResourceEntityComponents(
-    val unsafeParent: Entity,
+    val entityData: Entity.Data,
     val unsafeRawEntity: ResEntity,
     val unsafeRenderController: ResRenderControllers
 ) {
-    var enableAttachment: Boolean? = null
-    var material: String = "parrot"
+    open var enableAttachment: Boolean? = null
+    open var material: String = "parrot"
         set(value) {
             disableMaterial = false
             field = value
         }
-    var disableMaterial: Boolean = false
+    open var disableMaterial: Boolean = false
 
-    var hideArmor: Boolean = false
+    open var hideArmor: Boolean = false
         set(value) {
             unsafeRawEntity.description {
                 hideArmor = value
@@ -31,16 +31,16 @@ open class ResourceEntityComponents(
             field = value
         }
 
-    fun spawnEgg(displayText: String = "Spawn ${unsafeParent.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
+    open fun spawnEgg(displayText: String = "Spawn ${entityData.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
         unsafeRawEntity.description {
             this.spawnEgg(data)
             langKey(
-                "item.spawn_egg.entity.${unsafeParent.getIdentifier()}.name",
+                "item.spawn_egg.entity.${entityData.identifier}.name",
                 displayText
             )
         }
         //tells the behaviour to set the entity as spawnAble so the spawnegg is displayed in the creative inventory
-        unsafeParent.unsafeSpawnAble = true
+        entityData.spawnAble = true
     }
 
     /**
@@ -49,7 +49,7 @@ open class ResourceEntityComponents(
      * particleEffect("smoke", "namespace:smoke_particle")
      * ```
      */
-    fun particleEffect(name: String, particle: String) = unsafeRawEntity.description { particleEffect(name, particle) }
+    open fun particleEffect(name: String, particle: String) = unsafeRawEntity.description { particleEffect(name, particle) }
 
     /**
      * can be called multiple times
@@ -57,28 +57,21 @@ open class ResourceEntityComponents(
      * soundEffect("attack_1", "mob.entity.attack_1")
      * ```
      */
-    fun soundEffect(name: String, sound: String) = unsafeRawEntity.description { soundEffect(name, sound) }
+    open fun soundEffect(name: String, sound: String) = unsafeRawEntity.description { soundEffect(name, sound) }
 
-    fun locators(data: ResEntityLocators.() -> Unit) {
+    open fun locators(data: ResEntityLocators.() -> Unit) {
         unsafeRawEntity.description {
             this.locators(data)
         }
     }
 
-    fun scripts(settings: ResEntityScripts.() -> Unit) {
+    open fun scripts(settings: ResEntityScripts.() -> Unit) {
         unsafeRawEntity.description {
             this.scripts(settings)
         }
     }
 
-    fun build() {
+    open fun build() {
         enableAttachment?.let { unsafeRawEntity.description { enableAttachment = it } }
-        if (!disableMaterial) {
-            unsafeParent.resource {
-                renderPart("default") {
-                    material = this@ResourceEntityComponents.material
-                }
-            }
-        }
     }
 }

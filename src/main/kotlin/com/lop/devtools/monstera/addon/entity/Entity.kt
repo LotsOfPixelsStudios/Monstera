@@ -8,16 +8,31 @@ import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
 import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
-class Entity(
+open class Entity(
     val addon: Addon,
     var name: String = "undefined",
     var displayName: String = name
 ) {
-    val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(this)
-    val unsafeResourceEntity: ResourceEntity = ResourceEntity(this)
+    data class Data(
+        var addon: Addon,
+        var name: String,
+        var displayName: String,
+        var identifier: String,
+        var spawnAble: Boolean,
+        var sounds: MutableList<Sound> = mutableListOf()
+    )
 
-    var unsafeSpawnAble: Boolean = false
-    val unsafeSoundData: MutableList<Sound> = mutableListOf()
+    val data = Data(
+        addon = addon,
+        name = name,
+        displayName = displayName,
+        identifier = getIdentifier(),
+        spawnAble = false,
+        sounds = mutableListOf()
+    )
+
+    open val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(data)
+    open val unsafeResourceEntity: ResourceEntity = ResourceEntity(data)
 
     /**
      * @return the identifier of the entity as it is defined in the final beh/res pack
@@ -42,7 +57,7 @@ class Entity(
      * }
      * ```
      */
-    fun resource(entity: ResourceEntity.() -> Unit) {
+    open fun resource(entity: ResourceEntity.() -> Unit) {
         unsafeResourceEntity.apply(entity)
     }
 
@@ -72,16 +87,16 @@ class Entity(
      *  }
      * ````
      */
-    fun behaviour(entity: BehaviourEntity.() -> Unit) {
+    open fun behaviour(entity: BehaviourEntity.() -> Unit) {
         unsafeBehaviourEntity.apply(entity)
     }
 
-    fun build() {
+    open fun build() {
         unsafeBehaviourEntity.build()
         unsafeResourceEntity.build()
 
-        if (unsafeSoundData.isNotEmpty()) {
-            addon.unsafeApplySoundData(unsafeSoundData, getIdentifier())
+        if (data.sounds.isNotEmpty()) {
+            addon.unsafeApplySoundData(data.sounds, getIdentifier())
         }
     }
 }

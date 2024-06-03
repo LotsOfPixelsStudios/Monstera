@@ -10,16 +10,16 @@ import com.lop.devtools.monstera.files.res.sounds.CategorySound
 import com.lop.devtools.monstera.files.res.sounds.SoundCategory
 
 
-open class OverwriteComponents(private val unsafeParent: Entity) {
-    fun Rideable.exitText(displayText: String, key: String) {
-        exitText(displayText, key, unsafeParent.addon.config)
+open class OverwriteComponents(private val entityData: Entity.Data) {
+    open fun Rideable.exitText(displayText: String, key: String) {
+        exitText(displayText, key, entityData.addon.config)
     }
 
-    fun Rideable.interactText(
+    open fun Rideable.interactText(
         displayName: String?,
         key: String = "action.interact." + displayName?.replace(" ", "_")?.lowercase()
     ) {
-        interactText(displayName, key, unsafeParent.addon.config)
+        interactText(displayName, key, entityData.addon.config)
     }
 
     /**
@@ -52,24 +52,24 @@ open class OverwriteComponents(private val unsafeParent: Entity) {
      * @return the sound identifier
      */
     @MonsteraApi
-    fun sound(identifier: String, data: Sound.() -> Unit): String {
-        val soundData = Sound(unsafeParent.addon)
+    open fun sound(identifier: String, data: Sound.() -> Unit): String {
+        val soundData = Sound(entityData.addon)
         soundData.identifier = identifier
         soundData.category = SoundCategory.NEUTRAL
         soundData.categorySound = CategorySound.ENTITY
-        unsafeParent.unsafeSoundData.add(soundData.apply(data))
+        entityData.sounds.add(soundData.apply(data))
         return soundData.identifier
     }
 
     /**
      * overwrites the name of the entity (not the item)
      */
-    fun Inventory.containerName(displayName: String) {
-        val langKey = "entity.${unsafeParent.name}.name"
-        unsafeParent.addon.config.langFileBuilder.addonRes.addOrReplace(langKey, displayName)
+    open fun Inventory.containerName(displayName: String) {
+        val langKey = "entity.${entityData.name}.name"
+        entityData.addon.config.langFileBuilder.addonRes.addOrReplace(langKey, displayName)
     }
 
-    fun BehEntityEvent.setProperty(property: String, value: Any) {
-        setProperty(property, value, unsafeParent.addon)
+    open fun BehEntityEvent.setProperty(property: String, value: Any) {
+        setProperty(property, value, entityData.addon)
     }
 }
