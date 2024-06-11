@@ -2,9 +2,11 @@ package com.lop.devtools.monstera.addon.block
 
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.getGeoId
+import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
+import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
 import com.lop.devtools.monstera.files.beh.blocks.components.MaterialInstance
 import com.lop.devtools.monstera.files.beh.blocks.components.MaterialSettings
 import com.lop.devtools.monstera.files.createWithDirs
@@ -51,6 +53,16 @@ open class Block(
         val target = addon.config.paths.resModels.resolve("blocks").resolve(uniqueFilename).toFile()
         file.copyTo(target.createWithDirs(), true)
         geometry(getGeoId(file))
+    }
+
+    /**
+     * adds a geometry file to the build and reruns the geo id without setting the component in the description
+     */
+    fun blockGeometry(file: File): String {
+        val uniqueFilename = getUniqueFileName(file)
+        val target = addon.config.paths.resModels.resolve("blocks").resolve(uniqueFilename).toFile()
+        file.copyTo(target.createWithDirs(), true)
+        return getGeoId(file)
     }
 
     /**
@@ -142,6 +154,34 @@ open class Block(
     fun sound(name: String) {
         unsafeBlockDefs.addDefinition(identifier()) {
             sound = name
+        }
+    }
+
+    fun state(name: String, data: List<Any>) {
+        unsafeBehBlock.description {
+            val serName = name.removePrefix(addon.config.namespace + ":")
+            state("${addon.config.namespace}:$serName", data)
+        }
+    }
+
+    fun state(name: String, vararg data: Number) {
+        state(name, data.toList())
+    }
+
+    fun state(name: String, vararg data: String) {
+        state(name, data.toList())
+    }
+
+    fun boolState(name: String) {
+        state(name, listOf(true, false))
+    }
+
+    fun permutation(query: Molang, components: BlockComponents.() -> Unit) {
+        unsafeBehBlock.description {
+            this.permutation {
+                condition = query.data
+                components(components)
+            }
         }
     }
 

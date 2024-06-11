@@ -221,7 +221,7 @@ open class Addon(val config: Config, val args: Array<String>) {
      *         //...
      *    }
      *    //or
-     *    geometry(file)
+     *    blockGeometry(file)
      *    texture(file)
      *    sound { }
      * }
