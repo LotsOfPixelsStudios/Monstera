@@ -152,6 +152,9 @@ class BlockComponents : MonsteraRawFile() {
     @Expose
     var loot: String? = null
 
+    @Deprecated("naming", ReplaceWith("lootTable()"))
+    fun table(tableName: String, data: BehLootTables.() -> Unit) = lootTable(tableName, data)
+
     /**
      * ```
      * table("name") {
@@ -159,7 +162,7 @@ class BlockComponents : MonsteraRawFile() {
      * }
      * ```
      */
-    fun table(tableName: String, data: BehLootTables.() -> Unit) {
+    fun lootTable(tableName: String, data: BehLootTables.() -> Unit) {
         val lootTables = BehLootTables().apply(data)
         lootTables.debug(tableName)
         val target = BehLootTables.Block(lootTables).build(tableName)
