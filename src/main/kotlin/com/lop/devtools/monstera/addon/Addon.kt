@@ -217,6 +217,9 @@ open class Addon(val config: Config, val args: Array<String>) {
      *
      * ```
      * block {
+     *    menuCategory { }
+     *    components { }
+     *
      *    defaultBlock {
      *         //...
      *    }

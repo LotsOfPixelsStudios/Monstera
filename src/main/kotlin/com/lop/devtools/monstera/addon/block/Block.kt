@@ -6,8 +6,8 @@ import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.sound.Sound
 import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
+import com.lop.devtools.monstera.files.beh.blocks.MenuCategory
 import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
-import com.lop.devtools.monstera.files.beh.blocks.components.MaterialInstance
 import com.lop.devtools.monstera.files.beh.blocks.components.MaterialSettings
 import com.lop.devtools.monstera.files.createWithDirs
 import com.lop.devtools.monstera.files.getUniqueFileName
@@ -35,6 +35,42 @@ open class Block(
      * returns the identifier of the block that can be called in a command
      */
     fun identifier() = "${addon.config.namespace}:$name"
+
+    /**
+     * ```
+     * menuCategory {
+     *     category = "construction"
+     *     group = "itemGroup.name.concrete"
+     *     isHiddenInCommands = false
+     * }
+     * ```
+     */
+    fun menuCategory(data: MenuCategory.() -> Unit) {
+        unsafeBehBlock.description {
+            menuCategory(data)
+        }
+    }
+
+    /**
+     * ```
+     * collisionBox { }
+     * craftingTable { }
+     * destructibleByExplosion { }
+     * destructibleByMining { }
+     * flammable { }
+     * lootTable("name") { }
+     * mapColor(Color)
+     * placementFilter { }
+     * selectionBox { }
+     * transformation { }
+     * lightDampening = Number
+     * lightEmission = Number
+     * friction = Number
+     * ```
+     */
+    fun components(data: BlockComponents.() -> Unit) {
+        unsafeBehBlock.components(data)
+    }
 
     /**
      * set a geometry with id, note: generally not save to use, make sure the model is already in the build files
