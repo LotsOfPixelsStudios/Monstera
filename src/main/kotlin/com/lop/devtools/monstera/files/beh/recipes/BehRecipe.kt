@@ -109,7 +109,7 @@ class BehRecipeBrewingContainer : MonsteraBuildableFile {
     }
 }
 
-class BehRecipe {
+class BehRecipe : MonsteraRawFile() {
     /**
      * load json blocks with this class
      */
@@ -122,7 +122,7 @@ class BehRecipe {
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    ): MonsteraRawFile()
+    ) : MonsteraRawFile()
 
     data class FileHeaderFurnace(
         @SerializedName("format_version")
@@ -133,7 +133,7 @@ class BehRecipe {
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    ): MonsteraRawFile()
+    ) : MonsteraRawFile()
 
     data class FileHeaderBrewingMix(
         @SerializedName("format_version")
@@ -144,7 +144,7 @@ class BehRecipe {
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    ): MonsteraRawFile()
+    ) : MonsteraRawFile()
 
     data class FileHeaderBrewingContainer(
         @SerializedName("format_version")
@@ -155,7 +155,7 @@ class BehRecipe {
         @Expose
         @JsonAdapter(MonsteraRawFileTypeAdapter::class)
         var recipe: BehRecipe
-    ): MonsteraRawFile()
+    ) : MonsteraRawFile()
 
     @SerializedName("description")
     @Expose
@@ -168,7 +168,7 @@ class BehRecipe {
         descriptionData = Description().apply { this.identifier = identifier }
     }
 
-    class Description: MonsteraRawFile() {
+    class Description : MonsteraRawFile() {
         @SerializedName("identifier")
         @Expose
         var identifier: String? = null
