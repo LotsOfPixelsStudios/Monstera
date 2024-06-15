@@ -12,4 +12,8 @@ class Health : MonsteraRawFile() {
     @SerializedName("max")
     @Expose
     var max: Number? = null
+
+    @SerializedName("min")
+    @Expose
+    var min: Number? = null
 }
