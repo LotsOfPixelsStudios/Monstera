@@ -24,6 +24,8 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
 
     open fun getRenderControllerId() = "${entityData.name}.$partName"
 
+    open fun isEmpty() = hasTextureLayer  //without a texture a render controller is invalid
+
     /**
      * CAUTION, path refers to the path within the build file, you probably want to give a File as a texture
      *

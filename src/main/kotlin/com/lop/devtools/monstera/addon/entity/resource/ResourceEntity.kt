@@ -336,8 +336,10 @@ open class ResourceEntity(val entityData: Entity.Data) {
     }
 
     open fun build() {
+        val buildDefaultRenderPart = renderParts.isEmpty() || renderParts.any { it.partName == "default" && !it.isEmpty() }
+
         unsafeComponents.build()
-        if (!unsafeComponents.disableMaterial) {
+        if (!unsafeComponents.disableMaterial && buildDefaultRenderPart) {
             renderPart("default") {
                 material = unsafeComponents.material
             }
@@ -348,7 +350,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
             langKey("entity.$identifier.name", entityData.displayName)
         }
         if (!disableRender) {
-            if (unsafeApplyDefaultTexture) {
+            if (unsafeApplyDefaultTexture && buildDefaultRenderPart) {
                 unsafeRawEntity.apply {
                     description {
                         renderPart("default") {
@@ -358,7 +360,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
                 }
             }
 
-            if (unsafeApplyDefaultGeometry)
+            if (unsafeApplyDefaultGeometry && buildDefaultRenderPart)
                 unsafeRawEntity.apply {
                     description {
                         renderPart("default") {
