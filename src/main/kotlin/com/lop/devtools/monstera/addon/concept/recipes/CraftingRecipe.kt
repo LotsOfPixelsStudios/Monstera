@@ -6,24 +6,32 @@ import com.lop.devtools.monstera.addon.api.MonsteraUnsafe
 import com.lop.devtools.monstera.files.beh.recipes.BehRecipe
 import com.lop.devtools.monstera.files.beh.recipes.BehRecipeShaped
 import com.lop.devtools.monstera.files.beh.recipes.RecipeTags
+import java.nio.file.Path
 
-class CraftingRecipe: MonsteraFile {
+class CraftingRecipe : MonsteraFile {
     override val unsafe = Unsafe()
 
-    inner class Unsafe: MonsteraUnsafe {
+    inner class Unsafe : MonsteraUnsafe {
         val rawRecipe = BehRecipeShaped()
         val keyPattern = mutableMapOf<String, String>()
 
         fun isEmpty() = keyPattern.isEmpty()
 
-        fun build(name: String, identifier: String, addon: Addon, resultItem: String = identifier) {
+        fun build(
+            name: String,
+            identifier: String,
+            addon: Addon,
+            resultItem: String = identifier,
+            path: Path = addon.config.paths.behRecipe,
+            formatVersion: String = addon.config.formatVersions.behRecipe
+        ) {
             rawRecipe.data.description(identifier)
             rawRecipe.data.result { item = resultItem }
             keyPattern.forEach { (id, key) ->
                 rawRecipe.data.addKey(key, id)
             }
 
-            rawRecipe.build(name, addon.config.paths.behRecipe, addon.config.formatVersions.behRecipe)
+            rawRecipe.build(name, path, formatVersion)
         }
     }
 
@@ -72,7 +80,7 @@ class CraftingRecipe: MonsteraFile {
         unsafe.rawRecipe.data.unlockRequirement(data)
     }
 
-    @Deprecated("old", ReplaceWith("unlockRequirement(data)"),)
+    @Deprecated("old", ReplaceWith("unlockRequirement(data)"))
     fun unlock(data: BehRecipe.ItemInfo.() -> Unit) = unlockRequirement(data)
 
     fun t(i1: String, i2: String, i3: String) = Triple(i1, i2, i3)
@@ -86,12 +94,12 @@ class CraftingRecipe: MonsteraFile {
     }
 
     private fun compilePattern(t: String): String {
-        if(t.isEmpty() || t == " ")
+        if (t.isEmpty() || t == " ")
             return " "
-        if(unsafe.keyPattern.containsKey(t))
+        if (unsafe.keyPattern.containsKey(t))
             return unsafe.keyPattern[t]!!
 
-        val ret = when(unsafe.keyPattern.size) {
+        val ret = when (unsafe.keyPattern.size) {
             0 -> "F"
             1 -> "G"
             2 -> "H"

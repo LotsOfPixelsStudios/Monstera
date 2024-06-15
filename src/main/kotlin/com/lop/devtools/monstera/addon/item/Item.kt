@@ -19,6 +19,12 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
     @MonsteraUnsafeField
     val behItem = BehItem()
 
+    var behItemFormatVersion = addon.config.formatVersions.behItem
+    var resAttachablePath = addon.config.paths.resAttachable
+    var resAttachableVersion = addon.config.formatVersions.resAttachable
+    var behRecipePath = addon.config.paths.behRecipe
+    var behRecipeFormatVersion = addon.config.formatVersions.behRecipe
+
     @MonsteraUnsafeField
     var category: String = "equipment"
 
@@ -56,7 +62,8 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
 
         texture.copyTo(target, true)
         TextureIndex.instance(addon).textures.add("textures/items/monstera/${uniqueFilename.removeSuffix(".png")}")
-        ItemTextureIndex.instance(addon).addItemTexture(name, "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}")
+        ItemTextureIndex.instance(addon)
+            .addItemTexture(name, "textures/items/monstera/${uniqueFilename.removeSuffix(".png")}")
         behItem.description {
             components {
                 icon {
@@ -117,20 +124,20 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
         }
         langKey("item.${identifier()}.name", displayName)
 
-        behItem.build(name, addon.config.paths.behItems)
+        behItem.build(name, addon.config.paths.behItems, behItemFormatVersion)
 
-        if(!attachable.isEmpty()) {
+        if (!attachable.isEmpty()) {
             attachable.apply {
                 description {
                     this.identifier = this@Item.identifier()
                 }
             }
-            attachable.build(name)
+            attachable.build(name, resAttachablePath, resAttachableVersion)
         }
 
         //resItem.build(name)
 
         if (!craftingRecipe.unsafe.isEmpty())
-            craftingRecipe.unsafe.build(name, identifier(), addon)
+            craftingRecipe.unsafe.build(name, identifier(), addon, identifier(), behRecipePath, behRecipeFormatVersion)
     }
 }

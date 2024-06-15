@@ -14,7 +14,7 @@ class AttachableApi(val identifier: String, val rawFile: ResAttachable, val addo
     fun geometry(file: File) {
         val uniqueFilename = getUniqueFileName(file)
         val id = getGeoId(file)
-        val target = addon.config.paths.resModels.resolve("attachables").resolve(uniqueFilename)
+        val target = addon.config.paths.resModels.resolve("entity").resolve(uniqueFilename)
         file.copyTo(target.toFile(), true)
         geometry(id)
     }
