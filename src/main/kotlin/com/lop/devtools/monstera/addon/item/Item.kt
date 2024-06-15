@@ -7,6 +7,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraUnsafeField
 import com.lop.devtools.monstera.addon.concept.attachable.AttachableApi
 import com.lop.devtools.monstera.addon.concept.recipes.CraftingRecipe
 import com.lop.devtools.monstera.files.beh.item.BehItem
+import com.lop.devtools.monstera.files.beh.item.BehItem.Description.CategoryData
 import com.lop.devtools.monstera.files.beh.item.BehItemComponents
 import com.lop.devtools.monstera.files.getUniqueFileName
 import com.lop.devtools.monstera.files.lang.langKey
@@ -26,9 +27,6 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
     var behRecipeFormatVersion = addon.config.formatVersions.behRecipe
 
     @MonsteraUnsafeField
-    var category: String = "equipment"
-
-    @MonsteraUnsafeField
     val craftingRecipe: CraftingRecipe = CraftingRecipe()
 
     @MonsteraUnsafeField
@@ -37,13 +35,22 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
     @MonsteraUnsafeField
     val attachableApi = AttachableApi(identifier(), attachable, addon)
 
+    @Deprecated("", ReplaceWith("menuCategory { category = category }"))
     fun category(category: String = "Equipment") {
-        this.category = category
+        menuCategory {
+            this.category = BehItem.Description.Category.EQUIPMENT
+        }
     }
 
-    fun menuCategory(data: BehItem.Description.Category) {
+    /**
+     * ```
+     * category = Category.EQUIPMENT
+     * group = "itemGroup.name.chestplate"
+     * ```
+     */
+    fun menuCategory(data: CategoryData.() -> Unit) {
         behItem.description {
-            this.menuCategory = data
+            menuCategory(data)
         }
     }
 
@@ -117,7 +124,9 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
         behItem.description {
             identifier = identifier()
             if (menuCategoryData == null)
-                menuCategory = BehItem.Description.Category.ITEMS
+                menuCategory {
+                    category = BehItem.Description.Category.ITEMS
+                }
         }
         behItem.components {
             displayNameKey("item.${identifier()}.name")

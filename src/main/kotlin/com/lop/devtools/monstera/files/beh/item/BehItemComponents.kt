@@ -44,6 +44,7 @@ class BehItemComponents : MonsteraRawFile() {
         @MonsteraBuildSetter set
 
     @OptIn(MonsteraBuildSetter::class)
+    @Deprecated("Deprecated since 1.50.0", ReplaceWith("wearable { }"))
     fun armor(data: ItemArmor.() -> Unit) {
         armorData = (armorData ?: ItemArmor()).apply(data)
     }
@@ -567,6 +568,7 @@ class BehItemComponents : MonsteraRawFile() {
      * wearable {
      *     dispensable = true
      *     slot = Slot.ARMOR_CHEST
+     *     protection = 10
      * }
      * ```
      */

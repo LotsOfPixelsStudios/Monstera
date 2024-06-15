@@ -17,7 +17,9 @@ class BasicItem {
     fun basicItemTest() = testAddon {
         buildToMcFolder = true
         item("basic_item", "My basic Item") {
-            menuCategory(BehItem.Description.Category.CONSTRUCTION)
+            menuCategory {
+                category = BehItem.Description.Category.EQUIPMENT
+            }
             components {
                 damage(10)
                 durability {
