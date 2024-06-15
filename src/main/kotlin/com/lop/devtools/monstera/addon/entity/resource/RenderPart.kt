@@ -21,8 +21,11 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
 
     open var material: String = "parrot"
     open var hasTextureLayer = false
+    open var hasGeo = false
 
     open fun getRenderControllerId() = "${entityData.name}.$partName"
+
+    open fun isEmpty() = hasGeo && hasTextureLayer  //without these 2 a render controller is invalid
 
     /**
      * CAUTION, path refers to the path within the build file, you probably want to give a File as a texture
@@ -141,6 +144,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
                 geometry = "Geometry.$id"
             }
         }
+        hasGeo = true
     }
 
     /**
@@ -221,6 +225,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
                 }
             }
         }
+        hasGeo = true
     }
 
     open fun onHurtColor(color: Color) {
