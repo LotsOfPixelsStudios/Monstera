@@ -11,6 +11,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.beh.blocks.MenuCategory
 import com.lop.devtools.monstera.files.sanetiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.lang.Error
@@ -150,16 +151,32 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
             @MonsteraBuildSetter set
 
         @OptIn(MonsteraBuildSetter::class)
+        @Deprecated("", ReplaceWith("menuCategory { }"))
         var menuCategory = Category.ITEMS
             set(value) {
                 menuCategoryData = CategoryData().also { it.category = value }
                 field = value
             }
 
+        /**
+         * ```
+         * category = Category.EQUIPMENT
+         * group = "itemGroup.name.chestplate"
+         * ```
+         */
+        @OptIn(MonsteraBuildSetter::class)
+        fun menuCategory(data: CategoryData.() -> Unit) {
+            menuCategoryData = (menuCategoryData ?: CategoryData()).apply(data)
+        }
+
         class CategoryData : MonsteraRawFile() {
             @SerializedName("category")
             @Expose
             var category: Category? = null
+
+            @SerializedName("group")
+            @Expose
+            var group: String? = null
         }
 
         enum class Category {
@@ -167,7 +184,10 @@ class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
             ITEMS,
 
             @SerializedName("construction")
-            CONSTRUCTION;
+            CONSTRUCTION,
+
+            @SerializedName("equipment")
+            EQUIPMENT;
 
             override fun toString(): String {
                 return super.toString().lowercase()

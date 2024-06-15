@@ -13,6 +13,10 @@ class ItemWearable : MonsteraRawFile() {
     @Expose
     var slot: Slot? = null
 
+    @SerializedName("protection")
+    @Expose
+    var protection: Int? = null
+
     enum class Slot(private val s: String) {
         @SerializedName("slot.weapon.mainhand")
         MAIN_HAND("slot.weapon.mainhand"),
