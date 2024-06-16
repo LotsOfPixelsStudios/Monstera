@@ -80,10 +80,10 @@ To add and remove Component Groups we can use events by calling within the entit
 behaviour {
     event("grow_up") {
         remove {
-            componentGroup = "baby"
+            componentGroups("baby", "scared")
         }
         add {
-            componentGroup = "adult"
+            componentGroups("adult")
         }
     }
 }
@@ -128,7 +128,7 @@ You always have to define a default value and to each type some sepsifc values:
 ````kotlin
 enum("my_enum_prop") {
     default("sit")  //could also be a Molang Expression/Query
-    values = arrayListOf("sit", "stand")
+    values("sit", "stand")
     clientSync = true   //access this property in the resource pack
 }
 ````
@@ -290,7 +290,8 @@ resource {
 }
 ````
 
-You can define multiple render parts.
+You can define multiple render parts. The default render controller is build if no valid render part is defined or if 
+a texture or geometry was assigned in the top level (`resource { textureLayer(getResource("...") ) }`).
 
 ### Animations and Controllers
 
