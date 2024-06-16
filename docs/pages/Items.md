@@ -8,7 +8,10 @@ Items are currently relatively simple, as geometries etc. are limited.
 item("my_item", "My Item") {
     renderOffset("tools")
     texture(getResource("test_item"))
-    category("Equipment")
+    menuCategory {
+        category = BehItem.Description.Category.EQUIPMENT
+        grouo = "itemGroup.name.chestplate"
+    }
     components {
         //...
     }
@@ -21,20 +24,37 @@ Make sure when creating weapons, to set `handEquipped = true` within the compone
 
 ````kotlin
 components {
-    creativeInventory()
-    maxStackSize = 1
-    enchantable(10, "armor_torso")
-    armor(2)
-    repairable {}
-    wearable(true, "slot.armor.chest")
-    durability(0.2f, 150)
-    maxDamage(2)
-    handEquipped = false
-    stackByData(false)
-    foil(true)
-    block("minecraft:grass")
-    useDuration(32)
-    food {}
+    allowOffHandData(true)
+    armor { }
+    blockPlacer { }
+    canDestroyInCreative(true)
+    cooldown { }
+    cooldown(5, "attack")
+    creativeCategory { }
+    damage(5)
+    digger { }
+    durability { }
+    enchantable { }
+    entityPlacer { }
+    food { }
+    fuel { }
+    glint = true
+    handEquipped(true)
+    hoverTextColor = "#ffffff"
+    interactButton = true
+    liquidClipped(true)
+    maxStackSize(1)
+    projectile { }
+    record { }
+    repairable { }
+    shooter { }
+    shouldDespawn(true)
+    stackedByData(false)
+    throwable { }
+    useAnimation = "animation.item.draw"
+    useModifiers { }
+    wearable { }
+    tags("armor")
 }
 ````
 

@@ -91,6 +91,41 @@ class Item(val name: String, val displayName: String, val addon: Addon) {
         }
     }
 
+    /**
+     * ```
+     * allowOffHandData(true)
+     * armor { }
+     * blockPlacer { }
+     * canDestroyInCreative(true)
+     * cooldown { }
+     * cooldown(5, "attack")
+     * creativeCategory { }
+     * damage(5)
+     * digger { }
+     * durability { }
+     * enchantable { }
+     * entityPlacer { }
+     * food { }
+     * fuel { }
+     * glint = true
+     * handEquipped(true)
+     * hoverTextColor = "#ffffff"
+     * interactButton = true
+     * liquidClipped(true)
+     * maxStackSize(1)
+     * projectile { }
+     * record { }
+     * repairable { }
+     * shooter { }
+     * shouldDespawn(true)
+     * stackedByData(false)
+     * throwable { }
+     * useAnimation = "animation.item.draw"
+     * useModifiers { }
+     * wearable { }
+     * tags("armor")
+     * ```
+     */
     fun components(components: BehItemComponents.() -> Unit) {
         behItem.components(components)
     }

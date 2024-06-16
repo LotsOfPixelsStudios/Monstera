@@ -43,6 +43,11 @@ class BehItemComponents : MonsteraRawFile() {
     var armorData: ItemArmor? = null
         @MonsteraBuildSetter set
 
+    /**
+     * ```
+     * protection = 5
+     * ```
+     */
     @OptIn(MonsteraBuildSetter::class)
     @Deprecated("Deprecated since 1.50.0", ReplaceWith("wearable { }"))
     fun armor(data: ItemArmor.() -> Unit) {
@@ -113,6 +118,11 @@ class BehItemComponents : MonsteraRawFile() {
     var creativeCategoryData: ItemCreativeCategory? = null
         @MonsteraBuildSetter set
 
+    /**
+     * ```
+     * parent = ""
+     * ```
+     */
     @OptIn(MonsteraBuildSetter::class)
     fun creativeCategory(data: ItemCreativeCategory.() -> Unit) {
         creativeCategoryData = (creativeCategoryData ?: ItemCreativeCategory()).apply(data)
@@ -521,6 +531,15 @@ class BehItemComponents : MonsteraRawFile() {
 
     /**
      * Sets the throwable item component.
+     *
+     * ```
+     * doSwingAnimation = true
+     * launchPowerScale = 1.2
+     * maxDrawDuration = 0.9
+     * maxLaunchPower = 2
+     * minDrawDuration = 0.2
+     * scalePowerByDrawDuration = true
+     * ```
      */
     @OptIn(MonsteraBuildSetter::class)
     fun throwable(data: ItemThrowable.() -> Unit) {

@@ -37,6 +37,10 @@ class EnumProperty: GenericProperty<String> {
             field = value
         }
 
+    fun values(vararg data: String) {
+        values = (values ?: arrayListOf()).apply { addAll(data.toList()) }
+    }
+
     @SerializedName("client_sync")
     @Expose
     override var clientSync: Boolean? = null
