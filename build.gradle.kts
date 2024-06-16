@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "2.0.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
     `maven-publish`
     signing
@@ -25,6 +25,8 @@ dependencies {
     //test
     testImplementation(kotlin("test"))
     implementation(group = "org.skyscreamer", name = "jsonassert", version = "1.5.1")
+
+    testImplementation("org.jsoup:jsoup:1.17.2")
 }
 
 java {

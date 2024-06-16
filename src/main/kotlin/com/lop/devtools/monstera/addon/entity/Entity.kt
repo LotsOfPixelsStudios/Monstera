@@ -1,24 +1,45 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.addon.entity
 
 import com.lop.devtools.monstera.addon.Addon
 import com.lop.devtools.monstera.addon.entity.behaviour.BehaviourEntity
 import com.lop.devtools.monstera.addon.entity.resource.ResourceEntity
-import com.lop.devtools.monstera.addon.sound.SoundData
+import com.lop.devtools.monstera.addon.sound.Sound
+import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 
-interface Entity {
-    val name: String
-    val displayName: String
-    val addon: Addon
+open class Entity(
+    val addon: Addon,
+    var name: String = "undefined",
+    var displayName: String = name
+) {
+    data class Data(
+        var addon: Addon,
+        var name: String,
+        var displayName: String,
+        var identifier: String,
+        var spawnAble: Boolean,
+        var sounds: MutableList<Sound> = mutableListOf()
+    )
 
-    val unsafeBehaviourEntity: BehaviourEntity
-    val unsafeResourceEntity: ResourceEntity
-    var unsafeSpawnAble: Boolean
-    val unsafeSoundData: MutableList<SoundData>
+    val data = Data(
+        addon = addon,
+        name = name,
+        displayName = displayName,
+        identifier = getIdentifier(),
+        spawnAble = false,
+        sounds = mutableListOf()
+    )
+
+    open val unsafeBehaviourEntity: BehaviourEntity = BehaviourEntity(data)
+    open val unsafeResourceEntity: ResourceEntity = ResourceEntity(data)
 
     /**
      * @return the identifier of the entity as it is defined in the final beh/res pack
      */
-    fun getIdentifier(): String
+    fun getIdentifier(): String {
+        return addon.config.namespace + ":" + name
+    }
 
     /**
      * modify the resource components of the entity
@@ -36,7 +57,9 @@ interface Entity {
      * }
      * ```
      */
-    fun resource(entity: ResourceEntity.() -> Unit)
+    open fun resource(entity: ResourceEntity.() -> Unit) {
+        unsafeResourceEntity.apply(entity)
+    }
 
     /**
      * modify the behaviour of the entity
@@ -47,12 +70,12 @@ interface Entity {
      *          //normal beh anim-controller
      *      }
      *
-     *      animations {
+     *      animation("") {
      *          //normal beh animations
      *      }
      *
      *      //beh Entity Components
-     *      componentGroups {
+     *      componentGroup("") {
      *
      *      }
      *      components {
@@ -64,7 +87,16 @@ interface Entity {
      *  }
      * ````
      */
-    fun behaviour(entity: BehaviourEntity.() -> Unit)
+    open fun behaviour(entity: BehaviourEntity.() -> Unit) {
+        unsafeBehaviourEntity.apply(entity)
+    }
 
-    fun build()
+    open fun build() {
+        unsafeBehaviourEntity.build()
+        unsafeResourceEntity.build()
+
+        if (data.sounds.isNotEmpty()) {
+            addon.unsafeApplySoundData(data.sounds, getIdentifier())
+        }
+    }
 }

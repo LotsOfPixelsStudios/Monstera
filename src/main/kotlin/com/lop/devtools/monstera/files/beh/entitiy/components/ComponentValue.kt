@@ -1,12 +1,11 @@
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
-class ComponentValue {
-    val general = mutableMapOf<String, Any>()
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-    var value: Number? = null
-
-    fun getData(): MutableMap<String, Any> {
-        value?.let { general["value"] = it }
-        return general
-    }
+class ComponentValue : MonsteraRawFile() {
+    @SerializedName("value")
+    @Expose
+    var value: Any? = null
 }

@@ -7,6 +7,14 @@ import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
+fun overwriteResourceInMcFolder(config: Config) {
+    val mojangRes = config
+        .comMojangPath
+        .resolve("development_resource_packs")
+        .resolve(config.projectShort.uppercase() + "_RP")
+    config.resPath.toFile().copyRecursively(mojangRes.toFile(), true)
+}
+
 fun buildToMcFolder(config: Config) = runBlocking {
     val logger = LoggerFactory.getLogger("Mc Directory Builder")
 
@@ -41,7 +49,8 @@ fun buildToMcFolder(config: Config) = runBlocking {
 
     if (config.world.exists()) {
         try {
-            val worldFolderPath = config.comMojangPath.resolve("minecraftWorlds").resolve(config.projectShort + "_world")
+            val worldFolderPath =
+                config.comMojangPath.resolve("minecraftWorlds").resolve(config.projectShort + "_world")
             worldFolderPath.toFile().deleteRecursively()
             config.world.copyRecursively(worldFolderPath.toFile())
 

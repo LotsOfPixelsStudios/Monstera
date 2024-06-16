@@ -1,27 +1,40 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.addon.entity.behaviour
 
+import com.lop.devtools.monstera.addon.api.DebugMarker
+import com.lop.devtools.monstera.addon.concept.recipes.CraftingRecipe
 import com.lop.devtools.monstera.addon.entity.Entity
-import com.lop.devtools.monstera.addon.entity.behaviour.components.OverwriteComponentsImpl
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
-import com.lop.devtools.monstera.addon.recipes.CraftingRecipe
-import com.lop.devtools.monstera.files.animcontroller.AnimController
-import com.lop.devtools.monstera.files.animcontroller.AnimStateComponent
+import com.lop.devtools.monstera.files.animcontroller.AnimationControllers
 import com.lop.devtools.monstera.files.beh.animations.BehAnimation
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponentGroups
-import com.lop.devtools.monstera.files.beh.entitiy.BehEntityComponents
+import com.lop.devtools.monstera.files.beh.animations.BehAnimations
+import com.lop.devtools.monstera.files.beh.entitiy.BehEntity
+import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.description.RuntimeIdentifier
-import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvents
-import com.lop.devtools.monstera.files.getVersionAsString
+import com.lop.devtools.monstera.files.beh.entitiy.events.BehEntityEvent
+import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
 import com.lop.devtools.monstera.files.properties.EntityProperties
 import com.lop.devtools.monstera.getMonsteraLogger
 
-abstract class BehaviourEntityImpl(
-    override val unsafeParent: Entity
-) : BehaviourEntity, OverwriteComponentsImpl(unsafeParent) {
+
+open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(entityData) {
     private fun logger() = getMonsteraLogger("Behaviour")
 
-    override var runtimeIdentifier: RuntimeIdentifier? = null
+    open val unsafeRawEntity: BehEntity = BehEntity()
+    open val unsafeRawAnimations: BehAnimations = BehAnimations()
+    open val unsafeRawControllers: AnimationControllers = AnimationControllers()
+    open val unsafeRawCraftingRecipe: CraftingRecipe = CraftingRecipe()
+    open val unsafeLootTable = BehLootTables()
+    open var unsafeBehEntityVersion: String? = null
+    open var unsafeAnimVersion: String? = null
+    open var unsafeAnimControllerVersion: String? = null
+
+    /**
+     * add a runtimeIdentifier like guardian
+     */
+    open var runtimeIdentifier: RuntimeIdentifier? = null
         set(value) {
             unsafeRawEntity.description {
                 runtimeIdentifier = value
@@ -29,79 +42,188 @@ abstract class BehaviourEntityImpl(
             field = value
         }
 
-    override fun animation(name: String, settings: BehAnimation.() -> Unit) {
-        unsafeRawAnimations.animation("animation.${unsafeParent.name}.$name", settings)
-        addSharedAnimation("animation.${unsafeParent.name}.$name", name)
+    /**
+     * add a behaviour animation
+     *
+     * ```
+     * animation {
+     *      timeline {
+     *
+     *      }
+     *      animationLength = 2f
+     * }
+     * ```
+     */
+    open fun animation(name: String, settings: BehAnimation.() -> Unit) {
+        unsafeRawAnimations.animation("animation.${entityData.name}.$name", settings)
+        addSharedAnimation("animation.${entityData.name}.$name", name)
     }
 
-    override fun addSharedAnimation(animIdentifier: String, name: String) {
+    /**
+     * add an animation that is defined somewhere else, like another entity
+     * if you are unsure of the correct identifier, look at /build/development_behaviorpacks/projectShort_BP/animations
+     *
+     * @param animIdentifier can be a single wort, monstera will attempt to add 'animation.name.' automatically
+     */
+    open fun addSharedAnimation(animIdentifier: String, name: String = animIdentifier.split(".").last()) {
         unsafeRawEntity.apply {
             description {
-                animations {
-                    if (unsafe.general.containsKey(name)) {
-                        logger().warn(
-                            "(${unsafeParent.name}) Animation '${
-                                name.split(".").last()
-                            }' already exists (overwriting)"
-                        )
-                    }
-                    addAnim(name, animIdentifier)
+                if (animationData?.containsKey(name) == true) {
+                    logger().warn(
+                        "(${entityData.name}) Animation '${
+                            name.split(".").last()
+                        }' already exists (overwriting)"
+                    )
                 }
+                addAnimation(name, animIdentifier)
             }
         }
     }
 
-    override fun addSharedAnimation(originalName: String, localName: String, from: Entity) {
+    /**
+     * add an animation from another entity
+     *
+     * @param originalName the name of the animation at the original entity, that first implemented the animation
+     * @param localName the name of the animation in the current entity,
+     * this can differ from the originalName if it helps the naming convention - optional, defaults to originalName
+     * @param from the original entity where the animation was defined
+     */
+    open fun addSharedAnimation(originalName: String, localName: String = originalName, from: Entity) {
         addSharedAnimation("animation.${from.name}.$originalName", localName)
     }
 
-    override fun animController(name: String, query: Molang, data: AnimController.() -> Unit) {
-        val id = "controller.animation.${unsafeParent.name}.$name"
+    /**
+     * add a animation controller
+     *
+     * ```
+     * animController("controller") {
+     *     animStates {
+     *      //...
+     *     }
+     * }
+     * ```
+     *
+     * @param name the name of the anim controller, should be unique within the entity
+     * @param query an additional query when the anim controller should be active
+     * @param data the controller
+     */
+    open fun animController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
+        val id = "controller.animation.${entityData.name}.$name"
         unsafeRawControllers.animController(id, data)
         addSharedController(id, query, name)
     }
 
-    override fun addSharedController(controllerIdentifier: String, query: Molang, name: String) {
+    /**
+     * add a controller that is defined somewhere else, like another entity
+     *
+     * if you are unsure of the correct identifier, look at /build/development_behaviorpacks/projectShort_BP/animation_controllers
+     *
+     * @param controllerIdentifier can be a single wort, monstera will attempt to add 'controller.animation.name.' automatically
+     */
+    open fun addSharedController(controllerIdentifier: String, query: Molang = Query.True, name: String) {
         unsafeRawEntity.apply {
             description {
                 scripts {
                     animate(name, query)
                 }
-                animations {
-                    if (unsafe.general.containsKey(name)) {
-                        logger().warn(
-                            "(${unsafeParent.name})" + "Animation '${
-                                name.split(".").last()
-                            }' already exists (overwriting)"
-                        )
-                    }
-                    addAnim(name, controllerIdentifier)
-                }
             }
         }
+        //controllers are loaded the same way as animations
+        addSharedAnimation(controllerIdentifier, name)
     }
 
-    override fun addSharedController(originalName: String, localName: String, from: Entity, query: Molang) {
+    /**
+     * add an animation from another entity
+     *
+     * @param originalName the name of the controller at the original entity, that first implemented the controller
+     * @param localName the name of the controller in the current entity,
+     * this can differ from the originalName if it helps the naming convention - optional, defaults to originalName
+     * @param from the original entity where the controller was defined
+     * @param query when the controller should be active - optional, default always
+     */
+    open fun addSharedController(originalName: String, localName: String = originalName, from: Entity, query: Molang) {
         addSharedController("controller.animation.${from.name}.$originalName", query, localName)
     }
 
-    override fun components(data: BehEntityComponents.() -> Unit) {
+    /**
+     * add default behaviour components to the entity
+     *
+     * ```
+     * components {
+     *     physics { }
+     * }
+     * ```
+     */
+    open fun components(data: Components.() -> Unit) {
         unsafeRawEntity.components(data)
     }
 
-    override fun componentGroups(data: BehEntityComponentGroups.() -> Unit) {
-        unsafeRawEntity.componentGroups(data)
+    /**
+     * add component groups
+     *
+     * ```
+     * componentGroup("my_component_group") {
+     *      //...
+     * }
+     * ```
+     */
+    open fun componentGroup(name: String, components: Components.() -> Unit) {
+        unsafeRawEntity.componentGroup(name, components)
     }
 
-    override fun events(data: BehEntityEvents.() -> Unit) {
-        unsafeRawEntity.events(data)
+    /**
+     * add events
+     *
+     * ```
+     * event("do_stuff") {
+     *     add { }
+     * }
+     * ```
+     */
+    @Deprecated("spelling", ReplaceWith("event(name, data)"))
+    open fun events(name: String, data: BehEntityEvent.() -> Unit) = event(name, data)
+
+    /**
+     * add events
+     *
+     * ```
+     * event("do_stuff") {
+     *     add { }
+     * }
+     * ```
+     */
+    open fun event(name: String, data: BehEntityEvent.() -> Unit) {
+        unsafeRawEntity.event(name, data)
     }
 
-    override fun spawnRule(value: SysSpawnRule.() -> Unit) {
-        SysSpawnRule(unsafeParent.getIdentifier(), unsafeParent.name, addon = unsafeParent.addon).apply(value).build()
+    open fun eventBorn(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventBorn(data)
+    open fun eventSpawned(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventSpawned(data)
+    open fun eventOnPrime(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventOnPrime(data)
+    open fun eventTransformed(data: BehEntityEvent.() -> Unit) = unsafeRawEntity.eventTransformed(data)
+
+    /**
+     * define spawn rules for the entity
+     *
+     * ```
+     * populationControl()
+     * condition { }
+     * ```
+     */
+    open fun spawnRule(value: SysSpawnRule.() -> Unit) {
+        SysSpawnRule(entityData.identifier, entityData.name, addon = entityData.addon).apply(value).build()
     }
 
-    override fun properties(data: EntityProperties.() -> Unit) {
+    /**
+     * set new properties to an entity
+     *
+     * ```
+     * enum("name") { }
+     * bool("name") { }
+     * int("name") { }
+     * float("name") { }
+     * ```
+     */
+    open fun properties(data: EntityProperties.() -> Unit) {
         unsafeRawEntity.apply {
             description {
                 properties(data)
@@ -109,50 +231,78 @@ abstract class BehaviourEntityImpl(
         }
     }
 
-    override fun craftingRecipe(data: CraftingRecipe.() -> Unit) {
+    /**
+     * creates a recipe for the crafting table
+     *
+     * ```
+     * craftingRecipe {
+     *     craftingPattern(
+     *         t("","minecraft:diamond","minecraft:diamond"),
+     *         t("","minecraft:diamond",""),
+     *         t("","minecraft:stick","")
+     *     )
+     *     unlock {
+     *         item("minecraft:wood", count = 3, data = 2)
+     *         context()
+     *     }
+     * }
+     * ```
+     */
+    open fun craftingRecipe(data: CraftingRecipe.() -> Unit) {
         unsafeRawCraftingRecipe.apply(data)
     }
 
-    override fun AnimStateComponent.controller(name: String, query: Query, data: AnimController.() -> Unit) {
-        controller("${unsafeParent.name}.$name", query)
-        animController(name, Query.False, data)
+    /**
+     * generate a valid loot table
+     *
+     * @return a valid table that can be used in the loot table component
+     */
+    @Deprecated("Use in component table() call", ReplaceWith("table()"))
+    fun generateLootTable(data: BehLootTables.() -> Unit): String {
+        unsafeLootTable.apply(data)
+        return entityData.addon.config.paths.lootTableEntity.toString() + "/${entityData.name}"
     }
 
-    override fun AnimStateComponent.controller(name: String, query: () -> Query, data: AnimController.() -> Unit) {
-        controller("${unsafeParent.name}.$name", query)
-        animController(name, Query.False, data)
-    }
-
-    override fun build() {
+    @OptIn(DebugMarker::class)
+    open fun build() {
         unsafeRawEntity.description {
-            identifier = unsafeParent.getIdentifier()
-            isSpawnable = unsafeParent.unsafeSpawnAble
+            identifier = entityData.identifier
+            isSpawnable = entityData.spawnAble
             isSummonable = true
             isExperimental = false
         }
 
-        unsafeRawEntity.unsafe.build(
-            unsafeParent.name,
-            unsafeParent.addon.config.paths.behEntity,
-            getVersionAsString(unsafeParent.addon.config.targetMcVersion)
+        unsafeRawEntity.debugEntity()
+
+        unsafeRawEntity.build(
+            entityData.name,
+            entityData.addon.config.paths.behEntity,
+            unsafeBehEntityVersion
         )
-        if (unsafeRawAnimations.unsafe.getData().isNotEmpty())
-            unsafeRawAnimations.unsafe.build(
-                unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnim
+        if (!unsafeRawAnimations.isEmpty())
+            unsafeRawAnimations.build(
+                entityData.name,
+                entityData.addon.config.paths.behAnim,
+                unsafeAnimVersion
             )
-        if (unsafeRawControllers.unsafe.getData().isNotEmpty())
-            unsafeRawControllers.unsafe.build(
-                unsafeParent.name,
-                unsafeParent.addon.config.paths.behAnimController
+        if (!unsafeRawControllers.isEmpty())
+            unsafeRawControllers.build(
+                entityData.name,
+                entityData.addon.config.paths.behAnimController,
+                unsafeAnimControllerVersion
             )
 
-        if(!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
+        if (!unsafeRawCraftingRecipe.unsafe.isEmpty()) {
             unsafeRawCraftingRecipe.unsafe.build(
-                unsafeParent.name,
-                unsafeParent.getIdentifier() + "_spawn_egg",
-                unsafeParent.addon
+                entityData.name,
+                entityData.identifier + "_spawn_egg",
+                entityData.addon
             )
+        }
+
+        if (!unsafeLootTable.isEmpty()) {
+            unsafeLootTable.debug(entityData.name)
+            BehLootTables.Entity(unsafeLootTable).build(entityData.name)
         }
     }
 }

@@ -1,48 +1,46 @@
 package com.lop.devtools.monstera.files.res.rendercontrollers
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
+import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class ResRenderControllers: MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
-
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined animations
-         */
-        val general = mutableMapOf<String, Any>()
-        val controllers = mutableMapOf<String, ResRenderController>()
-
-        override fun getData(): MutableMap<String, Any> {
-            controllers.forEach { (name, controller) ->
-                val newName = name.removePrefix("controller.render.")
-                general["controller.render.$newName"] = controller.unsafe.getData()
-            }
-            return general
+class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
+        val selPath = path ?: Addon.active?.config?.paths?.resRenderControllers ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for res render controller file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for res render controller file '$filename' as no addon was initialized!"))
         }
+        Addon.active?.config?.formatVersions?.resRendercontroller?.let { formatVersion = it }
+        version?.let { formatVersion = it }
 
-        fun build(
-            filename: String,
-            path: Path,
-            version: String = "1.8.0"
-        ) {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
-            MonsteraBuilder.buildTo(
-                path, "$sanFile.json", mutableMapOf(
-                    "format_version" to version,
-                    "render_controllers" to getData()
-                )
-            )
-        }
+        val target = MonsteraBuilder.buildTo(
+            selPath,
+            sanetiseFilename(filename, "json"),
+            this
+        )
+        return Result.success(target)
     }
+
+    fun isEmpty() : Boolean = renderControllers?.isEmpty() ?: true
+
+    @SerializedName("format_version")
+    @Expose
+    var formatVersion: String = "1.10.0"
+
+    @SerializedName("render_controllers")
+    @Expose
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
+    var renderControllers: MutableMap<String, ResRenderController>? = null
+        @MonsteraBuildSetter set
 
     /**
      * 1..*
@@ -80,12 +78,16 @@ class ResRenderControllers: MonsteraFile {
      * }
      * ```
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun controllers(
         entityName: String,
         settings: ResRenderController.() -> Unit
     ) {
-        unsafe.controllers[entityName] =
-            //apply data if exist or else create a new obj
-            unsafe.controllers[entityName]?.apply(settings) ?: ResRenderController().apply(settings)
+        val controllerName = "controller.render.${entityName.removePrefix("controller.render.")}"
+        renderControllers = (renderControllers ?: mutableMapOf()).apply {
+            get(controllerName)?.apply(settings) ?: run {
+                put(controllerName, ResRenderController().apply(settings))
+            }
+        }
     }
 }

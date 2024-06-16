@@ -1,90 +1,77 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.lop.devtools.monstera.addon.entity.resource
 
 import com.lop.devtools.monstera.addon.entity.Entity
+import com.lop.devtools.monstera.files.lang.langKey
 import com.lop.devtools.monstera.files.res.entities.ResEntity
-import com.lop.devtools.monstera.files.res.entities.comp.*
+import com.lop.devtools.monstera.files.res.entities.comp.ResEntityLocators
+import com.lop.devtools.monstera.files.res.entities.comp.ResEntityScripts
+import com.lop.devtools.monstera.files.res.entities.comp.ResEntitySpawnEgg
 import com.lop.devtools.monstera.files.res.rendercontrollers.ResRenderControllers
-import java.io.File
 
-interface ResourceEntityComponents {
-    val unsafeParent: Entity
-    val unsafeRawEntity: ResEntity
+open class ResourceEntityComponents(
+    val entityData: Entity.Data,
+    val unsafeRawEntity: ResEntity,
     val unsafeRenderController: ResRenderControllers
+) {
+    open var enableAttachment: Boolean? = null
+    open var material: String = "parrot"
+        set(value) {
+            disableMaterial = false
+            field = value
+        }
+    open var disableMaterial: Boolean = false
 
-    var enableAttachment: Boolean?
+    open var hideArmor: Boolean = false
+        set(value) {
+            unsafeRawEntity.description {
+                hideArmor = value
+            }
+            field = value
+        }
 
-    /**
-     * material like parrot, sets 'disableMaterial' to false
-     */
-    var material: String
-
-    /**
-     * disable the material, material will be ignored
-     */
-    var disableMaterial: Boolean
-
-    /**
-     * define the spawn egg of the entity,
-     * required if the egg should appear in the creative inventory
-     * @param displayText the lang value of the spawn egg
-     * @param data color etc
-     */
-    fun spawnEgg(displayText: String = "Spawn ${unsafeParent.displayName}", data: ResEntitySpawnEgg.() -> Unit)
-
-    /**
-     * add a particle to the entity
-     *
-     * ```
-     * particleEffects {
-     *     particleEffect("exhaust", "gl:drone_exhaust")
-     * }
-     * ```
-     */
-    fun particleEffects(data: ResEntityParticleEffect.() -> Unit)
-
-    /**
-     * add a sound to the entity
-     *
-     * ```
-     * soundEffects {
-     *     soundEffect("door_open", "random.door_open")
-     * }
-     * ```
-     */
-    fun soundEffects(data: ResEntitySoundEffect.() -> Unit)
-
-    /**
-     * add a locator for a lead etc
-     *
-     * ```
-     * locators {
-     *     lead {
-     *         attach(x = 1.0f, y = 1.0f, z = 1.0f)
-     *     }
-     * }
-     * ```
-     */
-    fun locators(data: ResEntityLocators.() -> Unit)
-
-    /**
-     * add scripts, variables etc
-     *
-     * ```
-     * scripts {
-     *     preAnim(arrayListOf("var.setSth", "var.tan"))
-     *     script("scale", "0.35")
-     *     script("scale2", "0.31")
-     * }
-     * ```
-     */
-    fun scripts(settings: ResEntityScripts.() -> Unit)
-
-    fun ResEntitySpawnEgg.eggByFile(file: File) {
-        eggByFile(file, unsafeParent.addon)
+    open fun spawnEgg(displayText: String = "Spawn ${entityData.displayName}", data: ResEntitySpawnEgg.() -> Unit) {
+        unsafeRawEntity.description {
+            this.spawnEgg(data)
+            langKey(
+                "item.spawn_egg.entity.${entityData.identifier}.name",
+                displayText
+            )
+        }
+        //tells the behaviour to set the entity as spawnAble so the spawnegg is displayed in the creative inventory
+        entityData.spawnAble = true
     }
 
     /**
-     * internal function for building the entity, can be called multiple times
+     * can be called multiple times
+     * ```
+     * particleEffect("smoke", "namespace:smoke_particle")
+     * ```
      */
-    fun build()
+    open fun particleEffect(name: String, particle: String) = unsafeRawEntity.description { particleEffect(name, particle) }
+
+    /**
+     * can be called multiple times
+     * ```
+     * soundEffect("attack_1", "mob.entity.attack_1")
+     * ```
+     */
+    open fun soundEffect(name: String, sound: String) = unsafeRawEntity.description { soundEffect(name, sound) }
+
+    open fun locators(data: ResEntityLocators.() -> Unit) {
+        unsafeRawEntity.description {
+            this.locators(data)
+        }
+    }
+
+    open fun scripts(settings: ResEntityScripts.() -> Unit) {
+        unsafeRawEntity.description {
+            this.scripts(settings)
+        }
+    }
+
+    open fun build() {
+        enableAttachment?.let { unsafeRawEntity.description { enableAttachment = it } }
+    }
 }

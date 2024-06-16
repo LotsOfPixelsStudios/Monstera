@@ -1,103 +1,195 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.lop.devtools.monstera.files.beh.item
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.JsonAdapter
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
+import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
-import com.lop.devtools.monstera.files.beh.item.comp.Slot
+import com.lop.devtools.monstera.files.MonsteraRawFile
+import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
+import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
-class BehItem : MonsteraFile {
+class BehItem : MonsteraBuildableFile, MonsteraRawFile() {
+    override fun build(filename: String, path: Path?, version: String?): Result<Path> {
+        val selPath = path ?: Addon.active?.config?.paths?.behItems ?: run {
+            getMonsteraLogger(this.javaClass.name).error("Could not Resolve a path for item file '$filename' as no addon was initialized!")
+            return Result.failure(Error("Could not Resolve a path for item file '$filename' as no addon was initialized!"))
+        }
+
+        val target = MonsteraBuilder.buildTo(
+            selPath,
+            sanetiseFilename(filename, "json"),
+            FileHeader(
+                version ?: Addon.active?.config?.formatVersions?.behItem ?: "1.50.0",
+                this
+            )
+        )
+        return Result.success(target)
+    }
+
     /**
-     * unsafe to use variables, used for plugins/ libraries
+     * load json blocks with this class
      */
-    override val unsafe = Unsafe()
+    data class FileHeader(
+        @SerializedName("format_version")
+        @Expose
+        var formatVersion: String = "",
 
-    inner class Unsafe : MonsteraUnsafeMap {
-        /**
-         * access to all defined data
-         */
-        val general = mutableMapOf<String, Any>()
-        val components = BehItemComponents()
+        @SerializedName("minecraft:item")
+        @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+        var block: BehItem
+    ) : MonsteraRawFile()
 
-        override fun getData(): MutableMap<String, Any> {
-            if (components.unsafe.getData().isNotEmpty())
-                general["components"] = components.unsafe.getData()
-            return general
-        }
-
-        fun build(
-            filename: String,
-            path: Path,
-            version: String = "1.10.0"
-        ) {
-            val sanFile = filename
-                .removeSuffix(".json")
-                .replace("-", "_")
-                .replace(" ", "_")
-            MonsteraBuilder.buildTo(
-                path, "$sanFile.json", mutableMapOf(
-                    "format_version" to version,
-                    "minecraft:item" to getData()
-                )
-            )
-        }
-    }
-
-    fun description(identifier: String, category: String = "Equipment") {
-        unsafe.general.apply {
-            put(
-                "description", mutableMapOf(
-                    "identifier" to identifier,
-                    "category" to category
-                )
-            )
-        }
-    }
+    @SerializedName("description")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var descriptionData: Description? = null
+        @MonsteraBuildSetter set
 
     /**
-     * 0..1
+     * ```
+     * description {
+     *      identifier = "namespace:my_item"
+     *      menuCategory = Category.ITEMS
+     * }
+     * ```
+     */
+    @OptIn(MonsteraBuildSetter::class)
+    fun description(data: Description.() -> Unit) {
+        descriptionData = (descriptionData ?: Description()).apply(data)
+    }
+
+    @SerializedName("components")
+    @Expose
+    @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+    var componentsData: BehItemComponents = BehItemComponents()
+        @MonsteraBuildSetter set
+
+    /**
+     * Allow Off Hand
      *
-     * @sample sampleComp
+     * Block Placer
+     *
+     * Can Destroy In Creative
+     *
+     * Cooldown
+     *
+     * Damage
+     *
+     * Digger
+     *
+     * Display Name
+     *
+     * Durability
+     *
+     * Enchantable
+     *
+     * Entity Placer
+     *
+     * Food
+     *
+     * Fuel
+     *
+     * Glint
+     *
+     * Hand Equipped
+     *
+     * Hover Text Color
+     *
+     * Icon
+     *
+     * Interact Button
+     *
+     * Liquid Clipped
+     *
+     * Max Stack Size
+     *
+     * Projectile
+     *
+     * Record
+     *
+     * Repairable
+     *
+     * Shooter
+     *
+     * Should Despawn
+     *
+     * Stacked By Data
+     *
+     * Tags
+     *
+     * Throwable
+     *
+     * Use Animation
+     *
+     * Use Modifiers
+     *
+     * Wearable
      */
-    fun components(settings: BehItemComponents.() -> Unit) {
-        unsafe.components.apply(settings)
+    fun components(data: BehItemComponents.() -> Unit) {
+        componentsData.apply(data)
     }
 
-    @ExperimentalUnsignedTypes
-    private fun sampleComp() {
-        components {
-            maxDamage(2)
-            handEquipped = true
-            stackedByData(true)
-            foil(false)
-            block("grass")
-            useDuration(32)
-            food {
-                //...
-            }
-            //experimental
-            armor(1, "iron")
-            blockPlacer("grass", arrayListOf("stone", "dirt"))
-            coolDown("?", 0.2f)
-            digger("?", "?", true)
-            durability(0.2f, 200)
-            dyePowder("red")
-            entityPlacer(arrayListOf("grass"), "quazal")
-            fuel(125.0f)
-            knockBackResistance(0.2f)
-            onUse("?")
-            onUseOn("?")
-            projectile(30.0f, "arrow")
-            repairable {
+    class Description : MonsteraRawFile() {
+        @SerializedName("identifier")
+        @Expose
+        var identifier: String? = null
 
+        @SerializedName("menu_category")
+        @Expose
+        @JsonAdapter(MonsteraRawFileTypeAdapter::class)
+        var menuCategoryData: CategoryData? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        @Deprecated("", ReplaceWith("menuCategory { }"))
+        var menuCategory = Category.ITEMS
+            set(value) {
+                menuCategoryData = CategoryData().also { it.category = value }
+                field = value
             }
-            shooter {
-                //...
+
+        /**
+         * ```
+         * category = Category.EQUIPMENT
+         * group = "itemGroup.name.chestplate"
+         * ```
+         */
+        @OptIn(MonsteraBuildSetter::class)
+        fun menuCategory(data: CategoryData.() -> Unit) {
+            menuCategoryData = (menuCategoryData ?: CategoryData()).apply(data)
+        }
+
+        class CategoryData : MonsteraRawFile() {
+            @SerializedName("category")
+            @Expose
+            var category: Category? = null
+
+            @SerializedName("group")
+            @Expose
+            var group: String? = null
+        }
+
+        enum class Category {
+            @SerializedName("items")
+            ITEMS,
+
+            @SerializedName("construction")
+            CONSTRUCTION,
+
+            @SerializedName("equipment")
+            EQUIPMENT;
+
+            override fun toString(): String {
+                return super.toString().lowercase()
             }
-            weapon {
-                //...
-            }
-            wearable(true, Slot.ARMOR)
         }
     }
 }

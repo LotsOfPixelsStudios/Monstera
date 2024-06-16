@@ -52,18 +52,16 @@ components.
 
 ```kotlin
 behaviour {
-    componentGroups {
-        componentGroup("baby") {
-            isBaby()
+    componentGroup("baby") {
+        isBaby()
+    }
+    componentGroup("adult") {
+        attack {
+            damage = 3
+            damageRange = arrayListOf(1, 2)
         }
-        componentGroup("adult") {
-            attack {
-                damage = 3
-                damageRange = arrayListOf(1, 2)
-            }
-            behMeleeAttack {
-                priority = 1
-            }
+        behMeleeAttack {
+            priority = 1
         }
     }
     components {
@@ -80,14 +78,12 @@ To add and remove Component Groups we can use events by calling within the entit
 
 ````kotlin
 behaviour {
-    events {
-        event("grow_up") {
-            remove {
-                componentGroup = "baby"
-            }
-            add {
-                componentGroup = "adult"
-            }
+    event("grow_up") {
+        remove {
+            componentGroups("baby", "scared")
+        }
+        add {
+            componentGroups("adult")
         }
     }
 }
@@ -98,11 +94,11 @@ behaviour {
 Following default events are also support:
 
 ````kotlin
-events {
-    defaultBornEvent { }
-    defaultSpawnedEvent { }
-    defaultTransformedEvent { }
-    defaultOnPrimeEvent { }
+behaviour {
+    eventBorn { }
+    eventSpawned { }
+    eventOnPrime { }
+    eventTransformed { }
 }
 ````
 
@@ -132,7 +128,7 @@ You always have to define a default value and to each type some sepsifc values:
 ````kotlin
 enum("my_enum_prop") {
     default("sit")  //could also be a Molang Expression/Query
-    values = arrayListOf("sit", "stand")
+    values("sit", "stand")
     clientSync = true   //access this property in the resource pack
 }
 ````
@@ -294,7 +290,8 @@ resource {
 }
 ````
 
-You can define multiple render parts.
+You can define multiple render parts. The default render controller is build if no valid render part is defined or if 
+a texture or geometry was assigned in the top level (`resource { textureLayer(getResource("...") ) }`).
 
 ### Animations and Controllers
 
@@ -412,3 +409,25 @@ components {
 ````
 
 [ Further reading ](https://wiki.bedrock.dev/visuals/materials.html)
+
+### Crafting
+
+Can be found in the behaviour part of the entity.
+
+```kotlin
+craftingRecipe {
+    val d = "minecraft:diamond"
+    val s = "minecraft:stick"
+    val n = ""
+
+    craftingPattern(
+        t(n,d,n),
+        t(n,d,n),
+        t(n,s,n)
+    )
+    unlock {
+        item("minecraft:wood", count = 3, data = 2)
+        context()
+    }
+}
+```

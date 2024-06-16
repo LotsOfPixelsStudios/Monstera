@@ -1,28 +1,17 @@
 package com.lop.devtools.monstera.files.beh.entitiy.description
 
-import com.lop.devtools.monstera.addon.api.MonsteraFile
-import com.lop.devtools.monstera.addon.api.MonsteraUnsafeMap
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.molang.Query
+import com.lop.devtools.monstera.files.MonsteraRawFile
 
-class BehEntityDescScripts: MonsteraFile {
-    /**
-     * unsafe to use variables, used for plugins/ libraries
-     */
-    override val unsafe = Unsafe()
-
-    inner class Unsafe: MonsteraUnsafeMap {
-        /**
-         * access to all defined data
-         */
-        val general = mutableMapOf<String, Any>()
-        val animations = arrayListOf<Any>()
-
-        override fun getData(): MutableMap<String, Any> {
-            if(unsafe.animations.isNotEmpty()) unsafe.general["animate"] = unsafe.animations
-            return unsafe.general
-        }
-    }
+class BehEntityDescScripts : MonsteraRawFile() {
+    @SerializedName("animate")
+    @Expose
+    var animateData: MutableList<Any>? = null
+        @MonsteraBuildSetter set
 
     /**
      * 0..1
@@ -30,14 +19,16 @@ class BehEntityDescScripts: MonsteraFile {
      * @param anim: List of Strings that activate Animations defined in animations
      * @ sample animate(listOf("...","..."))
      */
+    @OptIn(MonsteraBuildSetter::class)
     fun animate(anim: ArrayList<String>) {
-        unsafe.animations.addAll(anim)
+        animateData = (animateData ?: mutableListOf()).also { it.addAll(anim) }
     }
 
+    @OptIn(MonsteraBuildSetter::class)
     fun animate(animation: String, query: Molang = Query.True) {
-        if(query == Query.True)
-            unsafe.animations.add(animation)
+        animateData = if (query == Query.True)
+            (animateData ?: mutableListOf()).also { it.add(animation) }
         else
-            unsafe.animations.add(mutableMapOf(animation to query.data))
+            (animateData ?: mutableListOf()).also { it.add(mutableMapOf(animation to query.data)) }
     }
 }

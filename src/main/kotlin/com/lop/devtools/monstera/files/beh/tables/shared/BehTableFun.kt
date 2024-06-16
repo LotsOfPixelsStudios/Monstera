@@ -1,7 +1,7 @@
 package com.lop.devtools.monstera.files.beh.tables.shared
 
 class BehTableFun {
-    var general = ArrayList<Any>()
+    var functionData = ArrayList<Any>()
 
     /**
      * 0..*
@@ -11,7 +11,7 @@ class BehTableFun {
      * see https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#enchant_book_for_trading
      */
     fun functionEnchantBook(baseCost: Int, baseRandomCost: Int, perLevelRandomCost: Int, perLevelCost: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "enchant_book_for_trading",
                 "base_cost" to baseCost,
@@ -28,7 +28,7 @@ class BehTableFun {
      * see https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#enchant_random_gear
      */
     fun functionEnchantRandomGear(chance: Float) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "enchant_random_gear",
                 "chance" to chance
@@ -42,7 +42,7 @@ class BehTableFun {
      * see https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#enchant_randomly
      */
     fun functionEnchantRandomly(treasure: Boolean = true) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "enchant_randomly",
                 "treasure" to treasure
@@ -56,7 +56,7 @@ class BehTableFun {
      * see https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#enchant_with_levels
      */
     fun functionEnchantWithLevels(treasure: Boolean = false, lvlMin: Int, lvlMax: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "enchant_with_levels",
                 "treasure" to treasure,
@@ -75,7 +75,7 @@ class BehTableFun {
      */
     fun functionSpecificEnchants(settings: BehTableEnchants.() -> Unit) {
         val behEcoEnchants = BehTableEnchants().apply { settings(this) }
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "specific_enchants",
                 "enchants" to behEcoEnchants.getData()
@@ -93,7 +93,7 @@ class BehTableFun {
      * @param countMax: usually between 1 and 3
      */
     fun functionLootingEnchant(countMin: Int, countMax: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "looting_enchant",
                 "count" to mutableMapOf(
@@ -112,7 +112,7 @@ class BehTableFun {
      * @param blockState, ex. stone_type => stone (0), granite (1), polished granite (2), diorite (3), polished diorite (4), or andesite (5).
      */
     fun functionRandomBlockState(blockState: String = "stone_type", valueMin: Int, valueMax: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "random_block_state",
                 "block_state" to blockState,
@@ -130,7 +130,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#random_aux_value
      */
     fun functionRandomAuxValue(valueMin: Int, valueMax: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "random_aux_value",
                 "values" to mutableMapOf(
@@ -150,7 +150,7 @@ class BehTableFun {
      */
     fun functionSetActorId(id: String? = null) {
         if (id != null) {
-            general.add(
+            functionData.add(
                 mutableMapOf(
                     "function" to "set_actor_id",
                     "id" to id
@@ -169,7 +169,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_banner_details
      */
     fun functionSetBannerDetails(type: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_banner_details",
                 "type" to type
@@ -183,7 +183,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_book_contents
      */
     fun functionSetBookContents(author: String, title: String, pages: ArrayList<String>) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_book_contents",
                 "author" to author,
@@ -200,7 +200,7 @@ class BehTableFun {
      * Sets the quantity of items returned
      */
     fun functionSetCount(count: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_count",
                 "count" to count
@@ -215,7 +215,7 @@ class BehTableFun {
      * Sets the quantity of items returned
      */
     fun functionSetCounts(countMin: Int, countMax: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_count",
                 "count" to mutableMapOf(
@@ -232,7 +232,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_damage
      */
     fun functionSetDamage(damage: Float) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_damage",
                 "damage" to damage
@@ -246,7 +246,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_damage
      */
     fun functionSetDamages(damageMin: Float, damageMax: Float) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_damage",
                 "damage" to mutableMapOf(
@@ -263,7 +263,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_data
      */
     fun functionSetData(data: Int) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_data",
                 "data" to data
@@ -277,7 +277,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_data_from_color_index
      */
     fun functionSetDataFromColorIndex() {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_data_from_color_index"
             )
@@ -290,7 +290,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_lore
      */
     fun functionSetLore(lore: ArrayList<String>) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_lore",
                 "lore" to lore
@@ -304,7 +304,7 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#set_name
      */
     fun functionSetName(name: String) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "set_name",
                 "name" to name
@@ -321,7 +321,7 @@ class BehTableFun {
      * @param lootTable: path to LootTable like: "loot_tables/chests/simple_dungeon.json"
      */
     fun functionFillContainer(lootTable: String) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "fill_container",
                 "lootTable" to lootTable
@@ -337,7 +337,7 @@ class BehTableFun {
      * @param destination: endcity fortress mineshaft monument ruins stronghold temple village mansion shipwreck buriedtreasure pillageroutpost todo: make to Enum
      */
     fun functionExplorationMap(destination: String) {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "exploration_map",
                 "destination" to destination
@@ -352,14 +352,33 @@ class BehTableFun {
      * https://compass.minecraft.partners/hc/en-us/articles/360044956673-Loot-and-Trade-Table-Functions#furnace_smelt
      */
     fun functionFurnaceSmelt() {
-        general.add(
+        functionData.add(
             mutableMapOf(
                 "function" to "furnace_smelt"
             )
         )
     }
 
-    fun getData(): ArrayList<Any> {
-        return general
+    class BehTableEnchants {
+        var general = ArrayList<Any>()
+
+        /**
+         * 1..*
+         *
+         * @param id: enchant name like knockback, unbreaking
+         * @param level: usually form 1 to 5
+         */
+        fun enchant(id: String, level: Int) {
+            general.add(
+                mutableMapOf(
+                    "id" to id,
+                    "level" to level
+                )
+            )
+        }
+
+        fun getData(): ArrayList<Any> {
+            return general
+        }
     }
 }

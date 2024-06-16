@@ -1,42 +1,132 @@
 package com.lop.devtools.monstera.addon.block
 
+import com.lop.devtools.monstera.addon.Addon
+import com.lop.devtools.monstera.addon.entity.getGeoId
+import com.lop.devtools.monstera.addon.molang.Molang
 import com.lop.devtools.monstera.addon.sound.Sound
+import com.lop.devtools.monstera.addon.sound.unsafeApplySoundData
 import com.lop.devtools.monstera.files.beh.blocks.BehBlocks
-import com.lop.devtools.monstera.addon.block.resource.DefaultBLock
+import com.lop.devtools.monstera.files.beh.blocks.MenuCategory
+import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
+import com.lop.devtools.monstera.files.beh.blocks.components.MaterialSettings
+import com.lop.devtools.monstera.files.createWithDirs
+import com.lop.devtools.monstera.files.getUniqueFileName
+import com.lop.devtools.monstera.files.res.blocks.BlockDefs
+import com.lop.devtools.monstera.files.res.blocks.TerrainTextures
 import java.io.File
 
-interface Block {
+open class Block(
+    private val addon: Addon,
     /**
      * get the name of the block, set with name()
      */
-    val name: String
-
+    var name: String,
     /**
      * get the display name, set with name()
      */
-    val displayName: String
+    var displayName: String
+) {
+    val unsafeBehBlock = BehBlocks()
+    val unsafeBlockDefs = BlockDefs.instance(addon)
+    val unsafeTerrainTextures = TerrainTextures.instance(addon)
+    val unsafeSoundData: MutableList<Sound> = mutableListOf()
 
     /**
      * returns the identifier of the block that can be called in a command
      */
-    fun identifier(): String
+    fun identifier() = "${addon.config.namespace}:$name"
 
     /**
-     * set a custom geometry, note: generally not save to use, make sure the model is already in the build files
+     * ```
+     * menuCategory {
+     *     category = "construction"
+     *     group = "itemGroup.name.concrete"
+     *     isHiddenInCommands = false
+     * }
+     * ```
      */
-    fun geometry(geoId: String)
+    fun menuCategory(data: MenuCategory.() -> Unit) {
+        unsafeBehBlock.description {
+            menuCategory(data)
+        }
+    }
+
+    /**
+     * ```
+     * collisionBox { }
+     * craftingTable { }
+     * destructibleByExplosion { }
+     * destructibleByMining { }
+     * flammable { }
+     * lootTable("name") { }
+     * mapColor(Color)
+     * placementFilter { }
+     * selectionBox { }
+     * transformation { }
+     * lightDampening = Number
+     * lightEmission = Number
+     * friction = Number
+     * ```
+     */
+    fun components(data: BlockComponents.() -> Unit) {
+        unsafeBehBlock.components(data)
+    }
+
+    /**
+     * set a geometry with id, note: generally not save to use, make sure the model is already in the build files
+     */
+    fun geometry(geoId: String) {
+        unsafeBehBlock.components {
+            geometry = geoId
+        }
+    }
 
     /**
      * set a custom geometry
      */
-    fun geometry(file: File)
+    fun geometry(file: File) {
+        val uniqueFilename = getUniqueFileName(file)
+        val target = addon.config.paths.resModels.resolve("blocks").resolve(uniqueFilename).toFile()
+        file.copyTo(target.createWithDirs(), true)
+        geometry(getGeoId(file))
+    }
 
-    fun texture(name: String, path: String, settings: BehBlocks.MaterialSettings.() -> Unit = {})
+    /**
+     * adds a geometry file to the build and reruns the geo id without setting the component in the description
+     */
+    fun blockGeometry(file: File): String {
+        val uniqueFilename = getUniqueFileName(file)
+        val target = addon.config.paths.resModels.resolve("blocks").resolve(uniqueFilename).toFile()
+        file.copyTo(target.createWithDirs(), true)
+        return getGeoId(file)
+    }
 
     /**
      * set a texture that is applied on all sites
      */
-    fun texture(file: File, settings: BehBlocks.MaterialSettings.() -> Unit = {})
+    fun texture(name: String, path: String, settings: MaterialSettings.() -> Unit) {
+        unsafeBehBlock.components {
+            materialInstance {
+                all {
+                    texture = name
+                    this.apply(settings)
+                }
+            }
+        }
+        unsafeTerrainTextures.addBlockTexture(name, path)   //terrainTextures obj manages duplicate block names
+    }
+
+    /**
+     * set a texture that is applied on all sites
+     */
+    fun texture(file: File, settings: MaterialSettings.() -> Unit) {
+        val uniqueFilename = getUniqueFileName(file)
+        val target = addon.config.paths.resTextures.resolve("monstera").resolve(uniqueFilename).toFile()
+        file.copyTo(target.createWithDirs(), true)
+        val name = getUniqueFileName(file).removeSuffix(".png")
+        val path = "textures/monstera/$name"
+        texture(name, path, settings)
+    }
 
     /**
      * add block with the default geometry, some assumptions can be made, use this to add a more efficient block
@@ -51,7 +141,9 @@ interface Block {
      * }
      * ```
      */
-    fun defaultBlock(data: DefaultBLock.() -> Unit)
+    fun defaultBlock(data: DefaultBLock.() -> Unit) {
+        DefaultBLock(this, addon).apply(data)
+    }
 
     /**
      * add a sound to the block, call multiple times for different sound files
@@ -79,7 +171,11 @@ interface Block {
      * }
      * ```
      */
-    fun sound(identifier: String, data: Sound.() -> Unit): String
+    fun sound(identifier: String, data: Sound.() -> Unit): String {
+        val soundData = Sound(addon).apply { this.identifier = identifier }.apply(data)
+        unsafeSoundData.add(soundData)
+        return soundData.identifier
+    }
 
     /**
      * you may want to use this function to import existing sound sounds form sound.json like, note this will overwrite
@@ -91,7 +187,54 @@ interface Block {
      * sound("nether_brick")
      * ```
      */
-    fun sound(name: String)
+    fun sound(name: String) {
+        unsafeBlockDefs.addDefinition(identifier()) {
+            sound = name
+        }
+    }
 
-    fun build(): Block
+    fun state(name: String, data: List<Any>) {
+        unsafeBehBlock.description {
+            val serName = name.removePrefix(addon.config.namespace + ":")
+            state("${addon.config.namespace}:$serName", data)
+        }
+    }
+
+    fun state(name: String, vararg data: Number) {
+        state(name, data.toList())
+    }
+
+    fun state(name: String, vararg data: String) {
+        state(name, data.toList())
+    }
+
+    fun boolState(name: String) {
+        state(name, listOf(true, false))
+    }
+
+    fun permutation(query: Molang, components: BlockComponents.() -> Unit) {
+        unsafeBehBlock.description {
+            this.permutation {
+                condition = query.data
+                components(components)
+            }
+        }
+    }
+
+    fun build(): Block {
+        addon.config.langFileBuilder.addonRes.add("tile.${identifier()}.name", displayName)
+        unsafeBehBlock.apply {
+            description {
+                identifier = "${addon.config.namespace}:$name"
+            }
+        }
+        unsafeBehBlock.build(name)
+        if (unsafeSoundData.isNotEmpty()) {
+            unsafeBlockDefs.addDefinition(identifier()) {
+                sound = name
+            }
+            addon.unsafeApplySoundData(unsafeSoundData, name)
+        }
+        return this
+    }
 }
