@@ -25,6 +25,7 @@ class BasicEntityTest {
                         getResource("entity/textures/soldier_npc_3.png"),
                     ), Query.variant
                 )
+                assert(unsafeRawEntity.description?.texturesData != null)
                 //geometryLayer(getResource("entity/geometries/soldier_npc.geo.json"))
                 //animation(getResource("entity/animations/soldier_npc.animation.json"))
 
