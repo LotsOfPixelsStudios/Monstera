@@ -61,12 +61,8 @@ open class ResourceEntity(val entityData: Entity.Data) {
      */
     open fun textureLayer(texture: File, layerName: String = "default") {
         hasDefaultTexture = true
-        unsafeRawEntity.apply {
-            description {
-                renderPart("default") {
-                    textureLayer(texture, layerName)
-                }
-            }
+        renderPart("default") {
+            textureLayer(texture, layerName)
         }
         unsafeApplyDefaultTexture = false
     }
@@ -78,13 +74,13 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    open fun textureLayer(textures: ArrayList<File>, query: Molang, layerName: String= hashLayerName(textures, query.data)) {
-        unsafeRawEntity.apply {
-            description {
-                renderPart("default") {
-                    textureLayer(textures, query, layerName)
-                }
-            }
+    open fun textureLayer(
+        textures: ArrayList<File>,
+        query: Molang,
+        layerName: String = hashLayerName(textures, query.data)
+    ) {
+        renderPart("default") {
+            textureLayer(textures, query, layerName)
         }
         unsafeApplyDefaultTexture = false
     }
@@ -96,13 +92,13 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    open fun textureLayer(textures: ArrayList<File>, query: Unit.() -> Molang, layerName: String= hashLayerName(textures, query(Unit).data)) {
-        unsafeRawEntity.apply {
-            description {
-                renderPart("default") {
-                    textureLayer(textures, query, layerName)
-                }
-            }
+    open fun textureLayer(
+        textures: ArrayList<File>,
+        query: Unit.() -> Molang,
+        layerName: String = hashLayerName(textures, query(Unit).data)
+    ) {
+        renderPart("default") {
+            textureLayer(textures, query, layerName)
         }
         unsafeApplyDefaultTexture = false
     }
@@ -112,13 +108,13 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the texture like, "Query.variant"
      * @param layerName the identifier for the layer, leave empty to auto generate a name
      */
-    open fun textureLayer(textures: ArrayList<File>, query: String, layerName: String= hashLayerName(textures, query)) {
-        unsafeRawEntity.apply {
-            description {
-                renderPart("default") {
-                    textureLayer(textures, query, layerName)
-                }
-            }
+    open fun textureLayer(
+        textures: ArrayList<File>,
+        query: String,
+        layerName: String = hashLayerName(textures, query)
+    ) {
+        renderPart("default") {
+            textureLayer(textures, query, layerName)
         }
         unsafeApplyDefaultTexture = false
     }
@@ -141,7 +137,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param file the geometry file
      * @param layerName the name of the layer to prevent overwriting
      */
-    open fun geometryLayer(file: File, layerName: String= "default") {
+    open fun geometryLayer(file: File, layerName: String = "default") {
         renderPart("default") {
             geometryLayer(file, layerName)
         }
@@ -154,7 +150,11 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    open fun geometryLayer(files: ArrayList<File>, query: Molang, layerName: String= hashLayerName(files, query.data)) {
+    open fun geometryLayer(
+        files: ArrayList<File>,
+        query: Molang,
+        layerName: String = hashLayerName(files, query.data)
+    ) {
         renderPart("default") {
             geometryLayer(files, query, layerName)
         }
@@ -167,7 +167,11 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    open fun geometryLayer(files: ArrayList<File>, query: Unit.() -> Molang, layerName: String= hashLayerName(files, query(Unit).data)) {
+    open fun geometryLayer(
+        files: ArrayList<File>,
+        query: Unit.() -> Molang,
+        layerName: String = hashLayerName(files, query(Unit).data)
+    ) {
         renderPart("default") {
             geometryLayer(files, query, layerName)
         }
@@ -180,7 +184,11 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    open fun geometryLayerByIds(geoIds: ArrayList<String>, query: Molang, layerName: String= hashLayerNameByIds(geoIds, query.data)) {
+    open fun geometryLayerByIds(
+        geoIds: ArrayList<String>,
+        query: Molang,
+        layerName: String = hashLayerNameByIds(geoIds, query.data)
+    ) {
         renderPart("default") {
             geometryLayerByIds(geoIds, query, layerName)
         }
@@ -193,7 +201,11 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    open fun geometryLayerByIds(geoIds: ArrayList<String>, query: () -> Molang, layerName: String= hashLayerNameByIds(geoIds, query().data)) {
+    open fun geometryLayerByIds(
+        geoIds: ArrayList<String>,
+        query: () -> Molang,
+        layerName: String = hashLayerNameByIds(geoIds, query().data)
+    ) {
         geometryLayerByIds(geoIds, query(), layerName)
     }
 
@@ -203,7 +215,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param query the query to select the geometry like "Query.variant"
      * @param layerName optional to identify the layer in the render-controller
      */
-    open fun geometryLayer(files: ArrayList<File>, query: String, layerName: String= hashLayerName(files, query)) {
+    open fun geometryLayer(files: ArrayList<File>, query: String, layerName: String = hashLayerName(files, query)) {
         renderPart("default") {
             geometryLayer(files, query, layerName)
         }
@@ -226,7 +238,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
      * @param file the animations
      * @param animName set the name for all animations (input is the identifier), default is the string after the last dot "animation.entity.walk" => "walk"
      */
-    open fun animation(file: File, animName: (String) -> String  = { it.split(".").last() }) {
+    open fun animation(file: File, animName: (String) -> String = { it.split(".").last() }) {
         val animations = extractAnimationIdsFromFile(file)
         if (animations.isEmpty()) {
             logger().warn("No animations found in file: ${file.name}")
@@ -253,7 +265,11 @@ open class ResourceEntity(val entityData: Entity.Data) {
      *
      * @param name the name of the controller
      */
-    open fun animationController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
+    open fun animationController(
+        name: String,
+        query: Molang = Query.True,
+        data: AnimationControllers.Controller.() -> Unit
+    ) {
         val idName = "controller.animation.${entityData.name}.${name.removePrefix("controller.animation.")}"
         unsafeControllers.animController(idName, data)
 
@@ -336,7 +352,8 @@ open class ResourceEntity(val entityData: Entity.Data) {
     }
 
     open fun build() {
-        val buildDefaultRenderPart = renderParts.isEmpty() || renderParts.any { it.partName == "default" && !it.isEmpty() }
+        val buildDefaultRenderPart =
+            renderParts.isEmpty() || renderParts.any { it.partName == "default" && !it.isEmpty() }
 
         unsafeComponents.build()
         if (!unsafeComponents.disableMaterial && buildDefaultRenderPart) {
@@ -351,22 +368,14 @@ open class ResourceEntity(val entityData: Entity.Data) {
         }
         if (!disableRender) {
             if (unsafeApplyDefaultTexture && buildDefaultRenderPart) {
-                unsafeRawEntity.apply {
-                    description {
-                        renderPart("default") {
-                            textureLayer(entityData.addon.config.defaultResource.defaultTexturePath)
-                        }
-                    }
+                renderPart("default") {
+                    textureLayer(entityData.addon.config.defaultResource.defaultTexturePath)
                 }
             }
 
             if (unsafeApplyDefaultGeometry && buildDefaultRenderPart)
-                unsafeRawEntity.apply {
-                    description {
-                        renderPart("default") {
-                            geometryLayer(entityData.addon.config.defaultResource.defaultGeo)
-                        }
-                    }
+                renderPart("default") {
+                    geometryLayer(entityData.addon.config.defaultResource.defaultGeo)
                 }
             renderParts.forEach { it.build() }
         }
