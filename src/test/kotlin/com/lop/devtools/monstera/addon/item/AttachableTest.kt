@@ -4,6 +4,7 @@ import com.lop.devtools.monstera.addon.buildTestAddon
 import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.addon.testAddon
 import com.lop.devtools.monstera.files.beh.item.BehItem
+import com.lop.devtools.monstera.files.beh.item.ItemCategory
 import com.lop.devtools.monstera.files.beh.item.comp.EnchantableSlot
 import com.lop.devtools.monstera.files.beh.item.comp.ItemWearable
 import com.lop.devtools.monstera.files.getResource
@@ -20,7 +21,7 @@ class AttachableTest {
     fun basicAttachableTest() = testAddon {
         buildToMcFolder = true
         item("test_attachable", "Test Attachable") {
-            menuCategory { category = BehItem.Description.Category.EQUIPMENT }
+            menuCategory { category = ItemCategory.EQUIPMENT }
             texture(getResource("item/attachable/custom_chestplate.png"))
             components {
                 creativeCategory {
