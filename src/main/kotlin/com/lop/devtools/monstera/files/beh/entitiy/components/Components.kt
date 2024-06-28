@@ -903,6 +903,7 @@ open class Components : MonsteraRawFile() {
      *     shootSound = bow
      *     shootTarget = false
      *     isDangerous = true
+     *     onHit { }
      * }
      *```
      */
