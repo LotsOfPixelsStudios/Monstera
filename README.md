@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.lotsofpixelsstudios:monstera:0.3.2")
+    implementation("com.lotsofpixelsstudios:monstera:0.4.3")
 }
 ````
 

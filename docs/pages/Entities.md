@@ -197,7 +197,9 @@ components {
 
 ## :fa-solid fa-horse: Resource
 
-### Blockbench Files
+### Blockbench Files (Experimental)
+
+Note: some complex stuff with UV scaling/mirroring is not supported!
 
 Monstera has also the option to load blockbench files, note: this is a std lib feature:
 
@@ -431,3 +433,161 @@ craftingRecipe {
     }
 }
 ```
+
+## Examples
+
+### Projectile Entity
+
+Projectiles require only a few basic components
+
+````kotlin
+behaviour {
+    components {
+        projectile {
+            power = 4
+            gravity = 0.1f
+            anchor = 1
+            shouldBounce = true
+            offset(0f, -0.1f, 0f)
+
+            onHit {
+                impactDamage {
+                    damage(4, 6)
+                    knockback = true
+                    destroyOnHit = false
+                    semiRandomDiffDamage = false
+                }
+                stickInGround {
+                    shakeTime = 0
+                }
+            }
+        }
+        collisionBox {
+            width = 0.25
+            height = 0.35
+        }
+        physics { }
+        pushable {
+            isPushable = false
+        }
+        balloonable {
+            mass = 0.1f
+        }
+        conditionalBandwidthOptimization {
+            defaultValues {
+                maxOptimizedDistance = 80
+                maxDroppedTicks = 7
+                useMotionPredictionHints = true
+            }
+        }
+    }
+}
+````
+
+It may be beneficial to add a runtime identifier, otherwise the projectile may look strange.
+
+````kotlin
+behaviour {
+    runtimeIdentifier = RuntimeIdentifier.SNOWBLL
+}
+````
+
+### Throw the projectile with a custom item
+
+When you create an item, you have the option to add a component so that you can throw or shoot your custom projectile.
+
+````kotlin
+val spear = entity("spear") {
+    behaviour {
+        components {
+            projectile {
+                //...
+            }
+        }
+    }
+}
+
+item("fishing_spear", "Fishing Spear") {
+    texture(getResource("spear/spear_ico.png"))
+    components {
+        maxStackSize(1)
+        throwable {
+            scalePowerByDrawDuration = true
+            maxDrawDuration = 1
+            minDrawDuration = 0.2
+            launchPowerScale = 1.2
+            maxLaunchPower = 2
+        }
+        projectile {
+            projectileEntity = spear.getIdentifier()
+        }
+    }
+}
+````
+
+Instead of the throwable component, consider using the shooter component
+
+````kotlin
+components {
+    shooter {  }
+}
+````
+
+### Adding an attachable for your item
+
+To add an attachable you need a geo with texture and at least 2 animations, one for the first person and one for the 
+third person. For custom armor you can omit the first person or set the scale to 0.
+
+````kotlin
+item("fishing_spear", "Fishing Spear") {
+    texture(getResource("spear/spear_ico.png"))
+    components {
+        //...
+    }
+    attachable {
+        material("parrot", "parrot")
+        geometry(getResource("spear/spear.geo.json"))
+        texture(getResource("spear/spear/spear.png"))
+        
+        //contains the "hold_first_person" and "hold_third_person" anim
+        animation(getResource("spear/spear.animation.json"))
+        renderController("controller.render.item_default")
+        scripts {
+            animate("hold_first_person", Query("context.is_first_person == 1.0"))
+            animate("hold_third_person", Query("context.is_first_person == 0.0"))
+        }
+    }
+}
+````
+
+
+### Rideable Entities
+
+You can add the Rideable component to an entity to allow players or mobs to ride on the entity. The player will need a 
+form of input if they want to be able to move with the entity. 
+
+````kotlin
+rideable {
+    pullInEntities = true   //pulls in the parrots like the player does for parrots
+    familyTypes("parrot")
+    seat {
+        position(0.2, 1.8, 0)
+    }
+    seatCountFromSeats()
+}
+````
+
+For the player you can use:
+
+````kotlin
+rideable {
+    familyTypes("player")
+    seat {
+        position(0, 0, 2)
+    }
+    seatCountFromSeats()
+}
+inputGroundControlled { }
+//or                    
+itemControllable { }
+````

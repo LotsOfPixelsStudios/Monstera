@@ -13,6 +13,13 @@ class Rideable : MonsteraRawFile() {
     @SerializedName("seat_count")
     @Expose
     var seatCount: Number? = null
+
+    /**
+     * needs to be called after the seats where created
+     */
+    fun seatCountFromSeats() {
+        seatCount = seatsData?.size
+    }
         
     @SerializedName("passenger_max_width")
     @Expose
