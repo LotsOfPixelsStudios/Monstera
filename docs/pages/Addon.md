@@ -4,30 +4,22 @@
 
 Within the `Main.kt` is already an addon structure given and hints on what is possible.
 
+### Addon Config
+
+To create an addon, Monstera needs some basic information in the form of a config, if no config exists as in the 
+template, one will be created for you when you run the program once. In the console or std in/out Monstera will ask for 
+the project name and short, other information can be edited directly in the config.
+
 ````kotlin
-addon(config(projectName = "Template") {
-    //config
-    "npm.cmd run build".runCommand(File(System.getProperty("user.dir"), "scripting"))
-    projectShort = "te"
-    description = "sample description"
-    packIcon = getResource("general/pack.png")
-    world = getResource("world/template-world")
-    version = arrayListOf(0, 1, 0)
-    targetMcVersion = arrayListOf(1, 20, 0)
-    scriptEntryFile = File("scripting", "dist", "src", "index.js")
-    scriptingVersion = "1.6.0-beta"
+val conf = addon(loadConfig().getOrElse {
+    it.printStackTrace()
+    return      //something went wrong loading the config, for example an I/O error
 }) {
     //addon body
 }
 ````
 
-Within the header of the addon function we can define some basics of the addon we want to have. The projectShort is
-thereby also used as the namespace of entities etc.
-
-Within the Body or the Addon Context we can define entities, items, etc. that will automatically be associated with the
-addon.
-
-## :fa-solid fa-screwdriver-wrench: Modifications
+### :fa-solid fa-screwdriver-wrench: Modifications of the Config
 
 This section may be interesting for publishing the addon, as for example overwriting the end users version may be
 a bit different as on the machine of the developer:
@@ -46,14 +38,8 @@ Note: You may not use components of a newer Version then.
 
 ### My mc folder can't be found
 
-This can happen if minecraft wasn't installed with the default parameters, change the direcotry like:
-
-```kotlin
-addon(/*...*/) {
-    properties.comMojangPath =
-        System.getenv("LOCALAPPDATA") + "\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\LocalState\\games\\com.mojang"
-}
-```
+If an error like this happens, have a look at the monstera-local.json, there is the minecraft path that Monstera 
+assumed, you can change this path so that it points to the correct directory.
 
 ## :fa-solid fa-hammer: Build the addon
 
@@ -94,4 +80,5 @@ To correctly package the addon, see the Package page.
 
 ## :fa-solid fa-flask: Experimental Features
 
-Currently, the JSON UI is experimental and may be discontinued as it will be deprecated in future mc versions.
+The JSON UI is not currently in the latest builds and is not currently being worked on, if you are interested open a 
+discussion.
