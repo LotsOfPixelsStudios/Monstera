@@ -533,7 +533,7 @@ components {
 }
 ````
 
-### Adding an attachable for you're item
+### Adding an attachable for your item
 
 To add an attachable you need a geo with texture and at least 2 animations, one for the first person and one for the 
 third person. For custom armor you can omit the first person or set the scale to 0.
