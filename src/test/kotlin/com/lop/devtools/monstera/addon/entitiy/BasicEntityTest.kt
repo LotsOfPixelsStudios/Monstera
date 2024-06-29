@@ -52,6 +52,16 @@ class BasicEntityTest {
                         avoidWater = true
                     }
                     additionalKeys = mapOf("my_component" to "my_value")
+
+                    rideable {
+                        familyTypes("player")
+                        seat {
+                            position(0, 0, 2)
+                        }
+                        seatCountFromSeats()
+                    }
+                    inputGroundControlled {  }
+                    itemControllable {  }
                 }
             }
         }

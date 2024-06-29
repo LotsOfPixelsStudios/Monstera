@@ -559,3 +559,35 @@ item("fishing_spear", "Fishing Spear") {
     }
 }
 ````
+
+
+### Rideable Entities
+
+You can add the Rideable component to an entity to allow players or mobs to ride on the entity. The player will need a 
+form of input if they want to be able to move with the entity. 
+
+````kotlin
+rideable {
+    pullInEntities = true   //pulls in the parrots like the player does for parrots
+    familyTypes("parrot")
+    seat {
+        position(0.2, 1.8, 0)
+    }
+    seatCountFromSeats()
+}
+````
+
+For the player you can use:
+
+````kotlin
+rideable {
+    familyTypes("player")
+    seat {
+        position(0, 0, 2)
+    }
+    seatCountFromSeats()
+}
+inputGroundControlled { }
+//or                    
+itemControllable { }
+````
