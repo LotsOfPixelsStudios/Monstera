@@ -198,16 +198,23 @@ class BehRecipe : MonsteraRawFile() {
 
     @SerializedName("key")
     @Expose
-    var key: MutableMap<String, String>? = null
+    @JsonAdapter(MonsteraMapFileTypeAdapter::class)
+    var key: MutableMap<String, ItemInfo>? = null
         @MonsteraBuildSetter set
 
     @OptIn(MonsteraBuildSetter::class)
     fun addKey(key: String, item: String) {
-        this.key = (this.key ?: mutableMapOf()).apply { put(key, item) }
+        this.key = (this.key ?: mutableMapOf()).apply { put(key, ItemInfo().apply { this.item = item }) }
+    }
+
+    @OptIn(MonsteraBuildSetter::class)
+    fun addKey(key: String, item: ItemInfo.() -> Unit) {
+        this.key = (this.key ?: mutableMapOf()).apply { put(key, ItemInfo().apply(item)) }
     }
 
     @SerializedName("unlock")
     @Expose
+    @JsonAdapter(MonsteraListFileTypeAdapter::class)
     var unlockData: MutableList<ItemInfo>? = null
         @MonsteraBuildSetter set
 
@@ -321,14 +328,31 @@ class BehRecipe : MonsteraRawFile() {
 }
 
 enum class RecipeTags {
+    @SerializedName("furnace")
     FURNACE,
+
+    @SerializedName("blast_furnace")
     BLAST_FURNACE,
+
+    @SerializedName("smoker")
     SMOKER,
+
+    @SerializedName("campfire")
     CAMPFIRE,
+
+    @SerializedName("soul_campfire")
     SOUL_CAMPFIRE,
+
+    @SerializedName("crafting_table")
     CRAFTING_TABLE,
+
+    @SerializedName("stonecutter")
     STONECUTTER,
+
+    @SerializedName("smithing_table")
     SMITHING_TABLE,
+
+    @SerializedName("brewing_stand")
     BREWING_STAND;
 
     override fun toString(): String {

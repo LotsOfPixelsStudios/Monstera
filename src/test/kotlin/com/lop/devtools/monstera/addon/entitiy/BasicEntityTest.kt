@@ -15,7 +15,7 @@ class BasicEntityTest {
 
     @Test
     fun basicEntityTest() = testAddon {
-        entity("soldior_test") {
+        entity("soldier_test") {
             resource {
                 textureLayer(
                     arrayListOf(
