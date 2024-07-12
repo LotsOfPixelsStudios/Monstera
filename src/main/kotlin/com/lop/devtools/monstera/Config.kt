@@ -17,6 +17,10 @@ import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
 
+private const val SERVER_SCRIPT_VERSION = "1.11.0"
+private const val VANILLA_DATA_SCRIPT_VERSION = "1.21.2"
+private const val SERVER_UI_SCRIPT_VERSION = "1.2.0"
+
 @DslMarker
 annotation class ConfigDSL
 
@@ -88,7 +92,9 @@ fun loadConfig(
             hashFileNames = monsteraConfig.hashFileNames,
             behPath = behPath,
             resPath = resPath,
-            scriptingVersion = monsteraConfig.scriptingVersion ?: "1.8.0",
+            scriptingVersion = monsteraConfig.scriptingVersion ?: "",
+            scriptingVanillaDataVersion = monsteraConfig.scriptingVanillaDataVersion ?: "",
+            scriptingServerUiVersion = monsteraConfig.scriptingServerUiVersion ?: "",
 
             comMojangPath = monsteraLocalConfig.minecraftDir?.let { Path(it) }
                 ?: Path(
@@ -168,8 +174,10 @@ class MonsteraConfig(
     var resUUID: String = UUID.randomUUID().toString(),
     var resModuleUUID: String = UUID.randomUUID().toString(),
     var targetMcVersion: MutableList<Int> = mutableListOf(1, 20, 81),
-    var scriptingVersion: String? = null,
-    var scriptEntryFile: String? = null,
+    var scriptingVersion: String? = SERVER_SCRIPT_VERSION,
+    var scriptingVanillaDataVersion: String? = VANILLA_DATA_SCRIPT_VERSION,
+    var scriptingServerUiVersion: String? = SERVER_UI_SCRIPT_VERSION,
+    var scriptEntryFile: String? = "scripting/dist/src/index.js",
     var packIcon: String? = null,
     var hashFileNames: Boolean = false,
     var minecraftPaths: MinecraftAddonPaths = MinecraftAddonPaths(),
@@ -264,7 +272,9 @@ class Config(
     var formatVersions: FormatVersions = FormatVersions(getVersionAsString(targetMcVersion)),
     var langFileBuilder: AddonLangFileBuilders = AddonLangFileBuilders(behPath, resPath),
     var scriptEntryFile: File = File(),
-    var scriptingVersion: String = "1.8.0",
+    var scriptingVersion: String = SERVER_SCRIPT_VERSION,
+    var scriptingVanillaDataVersion: String = VANILLA_DATA_SCRIPT_VERSION,
+    var scriptingServerUiVersion: String = SERVER_UI_SCRIPT_VERSION,
     var hashFileNames: Boolean = false,
     /**
      * don't hash or modify these file names on build

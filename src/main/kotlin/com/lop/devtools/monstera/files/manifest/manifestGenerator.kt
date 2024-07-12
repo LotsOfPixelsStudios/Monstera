@@ -22,7 +22,8 @@ fun generateManifest(
     scriptEntryFile: File = File()
 ): Pair<UUID, UUID> {
     val logger = LoggerFactory.getLogger("Manifest")
-    val enableScripting = scriptEntryFile.exists() && scriptEntryFile.isFile
+    val enableScripting = scriptEntryFile.exists()
+            && scriptEntryFile.isFile
 
     if (enableScripting && config.targetMcVersion[0] == 1 && config.targetMcVersion[1] < 20) {
         logger.warn("Scripting is only available in version 1.20 or higher! Update your targetMcVersion!")
@@ -67,13 +68,27 @@ fun generateManifest(
     ).apply {
         if (enableScripting) {
             logger.info("Scripting enabled with version '${config.scriptingVersion}'!")
-
-            add(
-                mutableMapOf(
-                    "module_name" to "@minecraft/server",
-                    "version" to config.scriptingVersion
+            if(config.scriptingVersion != "")
+                add(
+                    mutableMapOf(
+                        "module_name" to "@minecraft/server",
+                        "version" to config.scriptingVersion
+                    )
                 )
-            )
+            if(config.scriptingVanillaDataVersion != "")
+                add(
+                    mutableMapOf(
+                        "module_name" to "@minecraft/vanilla-data",
+                        "version" to config.scriptingVanillaDataVersion
+                    )
+                )
+            if(config.scriptingServerUiVersion != "")
+                add(
+                    mutableMapOf(
+                        "module_name" to "@minecraft/server-ui",
+                        "version" to config.scriptingServerUiVersion
+                    )
+                )
         }
     }
 

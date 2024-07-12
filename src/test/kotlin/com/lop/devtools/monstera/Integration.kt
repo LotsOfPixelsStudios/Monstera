@@ -14,6 +14,8 @@ class Integration {
             return
         }
 
+        conf1.scriptEntryFile = getResource("monstera.json")
+
         val conf2 = config("my_test") {
             namespace = "monstera"
             projectShort = "te"
