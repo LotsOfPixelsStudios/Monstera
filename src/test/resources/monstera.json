@@ -5,28 +5,30 @@
     "namespace": "monstera",
     "version": [
         0,
-        0,
-        1
+        1,
+        0
     ],
     "authors": [
         "Matthias Klenz"
     ],
-    "world": "src/main/resources/template-wrold",
-    "worldUUID": "fe8b47f7-dfe9-4ad1-ac1f-18b8fda6bba6",
-    "worldModuleUUID": "8ac9af62-3bcd-4ebc-9600-a53ba72378fa",
-    "behUUID": "01ad7aa7-917a-45d4-8678-29dce3d36e05",
-    "behModuleUUID": "f60f5b8c-f5ff-4648-b069-e0554531b3df",
-    "scriptUUID": "a7966416-236e-4da7-a7e6-fe3f13ab8c79",
-    "resUUID": "c9a9728b-af73-4251-bcea-e4df4371f309",
-    "resModuleUUID": "41b5e80e-b651-46a7-a3c1-f3d829020ef0",
+    "worldUUID": "f908f180-5757-4b69-ac55-305bb0c18f49",
+    "worldModuleUUID": "020de46d-1aab-4fe6-a53b-e0ec272d8e6b",
+    "behUUID": "d4e2ac18-35da-4fd0-a4b6-6234a82d682d",
+    "behModuleUUID": "8192381b-27f8-47a8-ae20-93f94abb6117",
+    "scriptUUID": "b30206f9-3d18-484f-9fc0-ced171a44b88",
+    "resUUID": "21de1edc-c6c8-413b-baa2-bbd9369f819d",
+    "resModuleUUID": "540e33a8-8aac-46b2-842f-66b01273482d",
     "targetMcVersion": [
         1,
         20,
-        70
+        81
     ],
-    "scriptingVersion": "1.8.0",
+    "scriptingVersion": "1.11.0",
+    "scriptingVanillaDataVersion": "1.21.2",
+    "scriptingServerUiVersion": "1.2.0",
+    "scriptEntryFile": "scripting/dist/src/index.js",
     "packIcon": "src/main/resources/pack.png",
-    "hashFileNames": true,
+    "hashFileNames": false,
     "minecraftPaths": {
         "behEntity": "entities",
         "behAnimController": "animation_controllers",
