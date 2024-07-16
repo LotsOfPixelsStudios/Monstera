@@ -98,8 +98,11 @@ class LangFileBuilder {
 
 /**
  * add a new lang key
+ *
+ * @return the lang key provided
  */
-fun langKey(key: String, value: String, languageHint: String? = null) {
+fun langKey(key: String, value: String, languageHint: String? = null): String {
     Addon.active?.config?.langFileBuilder?.addonRes?.add(key, value, languageHint)
         ?: error("Lang keys can only be added with an active addon!")
+    return key
 }
