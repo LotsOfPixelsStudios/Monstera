@@ -11,6 +11,7 @@ import com.lop.devtools.monstera.files.beh.entitiy.components.Components
 import com.lop.devtools.monstera.files.beh.entitiy.data.BehEntityFilter
 import com.lop.devtools.monstera.files.beh.entitiy.data.Subject
 import com.lop.devtools.monstera.files.beh.tables.loot.BehLootTables
+import com.lop.devtools.monstera.files.lang.langKey
 import com.lop.devtools.monstera.getMonsteraLogger
 
 class Interact : MonsteraRawFile() {
@@ -78,11 +79,20 @@ class Interact : MonsteraRawFile() {
 
 
         /**
-         * eg action.interact.saddle
+         * Add a text for pocket player
+         * e.g. action.interact.saddle
+         *
+         * ```
+         * interactText = langKey("action.interact.saddle", "Ride")
+         * ```
          */
         @SerializedName("interact_text")
         @Expose
         var interactText: String? = null
+
+        fun interactText(key: String, langValue: String) {
+            interactText = langKey(key, langValue)
+        }
 
         @SerializedName("use_item")
         @Expose
