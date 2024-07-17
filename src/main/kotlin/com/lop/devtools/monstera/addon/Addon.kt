@@ -47,25 +47,25 @@ open class Addon(val config: Config, val args: Array<String>) {
         val mcFunctions = mutableListOf<McFunction>()
     }
 
-    val onEndListener: ArrayList<InvokeBeforeEnd> = arrayListOf()
-    val onPackage: ArrayList<PackageInvoke> = arrayListOf()
+    open val onEndListener: ArrayList<InvokeBeforeEnd> = arrayListOf()
+    open val onPackage: ArrayList<PackageInvoke> = arrayListOf()
 
     @MonsteraUnsafeField
-    val entities: MutableMap<String, Entity> = mutableMapOf()
+    open val entities: MutableMap<String, Entity> = mutableMapOf()
 
     @MonsteraUnsafeField
-    val items: MutableMap<String, Item> = mutableMapOf()
+    open val items: MutableMap<String, Item> = mutableMapOf()
 
     @MonsteraUnsafeField
-    val blocks: MutableMap<String, Block> = mutableMapOf()
+    open val blocks: MutableMap<String, Block> = mutableMapOf()
 
-    var buildFunctions: Boolean = true
-    var buildTextureList: Boolean = true
-    var buildItemTextureIndex: Boolean = true
-    var buildToMcFolder: Boolean = true
-    var manifestMinEnginVersion: ArrayList<Int> = ArrayList(config.targetMcVersion)
+    open var buildFunctions: Boolean = true
+    open var buildTextureList: Boolean = true
+    open var buildItemTextureIndex: Boolean = true
+    open var buildToMcFolder: Boolean = true
+    open var manifestMinEnginVersion: ArrayList<Int> = ArrayList(config.targetMcVersion)
 
-    var includeInfoMcFunction: Boolean = true
+    open var includeInfoMcFunction: Boolean = true
 
     /**
      * Define an abstract entity
@@ -78,7 +78,7 @@ open class Addon(val config: Config, val args: Array<String>) {
      * ```
      */
     @AddonTopLevel
-    fun entity(name: String, displayName: String = name, entity: Entity.() -> Unit): Entity {
+    open fun entity(name: String, displayName: String = name, entity: Entity.() -> Unit): Entity {
         MonsteraLoggerContext.setEntity(name)
         entities[name] = (entities[name] ?: Entity(this, name, displayName)).apply(entity)
         MonsteraLoggerContext.clear()
@@ -139,7 +139,7 @@ open class Addon(val config: Config, val args: Array<String>) {
      * ```
      */
     @AddonTopLevel
-    fun sounds(sounds: SoundUtil.() -> Unit): SoundUtil {
+    open fun sounds(sounds: SoundUtil.() -> Unit): SoundUtil {
         return unsafe.sounds.apply(sounds)
     }
 
@@ -156,7 +156,7 @@ open class Addon(val config: Config, val args: Array<String>) {
      * ```
      */
     @AddonTopLevel
-    fun item(name: String, displayName: String = name, item: Item.() -> Unit): Item {
+    open fun item(name: String, displayName: String = name, item: Item.() -> Unit): Item {
         MonsteraLoggerContext.setItem(name)
         items[name] = (items[name] ?: Item(name, displayName, this)).apply(item)
         MonsteraLoggerContext.clear()
@@ -173,13 +173,13 @@ open class Addon(val config: Config, val args: Array<String>) {
      * ```
      */
     @AddonTopLevel
-    fun mcFunction(name: String, data: McFunction.() -> Unit): String {
+    open fun mcFunction(name: String, data: McFunction.() -> Unit): String {
         val func = McFunction(name).apply(data)
         unsafe.mcFunctions.add(func)
         return func.name
     }
 
-    fun loadParticle(value: File) {
+    open fun loadParticle(value: File) {
         if (value.isDirectory) {
             var texturePath = ""
             var texture = File()
@@ -231,14 +231,14 @@ open class Addon(val config: Config, val args: Array<String>) {
      * ```
      */
     @AddonTopLevel
-    fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
+    open fun block(name: String, displayName: String, data: Block.() -> Unit): Block {
         MonsteraLoggerContext.setBlock(name)
         blocks[name] = (blocks[name] ?: Block(this, name, displayName)).apply(data)
         MonsteraLoggerContext.clear()
         return blocks[name]!!
     }
 
-    fun scripts(directory: File) {
+    open fun scripts(directory: File) {
         val scriptingDir = config.paths.behScripts.toFile()
 
         if (directory.isDirectory) {
@@ -254,7 +254,7 @@ open class Addon(val config: Config, val args: Array<String>) {
         }
     }
 
-    fun build() {
+    open fun build() {
         val argParsed = args
             .map { it.lowercase() }
             .map { it.split("=") }
