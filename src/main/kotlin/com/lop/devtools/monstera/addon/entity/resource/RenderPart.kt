@@ -289,8 +289,8 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
         }
         unsafeRenderController.apply {
             controllers("${entityData.name}.$partName") {
-                materials.forEach { (bone, material) ->
-                    this.material("Material.${materialEntityId(bone)}" ,material)
+                materials.forEach { (bone, _) ->
+                    this.material(bone ,"Material.${materialEntityId(bone)}")
                 }
             }
         }
