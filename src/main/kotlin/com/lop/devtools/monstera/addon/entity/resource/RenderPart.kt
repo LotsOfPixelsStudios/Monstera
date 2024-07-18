@@ -19,8 +19,20 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
     open val unsafeRenderController: ResRenderControllers = resEntity.unsafeRenderController
     open val unsafeRawEntity: ResEntity = resEntity.unsafeRawEntity
 
+    @Deprecated("use material()", ReplaceWith("material(field)"))
     open var material: String = "parrot"
+    open var materials: MutableMap<String, String> = mutableMapOf()
+
+    /**
+     * Don't use a default material.
+     * This has no effect if `material()` is called!
+     */
+    open var disableMaterial: Boolean = false
     open var hasTextureLayer = false
+
+    open fun material(material: String, bone: String = "*") {
+        materials[bone] = material
+    }
 
     open fun getRenderControllerId() = "${entityData.name}.$partName"
 
@@ -271,9 +283,15 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
     }
 
     open fun build() {
+        if(materials.isEmpty() && !disableMaterial) {
+            @Suppress("DEPRECATION")    //enable backward compatibility
+            material(material)
+        }
         unsafeRenderController.apply {
             controllers("${entityData.name}.$partName") {
-                materials("Material.$partName")
+                materials.forEach { (bone, material) ->
+                    this.material("Material.${materialEntityId(bone)}" ,material)
+                }
             }
         }
         if (!hasTextureLayer && partName != "default") {
@@ -292,9 +310,19 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
         }
         unsafeRawEntity.apply {
             description {
-                material(partName, material)
+                materials.forEach { (bone, material) ->
+                    this@description.material(materialEntityId(bone), material)
+                }
                 renderController("controller.render.${entityData.name}.$partName", Query(query))
             }
         }
+    }
+
+    open fun materialEntityId(bone: String): String {
+        val b = bone
+            .replace("*", "all")
+            .replace("-", "_")
+            .replace(" ", "_")
+        return "${partName}_$b"
     }
 }

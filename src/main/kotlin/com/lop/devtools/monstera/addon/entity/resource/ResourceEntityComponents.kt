@@ -16,11 +16,22 @@ open class ResourceEntityComponents(
     val unsafeRenderController: ResRenderControllers
 ) {
     open var enableAttachment: Boolean? = null
+
+    @Deprecated(
+        "Use the default render part and modify the material there",
+        ReplaceWith("defaultRenderPart { material(field) }")
+    )
     open var material: String = "parrot"
         set(value) {
+            @Suppress("DEPRECATION")
             disableMaterial = false
             field = value
         }
+
+    @Deprecated(
+        "use the render part implementation!",
+        ReplaceWith("defaultRenderPart { disableMaterial = true }")
+    )
     open var disableMaterial: Boolean = false
 
     open var hideArmor: Boolean = false
@@ -49,7 +60,8 @@ open class ResourceEntityComponents(
      * particleEffect("smoke", "namespace:smoke_particle")
      * ```
      */
-    open fun particleEffect(name: String, particle: String) = unsafeRawEntity.description { particleEffect(name, particle) }
+    open fun particleEffect(name: String, particle: String) =
+        unsafeRawEntity.description { particleEffect(name, particle) }
 
     /**
      * can be called multiple times

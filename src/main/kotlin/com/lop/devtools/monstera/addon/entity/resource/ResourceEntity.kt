@@ -356,12 +356,6 @@ open class ResourceEntity(val entityData: Entity.Data) {
             renderParts.isEmpty() || renderParts.any { it.partName == "default" && !it.isEmpty() }
 
         unsafeComponents.build()
-        if (!unsafeComponents.disableMaterial && buildDefaultRenderPart) {
-            renderPart("default") {
-                material = unsafeComponents.material
-            }
-        }
-
         unsafeRawEntity.description {
             identifier = entityData.identifier
             langKey("entity.$identifier.name", entityData.displayName)

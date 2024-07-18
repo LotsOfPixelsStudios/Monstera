@@ -29,14 +29,3 @@ fun addon(config: Config, args: Array<String> = arrayOf(), addon: Addon.() -> Un
 fun addon(projectName: String, args: Array<String> = arrayOf(), conf: Config.() -> Unit = {}, addon: Addon.() -> Unit): Config {
     return addon(Config(projectName).apply(conf), args, addon)
 }
-
-@AddonEntry
-fun testAddon(addon: Addon.() -> Unit) {
-    (Addon.active ?: BasicAddon(Config("test_prj"), arrayOf())).apply { buildToMcFolder = false }.apply(addon)
-}
-
-fun buildTestAddon() {
-    Addon.active?.build() ?: run {
-        getMonsteraLogger("Test Addon").warn("No Test Addon initilized!")
-    }
-}

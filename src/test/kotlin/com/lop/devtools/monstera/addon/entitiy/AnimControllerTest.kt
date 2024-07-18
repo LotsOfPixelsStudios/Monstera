@@ -16,14 +16,14 @@ class AnimControllerTest {
     fun buildTask() {
         buildTestAddon()
     }
+
     @OptIn(MonsteraExperimental::class)
     @Test
     fun basicAnimControllerTest() = testAddon {
-        buildToMcFolder = true
         entity("my_anim_test", "Anim Test") {
             behaviour {
                 components {
-                    physics {  }
+                    physics { }
                 }
                 //animation("test") {
                 //    timeline {  }
@@ -49,6 +49,35 @@ class AnimControllerTest {
                     }
                 }
             }
+        }
+        withJsonFile(config.paths.behAnimController.resolve("my_anim_test.json")) {
+            assert(
+                containsKeyChain(
+                    "animation_controllers",
+                    "controller.animation.my_anim_test.my_anim_controller",
+                    "initial_state"
+                )
+            )
+            assert(
+                containsKeyChainValue(
+                    value = "(variable.my_var == 0)",
+                    "animation_controllers",
+                    "controller.animation.my_anim_test.my_anim_controller",
+                    "states",
+                    "default",
+                    "transitions",
+                    "success"
+                )
+            )
+            assert(
+                containsKeyChain(
+                    "animation_controllers",
+                    "controller.animation.my_anim_test.my_anim_controller",
+                    "states",
+                    "success",
+                    "on_entry"
+                )
+            )
         }
     }
 }
