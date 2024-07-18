@@ -22,6 +22,7 @@ class MaterialTest {
             }
             resource {
                 defaultRenderPart {
+                    material("alpha_test", "*")
                     material("parrot", "my_bone")
                     material("slime", "my_other_bone")
                 }
@@ -33,20 +34,20 @@ class MaterialTest {
             assert(containsKeyChain("render_controllers", "controller.render.$entityId.default"))
             assert(
                 containsKeyChainValue(
-                    value = "parrot",
+                    value = "Material.default_my_bone",
                     "render_controllers",
                     "controller.render.$entityId.default",
                     "materials",
-                    "Material.default_my_bone"
+                    "my_bone"
                 )
             )
             assert(
                 containsKeyChainValue(
-                    value = "slime",
+                    value = "Material.default_my_other_bone",
                     "render_controllers",
                     "controller.render.$entityId.default",
                     "materials",
-                    "Material.default_my_other_bone"
+                    "my_other_bone"
                 )
             )
             assert(!containsKey("not_a_key"))
