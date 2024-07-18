@@ -374,9 +374,13 @@ open class ResourceEntity(val entityData: Entity.Data) {
             }
 
             renderParts.forEach { part ->
-                //add default geo to render part if non was provided
-                if(unsafeRawEntity.description?.geometryData?.any { it.key.startsWith(part.partName) } == false)  {
-                    part.geometryLayer(entityData.addon.config.defaultResource.defaultGeo)
+                if (unsafeRawEntity.description?.geometryData?.any { it.key.startsWith(part.partName) } == false) {
+                    getMonsteraLogger("Render Part")
+                        .error("Part '${part.partName}' does not contain a geometry!")
+                }
+                if (unsafeRawEntity.description?.texturesData?.any { it.key.startsWith(part.partName) } == false) {
+                    getMonsteraLogger("Render Part")
+                        .error("Part '${part.partName}' does not contain a texture!")
                 }
                 part.build()
             }
