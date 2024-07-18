@@ -25,6 +25,9 @@ class RenderPartTest {
                     geometryLayer(getResource("entity/geometries/soldier_npc.geo.json"))
                     textureLayer(getResource("entity/textures/soldier_npc_1.png"))
                 }
+                renderPart("missing_res", Query.isBaby) {
+
+                }
             }
             behaviour {
                 components {

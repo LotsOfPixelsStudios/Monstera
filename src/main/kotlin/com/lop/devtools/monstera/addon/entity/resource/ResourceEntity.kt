@@ -362,16 +362,28 @@ open class ResourceEntity(val entityData: Entity.Data) {
         }
         if (!disableRender) {
             if (unsafeApplyDefaultTexture && buildDefaultRenderPart) {
-                renderPart("default") {
+                defaultRenderPart {
                     textureLayer(entityData.addon.config.defaultResource.defaultTexturePath)
                 }
             }
 
-            if (unsafeApplyDefaultGeometry && buildDefaultRenderPart)
-                renderPart("default") {
+            if (unsafeApplyDefaultGeometry && buildDefaultRenderPart) {
+                defaultRenderPart {
                     geometryLayer(entityData.addon.config.defaultResource.defaultGeo)
                 }
-            renderParts.forEach { it.build() }
+            }
+
+            renderParts.forEach { part ->
+                if (unsafeRawEntity.description?.geometryData?.any { it.key.startsWith(part.partName) } == false) {
+                    getMonsteraLogger("Render Part")
+                        .error("Part '${part.partName}' does not contain a geometry!")
+                }
+                if (unsafeRawEntity.description?.texturesData?.any { it.key.startsWith(part.partName) } == false) {
+                    getMonsteraLogger("Render Part")
+                        .error("Part '${part.partName}' does not contain a texture!")
+                }
+                part.build()
+            }
         }
 
         if (!disableRender && !unsafeRenderController.isEmpty()) {
