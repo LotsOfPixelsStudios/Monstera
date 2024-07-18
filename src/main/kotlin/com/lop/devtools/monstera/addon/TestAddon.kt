@@ -21,6 +21,14 @@ class TestAddon(config: Config, args: Array<String>) : Addon(config, args) {
 
     /**
      * implement checks for a json file
+     *
+     * ```
+     * containsKey()
+     * containsKeyValue()
+     * containsKeyChain()
+     * containsKeyChainValue()
+     * ```
+     *
      * @param checks these checks are executed after the addon was built
      */
     fun withJsonFile(filePath: Path, checks: TestFileContent.() -> Unit) {
