@@ -78,6 +78,7 @@ jreleaser {
                 register("sonatype") {
                     setActive("ALWAYS")
                     url = "https://central.sonatype.com/api/v1/publisher"
+                    println("Staging Repo: ${layout.buildDirectory.dir("staging-deploy").get().asFile.path}")
                     stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
                 }
             }
