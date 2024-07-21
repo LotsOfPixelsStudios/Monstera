@@ -79,6 +79,9 @@ jreleaser {
                     setActive("ALWAYS")
                     url = "https://central.sonatype.com/api/v1/publisher"
                     stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
+                    stagingRepositories.get().forEach {
+                        println("Found staging repo: $it")
+                    }
                 }
             }
         }
@@ -87,7 +90,10 @@ jreleaser {
 
 task("debug_release") {
     println("Staging Repo: ${layout.buildDirectory.dir("staging-deploy").get().asFile.path}")
-    println("Files: ${layout.buildDirectory.dir("staging-deploy").get().asFile.walk().maxDepth(1).map { it.name }}")
+    println("Contains Files:")
+    layout.buildDirectory.dir("staging-deploy").get().asFile.walk().maxDepth(1).forEach {
+        println(it.name)
+    }
 }
 
 tasks["jreleaserFullRelease"].dependsOn("debug_release")
