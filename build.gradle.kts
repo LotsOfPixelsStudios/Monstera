@@ -96,6 +96,18 @@ task("debug_release") {
     }
 }
 
+task("create_output_dir") {
+    layout.buildDirectory.dir("jreleaser").get().asFile.let {
+        if(!it.isDirectory) {
+            it.mkdirs()
+        }
+    }
+}
+
+tasks["jreleaserConfig"].dependsOn("create_output_dir")
+tasks["publish"].dependsOn("create_output_dir")
+tasks["jreleaserFullRelease"].dependsOn("create_output_dir")
+
 publishing {
     publications {
         register("release", MavenPublication::class) {
