@@ -63,8 +63,8 @@ repositories {
 jreleaser {
     release {
         github {
-            releaseName.set("{{tagName}}")
-            overwrite.set(true)
+            skipTag = true
+            skipRelease = true
         }
     }
     signing {
