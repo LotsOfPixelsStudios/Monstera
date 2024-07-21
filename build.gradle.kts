@@ -60,6 +60,16 @@ repositories {
     mavenCentral()
 }
 
+task("create_jreleaser_dir") {
+    layout.buildDirectory.dir("jreleaser").get().asFile.let {
+        if(!it.isDirectory) {
+            it.mkdirs()
+        }
+    }
+}
+
+tasks["jreleaserFullRelease"].dependsOn("create_jreleaser_dir")
+
 jreleaser {
     release {
         github {
