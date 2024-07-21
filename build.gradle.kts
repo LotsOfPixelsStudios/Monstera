@@ -7,7 +7,7 @@ plugins {
 
 /*group = "com.lotsofpixelsstudios"*/
 group = "de.matthiasklenz"
-version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.1-local"   //use tag name as version
+version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.5.0-SNAPSHOT1"//"0.1-local"   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -78,7 +78,7 @@ jreleaser {
                 register("sonatype") {
                     setActive("ALWAYS")
                     url = "https://central.sonatype.com/api/v1/publisher"
-                    stagingRepository("build/staging-deploy")
+                    stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
                 }
             }
         }
