@@ -61,6 +61,11 @@ repositories {
 }
 
 jreleaser {
+    release {
+        github {
+            enabled.set(false)
+        }
+    }
     signing {
         setActive("ALWAYS")
         armored = true
