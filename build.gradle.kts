@@ -88,26 +88,6 @@ jreleaser {
     }
 }
 
-task("debug_release") {
-    println("Staging Repo: ${layout.buildDirectory.dir("staging-deploy").get().asFile.path}")
-    println("Contains Files:")
-    layout.buildDirectory.dir("staging-deploy").get().asFile.walk().maxDepth(1).forEach {
-        println(it.name)
-    }
-}
-
-task("create_output_dir") {
-    layout.buildDirectory.dir("jreleaser").get().asFile.let {
-        if(!it.isDirectory) {
-            it.mkdirs()
-        }
-    }
-}
-
-tasks["jreleaserConfig"].dependsOn("create_output_dir")
-tasks["publish"].dependsOn("create_output_dir")
-tasks["jreleaserFullRelease"].dependsOn("create_output_dir")
-
 publishing {
     publications {
         register("release", MavenPublication::class) {
