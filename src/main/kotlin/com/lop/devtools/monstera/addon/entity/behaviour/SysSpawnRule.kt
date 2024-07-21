@@ -14,6 +14,26 @@ open class SysSpawnRule(private val entityId: String, private val entityName: St
         }
     }
 
+    /**
+     * ```
+     * weight()
+     * densityLimit()
+     * spawnsOnBlockFilter = mutableListOf("")
+     * spawnsOnBlockPreventedFilterData = mutableListOf("")
+     * spawnAboveBlockFilter { }
+     * herd { }
+     * permuteType { }
+     * brightnessFilter { }
+     * heightFilter {  }
+     * spawnsOnSurface()
+     * spawnsUnderground()
+     * spawnsUnderwater()
+     * disallowSpawnsInBubble()
+     * spawnsLava()
+     * biomeFilter { }
+     * difficultyFilter { }
+     * ```
+     */
     open fun condition(condition: BehSpawnRules.Condition.() -> Unit) {
         file.condition(condition)
     }
