@@ -7,7 +7,7 @@ plugins {
 
 /*group = "com.lotsofpixelsstudios"*/
 group = "de.matthiasklenz"
-version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "local"   //use tag name as version
+version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.1-local"   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -63,7 +63,8 @@ repositories {
 jreleaser {
     release {
         github {
-            enabled.set(false)
+            releaseName.set("{{tagName}}")
+            overwrite.set(true)
         }
     }
     signing {
