@@ -78,13 +78,19 @@ jreleaser {
                 register("sonatype") {
                     setActive("ALWAYS")
                     url = "https://central.sonatype.com/api/v1/publisher"
-                    println("Staging Repo: ${layout.buildDirectory.dir("staging-deploy").get().asFile.path}")
                     stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
                 }
             }
         }
     }
 }
+
+task("debug_release") {
+    println("Staging Repo: ${layout.buildDirectory.dir("staging-deploy").get().asFile.path}")
+    println("Files: ${layout.buildDirectory.dir("staging-deploy").get().asFile.walk().maxDepth(1).map { it.name }}")
+}
+
+tasks["jreleaserFullRelease"].dependsOn("debug_release")
 
 publishing {
     publications {
