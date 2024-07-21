@@ -1,12 +1,13 @@
 plugins {
     kotlin("jvm") version "2.0.0"
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     `maven-publish`
-    signing
+    `java-library`
+    id("org.jreleaser") version "1.13.1"
 }
 
-group = "com.lotsofpixelsstudios"
-version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "local"   //use tag name as version
+/*group = "com.lotsofpixelsstudios"*/
+group = "de.matthiasklenz"
+version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.5.0-SNAPSHOT1"//"0.1-local"   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -34,19 +35,6 @@ java {
     withSourcesJar()
 }
 
-signing {
-    gradle.taskGraph.whenReady {
-        isRequired = allTasks.any { it is PublishToMavenRepository }
-    }
-
-    useInMemoryPgpKeys(
-        System.getenv("ORG_GRADLE_PROJECT_signingKey"),
-        System.getenv("ORG_GRADLE_PROJECT_signingPassword")
-    )
-
-    sign(publishing.publications)
-}
-
 //set the version in the resource files to access it from projects
 gradle.taskGraph.whenReady {
     layout
@@ -72,13 +60,27 @@ repositories {
     mavenCentral()
 }
 
-nexusPublishing {
-    repositories {
-        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username = System.getenv("MAVEN_USER_NAME")
-            password = System.getenv("MAVEN_USER_PASSWORD")
+jreleaser {
+    release {
+        github {
+            skipTag = true
+            skipRelease = true
+        }
+    }
+    signing {
+        setActive("ALWAYS")
+        armored = true
+    }
+    deploy {
+        maven {
+            //Portal Publisher API
+            mavenCentral {
+                register("sonatype") {
+                    setActive("ALWAYS")
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    stagingRepository(layout.buildDirectory.dir("staging-deploy").get().asFile.path)
+                }
+            }
         }
     }
 }
@@ -109,6 +111,11 @@ publishing {
                     url.set("https://github.com/LotsOfPixelsStudios/Monstera")
                 }
             }
+        }
+    }
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir("staging-deploy").get().asFile.toURI()
         }
     }
 }
