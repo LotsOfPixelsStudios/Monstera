@@ -96,8 +96,6 @@ task("debug_release") {
     }
 }
 
-tasks["jreleaserFullRelease"].dependsOn("debug_release")
-
 publishing {
     publications {
         register("release", MavenPublication::class) {

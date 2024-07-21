@@ -23,7 +23,7 @@ jobs:
     - name: Publish to Maven Central
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
-        arguments: jreleaserConfig publish jreleaserFullRelease
+        arguments: jreleaserConfig publish debug_release jreleaserFullRelease
       env:
         JRELEASER_GPG_PASSPHRASE: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
         JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.JRELEASER_GPG_PUBLIC_KEY }}
