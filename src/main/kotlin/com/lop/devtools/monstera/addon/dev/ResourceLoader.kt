@@ -1,8 +1,10 @@
 package com.lop.devtools.monstera.addon.dev
 
+import com.lop.devtools.monstera.addon.Addon
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
+import kotlin.io.path.Path
 
 
 @Suppress("unused")
@@ -13,7 +15,12 @@ object ResourceLoader {
     }
 
     fun getDefaultTexture(): File {
-        val tmp = File("build/tmp/monstera/default_texture.png")
+        val buildPath = Addon.active?.config?.buildPath ?: Path(
+            System.getProperty("user.dir"),
+            "build",
+        )
+
+        val tmp = buildPath.resolve("tmp").resolve("monstera").resolve("default_texture.png").toFile()
         if(!tmp.exists()) {
             tmp.parentFile.mkdirs()
             tmp.createNewFile()
@@ -23,7 +30,12 @@ object ResourceLoader {
     }
 
     fun getDefaultModel(): File {
-        val tmp = File("build/tmp/monstera/default_model.geo.json")
+        val buildPath = Addon.active?.config?.buildPath ?: Path(
+            System.getProperty("user.dir"),
+            "build",
+        )
+
+        val tmp = buildPath.resolve("tmp").resolve("monstera").resolve("default_model.geo.json").toFile()
         if(!tmp.exists()) {
             tmp.parentFile.mkdirs()
             tmp.createNewFile()
