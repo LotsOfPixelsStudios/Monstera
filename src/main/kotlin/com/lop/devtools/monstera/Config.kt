@@ -60,6 +60,10 @@ fun loadConfig(
             else
                 MonsteraLocalConfig()
 
+        val buildPath = Path(
+            System.getProperty("user.dir"),
+            monsteraLocalConfig.buildPath,
+        )
         val behPath = Path(
             System.getProperty("user.dir"),
             monsteraLocalConfig.buildPath,
@@ -90,6 +94,7 @@ fun loadConfig(
             resModUUID = UUID.fromString(monsteraConfig.resModuleUUID),
             targetMcVersion = monsteraConfig.targetMcVersion,
             hashFileNames = monsteraConfig.hashFileNames,
+            buildPath = buildPath,
             behPath = behPath,
             resPath = resPath,
             scriptingVersion = monsteraConfig.scriptingVersion ?: "",
@@ -266,6 +271,10 @@ class Config(
         "LocalState",
         "games",
         "com.mojang"
+    ),
+    var buildPath: Path =  Path(
+        System.getProperty("user.dir"),
+        "build",
     ),
     var paths: AddonPaths = AddonPaths(behPath, resPath),
     var targetMcVersion: MutableList<Int> = arrayListOf(1, 20, 70),
