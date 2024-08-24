@@ -54,7 +54,7 @@ class AnimControllerTest {
             assert(
                 containsKeyChain(
                     "animation_controllers",
-                    "controller.animation.my_anim_test.my_anim_controller",
+                    "controller.animation.${config.namespace}.my_anim_test.my_anim_controller",
                     "initial_state"
                 )
             )
@@ -62,7 +62,7 @@ class AnimControllerTest {
                 containsKeyChainValue(
                     value = "(variable.my_var == 0)",
                     "animation_controllers",
-                    "controller.animation.my_anim_test.my_anim_controller",
+                    "controller.animation.${config.namespace}.my_anim_test.my_anim_controller",
                     "states",
                     "default",
                     "transitions",
@@ -72,7 +72,7 @@ class AnimControllerTest {
             assert(
                 containsKeyChain(
                     "animation_controllers",
-                    "controller.animation.my_anim_test.my_anim_controller",
+                    "controller.animation.${config.namespace}.my_anim_test.my_anim_controller",
                     "states",
                     "success",
                     "on_entry"
