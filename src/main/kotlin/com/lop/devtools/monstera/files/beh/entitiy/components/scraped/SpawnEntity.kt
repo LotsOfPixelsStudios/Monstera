@@ -20,10 +20,17 @@ class SpawnEntity : MonsteraRawFile() {
      *
      * ```
      * entities {
+     *     filters {  }
      *     minWaitTime = 300
      *     maxWaitTime = 600
+     *     numToSpawn = 1
+     *     shouldLeash = false
+     *     singleUse = false
+     *     spawnEntity = "minecraft:cow"
+     *     spawnEvent = "minecraft:entity_born"
+     *     spawnItem = "egg"
+     *     spawnMethod = "born"
      *     spawnSound = plop
-     *     spawnItem = egg
      * }
      *```
      */
@@ -42,16 +49,38 @@ class SpawnEntity : MonsteraRawFile() {
         @SerializedName("max_wait_time")
         @Expose
         var maxWaitTime: Number? = null
-            
 
-        @SerializedName("spawn_sound")
+        @SerializedName("num_to_spawn")
         @Expose
-        var spawnSound: String? = null
-            
+        var numToSpawn: Number? = null
+
+        @SerializedName("should_leash")
+        @Expose
+        var shouldLeash: Boolean? = null
+
+        @SerializedName("single_use")
+        @Expose
+        var singleUse: Boolean? = null
+
+        @SerializedName("spawn_entity")
+        @Expose
+        var spawnEntity: String? = null
+
+        @SerializedName("spawn_event")
+        @Expose
+        var spawnEvent: String? = null
 
         @SerializedName("spawn_item")
         @Expose
         var spawnItem: String? = null
+
+        @SerializedName("spawn_method")
+        @Expose
+        var spawnMethod: String? = null
+
+        @SerializedName("spawn_sound")
+        @Expose
+        var spawnSound: String? = null
             
 
         @SerializedName("filters")

@@ -2706,8 +2706,10 @@ open class Components : MonsteraRawFile() {
      * Adds a timer after which this entity will spawn another entity or item (similar to vanilla's chicken's egg-laying behavior).
      * ```
      * spawnEntity {
+     *     entities { }
      * }
      *```
+     * Official documentation: [https://learn.microsoft.com/en-us/minecraft/...](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_spawn_entity?view=minecraft-bedrock-stable)
      */
     @OptIn(MonsteraBuildSetter::class)
     @VanillaComponentMarker
