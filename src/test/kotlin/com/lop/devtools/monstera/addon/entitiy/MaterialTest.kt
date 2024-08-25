@@ -31,12 +31,12 @@ class MaterialTest {
 
         withJsonFile(config.paths.resRenderControllers.resolve("${entityId}.json")) {
             assert(containsKey("format_version"))
-            assert(containsKeyChain("render_controllers", "controller.render${config.namespace}.$entityId.default"))
+            assert(containsKeyChain("render_controllers", "controller.render.${config.namespace}.$entityId.default"))
             assert(
                 containsKeyChainValue(
                     value = "Material.default_my_bone",
                     "render_controllers",
-                    "controller.render${config.namespace}.$entityId.default",
+                    "controller.render.${config.namespace}.$entityId.default",
                     "materials",
                     "my_bone"
                 )
