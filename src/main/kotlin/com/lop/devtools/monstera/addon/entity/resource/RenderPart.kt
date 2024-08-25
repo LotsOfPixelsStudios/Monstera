@@ -34,7 +34,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
         materials[bone] = material
     }
 
-    open fun getRenderControllerId() = "${entityData.name}.$partName"
+    open fun getRenderControllerId() = "${entityData.addon.config.namespace}.${entityData.name}.$partName"
 
     open fun isEmpty() = hasTextureLayer  //without a texture a render controller is invalid
 
