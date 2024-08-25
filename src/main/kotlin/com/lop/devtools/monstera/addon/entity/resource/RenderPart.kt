@@ -302,7 +302,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
                 )
             } else {
                 unsafeRenderController.apply {
-                    controllers("${entityData.name}.$partName") {
+                    controllers("${entityData.addon.config.namespace}.${entityData.name}.$partName") {
                         texture("Texture.default")
                     }
                 }
@@ -313,7 +313,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
                 materials.forEach { (bone, material) ->
                     this@description.material(materialEntityId(bone), material)
                 }
-                renderController("controller.render.${entityData.name}.$partName", Query(query))
+                renderController("controller.render.${entityData.addon.config.namespace}.${entityData.name}.$partName", Query(query))
             }
         }
     }

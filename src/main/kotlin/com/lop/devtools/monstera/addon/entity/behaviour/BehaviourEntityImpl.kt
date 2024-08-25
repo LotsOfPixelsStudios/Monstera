@@ -46,7 +46,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      * add a behaviour animation
      *
      * ```
-     * animation {
+     * animation("walk") {
      *      timeline {
      *
      *      }
@@ -55,7 +55,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      * ```
      */
     open fun animation(name: String, settings: BehAnimation.() -> Unit) {
-        unsafeRawAnimations.animation("animation.${entityData.name}.$name", settings)
+        unsafeRawAnimations.animation("animation.${entityData.addon.config.namespace}.${entityData.name}.$name", settings)
         addSharedAnimation("animation.${entityData.name}.$name", name)
     }
 
@@ -89,7 +89,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      * @param from the original entity where the animation was defined
      */
     open fun addSharedAnimation(originalName: String, localName: String = originalName, from: Entity) {
-        addSharedAnimation("animation.${from.name}.$originalName", localName)
+        addSharedAnimation("animation.${entityData.addon.config.namespace}.${from.name}.$originalName", localName)
     }
 
     /**
@@ -108,7 +108,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      * @param data the controller
      */
     open fun animController(name: String, query: Molang = Query.True, data: AnimationControllers.Controller.() -> Unit) {
-        val id = "controller.animation.${entityData.name}.$name"
+        val id = "controller.animation.${entityData.addon.config.namespace}.${entityData.name}.$name"
         unsafeRawControllers.animController(id, data)
         addSharedController(id, query, name)
     }
@@ -142,7 +142,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      * @param query when the controller should be active - optional, default always
      */
     open fun addSharedController(originalName: String, localName: String = originalName, from: Entity, query: Molang) {
-        addSharedController("controller.animation.${from.name}.$originalName", query, localName)
+        addSharedController("controller.animation.${entityData.addon.config.namespace}.${from.name}.$originalName", query, localName)
     }
 
     /**

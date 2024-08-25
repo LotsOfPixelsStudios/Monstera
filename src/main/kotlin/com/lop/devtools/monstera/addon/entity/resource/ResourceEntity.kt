@@ -270,7 +270,7 @@ open class ResourceEntity(val entityData: Entity.Data) {
         query: Molang = Query.True,
         data: AnimationControllers.Controller.() -> Unit
     ) {
-        val idName = "controller.animation.${entityData.name}.${name.removePrefix("controller.animation.")}"
+        val idName = "controller.animation.${entityData.addon.config.namespace}.${entityData.name}.${name.removePrefix("controller.animation.")}"
         unsafeControllers.animController(idName, data)
 
         unsafeRawEntity.apply {
