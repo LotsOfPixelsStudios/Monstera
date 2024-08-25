@@ -271,7 +271,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
                 }
             }
             unsafeRenderController.apply {
-                controllers("${entityData.name}.$partName") {
+                controllers("${entityData.addon.config.namespace}.${entityData.name}.$partName") {
                     arrays {
                         geometries(layerName, query) {
                             add("Geometry.${id}_v$index")
@@ -288,7 +288,7 @@ open class RenderPart(val partName: String, query: Molang, val entityData: Entit
             material(material)
         }
         unsafeRenderController.apply {
-            controllers("${entityData.name}.$partName") {
+            controllers("${entityData.addon.config.namespace}.${entityData.name}.$partName") {
                 materials.forEach { (bone, _) ->
                     this.material(bone ,"Material.${materialEntityId(bone)}")
                 }
