@@ -50,6 +50,27 @@ class AnimControllerTest {
                 }
             }
         }
+        withJsonFile(config.paths.behEntity.resolve("my_anim_test.json")) {
+            assert(
+                containsKeyChainValue(
+                    value = "query.is_baby",
+                    "minecraft:entity",
+                    "description",
+                    "scripts",
+                    "animate",
+                    "my_anim_controller"
+                )
+            )
+            assert(
+                containsKeyChainValue(
+                    value = "controller.animation.${config.namespace}.my_anim_test.my_anim_controller",
+                    "minecraft:entity",
+                    "description",
+                    "animations",
+                    "my_anim_controller"
+                )
+            )
+        }
         withJsonFile(config.paths.behAnimController.resolve("my_anim_test.json")) {
             assert(
                 containsKeyChain(

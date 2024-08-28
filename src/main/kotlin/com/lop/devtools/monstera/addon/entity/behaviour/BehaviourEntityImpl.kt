@@ -56,7 +56,7 @@ open class BehaviourEntity(val entityData: Entity.Data) : OverwriteComponents(en
      */
     open fun animation(name: String, settings: BehAnimation.() -> Unit) {
         unsafeRawAnimations.animation("animation.${entityData.addon.config.namespace}.${entityData.name}.$name", settings)
-        addSharedAnimation("animation.${entityData.name}.$name", name)
+        addSharedAnimation("animation.${entityData.addon.config.namespace}.${entityData.name}.$name", name)
     }
 
     /**
