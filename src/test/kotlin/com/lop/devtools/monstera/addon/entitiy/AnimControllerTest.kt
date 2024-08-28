@@ -25,10 +25,10 @@ class AnimControllerTest {
                 components {
                     physics { }
                 }
-                //animation("test") {
-                //    timeline {  }
-                //    animLength = 2f
-                //}
+                animation("test") {
+                    timeline {  }
+                    animLength = 2f
+                }
                 animController("my_anim_controller", Query.isBaby) {
                     initialState = "default"
                     variables {
