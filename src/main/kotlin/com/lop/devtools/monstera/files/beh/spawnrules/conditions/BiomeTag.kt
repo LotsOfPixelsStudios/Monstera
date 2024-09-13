@@ -5,18 +5,32 @@ import com.google.gson.annotations.SerializedName
 enum class BiomeTag {
     @SerializedName("animal")
     ANIMAL,
+    @SerializedName("basalt_deltas")
+    BASALT_DELTAS,
     @SerializedName("beach")
     BEACH,
+    @SerializedName("bee_habitat")
+    BEE_HABITAT,
     @SerializedName("birch")
     BIRCH,
+    @SerializedName("caves")
+    CAVES,
+    @SerializedName("cherry_grove")
+    CHERRY_GROVE,
     @SerializedName("cold")
     COLD,
+    @SerializedName("crimson_forrest")
+    CRIMON_FORREST,
     @SerializedName("dark_oak")
     DARK_OAK,
     @SerializedName("deep")
     DEEP,
+    @SerializedName("deep_dark")
+    DEEP_DARK,
     @SerializedName("desert")
     DESERT,
+    @SerializedName("dripstone_caves")
+    DRIPSTONE_CAVES,
     @SerializedName("edge")
     EDGE,
     @SerializedName("extreme_hills")
@@ -27,18 +41,28 @@ enum class BiomeTag {
     FOREST,
     @SerializedName("frozen")
     FROZEN,
+    @SerializedName("frozen_peaks")
+    FROZEN_PEAKS,
+    @SerializedName("grove")
+    GROVE,
     @SerializedName("hills")
     HILLS,
     @SerializedName("ice")
     ICE,
     @SerializedName("ice_plains")
     ICE_PLAINS,
+    @SerializedName("jagged_peaks")
+    JAGGE_PEAKS,
     @SerializedName("jungle")
     JUNGLE,
     @SerializedName("lakes")
     LAKES,
     @SerializedName("lukewarm")
     LUKEWARM,
+    @SerializedName("lush_caves")
+    LUSH_CAVES,
+    @SerializedName("mangrove_spwamp")
+    MANGROVE_SPWAMP,
     @SerializedName("mega")
     MEGA,
     @SerializedName("mesa")
@@ -53,12 +77,24 @@ enum class BiomeTag {
     MUTATED,
     @SerializedName("nether")
     NETHER,
+    @SerializedName("nether_wastes")
+    NETHER_WASTES,
+    @SerializedName("netherwart_forrest")
+    NTHERWART_FORREST,
+    @SerializedName("no_legacy_worldgen")
+    NO_LEGACY_WORLDGEN,
     @SerializedName("ocean")
     OCEAN,
+    @SerializedName("overworld")
+    OVERWORLD,
+    @SerializedName("overworld_generation")
+    OVERWORLD_GENERATION,
     @SerializedName("plains")
     PLAINS,
     @SerializedName("plateau")
     PLATEAU,
+    @SerializedName("rare")
+    RARE,
     @SerializedName("river")
     RIVER,
     @SerializedName("roofed")
@@ -67,6 +103,26 @@ enum class BiomeTag {
     SAVANNA,
     @SerializedName("shore")
     SHORE,
+    @SerializedName("snowy_slopes")
+    SNOWY_SLOPES,
+    @SerializedName("soulsand_valley")
+    SOULSANDS_VALLEY,
+    @SerializedName("spawn_endermen")
+    SPAWN_ENDERMEN,
+    @SerializedName("spawn_few_piglins")
+    SPAWN_FEW_PIGLINS,
+    @SerializedName("spawn_few_zombified_piglins")
+    SPAWN_FEW_ZOMBIFIED_PIGLINS,
+    @SerializedName("spawn_ghast")
+    SPAWN_GHAST,
+    @SerializedName("spawn_magma_cubes")
+    SPAWN_MAGMA_CUBES,
+    @SerializedName("spawn_many_magma_cubes")
+    SPAWN_MANY_MAGMA_CUBES,
+    @SerializedName("spawn_piglin")
+    SPAWN_PIGLIN,
+    @SerializedName("spawn_zombified_piglin")
+    SPAWN_ZOMBIFIED_PIGLIN,
     @SerializedName("stone")
     STONE,
     @SerializedName("swamp")
@@ -76,5 +132,7 @@ enum class BiomeTag {
     @SerializedName("the_end")
     THE_END,
     @SerializedName("warm")
-    WARM;
+    WARM,
+    @SerializedName("warped_forest")
+    WARPED_FOREST;
 }

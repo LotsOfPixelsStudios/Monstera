@@ -313,6 +313,8 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
             @MonsteraBuildSetter set
 
         /**
+         * The biomeFilter component allows creators to specify which biomes an entity spawns in. Each biome in the game has one or more tags which are used to determine what biomes entities spawn in.
+         *
          * ```
          * biomeFilter {
          *     filterEntry(BiomeTag.MONSTER)
@@ -321,6 +323,7 @@ class BehSpawnRules : MonsteraBuildableFile, MonsteraRawFile() {
          *     allOf{ }
          * }
          * ```
+         * Official documentation: [https://learn.microsoft.com/en-us/minecraft/...](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/definitions/nestedtables/biome_filter?view=minecraft-bedrock-stable)
          */
         @OptIn(MonsteraBuildSetter::class)
         fun biomeFilter(data: SpawnBiomeFilter.() -> Unit) {
