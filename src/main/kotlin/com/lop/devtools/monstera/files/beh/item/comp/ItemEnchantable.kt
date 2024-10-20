@@ -15,40 +15,57 @@ class ItemEnchantable : MonsteraRawFile() {
 }
 
 enum class EnchantableSlot {
-                           @SerializedName("armor_feet")
+    @SerializedName("armor_feet")
     ARMOR_FEET,
+
     @SerializedName("armor_torso")
     ARMOR_TORSO,
+
     @SerializedName("armor_head")
     ARMOR_HEAD,
+
     @SerializedName("armor_legs")
     ARMOR_LEGS,
+
     @SerializedName("armor_axe")
     AXE,
+
     @SerializedName("armor_bow")
     BOW,
+
     @SerializedName("cosmetic_head")
     COSMETIC_HEAD,
+
     @SerializedName("crossbow")
     CROSSBOW,
+
     @SerializedName("elytra")
     ELYTRA,
+
     @SerializedName("fishing_rod")
     FISHING_ROD,
+
     @SerializedName("flintsteel")
     FLINTSTEEL,
+
     @SerializedName("hoe")
     HOE,
+
     @SerializedName("pickaxe")
     PICKAXE,
+
     @SerializedName("shears")
     SHEARS,
+
     @SerializedName("shield")
     SHIELD,
+
     @SerializedName("shovel")
     SHOVEL,
+
     @SerializedName("sword")
     SWORD,
+
     @SerializedName("all")
     ALL;
 

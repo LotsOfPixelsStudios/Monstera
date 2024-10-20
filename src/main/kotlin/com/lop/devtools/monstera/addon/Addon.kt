@@ -11,6 +11,7 @@ import com.lop.devtools.monstera.addon.block.Block
 import com.lop.devtools.monstera.addon.dev.buildToMcFolder
 import com.lop.devtools.monstera.addon.dev.overwriteResourceInMcFolder
 import com.lop.devtools.monstera.addon.dev.validateTextures
+import com.lop.devtools.monstera.addon.dev.zipper.zipWorld
 import com.lop.devtools.monstera.addon.entity.Entity
 import com.lop.devtools.monstera.addon.item.Item
 import com.lop.devtools.monstera.addon.mcfunction.McFunction
@@ -321,6 +322,16 @@ open class Addon(val config: Config, val args: Array<String>) {
 
         onPackage.forEach {
             it.invoke(this)
+        }
+
+        when(argParsed["zipworld"]) {
+            null, "true" -> zipWorld(config)
+            else -> zipWorld(config, argParsed["zipworld"]!!)
+        }
+
+        when(argParsed["zipaddon"]) {
+            null, "true" -> zipWorld(config)
+            else -> zipWorld(config, argParsed["zipaddon"]!!)
         }
     }
 }
