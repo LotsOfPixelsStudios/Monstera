@@ -219,9 +219,9 @@ class MinecraftAddonPaths(
 
 class MinecraftFormatVersions(
     var behEntity: String = "1.20.81",
-    var behItem: String = "1.10.0",
+    var behItem: String = "1.20.50",
     var behAnim: String = "1.8.0",
-    var behBlock: String = "1.20.81",
+    var behBlock: String = "1.20.60",
     var behRecipe: String = "1.17.41",
     var behSpawnRule: String = "1.8.0",
     var behAnimController: String = "1.10.0",
