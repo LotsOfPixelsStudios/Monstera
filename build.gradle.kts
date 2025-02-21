@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.1.0"
     `maven-publish`
     `java-library`
-    id("org.jreleaser") version "1.13.1"
+    id("org.jreleaser") version "1.16.0"
 }
 
 /*group = "com.lotsofpixelsstudios"*/
@@ -14,12 +14,12 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation(group = "com.google.code.gson", name = "gson", version = "2.11.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-    implementation("ch.qos.logback:logback-classic:1.5.7")
+    implementation("ch.qos.logback:logback-classic:1.5.16")
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation("org.slf4j:slf4j-api:2.0.16")
 
@@ -27,7 +27,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation(group = "org.skyscreamer", name = "jsonassert", version = "1.5.3")
 
-    testImplementation("org.jsoup:jsoup:1.18.1")
+    testImplementation("org.jsoup:jsoup:1.18.3")
 }
 
 java {
