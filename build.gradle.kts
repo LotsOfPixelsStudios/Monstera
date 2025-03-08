@@ -13,7 +13,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation(group = "com.google.code.gson", name = "gson", version = "2.11.0")
+    implementation(group = "com.google.code.gson", name = "gson", version = "2.12.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
