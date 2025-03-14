@@ -16,7 +16,7 @@ dependencies {
     implementation(group = "com.google.code.gson", name = "gson", version = "2.12.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     implementation("ch.qos.logback:logback-classic:1.5.16")
