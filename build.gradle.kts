@@ -27,7 +27,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation(group = "org.skyscreamer", name = "jsonassert", version = "1.5.3")
 
-    testImplementation("org.jsoup:jsoup:1.18.3")
+    testImplementation("org.jsoup:jsoup:1.19.1")
 }
 
 java {
