@@ -5,8 +5,7 @@ plugins {
     id("org.jreleaser") version "1.17.0"
 }
 
-/*group = "com.lotsofpixelsstudios"*/
-group = "de.matthiasklenz"
+group = "com.lotsofpixelsstudios"
 version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.1-local"   //use tag name as version
 
 dependencies {
