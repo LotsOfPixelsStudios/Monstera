@@ -9,7 +9,7 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.files.sanitiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
@@ -24,7 +24,7 @@ class ResRenderControllers : MonsteraBuildableFile, MonsteraRawFile() {
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            sanetiseFilename(filename, "json"),
+            sanitiseFilename(filename, "json"),
             this
         )
         return Result.success(target)

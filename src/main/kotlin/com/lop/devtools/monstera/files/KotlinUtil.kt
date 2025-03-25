@@ -64,7 +64,7 @@ fun getUniqueFileName(file: File): String {
     return enc + "_" + file.name
 }
 
-fun sanetiseFilename(filename: String, fileSuffix: String): String {
+fun sanitiseFilename(filename: String, fileSuffix: String): String {
     var sanFile = filename
         .removeSuffix(".$fileSuffix")
         .replace("-", "_")

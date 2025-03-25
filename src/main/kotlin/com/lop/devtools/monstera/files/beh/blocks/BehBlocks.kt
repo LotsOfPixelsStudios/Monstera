@@ -12,7 +12,7 @@ import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.MonsteraRawFileTypeAdapter
 import com.lop.devtools.monstera.files.beh.blocks.components.BlockComponents
-import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.files.sanitiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
@@ -25,7 +25,7 @@ class BehBlocks : MonsteraBuildableFile, MonsteraRawFile() {
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            sanetiseFilename(filename, "json"),
+            sanitiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.behBlock ?: "1.20.50",
                 this

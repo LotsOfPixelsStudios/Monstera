@@ -47,10 +47,6 @@ gradle.taskGraph.whenReady {
         .writeText(version.toString())
 }
 
-kotlin {
-    jvmToolchain(11)
-}
-
 tasks.test {
     useJUnitPlatform()
     enabled = true

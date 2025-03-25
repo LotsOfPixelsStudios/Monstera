@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.lop.devtools.monstera.files.beh.entitiy.components
 
 import com.lop.devtools.monstera.files.beh.entitiy.components.scraped.*

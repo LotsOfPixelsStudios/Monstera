@@ -26,7 +26,7 @@ annotation class ConfigDSL
 
 @ConfigDSL
 @Deprecated(
-    "Use a config file, this function does not correcly apply config data!",
+    "Use a config file, this function does not correctly apply config data!",
     ReplaceWith("loadConfig()", "com.lop.devtools.monstera.Config")
 )
 fun config(projectName: String, data: Config.() -> Unit): Config {
