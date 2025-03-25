@@ -115,6 +115,6 @@ Exceptions are files that can live in both behaviour and resource pack:
 
 In this package we define higher level functionality for addons in general.
 
-This should give the developer a more user friendly interface to use, the developer should still be able to access raw file object as this might be necessary when creating files with
+This should give the developer a more user-friendly interface to use, the developer should still be able to access raw file object as this might be necessary when creating files with
 different format versions.
 
