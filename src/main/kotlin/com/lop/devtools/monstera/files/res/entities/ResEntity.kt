@@ -16,7 +16,6 @@ import com.lop.devtools.monstera.files.res.entities.comp.*
 import com.lop.devtools.monstera.files.res.materials.Material
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.io.File
-import java.lang.Error
 import java.nio.file.Path
 
 class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
@@ -28,7 +27,7 @@ class ResEntity: MonsteraBuildableFile, MonsteraRawFile() {
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            sanetiseFilename(filename, "json"),
+            sanitiseFilename(filename, "json"),
             FileHeader(
                 version ?: Addon.active?.config?.formatVersions?.resEntity ?: "1.10.0",
                 this

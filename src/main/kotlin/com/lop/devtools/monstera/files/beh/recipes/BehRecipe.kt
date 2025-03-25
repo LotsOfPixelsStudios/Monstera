@@ -10,7 +10,6 @@ import com.lop.devtools.monstera.addon.api.MonsteraBuildSetter
 import com.lop.devtools.monstera.addon.api.MonsteraBuildableFile
 import com.lop.devtools.monstera.files.*
 import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
 class BehRecipeShaped : MonsteraBuildableFile, MonsteraRawFile() {
@@ -24,7 +23,7 @@ class BehRecipeShaped : MonsteraBuildableFile, MonsteraRawFile() {
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            sanetiseFilename(filename, "json"),
+            sanitiseFilename(filename, "json"),
             BehRecipe.FileHeaderShaped(
                 version ?: Addon.active?.config?.formatVersions?.behRecipe ?: "1.17.41",
                 data

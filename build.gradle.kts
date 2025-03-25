@@ -7,7 +7,7 @@ plugins {
 
 /*group = "com.lotsofpixelsstudios"*/
 group = "de.matthiasklenz"
-version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.5.0-SNAPSHOT1"//"0.1-local"   //use tag name as version
+version = System.getenv("GITHUB_REF")?.removePrefix("refs/tags/") ?: "0.1-local"   //use tag name as version
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -45,10 +45,6 @@ gradle.taskGraph.whenReady {
         .resolve("resources")
         .resolve("monstera_version")
         .writeText(version.toString())
-}
-
-kotlin {
-    jvmToolchain(11)
 }
 
 tasks.test {

@@ -17,16 +17,16 @@ import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
 import kotlin.io.path.absolutePathString
 
-private const val SERVER_SCRIPT_VERSION = "1.11.0"
+private const val SERVER_SCRIPT_VERSION = "1.17.0"
 private const val VANILLA_DATA_SCRIPT_VERSION = "1.21.2"
-private const val SERVER_UI_SCRIPT_VERSION = "1.2.0"
+private const val SERVER_UI_SCRIPT_VERSION = "1.3.0"
 
 @DslMarker
 annotation class ConfigDSL
 
 @ConfigDSL
 @Deprecated(
-    "Use a config file, this function does not correcly apply config data!",
+    "Use a config file, this function does not correctly apply config data!",
     ReplaceWith("loadConfig()", "com.lop.devtools.monstera.Config")
 )
 fun config(projectName: String, data: Config.() -> Unit): Config {
@@ -178,7 +178,7 @@ class MonsteraConfig(
     var scriptUUID: String = UUID.randomUUID().toString(),
     var resUUID: String = UUID.randomUUID().toString(),
     var resModuleUUID: String = UUID.randomUUID().toString(),
-    var targetMcVersion: MutableList<Int> = mutableListOf(1, 20, 81),
+    var targetMcVersion: MutableList<Int> = mutableListOf(1, 21, 61),
     var scriptingVersion: String? = SERVER_SCRIPT_VERSION,
     var scriptingVanillaDataVersion: String? = VANILLA_DATA_SCRIPT_VERSION,
     var scriptingServerUiVersion: String? = SERVER_UI_SCRIPT_VERSION,

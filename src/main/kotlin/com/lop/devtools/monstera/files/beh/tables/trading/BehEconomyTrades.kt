@@ -12,9 +12,8 @@ import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraListFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
 import com.lop.devtools.monstera.files.beh.tables.shared.BehTableFun
-import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.files.sanitiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
-import java.lang.Error
 import java.nio.file.Path
 
 class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
@@ -33,7 +32,7 @@ class BehEconomyTrades: MonsteraBuildableFile, MonsteraRawFile() {
 
         val target = MonsteraBuilder.buildTo(
             selPath,
-            sanetiseFilename(filename, "json"),
+            sanitiseFilename(filename, "json"),
             this
         )
         return Result.success(target)

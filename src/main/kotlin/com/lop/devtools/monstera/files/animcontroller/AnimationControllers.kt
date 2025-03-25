@@ -13,7 +13,7 @@ import com.lop.devtools.monstera.addon.molang.Query
 import com.lop.devtools.monstera.files.MonsteraBuilder
 import com.lop.devtools.monstera.files.MonsteraMapFileTypeAdapter
 import com.lop.devtools.monstera.files.MonsteraRawFile
-import com.lop.devtools.monstera.files.sanetiseFilename
+import com.lop.devtools.monstera.files.sanitiseFilename
 import com.lop.devtools.monstera.getMonsteraLogger
 import java.nio.file.Path
 
@@ -25,7 +25,7 @@ class AnimationControllers : MonsteraBuildableFile, MonsteraRawFile() {
         if (path == null)
             error("path may not be null! can't build anim controller when not clear if beh or res.")
 
-        val target = MonsteraBuilder.buildTo(path, sanetiseFilename(filename, "json"), this)
+        val target = MonsteraBuilder.buildTo(path, sanitiseFilename(filename, "json"), this)
         return Result.success(target)
     }
 
