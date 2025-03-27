@@ -304,7 +304,7 @@ class Config(
 
     val monsteraStdlibVersion: String by lazy {
         try {
-            val resourceStream = ResourceLoader.getResourceAsStream("monstera_version")
+            val resourceStream = ResourceLoader.getResourceAsStream("monstera-stdlib_version")
             String(resourceStream.readAllBytes()).removeSuffix("\n").removeSuffix("\r")
         } catch (e: Exception) {
             "not found"
