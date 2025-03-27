@@ -9,13 +9,8 @@ A library and environment designed to streamline the development of Minecraft ad
 
 ## Licence Notice 🎫
 
-We have released this library under the GPL-3.0 licence, we are aware of the limitations of this licence, so we want to clarify
-what we want to achieve with this licence:
-
-- we don't want you to just copy and modify the library and possibly sell it as closed source
-- We want you to create your own projects for Minecraft (using this library), which can of course also be closed source. This
-  may mean that we have to change the licence to LGPL in the future.
-- We explicitly allow the creation of closed source projects with this library with the goal of creating a Minecraft addon.
+This project was initially released under the GPL 3.0 licence and was changed to appcache. Note we will preserve the 
+right to change the licence again in the future but this is currently not intended to happen.
 
 ## Getting Started
 

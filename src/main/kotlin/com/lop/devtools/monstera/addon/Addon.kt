@@ -330,7 +330,7 @@ fun buildInformation(addon: Addon) {
 
     val characterLength = max(
         max(
-            addon.config.monsteraVersion.length + 21,
+            addon.config.monsteraVersion.length + 26,
             (System.getenv("CI_COMMIT_REF_NAME") ?: "local").length + 17
         ), time.length + 14
     )
@@ -344,6 +344,7 @@ fun buildInformation(addon: Addon) {
         entries = arrayListOf(
             "say §b$format",
             "say §b#§a Monstera version: ${addon.config.monsteraVersion}",
+            "say §b#§a Monstera stdlib version: ${addon.config.monsteraStdlibVersion}",
             "say §b#§a build version: ${
                 (System.getenv("CI_COMMIT_REF_NAME") ?: System.getenv("GITHUB_REF") ?: getVersionAsString(
                     addon.config.version

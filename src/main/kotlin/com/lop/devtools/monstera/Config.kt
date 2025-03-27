@@ -302,6 +302,15 @@ class Config(
         String(resourceStream.readAllBytes()).removeSuffix("\n").removeSuffix("\r") //just in case a \r is there
     }
 
+    val monsteraStdlibVersion: String by lazy {
+        try {
+            val resourceStream = ResourceLoader.getResourceAsStream("monstera_version")
+            String(resourceStream.readAllBytes()).removeSuffix("\n").removeSuffix("\r")
+        } catch (e: Exception) {
+            "not found"
+        }
+    }
+
     var packIcon: File = File()
         set(value) {
             val behIco = behPath.resolve("pack_icon.png").toFile()
