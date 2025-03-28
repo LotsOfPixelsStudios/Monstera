@@ -60,7 +60,22 @@ class DamageSensor : MonsteraRawFile() {
 
         @SerializedName("deals_damage")
         @Expose
-        var dealsDamage: Boolean? = null
+        var dealsDamage: String? = null
+            @MonsteraBuildSetter set
+
+        @OptIn(MonsteraBuildSetter::class)
+        fun dealsNoDamage() {
+            dealsDamage = "no"
+        }
+
+        /**
+         * Received damage is not applied to the entity, but the side effects of the attack are.
+         * This means that the attacker's weapon loses durability, enchantment side effects are applied, and so on.
+         */
+        @OptIn(MonsteraBuildSetter::class)
+        fun dealsNoDamageButSideEffectsApply() {
+            dealsDamage = "no_but_side_effects_apply"
+        }
 
         @SerializedName("cause")
         @Expose
