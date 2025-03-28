@@ -143,6 +143,7 @@ fun loadConfig(
                 behItem = monsteraConfig.minecraftFormatVersions.behItem,
                 behAnimation = monsteraConfig.minecraftFormatVersions.behAnim,
                 behBlock = monsteraConfig.minecraftFormatVersions.behBlock,
+                resBlock = monsteraConfig.minecraftFormatVersions.resBlock,
                 behRecipe = monsteraConfig.minecraftFormatVersions.behRecipe,
                 behSpawnRules = monsteraConfig.minecraftFormatVersions.behSpawnRule,
                 behAnimController = monsteraConfig.minecraftFormatVersions.behAnimController,
@@ -178,7 +179,7 @@ class MonsteraConfig(
     var scriptUUID: String = UUID.randomUUID().toString(),
     var resUUID: String = UUID.randomUUID().toString(),
     var resModuleUUID: String = UUID.randomUUID().toString(),
-    var targetMcVersion: MutableList<Int> = mutableListOf(1, 21, 61),
+    var targetMcVersion: MutableList<Int> = mutableListOf(1, 21, 70),
     var scriptingVersion: String? = SERVER_SCRIPT_VERSION,
     var scriptingVanillaDataVersion: String? = VANILLA_DATA_SCRIPT_VERSION,
     var scriptingServerUiVersion: String? = SERVER_UI_SCRIPT_VERSION,
@@ -218,10 +219,11 @@ class MinecraftAddonPaths(
 )
 
 class MinecraftFormatVersions(
-    var behEntity: String = "1.21.61",
+    var behEntity: String = "1.21.70",
     var behItem: String = "1.10.0",
     var behAnim: String = "1.8.0",
-    var behBlock: String = "1.21.61",
+    var behBlock: String = "1.21.70",
+    var resBlock: String = "1.21.70",
     var behRecipe: String = "1.17.41",
     var behSpawnRule: String = "1.8.0",
     var behAnimController: String = "1.10.0",
@@ -386,6 +388,7 @@ class Config(
         var behItem: String = "1.20.50",
         var behAnimation: String = "1.8.0",
         var behBlock: String = targetMcVersion,
+        var resBlock: String = targetMcVersion,
         var behRecipe: String = "1.17.41",
         var behSpawnRules: String = "1.8.0",
         var behAnimController: String = "1.10.0",
