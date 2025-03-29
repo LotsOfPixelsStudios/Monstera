@@ -25,7 +25,7 @@ class BlockDefs : MonsteraFile, InvokeBeforeEnd {
 
         override fun getData(): MutableMap<String, Any> {
             val info: MutableMap<String, Any> = mutableMapOf(
-                "format_version" to (Addon.active?.config?.formatVersions?.behBlock ?: "1.21.70")
+                "format_version" to (Addon.active?.config?.formatVersions?.resBlock ?: "1.21.40")
             )
             info.putAll(blockDefs.map { it.key to it.value.unsafe.getData() }.toMap())
             return info
