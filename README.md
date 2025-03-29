@@ -12,6 +12,19 @@ A library and environment designed to streamline the development of Minecraft ad
 This project was initially released under the GPL 3.0 licence and was changed to appcache. Note we will preserve the 
 right to change the licence again in the future but this is currently not intended to happen.
 
+## std lib compatibility
+
+```
+                              monstera
+        +--------+--------------------------------------+
+        |        | 0.5.4   0.5.5   0.5.7  0.5.8   0.5.9 |
+ stdlib | 0.11.4 |                          x       x   |
+        | 0.11.3 |                          x       x   |
+        | 0.11.2 |   x       x       x                  |
+        | 0.11.1 |   x       x       x                  |
+        +--------+--------------------------------------+
+```
+
 ## Getting Started
 
 See the template project at [https://github.com/LotsOfPixelsStudios/MonsteraTemplate](https://github.com/LotsOfPixelsStudios/MonsteraTemplate)
