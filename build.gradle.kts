@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.20"
     `maven-publish`
     `java-library`
-    id("org.jreleaser") version "1.17.0"
+    id("org.jreleaser") version "1.18.0"
 }
 
 group = "com.lotsofpixelsstudios"
